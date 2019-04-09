@@ -124,6 +124,7 @@ class StarData {
 			attack_speed:0.3,
 			group:StarData.CAN_ATTACK,
 			scale_info:[// 缩放规则，time是生存周期时间区间，wait为true，表示这个阶段不变化，否则，在time之间范围内变更为scaleX和scaleY 的缩放比例, 此过程会循环进行
+				{time:1000, wait:true, scaleX:1, scaleY:1},
 				{time:1000, wait:false, scaleX:2, scaleY:2},
 				{time:1000, wait:true, scaleX:2, scaleY:2},
 				{time:1000, wait:false, scaleX:1, scaleY:1},

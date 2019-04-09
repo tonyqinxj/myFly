@@ -264,24 +264,55 @@ var StartUI = (function (_super) {
                 star.model.y += star.speed.y * deltaTime;
             }
             // 位置根据屏幕进行调整
-            if (star.model.y - star.model.height / 2 < 0) {
-                star.model.y = star.model.height / 2;
+            if (star.model.y - star.model.height / 2 * star.model.scaleY < 0) {
+                star.model.y = star.model.height / 2 * star.model.scaleY;
                 star.speed.y *= -1;
             }
-            if (star.model.x - star.model.width / 2 < 0) {
-                star.model.x = star.model.width / 2;
+            if (star.model.x - star.model.width / 2 * star.model.scaleX < 0) {
+                star.model.x = star.model.width / 2 * star.model.scaleX;
                 star.speed.x *= -1;
             }
-            if (star.model.x + star.model.width / 2 > 750) {
-                star.model.x = 750 - star.model.width / 2;
+            if (star.model.x + star.model.width / 2 * star.model.scaleX > 750) {
+                star.model.x = 750 - star.model.width / 2 * star.model.scaleX;
                 star.speed.x *= -1;
             }
-            if (star.model.y - star.model.height / 2 >= this_1.real_height) {
+            if (star.model.y - star.model.height / 2 * star.model.scaleY >= this_1.real_height) {
                 star.model.y = 0;
             }
             // 血量的位置，跟随怪物
             star.label_blood.x = star.model.x;
             star.label_blood.y = star.model.y;
+            // 体型随时间进行变化
+            if (star.starConfig["scale_info"]) {
+                var scale_info = star.starConfig['scale_info'];
+                var totalTime_2 = 0;
+                scale_info.forEach(function (as) {
+                    totalTime_2 += as.time;
+                });
+                var lifeTime = star.lifeTime % totalTime_2;
+                var curTime = 0;
+                var as = null;
+                var lastscale = {
+                    scaleX: 1,
+                    scaleY: 1,
+                };
+                for (var i_2 = 0; i_2 < scale_info.length; i_2++) {
+                    as = scale_info[i_2];
+                    if (lifeTime < curTime + as.time && lifeTime >= curTime) {
+                        break;
+                    }
+                    curTime += as.time;
+                    lastscale.scaleX = as.scaleX;
+                    lastscale.scaleY = as.scaleY;
+                }
+                var r = (lifeTime - curTime) / as.time;
+                if (as.wait == false) {
+                    ;
+                    star.model.scaleX = lastscale.scaleX * r + as.scaleX * (1 - r);
+                    star.model.scaleY = lastscale.scaleY * r + as.scaleY * (1 - r);
+                    console.log('scale:', r, star.model.scaleX, star.model.scaleY, lastscale, as);
+                }
+            }
             // 移动过程中创建新的怪物
             if (star.starConfig["create_new_star"]) {
                 if (star['last_create']) {

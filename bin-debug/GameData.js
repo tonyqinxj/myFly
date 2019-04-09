@@ -52,7 +52,7 @@ var GameData = (function () {
             blood: 1000,
             tip: {},
             init: [
-                { time: 1000, id: 102, level: 2, x: 375 },
+                { time: 1000, id: 111, level: 2, x: 375 },
             ],
             add_ons: [
                 { id: 101, level: 1, x: 375 },

@@ -5,7 +5,7 @@
 			"name": "preload"
 		},
 		{
-			"keys": "boat1_png,bomb1_png,star1_png,button_up_png,header_png,border_png,1_png,7_png",
+			"keys": "boat1_png,bomb1_png,star1_png,button_up_png,header_png,border_png,1_png,7_png,2_png,3_png,4_png,5_png,6_png,8_png,9_png,10_png",
 			"name": "start"
 		}
 	],
@@ -154,6 +154,46 @@
 			"url": "assets/game/7.png",
 			"type": "image",
 			"name": "7_png"
+		},
+		{
+			"url": "assets/game/2.png",
+			"type": "image",
+			"name": "2_png"
+		},
+		{
+			"url": "assets/game/3.png",
+			"type": "image",
+			"name": "3_png"
+		},
+		{
+			"url": "assets/game/4.png",
+			"type": "image",
+			"name": "4_png"
+		},
+		{
+			"url": "assets/game/5.png",
+			"type": "image",
+			"name": "5_png"
+		},
+		{
+			"url": "assets/game/6.png",
+			"type": "image",
+			"name": "6_png"
+		},
+		{
+			"url": "assets/game/8.png",
+			"type": "image",
+			"name": "8_png"
+		},
+		{
+			"url": "assets/game/9.png",
+			"type": "image",
+			"name": "9_png"
+		},
+		{
+			"url": "assets/game/10.png",
+			"type": "image",
+			"name": "10_png"
 		}
 	]
 }
