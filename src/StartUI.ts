@@ -363,8 +363,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     console.log('速度恢复：', star.speed)
                 }
             } else {
-                star.model.x += star.speed.x * deltaTime;
-                star.model.y += star.speed.y * deltaTime;
+                star.model.x +=(star.speed.x + addspeedex.x) * deltaTime;
+                star.model.y += (star.speed.y + addspeedex.y) * deltaTime;
             }
 
             // 反弹检测
@@ -678,15 +678,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
             egret.Tween.get(model).to({scaleX: info.scale.scaleX, scaleY: info.scale.scaleY}, info.scale.time);
         }
 
-
         let subBlood = 0;
         if (level > 1) subBlood = Math.ceil(Tools.GetRandomNum(30, 80) / 100 * blood);
         blood -= subBlood;
 
         this.addChild(model);
         //let blood = GameData.getBlood(level);
-
-
 
         let star = {
             lifeTime: 0,         // 存活时间
@@ -700,7 +697,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             blood: blood,       // 剩余血量
             //label_blood: null,
             life: 0,
-            scale:level/6,      // 初始scale
+            scale:0.3+0.7*level/6,      // 初始scale
 
         };
 

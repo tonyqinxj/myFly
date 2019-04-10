@@ -54,8 +54,8 @@ class StarData {
 			attack_speed:0.5,
 			group:StarData.CAN_ATTACK|StarData.CAN_CO,
 			follow:{		// todo, need test
-				scope:100,// 警戒范围,
-				add_speed:0.003,// 每ms加速
+				scope:300,// 警戒范围,
+				add_speed:0.0005,// 每ms加速
 			}
 		}, // 磁铁陨石		105, 跟踪怪
 		'106':{
