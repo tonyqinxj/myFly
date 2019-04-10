@@ -54,6 +54,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private init(): void {
         //console.log('init call',)
+        GameData.genBulletList();
         this.state = 'init';
         this.gp_setting && this.gp_setting.parent && this.gp_setting.parent.removeChild(this.gp_setting);
         this.gp_restart_form && this.gp_restart_form.parent && this.gp_restart_form.parent.removeChild(this.gp_restart_form);
