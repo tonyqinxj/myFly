@@ -39,7 +39,10 @@ class GameData {
 
             }, // 提示， 本轮是否有提示
             init: [
-                { time: 1000, id: 111, level: 2, x: 375 },
+                { time: 1000, id: 106, level: 2, x: 350 },
+                { time: 1000, id: 114, level: 2, x: 200 },
+                { time: 1000, id: 111, level: 2, x: 500 },
+                { time: 500, id: 112, level: 1, x: 500 },
                 //  { time: 1500, id: 101, level: 1, x: 240 },
                 // { time: 2000, id: 101, level: 1, x: 440 },
                 // { time: 2000, id: 101, level: 1, x: 375 },

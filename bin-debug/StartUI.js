@@ -19,6 +19,7 @@ var StartUI = (function (_super) {
         _this.cur_level_batch = -1; // 当前出去第几批次, -1 表示还没开始
         _this.cur_add_ons = 0; // 当前已经补充了几个怪物
         _this.star_fly = []; // 有效的怪物，star就是怪
+        _this.star_fly_eat = []; // 黑洞列表, 也在star_fly中
         _this.star_blood = 0; // 当前波怪物的总血量
         _this.star_left_blood = 0; // 当前波怪物剩余的血量之和，当少于20％的时候，触发下一波怪物的产生
         _this.real_height = 1624; // 屏幕使用高度
@@ -29,6 +30,7 @@ var StartUI = (function (_super) {
         _this.bullet_idle = new Array(); // 无效子弹，形成了一个子弹内存池
         _this.timer_relife = null; // 死亡复活定时器
         _this.timer_left = 3; // 复活定时器辅助变量
+        _this.bomb = [];
         return _this;
     }
     StartUI.prototype.partAdded = function (partName, instance) {
@@ -54,6 +56,8 @@ var StartUI = (function (_super) {
             star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
         });
         this.star_fly = [];
+        this.star_fly_eat = [];
+        this.bomb = [];
     };
     StartUI.prototype.initBegin = function () {
         var _this = this;
@@ -176,6 +180,9 @@ var StartUI = (function (_super) {
             this.checkAttack(deltaTime);
             this.checkBulletOver();
         }
+        this.checkEat();
+        this.checkBomb();
+        this.changeBloodLable();
     };
     // 进入新的一轮怪物
     StartUI.prototype.enterNewBatch = function () {
@@ -244,16 +251,52 @@ var StartUI = (function (_super) {
             star.lifeTime += deltaTime;
             if (star.life > 0 && star.lifeTime >= star.life) {
                 // 生命周期结束
-                this_1.removeChild(star.model);
-                this_1.removeChild(star.label_blood);
+                this_1.removeStar(star);
                 this_1.star_fly.splice(i, 1);
-                return { value: void 0 };
+                // 爆炸处理
+                if (star.starConfig['bomb']) {
+                    var scope = star.starConfig['bomb'].scope, type = star.starConfig['bomb'].scope;
+                    this_1.bomb.push({
+                        pos: {
+                            x: star.model.x,
+                            y: star.model.y,
+                        },
+                        scope: scope,
+                        type: type,
+                    });
+                }
+                return out_i_1 = i, "continue";
             }
             // 根据速度，计算当前的位置
+            // 处理跟踪怪的位移
+            var addspeedex = {
+                x: 0,
+                y: 0,
+            };
+            if (star.starConfig["follow"]) {
+                var follow = star.starConfig["follow"];
+                // 进入了区间
+                if (star["follow_speed"] == undefined) {
+                    star["follow_speed"] = { x: 0, y: 0 };
+                }
+                var follow_speed = star["follow_speed"];
+                var dir = new egret.Point(this_1.boat.x - star.model.x, this_1.boat.y - star.model.y);
+                if (dir.length < follow.scope) {
+                    dir.normalize(follow.add_speed * deltaTime);
+                    follow_speed.x += dir.x;
+                    follow_speed.y += dir.y;
+                }
+                else {
+                    follow_speed.x = 0;
+                    follow_speed.y = 0;
+                }
+                addspeedex.x += follow_speed.x;
+                addspeedex.y += follow_speed.y;
+            }
             // 攻击导致的减速结束处理
             if (star.snowTime > 0) {
-                star.model.x += star.speed.x * deltaTime * star.starConfig.attack_speed;
-                star.model.y += star.speed.y * deltaTime * star.starConfig.attack_speed;
+                star.model.x += (star.speed.x + addspeedex.x) * deltaTime * star.starConfig.attack_speed;
+                star.model.y += (star.speed.y + addspeedex.y) * deltaTime * star.starConfig.attack_speed;
                 if (star.snowTime < egret.getTimer()) {
                     star.snowTime = 0;
                     console.log('速度恢复：', star.speed);
@@ -262,6 +305,25 @@ var StartUI = (function (_super) {
             else {
                 star.model.x += star.speed.x * deltaTime;
                 star.model.y += star.speed.y * deltaTime;
+            }
+            // 反弹检测
+            if (star.starConfig["rebound"]) {
+                for (var j = 0; j < this_1.star_fly.length; j++) {
+                    var star_other = this_1.star_fly[j];
+                    if (star_other == star)
+                        return { value: void 0 };
+                    if (star_other.starConfig["group"] & StarData.CAN_CO) {
+                        if (Tools.starCoTest(star.model, star_other.model)) {
+                            if (star.model.x - star_other.model.x >= star.model.y - star_other.model.y) {
+                                star.speed.x *= -1;
+                            }
+                            else {
+                                star.speed.y *= -1;
+                            }
+                            break;
+                        }
+                    }
+                }
             }
             // 位置根据屏幕进行调整
             if (star.model.y - star.model.height / 2 * star.model.scaleY < 0) {
@@ -279,9 +341,6 @@ var StartUI = (function (_super) {
             if (star.model.y - star.model.height / 2 * star.model.scaleY >= this_1.real_height) {
                 star.model.y = 0;
             }
-            // 血量的位置，跟随怪物
-            star.label_blood.x = star.model.x;
-            star.label_blood.y = star.model.y;
             // 体型随时间进行变化
             if (star.starConfig["scale_info"]) {
                 var scale_info = star.starConfig['scale_info'];
@@ -307,26 +366,46 @@ var StartUI = (function (_super) {
                 }
                 var r = (lifeTime - curTime) / as.time;
                 if (as.wait == false) {
-                    ;
                     star.model.scaleX = lastscale.scaleX * r + as.scaleX * (1 - r);
                     star.model.scaleY = lastscale.scaleY * r + as.scaleY * (1 - r);
+                    star.model.scaleX *= star.scale;
+                    star.model.scaleY *= star.scale;
                     console.log('scale:', r, star.model.scaleX, star.model.scaleY, lastscale, as);
+                }
+            }
+            if (star.starConfig["add_blood"]) {
+                var addBlood = star.starConfig["add_blood"];
+                if (star['add_blood_info'] == undefined) {
+                    star['add_blood_info'] = {
+                        times: 0,
+                        last_add_time: egret.getTimer(),
+                    };
+                }
+                var addBloodInfo = star['add_blood_info'];
+                if (addBloodInfo.last_add_time + 1000 <= egret.getTimer() && addBloodInfo.times < addBlood.times) {
+                    addBloodInfo.times++;
+                    addBloodInfo.last_add_time = egret.getTimer();
+                    star.blood += addBlood.speed * deltaTime * star["totalBlood"];
+                    // todo, 播放加血特效
                 }
             }
             // 移动过程中创建新的怪物
             if (star.starConfig["create_new_star"]) {
-                if (star['last_create']) {
-                    if (egret.getTimer() - star['last_create'] >= star.starConfig["create_new_star"].time) {
-                        var sconfig = StarData.StarConfig[star.starConfig["create_new_star"].id];
-                        this_1.createStar(sconfig, star.starConfig["create_new_star"].level, 10000, {
-                            x: star.model.x,
-                            y: star.model.y
-                        }, { x: 0, y: 0 }, star.starConfig["create_new_star"]);
+                var createInfo = star.starConfig["create_new_star"];
+                if (createInfo.time > 0) {
+                    if (star['last_create']) {
+                        if (egret.getTimer() - star['last_create'] >= createInfo.time) {
+                            var sconfig = StarData.StarConfig[createInfo.id];
+                            this_1.createStar(sconfig, createInfo.level, 0, {
+                                x: star.model.x,
+                                y: star.model.y
+                            }, { x: 0, y: 0 }, createInfo);
+                            star['last_create'] = egret.getTimer();
+                        }
+                    }
+                    else {
                         star['last_create'] = egret.getTimer();
                     }
-                }
-                else {
-                    star['last_create'] = egret.getTimer();
                 }
             }
             i++;
@@ -340,6 +419,61 @@ var StartUI = (function (_super) {
                 return state_1.value;
         }
     };
+    StartUI.prototype.removeStar = function (star) {
+        star && star.model && this.removeChild(star.model);
+        star && star.label_blood && this.removeChild(star.label_blood);
+    };
+    // 检测黑洞
+    StartUI.prototype.checkEat = function () {
+        //
+        var _this = this;
+        this.star_fly_eat.forEach(function (e) {
+            var eatInfo = e.starConfig["eat"];
+            for (var i = 0; i < _this.star_fly.length; i++) {
+                var star = _this.star_fly[i];
+                if (star.starConfig["eat"]) {
+                    continue;
+                }
+                if (Tools.eatTest(e.model, star.model)) {
+                    e.blood += e.blood * eatInfo.blood;
+                    e.model.scaleX += eatInfo.scale;
+                    e.model.scaleY += eatInfo.scale;
+                    // 黑洞吞噬怪物，直接消失，不分裂
+                    _this.removeStar(star);
+                    _this.star_fly.splice(i, 1);
+                    i--;
+                }
+            }
+        });
+    };
+    StartUI.prototype.checkBomb = function () {
+        var _this = this;
+        this.bomb.forEach(function (bomb) {
+            if (bomb.type == 1) {
+                for (var i = 0; i < _this.star_fly.length; i++) {
+                    var star = _this.star_fly[i];
+                    if (star.starConfig['group'] & StarData.CAN_ATTACK) {
+                        var dir = new egret.Point(star.model.x - bomb.pos.x, star.model.y - bomb.pos.y);
+                        if (dir.length < bomb.scope) {
+                            _this.removeStar(star);
+                            _this.star_fly.splice(i, 1);
+                            _this.clear_star_fly_eat(star);
+                            i--;
+                        }
+                    }
+                }
+            }
+        });
+        this.bomb = [];
+    };
+    StartUI.prototype.clear_star_fly_eat = function (star) {
+        for (var i = 0; i < this.star_fly_eat.length; i++) {
+            if (this.star_fly_eat[i] == star) {
+                this.star_fly_eat.splice(i, 1);
+                break;
+            }
+        }
+    };
     // 攻击检测
     StartUI.prototype.checkAttack = function (deltaTime) {
         // 子弹飞，并检测是否打到boat
@@ -349,8 +483,8 @@ var StartUI = (function (_super) {
         var game_over = false;
         // 先计算star的碰撞盒子
         for (var i = 0; i < this.star_fly.length; i++) {
-            var star = this.star_fly[i].model;
-            var rect = new egret.Rectangle(star.x - star.width / 2, star.y - star.height / 2, star.width, star.height);
+            var model = this.star_fly[i].model;
+            var rect = new egret.Rectangle(model.x - model.width / 2 * model.scaleX, model.y - model.height / 2 * model.scaleY, model.width * model.scaleX, model.height * model.scaleY);
             this.star_fly[i].my_rect = rect;
             if (boat_rect.intersects(rect)) {
                 game_over = true;
@@ -361,20 +495,22 @@ var StartUI = (function (_super) {
         }
         // 遍历子弹，看是否命中，一次只命中一个？
         for (var i = 0; i < this.bullet_fly.length;) {
-            var bullet = this.bullet_fly[i].modle;
+            var bullet = this.bullet_fly[i].model;
             bullet.y -= dis;
             var rect = new egret.Rectangle(bullet.x - bullet.width / 2, bullet.y - bullet.height / 2, bullet.width, bullet.height + dis);
             var hit = false;
             for (var j = 0; j < this.star_fly.length; j++) {
                 var star = this.star_fly[j];
-                if (rect.intersects(star.my_rect)) {
-                    star.blood -= GameData.main_weapon.attack;
-                    if (star.blood < 0) {
-                        star.blood = 0;
+                if (star.starConfig['group'] & StarData.CAN_ATTACK) {
+                    if (rect.intersects(star.my_rect)) {
+                        star.blood -= GameData.main_weapon.attack;
+                        if (star.blood < 0) {
+                            star.blood = 0;
+                        }
+                        // 播放特效
+                        star.need_fx = true;
+                        hit = true;
                     }
-                    // 播放特效
-                    star.need_fx = true;
-                    hit = true;
                 }
             }
             if (hit) {
@@ -390,15 +526,13 @@ var StartUI = (function (_super) {
             var star = this.star_fly[i];
             if (star.need_fx) {
                 star.need_fx = false;
-                star.label_blood.text = '' + star.blood;
-                star.label_blood.anchorOffsetX = star.label_blood.width / 2;
-                star.label_blood.anchorOffsetY = star.label_blood.height / 2;
                 if (star.tw) {
                     egret.Tween.removeTweens(star.model);
                     star.tw = null;
                 }
                 if (star.blood <= 0) {
                     this.star_fly.splice(i, 1);
+                    this.clear_star_fly_eat(star);
                 }
                 else {
                     i++;
@@ -410,10 +544,23 @@ var StartUI = (function (_super) {
             }
         }
     };
+    StartUI.prototype.changeBloodLable = function () {
+        this.star_fly.forEach(function (star) {
+            if (star.starConfig['group'] & StarData.CAN_ATTACK) {
+                star.label_blood.text = myMath.getString(star.blood);
+                star.label_blood.x = star.model.x;
+                star.label_blood.y = star.model.y;
+                star.label_blood.anchorOffsetX = star.label_blood.width / 2;
+                star.label_blood.anchorOffsetY = star.label_blood.height / 2;
+                star.label_blood.scaleX = star.model.scaleX;
+                star.label_blood.scaleY = star.model.scaleY;
+            }
+        });
+    };
     // 创建一只怪
     StartUI.prototype.createStar = function (starConfig, level, blood, pos, dir, info) {
         console.log("createStar:", level, blood, pos, dir, info);
-        var model = ResTools.createBitmapByName(starConfig.modle);
+        var model = ResTools.createBitmapByName(starConfig.model);
         var speed = new egret.Point(dir.x, dir.y);
         speed.normalize(starConfig.speed);
         model.anchorOffsetX = model.width / 2;
@@ -431,12 +578,6 @@ var StartUI = (function (_super) {
         blood -= subBlood;
         this.addChild(model);
         //let blood = GameData.getBlood(level);
-        var label_blood = new eui.Label('' + blood);
-        label_blood.x = model.x;
-        label_blood.y = model.y;
-        label_blood.anchorOffsetX = label_blood.width / 2;
-        label_blood.anchorOffsetY = label_blood.height / 2;
-        this.addChild(label_blood);
         var star = {
             lifeTime: 0,
             model: model,
@@ -447,13 +588,29 @@ var StartUI = (function (_super) {
             totalBlood: blood,
             subBlood: subBlood,
             blood: blood,
-            label_blood: label_blood,
-            life: 0
+            //label_blood: null,
+            life: 0,
+            scale: level / 6,
         };
+        if (blood > 0) {
+            var label_blood = new eui.Label(myMath.getString(blood));
+            label_blood.size = 60;
+            label_blood.x = model.x;
+            label_blood.y = model.y;
+            label_blood.anchorOffsetX = label_blood.width / 2;
+            label_blood.anchorOffsetY = label_blood.height / 2;
+            this.addChild(label_blood);
+            star["label_blood"] = label_blood;
+        }
+        star.model.scaleX = star.scale;
+        star.model.scaleY = star.scale;
         if (info) {
             star.life = info.life;
         }
         this.star_fly.push(star);
+        if (starConfig["eat"]) {
+            this.star_fly_eat.push(star);
+        }
     };
     StartUI.prototype.starPlayFx = function (star) {
         var _this = this;
@@ -493,11 +650,20 @@ var StartUI = (function (_super) {
                     _this.createStar(starConfig, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir);
                     _this.cur_add_ons++;
                 }
-                _this.removeChild(star.model);
-                _this.removeChild(star.label_blood);
+                _this.removeStar(star);
                 _this.star_left_blood -= star.totalBlood;
                 if (_this.star_left_blood / _this.star_blood < 0.2) {
                     _this.enterNewBatch();
+                }
+                if (star.starConfig["create_new_star"]) {
+                    var createInfo = star.starConfig["create_new_star"];
+                    if (createInfo.time == 0) {
+                        var sconfig = StarData.StarConfig[createInfo.id];
+                        _this.createStar(sconfig, createInfo.level, 0, {
+                            x: star.model.x,
+                            y: star.model.y
+                        }, { x: 0, y: 0 }, createInfo);
+                    }
                 }
                 star.tw = null;
             });
@@ -505,7 +671,7 @@ var StartUI = (function (_super) {
     };
     StartUI.prototype.checkBulletOver = function () {
         for (var i = 0; i < this.bullet_fly.length;) {
-            var bullet = this.bullet_fly[i].modle;
+            var bullet = this.bullet_fly[i].model;
             if (bullet.y < 0 - bullet.height / 2) {
                 bullet.parent && bullet.parent.removeChild(bullet);
                 this.bullet_idle.push(bullet);
@@ -555,7 +721,7 @@ var StartUI = (function (_super) {
             this.addChild(bullet);
             egret.Tween.get(bullet).to({ x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2 }, 100);
             this.bullet_fly.push({
-                modle: bullet,
+                model: bullet,
             });
         }
     };

@@ -193,7 +193,9 @@ class myMath {
     // 12345        12.3k   1   2
     // 1234567      1.2m    2   1
 
-    public static getString(a: string): string {
+    public static getString(a:any): string {
+        a = ''+Math.floor(a);
+
         let ds = ['', 'K', 'M', 'T', 'A', 'B', 'C', 'D', 'E', 'AA', 'BB', 'CC', 'DD', 'EE']
         if (a.length < 4) return a;
         let i = Math.floor(a.length / 3);

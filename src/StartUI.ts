@@ -6,6 +6,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private cur_level_batch = -1; // 当前出去第几批次, -1 表示还没开始
     private cur_add_ons = 0; // 当前已经补充了几个怪物
     private star_fly = [];	// 有效的怪物，star就是怪
+    private star_fly_eat = []; // 黑洞列表, 也在star_fly中
     private star_blood = 0; // 当前波怪物的总血量
     private star_left_blood = 0; // 当前波怪物剩余的血量之和，当少于20％的时候，触发下一波怪物的产生
 
@@ -34,6 +35,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private timer_relife: egret.Timer = null;	// 死亡复活定时器
     private timer_left: number = 3;	// 复活定时器辅助变量
+
+    private bomb = [];
 
     public constructor() {
         super();
@@ -67,6 +70,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
             star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
         })
         this.star_fly = [];
+        this.star_fly_eat = [];
+        this.bomb = [];
     }
 
     private initBegin(): void {
@@ -212,6 +217,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.checkAttack(deltaTime);
             this.checkBulletOver();
         }
+
+        this.checkEat();
+        this.checkBomb();
+        this.changeBloodLable();
     }
 
     // 进入新的一轮怪物
@@ -294,18 +303,61 @@ class StartUI extends eui.Component implements eui.UIComponent {
             star.lifeTime += deltaTime;
             if (star.life > 0 && star.lifeTime >= star.life) {
                 // 生命周期结束
-                this.removeChild(star.model);
-                this.removeChild(star.label_blood);
+                this.removeStar(star);
                 this.star_fly.splice(i, 1)
-                return;
+
+                // 爆炸处理
+                if (star.starConfig['bomb']) {
+                    let scope = star.starConfig['bomb'].scope,
+                        type = star.starConfig['bomb'].scope;
+                    this.bomb.push({
+                        pos:{
+                            x:star.model.x,
+                            y:star.model.y,
+                        },
+                        scope:scope,
+                        type:type,
+                    })
+
+                }
+                continue;
             }
 
             // 根据速度，计算当前的位置
 
+            // 处理跟踪怪的位移
+            let addspeedex = {
+                x: 0,
+                y: 0,
+            }
+
+            if (star.starConfig["follow"]) {
+                let follow = star.starConfig["follow"]
+                // 进入了区间
+                if (star["follow_speed"] == undefined) {
+                    star["follow_speed"] = {x: 0, y: 0}
+                }
+
+                let follow_speed = star["follow_speed"]
+
+                let dir: egret.Point = new egret.Point(this.boat.x - star.model.x, this.boat.y - star.model.y);
+                if (dir.length < follow.scope) {
+                    dir.normalize(follow.add_speed * deltaTime);
+                    follow_speed.x += dir.x;
+                    follow_speed.y += dir.y;
+                } else {
+                    follow_speed.x = 0;
+                    follow_speed.y = 0;
+                }
+
+                addspeedex.x += follow_speed.x;
+                addspeedex.y += follow_speed.y;
+            }
+
             // 攻击导致的减速结束处理
             if (star.snowTime > 0) {
-                star.model.x += star.speed.x * deltaTime * star.starConfig.attack_speed;
-                star.model.y += star.speed.y * deltaTime * star.starConfig.attack_speed;
+                star.model.x += (star.speed.x + addspeedex.x) * deltaTime * star.starConfig.attack_speed;
+                star.model.y += (star.speed.y + addspeedex.y) * deltaTime * star.starConfig.attack_speed;
                 if (star.snowTime < egret.getTimer()) {
                     star.snowTime = 0;
                     console.log('速度恢复：', star.speed)
@@ -315,42 +367,57 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 star.model.y += star.speed.y * deltaTime;
             }
 
+            // 反弹检测
+            if (star.starConfig["rebound"]) {
+                for (let j = 0; j < this.star_fly.length; j++) {
+                    let star_other = this.star_fly[j]
+                    if (star_other == star) return;
+                    if (star_other.starConfig["group"] & StarData.CAN_CO) {
+                        if (Tools.starCoTest(star.model, star_other.model)) {
+                            if (star.model.x - star_other.model.x >= star.model.y - star_other.model.y) {
+                                star.speed.x *= -1;
+                            } else {
+                                star.speed.y *= -1;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
 
             // 位置根据屏幕进行调整
             if (star.model.y - star.model.height / 2 * star.model.scaleY < 0) {
-                star.model.y = star.model.height / 2* star.model.scaleY;
+                star.model.y = star.model.height / 2 * star.model.scaleY;
                 star.speed.y *= -1;
             }
             if (star.model.x - star.model.width / 2 * star.model.scaleX < 0) {
                 star.model.x = star.model.width / 2 * star.model.scaleX;
                 star.speed.x *= -1;
             }
-            if (star.model.x + star.model.width / 2 * star.model.scaleX> 750) {
-                star.model.x = 750 - star.model.width / 2* star.model.scaleX;
+            if (star.model.x + star.model.width / 2 * star.model.scaleX > 750) {
+                star.model.x = 750 - star.model.width / 2 * star.model.scaleX;
                 star.speed.x *= -1;
             }
             if (star.model.y - star.model.height / 2 * star.model.scaleY >= this.real_height) {
                 star.model.y = 0;
             }
 
-            // 血量的位置，跟随怪物
-            star.label_blood.x = star.model.x;
-            star.label_blood.y = star.model.y;
 
             // 体型随时间进行变化
-            if(star.starConfig["scale_info"]){
-                let  scale_info= star.starConfig['scale_info']
+            if (star.starConfig["scale_info"]) {
+                let scale_info = star.starConfig['scale_info']
                 let totalTime = 0;
                 scale_info.forEach(as => {
                     totalTime += as.time;
                 })
 
                 let lifeTime = star.lifeTime % totalTime;
-                let curTime = 0; 
+                let curTime = 0;
                 let as = null;
                 let lastscale = {
-                    scaleX:1,
-                    scaleY:1,
+                    scaleX: 1,
+                    scaleY: 1,
                 }
                 for (let i = 0; i < scale_info.length; i++) {
                     as = scale_info[i];
@@ -363,39 +430,124 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     lastscale.scaleY = as.scaleY;
                 }
 
-                let r = (lifeTime - curTime)/as.time
+                let r = (lifeTime - curTime) / as.time;
 
-                if (as.wait == false) {;
-                    star.model.scaleX = lastscale.scaleX * r + as.scaleX*(1-r);
-                    star.model.scaleY = lastscale.scaleY *r + as.scaleY*(1-r);
+                if (as.wait == false) {
+                    star.model.scaleX = lastscale.scaleX * r + as.scaleX * (1 - r);
+                    star.model.scaleY = lastscale.scaleY * r + as.scaleY * (1 - r);
+                    star.model.scaleX *= star.scale;
+                    star.model.scaleY *= star.scale;
 
-                    console.log('scale:', r,  star.model.scaleX, star.model.scaleY, lastscale, as);
+                    console.log('scale:', r, star.model.scaleX, star.model.scaleY, lastscale, as);
+                }
+            }
+
+            if (star.starConfig["add_blood"]) {
+                let addBlood = star.starConfig["add_blood"];
+                if (star['add_blood_info'] == undefined) {
+                    star['add_blood_info'] = {
+                        times: 0,
+                        last_add_time: egret.getTimer(),
+                    };
+                }
+
+                let addBloodInfo = star['add_blood_info'];
+
+                if (addBloodInfo.last_add_time + 1000 <= egret.getTimer() && addBloodInfo.times < addBlood.times) {
+                    addBloodInfo.times++;
+                    addBloodInfo.last_add_time = egret.getTimer();
+
+                    star.blood += addBlood.speed * deltaTime * star["totalBlood"]
+                    // todo, 播放加血特效
                 }
             }
 
             // 移动过程中创建新的怪物
             if (star.starConfig["create_new_star"]) {
-                if (star['last_create']) {
-                    if (egret.getTimer() - star['last_create'] >= star.starConfig["create_new_star"].time) {
-                        let sconfig = StarData.StarConfig[star.starConfig["create_new_star"].id];
-                        this.createStar(sconfig, star.starConfig["create_new_star"].level, 10000, {
-                            x: star.model.x,
-                            y: star.model.y
-                        }, {x: 0, y: 0}, star.starConfig["create_new_star"])
+                let createInfo = star.starConfig["create_new_star"]
+                if (createInfo.time > 0) {
+                    if (star['last_create']) {
+                        if (egret.getTimer() - star['last_create'] >= createInfo.time) {
+                            let sconfig = StarData.StarConfig[createInfo.id];
+                            this.createStar(sconfig, createInfo.level, 0, {
+                                x: star.model.x,
+                                y: star.model.y
+                            }, {x: 0, y: 0}, createInfo)
 
+                            star['last_create'] = egret.getTimer();
+                        }
+                    } else {
                         star['last_create'] = egret.getTimer();
                     }
-                } else {
-                    star['last_create'] = egret.getTimer();
                 }
-
-
             }
-
 
             i++;
         }
 
+    }
+
+    private removeStar(star:any):void{
+        star && star.model && this.removeChild(star.model);
+        star && star.label_blood && this.removeChild(star.label_blood);
+    }
+
+    // 检测黑洞
+    private checkEat(): void {
+        //
+
+        this.star_fly_eat.forEach(e => {
+            let eatInfo = e.starConfig["eat"];
+            for (let i = 0; i < this.star_fly.length; i++) {
+                let star = this.star_fly[i]
+                if (star.starConfig["eat"]) {
+                    continue;
+                }
+
+                if (Tools.eatTest(e.model, star.model)) {
+                    e.blood += e.blood * eatInfo.blood;
+
+                    e.model.scaleX += eatInfo.scale;
+                    e.model.scaleY += eatInfo.scale;
+
+                    // 黑洞吞噬怪物，直接消失，不分裂
+                    this.removeStar(star);
+                    this.star_fly.splice(i, 1)
+
+                    i--;
+                }
+            }
+        })
+    }
+
+    private checkBomb():void{
+        this.bomb.forEach(bomb=>{
+            if(bomb.type == 1){
+                for(let i=0;i<this.star_fly.length;i++){
+                    let star = this.star_fly[i]
+                    if(star.starConfig['group']&StarData.CAN_ATTACK){
+                        let dir :egret.Point= new egret.Point(star.model.x-bomb.pos.x, star.model.y-bomb.pos.y);
+                        if(dir.length < bomb.scope){
+                            this.removeStar(star);
+                            this.star_fly.splice(i, 1);
+                            this.clear_star_fly_eat(star);
+                            i--;
+                        }
+                    }
+                }
+            }
+        })
+
+        this.bomb =[];
+    }
+
+    private clear_star_fly_eat(star:any):void{
+        for(let i=0;i<this.star_fly_eat.length;i++){
+            if(this.star_fly_eat[i]==star){
+                this.star_fly_eat.splice(i,1)
+                break;
+            }
+        }
     }
 
     // 攻击检测
@@ -409,8 +561,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         // 先计算star的碰撞盒子
         for (let i = 0; i < this.star_fly.length; i++) {
-            let star = this.star_fly[i].model;
-            let rect = new egret.Rectangle(star.x - star.width / 2, star.y - star.height / 2, star.width, star.height);
+            let model = this.star_fly[i].model;
+            let rect = new egret.Rectangle(model.x - model.width / 2*model.scaleX, model.y - model.height / 2*model.scaleY, model.width*model.scaleX, model.height*model.scaleY);
             this.star_fly[i].my_rect = rect;
 
             if (boat_rect.intersects(rect)) {
@@ -425,7 +577,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         // 遍历子弹，看是否命中，一次只命中一个？
         for (let i = 0; i < this.bullet_fly.length;) {
-            let bullet = this.bullet_fly[i].modle
+            let bullet = this.bullet_fly[i].model
             bullet.y -= dis;
 
 
@@ -433,16 +585,19 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let hit = false;
 
             for (let j = 0; j < this.star_fly.length; j++) {
-                let star = this.star_fly[j];
-                if (rect.intersects(star.my_rect)) {
-                    star.blood -= GameData.main_weapon.attack;
-                    if (star.blood < 0) {
-                        star.blood = 0;
-                    }
-                    // 播放特效
-                    star.need_fx = true;
 
-                    hit = true;
+                let star = this.star_fly[j];
+                if(star.starConfig['group']&StarData.CAN_ATTACK){
+                    if (rect.intersects(star.my_rect)) {
+                        star.blood -= GameData.main_weapon.attack;
+                        if (star.blood < 0) {
+                            star.blood = 0;
+                        }
+                        // 播放特效
+                        star.need_fx = true;
+
+                        hit = true;
+                    }
                 }
             }
 
@@ -461,9 +616,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let star = this.star_fly[i];
             if (star.need_fx) {
                 star.need_fx = false;
-                star.label_blood.text = '' + star.blood;
-                star.label_blood.anchorOffsetX = star.label_blood.width / 2;
-                star.label_blood.anchorOffsetY = star.label_blood.height / 2;
 
                 if (star.tw) {
                     egret.Tween.removeTweens(star.model);
@@ -472,6 +624,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
                 if (star.blood <= 0) {
                     this.star_fly.splice(i, 1);
+                    this.clear_star_fly_eat(star);
                 } else {
                     i++;
                 }
@@ -484,12 +637,31 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
+    private changeBloodLable():void{
+        this.star_fly.forEach(star=>{
+            if(star.starConfig['group']&StarData.CAN_ATTACK){
+                star.label_blood.text = myMath.getString(star.blood);
+                star.label_blood.x = star.model.x;
+                star.label_blood.y = star.model.y;
+
+                star.label_blood.anchorOffsetX = star.label_blood.width / 2;
+                star.label_blood.anchorOffsetY = star.label_blood.height / 2;
+
+
+                star.label_blood.scaleX = star.model.scaleX;
+                star.label_blood.scaleY = star.model.scaleY;
+
+            }
+
+        })
+    }
+
     // 创建一只怪
     private createStar(starConfig: any, level: number, blood: number, pos: any, dir: any, info?: any): void {
 
         console.log("createStar:", level, blood, pos, dir, info)
 
-        let model = ResTools.createBitmapByName(starConfig.modle);
+        let model = ResTools.createBitmapByName(starConfig.model);
 
         let speed: egret.Point = new egret.Point(dir.x, dir.y);
         speed.normalize(starConfig.speed);
@@ -513,12 +685,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.addChild(model);
         //let blood = GameData.getBlood(level);
-        let label_blood = new eui.Label('' + blood);
-        label_blood.x = model.x;
-        label_blood.y = model.y;
-        label_blood.anchorOffsetX = label_blood.width / 2;
-        label_blood.anchorOffsetY = label_blood.height / 2;
-        this.addChild(label_blood);
+
+
 
         let star = {
             lifeTime: 0,         // 存活时间
@@ -530,10 +698,25 @@ class StartUI extends eui.Component implements eui.UIComponent {
             totalBlood: blood,   // 自己总血量
             subBlood: subBlood,  // 分裂的总血量
             blood: blood,       // 剩余血量
-            label_blood: label_blood,
-            life: 0
+            //label_blood: null,
+            life: 0,
+            scale:level/6,      // 初始scale
 
         };
+
+        if(blood>0){
+            let label_blood = new eui.Label(myMath.getString(blood));
+            label_blood.size = 60;
+            label_blood.x = model.x;
+            label_blood.y = model.y;
+            label_blood.anchorOffsetX = label_blood.width / 2;
+            label_blood.anchorOffsetY = label_blood.height / 2;
+            this.addChild(label_blood);
+            star["label_blood"] = label_blood
+        }
+
+        star.model.scaleX = star.scale;
+        star.model.scaleY = star.scale;
 
         if (info) {
             star.life = info.life;
@@ -541,6 +724,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
 
         this.star_fly.push(star)
+        if (starConfig["eat"]) {
+            this.star_fly_eat.push(star);
+        }
 
     }
 
@@ -589,14 +775,24 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     this.cur_add_ons++;
                 }
 
-                this.removeChild(star.model);
-                this.removeChild(star.label_blood);
-
+                this.removeStar(star);
 
                 this.star_left_blood -= star.totalBlood;
                 if (this.star_left_blood / this.star_blood < 0.2) {
                     this.enterNewBatch();
                 }
+
+                if (star.starConfig["create_new_star"]) {
+                    let createInfo = star.starConfig["create_new_star"]
+                    if (createInfo.time == 0) {
+                        let sconfig = StarData.StarConfig[createInfo.id];
+                        this.createStar(sconfig, createInfo.level, 0, {
+                            x: star.model.x,
+                            y: star.model.y
+                        }, {x: 0, y: 0}, createInfo)
+                    }
+                }
+
 
                 star.tw = null;
             });
@@ -605,7 +801,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private checkBulletOver(): void {
         for (let i = 0; i < this.bullet_fly.length;) {
-            let bullet = this.bullet_fly[i].modle;
+            let bullet = this.bullet_fly[i].model;
             if (bullet.y < 0 - bullet.height / 2) {
                 bullet.parent && bullet.parent.removeChild(bullet);
                 this.bullet_idle.push(bullet);
@@ -665,7 +861,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             egret.Tween.get(bullet).to({x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2}, 100);
 
             this.bullet_fly.push({
-                modle: bullet,
+                model: bullet,
             });
 
         }
