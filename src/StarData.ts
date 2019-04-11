@@ -7,6 +7,7 @@ class StarData {
 	public static CAN_CO=		Math.pow(2,12);// 可以被碰
 	public static StarConfig = {
 		'101': {
+			name:'小陨石',
 			id: 101,
 			model: '1_png',		// 模型名称
 			speed: 0.1,			// 移动速度
@@ -16,6 +17,7 @@ class StarData {
 			// 引力属性，包含参数（）
 		},	// 小陨石101
 		'102': {
+			name:'冲击陨石',
 			id:102,
 			model:'2_png',
 			speed:0.2,
@@ -23,6 +25,7 @@ class StarData {
 			group:StarData.CAN_ATTACK|StarData.CAN_CO,
 		}, // 冲击陨石 102
 		'103':{
+			name:'熔岩陨石',
 			id:103,
 			model:'3_png',
 			speed:0.1,
@@ -41,6 +44,7 @@ class StarData {
 			}
 		},//熔岩陨石 103
 		'104':{
+			name:'岩浆',
 			id:104,
 			model:'4_png',
 			speed:0,
@@ -48,6 +52,7 @@ class StarData {
 			group:0,
 		}, // 岩浆（特殊）		104
 		'105':{
+			name:'磁铁陨石',
 			id:105,
 			model:'4_png',
 			speed:0.1,
@@ -59,31 +64,40 @@ class StarData {
 			}
 		}, // 磁铁陨石		105, 跟踪怪
 		'106':{
+			name:'彗星',
 			id:106,
 			model:'4_png',
 			speed:0.1,
 			attack_speed:0.5,
 			group:StarData.CAN_ATTACK|StarData.CAN_CO,
-			create_new_star:{ // 生成新的怪，移动一定时间产生
-				time:1000, // 每移动time的时间，就产生一个新的怪物
-				id:'107',	// 怪物id
-				level:1,	// 怪物等级
-				life:5000,	// 怪物的生存时间，ms
+			fx:{	// 特殊效果
+				texture:'newParticle_png',	// 特效的贴图
+				json:'newParticle_json',	// 特效的配置
+				add_blood: 0.1, // 每秒增加的血量
+			},
 
-				scaleX:0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
-				scaleY:0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
-				scale:{time:1000, scaleX:1.4, scaleY:1}	// 怪物随时间的缩放，相对于原始尺寸
-			}
+			// create_new_star:{ // 生成新的怪，移动一定时间产生
+			// 	time:1000, // 每移动time的时间，就产生一个新的怪物
+			// 	id:'107',	// 怪物id
+			// 	level:0,	// 怪物等级
+			// 	life:5000,	// 怪物的生存时间，ms
+            //
+			// 	scaleX:0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
+			// 	scaleY:0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
+			// 	scale:{time:1000, scaleX:1.4, scaleY:1}	// 怪物随时间的缩放，相对于原始尺寸
+			// }
 		},//彗星
 		'107':{
+			name:'慧尾',
 			id:107,
 			model:'4_png',
 			speed:0,
 			attack_speed:0,
-			group:0
+			group:0,
 		},// 慧尾
 
 		'108':{
+			name:'冰块陨石',
 			id:108,
 			model:'4_png',
 			speed:0.1,
@@ -101,6 +115,7 @@ class StarData {
 			}
 		},//冰块陨石
 		'109':{
+			name:'碎冰',
 			id:109,
 			model:'4_png',
 			speed:0,
@@ -109,6 +124,7 @@ class StarData {
 		},// 碎冰（特殊）
 
 		'110':{
+			name:'金刚陨石',
 			id:110,
 			model:'10_png',
 			speed:0.15,
@@ -118,6 +134,7 @@ class StarData {
 		},
 
 		'111':{
+			name:'星际尘埃',
 			id:111,
 			model:'4_png',
 			speed:0.15,
@@ -132,9 +149,10 @@ class StarData {
 			add_blood:{	// todo, need test, and need fx
 				times:10,	// 加多少秒
 				speed:0.1, // 每秒增加的比例，按照初始血量来增加
-			}
+			}, // 这个加血只对自己有效
 		},	// 星际尘埃
 		'112':{
+			name:'黑洞',
 			id:112,
 			model:'8_png',
 			speed:0.15,
@@ -146,6 +164,7 @@ class StarData {
 			}, 	// 是否具有吞噬属性
 		}, // 微型黑洞, 黑洞的等级永远为0， 体型为美术给的原始体型
 		'113':{
+			name:'风暴球团',
 			id:113,
 			model:'4_png',
 			speed:0.15,
@@ -159,6 +178,7 @@ class StarData {
 		}, // 风暴球团
 
 		'114':{
+			name:'爆炸卫星',
 			id:114,
 			model:'4_png',
 			speed:0.15,
@@ -176,6 +196,7 @@ class StarData {
 			}
 		}, // 爆炸卫星
 		'115':{
+			name:'卫星碎片',
 			id:107,
 			model:'4_png',
 			speed:0,

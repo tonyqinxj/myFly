@@ -193,8 +193,8 @@ class myMath {
     // 12345        12.3k   1   2
     // 1234567      1.2m    2   1
 
-    public static getString(a:any): string {
-        a = ''+Math.floor(a);
+    public static getString(a: any): string {
+        a = '' + Math.floor(a);
 
         let ds = ['', 'K', 'M', 'T', 'A', 'B', 'C', 'D', 'E', 'AA', 'BB', 'CC', 'DD', 'EE']
         if (a.length < 4) return a;
@@ -211,7 +211,28 @@ class myMath {
             return first + ds[i]
         } else {
             let second = a.substr(m, 1)
-            return first+'.'+second+ds[i]
+            return first + '.' + second + ds[i]
         }
+    }
+
+
+    public static angle(dir) {
+        //返回角度,不是弧度
+        if (dir.x > 0) {
+            return 360 * Math.atan(dir.y / dir.x) / (2 * Math.PI);
+        } else if (dir.x < 0) {
+
+            let ret = 360 * Math.atan(dir.y / dir.x) / (2 * Math.PI) + 180;
+            if (ret > 180) ret -= 360;
+
+            return ret;
+        } else {
+            if (dir.y > 0) {
+                return 90;
+            }
+
+            return -90;
+        }
+
     }
 }

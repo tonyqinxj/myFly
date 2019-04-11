@@ -10,6 +10,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private star_blood = 0; // 当前波怪物的总血量
     private star_left_blood = 0; // 当前波怪物剩余的血量之和，当少于20％的时候，触发下一波怪物的产生
 
+    private fx = []; // 特效
+
+
     // ui components
     private gp_root: eui.Group;
     private gp_setting: eui.Group;
@@ -25,7 +28,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private real_height: number = 1624;	// 屏幕使用高度
 
-    private last_pos: any = {x: 0, y: 0}	// 用于主机移动的辅助，记录上一次的位置，用来算每帧之间的相对位置
+    private last_pos: any = { x: 0, y: 0 }	// 用于主机移动的辅助，记录上一次的位置，用来算每帧之间的相对位置
 
     private send_index = 0;	// 主机火力辅助变量，控制一次发送几个子弹
     private send_timer: egret.Timer = null;	// 主机子弹发射定时器
@@ -73,7 +76,25 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.star_fly = [];
         this.star_fly_eat = [];
         this.bomb = [];
+
+        // var texture = RES.getRes("newParticle_png");
+        // var config = RES.getRes("newParticle_json");
+        // this.system = new particle.GravityParticleSystem(texture, config);
+        // this.system.x = 200;
+        // this.system.y = 200;
+        // //启动粒子库
+        // this.system.start();
+        // //将例子系统添加到舞台
+        // this.addChild(this.system);
+        //
+        // this.system.anchorOffsetX = this.system.width/2;
+        // this.system.anchorOffsetY = this.system.height/2;
+        // this.system.emitterX = 0;
+        // this.system.emitterY = 0;
+
     }
+
+    private system: particle.GravityParticleSystem;
 
     private initBegin(): void {
         //console.log('initBegin call',)
@@ -222,7 +243,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.checkEat();
         this.checkBomb();
         this.changeBloodLable();
+
+        this.checkFx();
     }
+
 
     // 进入新的一轮怪物
     private enterNewBatch(): void {
@@ -249,11 +273,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
         batch_info.init.forEach(conf => {
             if (conf.time <= this.game_time && conf.time > last_game_time) {
                 let starConfig = StarData.StarConfig[conf.id];
-                let from = {x: 10, y: 0}
-                let to = {x: Tools.GetRandomNum(0, 20), y: 10}
-                let dir = {x: to.x - from.x, y: to.y - from.y}
+                let from = { x: 10, y: 0 }
+                let to = { x: Tools.GetRandomNum(0, 20), y: 10 }
+                let dir = { x: to.x - from.x, y: to.y - from.y }
 
-                this.createStar(starConfig, conf.level, conf["blood"], {x: conf.x, y: 0}, dir)
+                this.createStar(starConfig, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir)
 
             }
         })
@@ -330,7 +354,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 let follow = star.starConfig["follow"]
                 // 进入了区间
                 if (star["follow_speed"] == undefined) {
-                    star["follow_speed"] = {x: 0, y: 0}
+                    star["follow_speed"] = { x: 0, y: 0 }
                 }
 
                 let follow_speed = star["follow_speed"]
@@ -376,7 +400,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                                 star.speed.x = Math.abs(star.speed.x) * -1;
                             }
 
-                            if (star.model.y - star_other.model.y> 0) {
+                            if (star.model.y - star_other.model.y > 0) {
                                 star.speed.y = Math.abs(star.speed.y)
                             } else if (star.model.x - star_other.model.x < 0) {
                                 star.speed.y = Math.abs(star.speed.y) * -1;
@@ -483,7 +507,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                             this.createStar(sconfig, createInfo.level, 0, {
                                 x: star.model.x,
                                 y: star.model.y
-                            }, {x: 0, y: 0}, createInfo)
+                            }, { x: 0, y: 0 }, createInfo)
 
                             star['last_create'] = egret.getTimer();
                         }
@@ -501,6 +525,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private removeStar(star: any): void {
         star && star.model && this.removeChild(star.model);
         star && star.label_blood && this.removeChild(star.label_blood);
+        star && star.label_name && this.removeChild(star.label_name);
     }
 
     // 检测黑洞
@@ -516,7 +541,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     continue;
                 }
 
-                if ((star.starConfig["group"]&StarData.CAN_ATTACK) && Tools.eatTest(e.model, star.model)) {
+                if ((star.starConfig["group"] & StarData.CAN_ATTACK) && Tools.eatTest(e.model, star.model)) {
                     e.blood += e.blood * eatInfo.blood;
 
                     e.model.scaleX += eatInfo.scale;
@@ -666,6 +691,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 star.label_blood.scaleY = star.model.scaleY;
 
             }
+            if(star && star.label_name){
+                star.label_name.x = star.model.x;
+                star.label_name.y = star.model.y - star.model.height/2*star.model.scaleY-star.label_name.height/2;
+            }
 
         })
     }
@@ -689,7 +718,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         if (info) {
             model.scaleX = info.scaleX;
             model.scaleY = info.scaleY;
-            egret.Tween.get(model).to({scaleX: info.scale.scaleX, scaleY: info.scale.scaleY}, info.scale.time);
+            egret.Tween.get(model).to({ scaleX: info.scale.scaleX, scaleY: info.scale.scaleY }, info.scale.time);
         }
 
         let subBlood = 0;
@@ -715,7 +744,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         };
 
-        if(level == 0){
+        if (level == 0) {
             star.scale = 1;
         }
 
@@ -730,6 +759,16 @@ class StartUI extends eui.Component implements eui.UIComponent {
             star["label_blood"] = label_blood
         }
 
+        let label_name = new eui.Label(starConfig['name']);
+        label_name.size = 20;
+        label_name.anchorOffsetX = label_name.width/2;
+        label_name.anchorOffsetY = label_name.height/2;
+        label_name.x = model.x;
+        label_name.y = model.y - model.height/2*model.scaleY-label_name.height/2;
+        this.addChild(label_name);
+        star["label_name"] = label_name;
+
+
         star.model.scaleX = star.scale;
         star.model.scaleY = star.scale;
 
@@ -743,6 +782,36 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.star_fly_eat.push(star);
         }
 
+        if(starConfig["fx"]){
+            let fxInfo = starConfig["fx"];
+            let t = RES.getRes(fxInfo.texture);
+            let j= RES.getRes(fxInfo.json);
+            let s = new particle.GravityParticleSystem(t,j);
+            let myFx = {
+                star:star,
+                model:s,
+                info:fxInfo,
+            };
+            this.fx.push(myFx);
+            this.addChild(s);
+            s.start();
+            s.emitterX =0;
+            s.emitterY = 0;
+            s.x = star.model.x;
+            s.y = star.model.y;
+
+            star['fx_data'] = myFx;
+        }
+    }
+
+    private checkFx():void{
+        this.fx.forEach(f=>{
+            if(f.star){
+                f.model.x = f.star.model.x;
+                f.model.y = f.star.model.y;
+                f.model.rotation = myMath.angle(f.star.speed);
+            }
+        })
     }
 
     private starPlayFx(star: any): void {
@@ -759,13 +828,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
         // 死亡效果，包括分裂，补充库的处理
         if (star.blood <= 0) {
             star.tw = egret.Tween.get(star.model);
-            star.tw.to({scaleX: 1.1, scaleY: 1.1}, 300).to({scaleX: 0.9, scaleY: 0.9}, 300).call(() => {
+            star.tw.to({ scaleX: 1.1, scaleY: 1.1 }, 300).to({ scaleX: 0.9, scaleY: 0.9 }, 300).call(() => {
                 //console.log('starPlayEx:', star.blood)
                 if (star.level > 1) {
                     // 生成2个新的star
-                    let hitpos = {x: this.boat.x, y: star.model.y + star.model.height}
-                    let pos1 = {x: star.model.x - star.model.width / 2, y: star.model.y}
-                    let pos2 = {x: star.model.x + star.model.width / 2, y: star.model.y}
+                    let hitpos = { x: this.boat.x, y: star.model.y + star.model.height }
+                    let pos1 = { x: star.model.x - star.model.width / 2, y: star.model.y }
+                    let pos2 = { x: star.model.x + star.model.width / 2, y: star.model.y }
 
                     let dir1: egret.Point = new egret.Point(pos1.x - hitpos.x, pos1.y - hitpos.y)
                     let dir2: egret.Point = new egret.Point(pos2.x - hitpos.x, pos2.y - hitpos.y)
@@ -785,10 +854,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     let conf = batch_info.add_ons[this.cur_add_ons]
 
                     let starConfig = StarData.StarConfig[conf.id];
-                    let from = {x: 10, y: 0}
-                    let to = {x: Tools.GetRandomNum(0, 20), y: 10}
-                    let dir = {x: to.x - from.x, y: to.y - from.y}
-                    this.createStar(starConfig, conf.level, conf["blood"], {x: conf.x, y: 0}, dir);
+                    let from = { x: 10, y: 0 }
+                    let to = { x: Tools.GetRandomNum(0, 20), y: 10 }
+                    let dir = { x: to.x - from.x, y: to.y - from.y }
+                    this.createStar(starConfig, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir);
 
                     this.cur_add_ons++;
                 }
@@ -808,7 +877,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                         this.createStar(sconfig, createInfo.level, 0, {
                             x: star.model.x,
                             y: star.model.y
-                        }, {x: 0, y: 0}, createInfo)
+                        }, { x: 0, y: 0 }, createInfo)
                     }
                 }
 
@@ -877,7 +946,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             bullet.y = this.boat.y - this.boat.height / 2; //this.boat.y - this.boat.height / 2 - bullet.height / 2;
             this.addChild(bullet);
 
-            egret.Tween.get(bullet).to({x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2}, 100);
+            egret.Tween.get(bullet).to({ x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2 }, 100);
 
             this.bullet_fly.push({
                 model: bullet,

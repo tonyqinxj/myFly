@@ -5,7 +5,7 @@
 			"name": "preload"
 		},
 		{
-			"keys": "boat1_png,bomb1_png,star1_png,button_up_png,header_png,border_png,1_png,7_png,2_png,3_png,4_png,5_png,6_png,8_png,9_png,10_png",
+			"keys": "boat1_png,bomb1_png,star1_png,button_up_png,header_png,border_png,1_png,7_png,2_png,3_png,4_png,5_png,6_png,8_png,9_png,10_png,newParticle_json,newParticle_png",
 			"name": "start"
 		}
 	],
@@ -194,6 +194,16 @@
 			"url": "assets/game/10.png",
 			"type": "image",
 			"name": "10_png"
+		},
+		{
+			"url": "newParticle.json",
+			"type": "json",
+			"name": "newParticle_json"
+		},
+		{
+			"url": "newParticle.png",
+			"type": "image",
+			"name": "newParticle_png"
 		}
 	]
 }
