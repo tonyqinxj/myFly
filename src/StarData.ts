@@ -110,7 +110,7 @@ class StarData {
 
 		'110':{
 			id:110,
-			model:'4_png',
+			model:'10_png',
 			speed:0.15,
 			attack_speed:0.3,
 			group:StarData.CAN_ATTACK|StarData.CAN_CO,
@@ -144,7 +144,7 @@ class StarData {
 				blood:1,	// 增加当前血量的比例
 				scale:0.15, // 增加体型的比例, 针对原始尺寸
 			}, 	// 是否具有吞噬属性
-		}, // 微型黑洞
+		}, // 微型黑洞, 黑洞的等级永远为0， 体型为美术给的原始体型
 		'113':{
 			id:113,
 			model:'4_png',

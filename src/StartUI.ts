@@ -234,13 +234,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.cur_add_ons = 0;
 
             let batchInfo = GameData.level_configs[this.cur_level_batch];
-            batchInfo.init.forEach(conf => {
-                this.star_left_blood += GameData.getTotalBlood(conf.level);
-            })
-            batchInfo.add_ons.forEach(conf => {
-                this.star_left_blood += GameData.getTotalBlood(conf.level);
-            })
-
+            this.star_left_blood = batchInfo.blood;
             this.star_blood = this.star_left_blood;
 
             GameData.bloodGen(batchInfo);
@@ -312,12 +306,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     let scope = star.starConfig['bomb'].scope,
                         type = star.starConfig['bomb'].scope;
                     this.bomb.push({
-                        pos:{
-                            x:star.model.x,
-                            y:star.model.y,
+                        pos: {
+                            x: star.model.x,
+                            y: star.model.y,
                         },
-                        scope:scope,
-                        type:type,
+                        scope: scope,
+                        type: type,
                     })
 
                 }
@@ -364,7 +358,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     console.log('速度恢复：', star.speed)
                 }
             } else {
-                star.model.x +=(star.speed.x + addspeedex.x) * deltaTime;
+                star.model.x += (star.speed.x + addspeedex.x) * deltaTime;
                 star.model.y += (star.speed.y + addspeedex.y) * deltaTime;
             }
 
@@ -372,14 +366,30 @@ class StartUI extends eui.Component implements eui.UIComponent {
             if (star.starConfig["rebound"]) {
                 for (let j = 0; j < this.star_fly.length; j++) {
                     let star_other = this.star_fly[j]
-                    if (star_other == star) return;
+                    if (star_other == star) continue;
                     if (star_other.starConfig["group"] & StarData.CAN_CO) {
                         if (Tools.starCoTest(star.model, star_other.model)) {
-                            if (star.model.x - star_other.model.x >= star.model.y - star_other.model.y) {
-                                star.speed.x *= -1;
-                            } else {
-                                star.speed.y *= -1;
+
+                            if (star.model.x - star_other.model.x > 0) {
+                                star.speed.x = Math.abs(star.speed.x)
+                            } else if (star.model.x - star_other.model.x < 0) {
+                                star.speed.x = Math.abs(star.speed.x) * -1;
                             }
+
+                            if (star.model.y - star_other.model.y> 0) {
+                                star.speed.y = Math.abs(star.speed.y)
+                            } else if (star.model.x - star_other.model.x < 0) {
+                                star.speed.y = Math.abs(star.speed.y) * -1;
+                            }
+
+                            // if (star.model.x - star_other.model.x < star.model.y - star_other.model.y) {
+                            //     star.speed.x *= -1;
+                            // } else if (star.model.x - star_other.model.x > star.model.y - star_other.model.y) {
+                            //     star.speed.y *= -1;
+                            // } else {
+                            //     star.speed.x *= -1;
+                            //     star.speed.y *= -1;
+                            // }
                             break;
                         }
                     }
@@ -488,7 +498,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     }
 
-    private removeStar(star:any):void{
+    private removeStar(star: any): void {
         star && star.model && this.removeChild(star.model);
         star && star.label_blood && this.removeChild(star.label_blood);
     }
@@ -498,6 +508,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         //
 
         this.star_fly_eat.forEach(e => {
+            this.addChild(e.model);
             let eatInfo = e.starConfig["eat"];
             for (let i = 0; i < this.star_fly.length; i++) {
                 let star = this.star_fly[i]
@@ -505,7 +516,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     continue;
                 }
 
-                if (Tools.eatTest(e.model, star.model)) {
+                if ((star.starConfig["group"]&StarData.CAN_ATTACK) && Tools.eatTest(e.model, star.model)) {
                     e.blood += e.blood * eatInfo.blood;
 
                     e.model.scaleX += eatInfo.scale;
@@ -515,20 +526,22 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     this.removeStar(star);
                     this.star_fly.splice(i, 1)
 
+                    this.star_left_blood -= (star.totalBlood + star.subBlood);
+
                     i--;
                 }
             }
         })
     }
 
-    private checkBomb():void{
-        this.bomb.forEach(bomb=>{
-            if(bomb.type == 1){
-                for(let i=0;i<this.star_fly.length;i++){
+    private checkBomb(): void {
+        this.bomb.forEach(bomb => {
+            if (bomb.type == 1) {
+                for (let i = 0; i < this.star_fly.length; i++) {
                     let star = this.star_fly[i]
-                    if(star.starConfig['group']&StarData.CAN_ATTACK){
-                        let dir :egret.Point= new egret.Point(star.model.x-bomb.pos.x, star.model.y-bomb.pos.y);
-                        if(dir.length < bomb.scope){
+                    if (star.starConfig['group'] & StarData.CAN_ATTACK) {
+                        let dir: egret.Point = new egret.Point(star.model.x - bomb.pos.x, star.model.y - bomb.pos.y);
+                        if (dir.length < bomb.scope) {
                             this.removeStar(star);
                             this.star_fly.splice(i, 1);
                             this.clear_star_fly_eat(star);
@@ -539,13 +552,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
             }
         })
 
-        this.bomb =[];
+        this.bomb = [];
     }
 
-    private clear_star_fly_eat(star:any):void{
-        for(let i=0;i<this.star_fly_eat.length;i++){
-            if(this.star_fly_eat[i]==star){
-                this.star_fly_eat.splice(i,1)
+    private clear_star_fly_eat(star: any): void {
+        for (let i = 0; i < this.star_fly_eat.length; i++) {
+            if (this.star_fly_eat[i] == star) {
+                this.star_fly_eat.splice(i, 1)
                 break;
             }
         }
@@ -563,7 +576,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         // 先计算star的碰撞盒子
         for (let i = 0; i < this.star_fly.length; i++) {
             let model = this.star_fly[i].model;
-            let rect = new egret.Rectangle(model.x - model.width / 2*model.scaleX, model.y - model.height / 2*model.scaleY, model.width*model.scaleX, model.height*model.scaleY);
+            let rect = new egret.Rectangle(model.x - model.width / 2 * model.scaleX, model.y - model.height / 2 * model.scaleY, model.width * model.scaleX, model.height * model.scaleY);
             this.star_fly[i].my_rect = rect;
 
             if (boat_rect.intersects(rect)) {
@@ -588,7 +601,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             for (let j = 0; j < this.star_fly.length; j++) {
 
                 let star = this.star_fly[j];
-                if(star.starConfig['group']&StarData.CAN_ATTACK){
+                if (star.starConfig['group'] & StarData.CAN_ATTACK) {
                     if (rect.intersects(star.my_rect)) {
                         star.blood -= GameData.main_weapon.attack;
                         if (star.blood < 0) {
@@ -638,9 +651,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
-    private changeBloodLable():void{
-        this.star_fly.forEach(star=>{
-            if(star.starConfig['group']&StarData.CAN_ATTACK){
+    private changeBloodLable(): void {
+        this.star_fly.forEach(star => {
+            if (star && star.label_blood) {
                 star.label_blood.text = myMath.getString(star.blood);
                 star.label_blood.x = star.model.x;
                 star.label_blood.y = star.model.y;
@@ -698,11 +711,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
             blood: blood,       // 剩余血量
             //label_blood: null,
             life: 0,
-            scale:0.3+0.7*level/6,      // 初始scale
+            scale: 0.3 + 0.7 * level / 6,      // 初始scale
 
         };
 
-        if(blood>0){
+        if(level == 0){
+            star.scale = 1;
+        }
+
+        if (blood > 0) {
             let label_blood = new eui.Label(myMath.getString(blood));
             label_blood.size = 60;
             label_blood.x = model.x;
@@ -755,6 +772,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
                     let blood1 = Math.ceil(star.subBlood * Tools.GetRandomNum(30, 70) / 100);
                     let blood2 = star.subBlood - blood1;
+
+                    if (blood1 <= 0) blood1 = 1;
+                    if (blood2 <= 0) blood2 = 1;
                     this.createStar(star.starConfig, star.level - 1, blood1, pos1, dir1)
                     this.createStar(star.starConfig, star.level - 1, blood2, pos2, dir2)
                 }
@@ -776,6 +796,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 this.removeStar(star);
 
                 this.star_left_blood -= star.totalBlood;
+                console.log('enternew test:', this.star_left_blood, this.star_blood)
                 if (this.star_left_blood / this.star_blood < 0.2) {
                     this.enterNewBatch();
                 }
