@@ -10,7 +10,7 @@ var ResTools = (function () {
      */
     ResTools.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
-        var texture = RES.getRes(name);
+        var texture = RES.getRes('flydata_json.' + name);
         result.texture = texture;
         return result;
     };

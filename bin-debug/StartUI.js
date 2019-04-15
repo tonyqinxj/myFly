@@ -22,6 +22,9 @@ var StartUI = (function (_super) {
         _this.star_fly_eat = []; // 黑洞列表, 也在star_fly中
         _this.star_blood = 0; // 当前波怪物的总血量
         _this.star_left_blood = 0; // 当前波怪物剩余的血量之和，当少于20％的时候，触发下一波怪物的产生
+        _this.fx = []; // 特效
+        _this.star_add_blood = []; // 给别人加血
+        _this.gp_layer = [];
         _this.real_height = 1624; // 屏幕使用高度
         _this.last_pos = { x: 0, y: 0 }; // 用于主机移动的辅助，记录上一次的位置，用来算每帧之间的相对位置
         _this.send_index = 0; // 主机火力辅助变量，控制一次发送几个子弹
@@ -31,6 +34,10 @@ var StartUI = (function (_super) {
         _this.timer_relife = null; // 死亡复活定时器
         _this.timer_left = 3; // 复活定时器辅助变量
         _this.bomb = [];
+        _this.noBatch = false; // 无怪可刷
+        _this.wait_end = false;
+        // 彗尾给别人加血
+        _this.last_add_boold_time = 0;
         return _this;
     }
     StartUI.prototype.partAdded = function (partName, instance) {
@@ -38,13 +45,32 @@ var StartUI = (function (_super) {
     };
     StartUI.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        GameData.initFont();
+        FxMgr.init();
         this.initBegin();
+    };
+    StartUI.prototype.test = function () {
+        var r = RES.getRes('7_png');
+        var p = r.getPixel32(100, 100);
+        var pp = '';
+        p.forEach(function (p1) {
+            pp += p1.toString(16);
+        });
+        var b = r.getPixels(120, 120, 2, 2);
+        var bb = '';
+        b.forEach(function (p1) {
+            bb += p1.toString(16);
+        });
+        console.log(pp, bb);
     };
     StartUI.prototype.init = function () {
         //console.log('init call',)
+        //this.test();
+        this.noBatch = false;
+        this.wait_end = false;
+        GameData.genBulletList();
+        GameData.genLevelData();
         this.state = 'init';
-        this.gp_setting && this.gp_setting.parent && this.gp_setting.parent.removeChild(this.gp_setting);
-        this.gp_restart_form && this.gp_restart_form.parent && this.gp_restart_form.parent.removeChild(this.gp_restart_form);
         this.lastFramTime = 0;
         this.game_time = 0;
         this.cur_level_batch = -1;
@@ -57,10 +83,18 @@ var StartUI = (function (_super) {
         });
         this.star_fly = [];
         this.star_fly_eat = [];
+        this.star_add_blood = [];
         this.bomb = [];
     };
     StartUI.prototype.initBegin = function () {
-        var _this = this;
+        var d1 = ResTools.createBitmapByName('star1'); //RES.getRes("myfly1_json.1");
+        d1.x = 300;
+        d1.y = 300;
+        this.addChild(d1);
+        this.gp_layer.push(this.gp_layer_1);
+        this.gp_layer.push(this.gp_layer_2);
+        this.gp_layer.push(this.gp_layer_3);
+        this.gp_layer.push(this.gp_layer_4);
         //console.log('initBegin call',)
         if (window["canvas"]) {
             var w = window["canvas"].width;
@@ -68,36 +102,59 @@ var StartUI = (function (_super) {
             this.real_height = h / w * 750;
         }
         this.init();
-        this.txt_bullet_speed.text = '' + GameData.main_weapon.bullet_speed;
-        this.txt_bullet_rate.text = '' + GameData.main_weapon.bullet_rate;
-        this.bt_use.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            try {
-                if (_this.bt_use.label == '修改') {
-                    _this.bt_use.label = '应用';
-                    _this.gp_root.x = 0;
-                    _this.gp_root.addChild(_this.gp_setting);
-                }
-                else {
-                    GameData.main_weapon.bullet_speed = Number(_this.txt_bullet_speed.text);
-                    GameData.main_weapon.bullet_rate = Number(_this.txt_bullet_rate.text);
-                    _this.sendEnd();
-                    _this.bt_use.label = '修改';
-                    _this.gp_root.removeChild(_this.gp_setting);
-                }
-            }
-            catch (e) {
-                //console.log('.......')
-            }
-        }, this);
-        this.bt_close_setting.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.gp_setting.parent && _this.gp_setting.parent.removeChild(_this.gp_setting);
-            _this.bt_use.label = '修改';
-        }, this);
-        this.bt_reopen.addEventListener(egret.TouchEvent.TOUCH_TAP, this.init, this);
         this.boat.anchorOffsetX = this.boat.width / 2;
         this.boat.anchorOffsetY = this.boat.height / 2;
         this.boat.x += this.boat.width / 2;
         this.boat.y += this.boat.height / 2;
+        //let font = RES.getRes('myfont2_fnt')
+        var a = new egret.BitmapText();
+        a.font = GameData.myFont;
+        a.text = '112';
+        a.x = 100;
+        a.y = 100;
+        this.addChild(a);
+        var a1 = new egret.BitmapText();
+        a1.font = GameData.myFont;
+        a1.text = '1';
+        a1.x = 100;
+        a1.y = 200;
+        this.gp_layer_2.addChild(a1);
+        a1.scaleX = 2;
+        a1.scaleY = 2;
+        var a2 = new egret.BitmapText();
+        a2.font = GameData.myFont;
+        a2.text = '1m';
+        a2.x = 100;
+        a2.y = 300;
+        this.gp_layer_2.addChild(a2);
+        a2.scaleX = 2;
+        a2.scaleY = 2;
+        var a3 = new egret.BitmapText();
+        a3.font = GameData.myFont;
+        a3.text = '1111';
+        a3.x = 100;
+        a3.y = 300;
+        this.gp_layer_2.addChild(a3);
+        a3.scaleX = 2;
+        a3.scaleY = 2;
+        var a4 = new egret.BitmapText();
+        a4.font = GameData.myFont;
+        a4.text = '1m';
+        a4.x = 100;
+        a4.y = 300;
+        this.gp_layer_2.addChild(a4);
+        a4.scaleX = 2;
+        a4.scaleY = 2;
+        // let b: egret.BitmapText = new egret.BitmapText();
+        // b.font = GameData.myFont;
+        // b.text = '1111'
+        // b.width = this.boat.width ;
+        // b.height = this.boat.height;
+        // b.anchorOffsetX = b.width / 2;
+        // b.anchorOffsetY = b.height / 2;
+        // this.gp_root.addChild(b);
+        //  b.x = this.boat.x;
+        // b.y = this.boat.y;
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTap, this);
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
         this.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouchMove, this);
@@ -151,12 +208,12 @@ var StartUI = (function (_super) {
     };
     // 帧时间，逻辑循环从这里开始
     StartUI.prototype.onEnterFrame = function (e) {
+        if (this.lastFramTime == 0)
+            this.lastFramTime = egret.getTimer();
+        var deltaTime = egret.getTimer() - this.lastFramTime;
+        this.lastFramTime = egret.getTimer();
         if (this.state == 'game') {
             // 处于游戏状态
-            if (this.lastFramTime == 0)
-                this.lastFramTime = egret.getTimer();
-            var deltaTime = egret.getTimer() - this.lastFramTime;
-            this.lastFramTime = egret.getTimer();
             this.game_time += deltaTime;
             if (this.cur_level_batch == -1) {
                 this.enterNewBatch();
@@ -171,10 +228,6 @@ var StartUI = (function (_super) {
             // 手离开屏幕，则
             // 1. 怪物的移动速度将为原来的20%
             // 2. 子弹速度不变，用于回收已经发出去的子弹
-            if (this.lastFramTime == 0)
-                this.lastFramTime = egret.getTimer();
-            var deltaTime = egret.getTimer() - this.lastFramTime;
-            this.lastFramTime = egret.getTimer();
             //this.starMove(deltaTime * 0.2);
             this.starMove(deltaTime); // todo: test use,
             this.checkAttack(deltaTime);
@@ -182,25 +235,45 @@ var StartUI = (function (_super) {
         }
         this.checkEat();
         this.checkBomb();
+        this.checkAddBloodOther(deltaTime);
         this.changeBloodLable();
+        this.checkFx();
+        //this.checkGameOver();
+    };
+    StartUI.prototype.checkGameOver = function () {
+        var _this = this;
+        if (!this.noBatch)
+            return;
+        for (var i = 0; i < this.star_fly.length; i++) {
+            var star = this.star_fly[i];
+            if (star.starConfig['group'] & StarData.CAN_ATTACK) {
+                return;
+            }
+        }
+        if (this.wait_end)
+            return;
+        this.wait_end = true;
+        // over
+        var timer = new egret.Timer(5000, 1);
+        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function () {
+            _this.gameOver(true);
+        }, this);
+        timer.start();
     };
     // 进入新的一轮怪物
     StartUI.prototype.enterNewBatch = function () {
-        var _this = this;
         //console.log('enterNewBatch...',this.cur_level_batch )
         if (this.cur_level_batch + 1 < GameData.level_configs.length) {
             this.game_time = 0;
             this.cur_level_batch++;
             this.cur_add_ons = 0;
             var batchInfo = GameData.level_configs[this.cur_level_batch];
-            batchInfo.init.forEach(function (conf) {
-                _this.star_left_blood += GameData.getTotalBlood(conf.level);
-            });
-            batchInfo.add_ons.forEach(function (conf) {
-                _this.star_left_blood += GameData.getTotalBlood(conf.level);
-            });
+            this.star_left_blood = batchInfo.blood;
             this.star_blood = this.star_left_blood;
             GameData.bloodGen(batchInfo);
+        }
+        else {
+            this.noBatch = true;
         }
     };
     // 创建怪物, 只针对A轮
@@ -213,6 +286,10 @@ var StartUI = (function (_super) {
                 var starConfig = StarData.StarConfig[conf.id];
                 var from = { x: 10, y: 0 };
                 var to = { x: Tools.GetRandomNum(0, 20), y: 10 };
+                // let to = { x: 10, y: 10 }
+                // if(starConfig.id == 101){
+                //     to.x=20;
+                // }
                 var dir = { x: to.x - from.x, y: to.y - from.y };
                 _this.createStar(starConfig, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir);
             }
@@ -253,6 +330,7 @@ var StartUI = (function (_super) {
                 // 生命周期结束
                 this_1.removeStar(star);
                 this_1.star_fly.splice(i, 1);
+                this_1.clear_star_fly_ex(star);
                 // 爆炸处理
                 if (star.starConfig['bomb']) {
                     var scope = star.starConfig['bomb'].scope, type = star.starConfig['bomb'].scope;
@@ -303,23 +381,37 @@ var StartUI = (function (_super) {
                 }
             }
             else {
-                star.model.x += star.speed.x * deltaTime;
-                star.model.y += star.speed.y * deltaTime;
+                star.model.x += (star.speed.x + addspeedex.x) * deltaTime;
+                star.model.y += (star.speed.y + addspeedex.y) * deltaTime;
             }
             // 反弹检测
             if (star.starConfig["rebound"]) {
                 for (var j = 0; j < this_1.star_fly.length; j++) {
                     var star_other = this_1.star_fly[j];
                     if (star_other == star)
-                        return { value: void 0 };
+                        continue;
                     if (star_other.starConfig["group"] & StarData.CAN_CO) {
                         if (Tools.starCoTest(star.model, star_other.model)) {
-                            if (star.model.x - star_other.model.x >= star.model.y - star_other.model.y) {
-                                star.speed.x *= -1;
+                            if (star.model.x - star_other.model.x > 0) {
+                                star.speed.x = Math.abs(star.speed.x);
                             }
-                            else {
-                                star.speed.y *= -1;
+                            else if (star.model.x - star_other.model.x < 0) {
+                                star.speed.x = Math.abs(star.speed.x) * -1;
                             }
+                            if (star.model.y - star_other.model.y > 0) {
+                                star.speed.y = Math.abs(star.speed.y);
+                            }
+                            else if (star.model.x - star_other.model.x < 0) {
+                                star.speed.y = Math.abs(star.speed.y) * -1;
+                            }
+                            // if (star.model.x - star_other.model.x < star.model.y - star_other.model.y) {
+                            //     star.speed.x *= -1;
+                            // } else if (star.model.x - star_other.model.x > star.model.y - star_other.model.y) {
+                            //     star.speed.y *= -1;
+                            // } else {
+                            //     star.speed.x *= -1;
+                            //     star.speed.y *= -1;
+                            // }
                             break;
                         }
                     }
@@ -373,8 +465,8 @@ var StartUI = (function (_super) {
                     console.log('scale:', r, star.model.scaleX, star.model.scaleY, lastscale, as);
                 }
             }
-            if (star.starConfig["add_blood"]) {
-                var addBlood = star.starConfig["add_blood"];
+            if (star.starConfig["add_blood_self"]) {
+                var addBlood = star.starConfig["add_blood_self"];
                 if (star['add_blood_info'] == undefined) {
                     star['add_blood_info'] = {
                         times: 0,
@@ -413,34 +505,41 @@ var StartUI = (function (_super) {
         };
         var this_1 = this, out_i_1;
         for (var i = 0; i < this.star_fly.length;) {
-            var state_1 = _loop_1(i);
+            _loop_1(i);
             i = out_i_1;
-            if (typeof state_1 === "object")
-                return state_1.value;
         }
     };
     StartUI.prototype.removeStar = function (star) {
-        star && star.model && this.removeChild(star.model);
-        star && star.label_blood && this.removeChild(star.label_blood);
+        star && star.model && star.model.parent && star.model.parent.removeChild(star.model);
+        star && star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
+        star && star.label_name && star.label_name.parent && star.label_name.parent.removeChild(star.label_name);
     };
     // 检测黑洞
     StartUI.prototype.checkEat = function () {
         //
         var _this = this;
         this.star_fly_eat.forEach(function (e) {
+            //this.addChild(e.model);
+            //if(e.label_blood) this.addChild(e.label_blood);
             var eatInfo = e.starConfig["eat"];
             for (var i = 0; i < _this.star_fly.length; i++) {
                 var star = _this.star_fly[i];
                 if (star.starConfig["eat"]) {
                     continue;
                 }
-                if (Tools.eatTest(e.model, star.model)) {
+                if ((star.starConfig["group"] & StarData.CAN_ATTACK) && Tools.eatTest(e.model, star.model)) {
                     e.blood += e.blood * eatInfo.blood;
                     e.model.scaleX += eatInfo.scale;
                     e.model.scaleY += eatInfo.scale;
                     // 黑洞吞噬怪物，直接消失，不分裂
                     _this.removeStar(star);
                     _this.star_fly.splice(i, 1);
+                    _this.clear_star_fly_ex(star);
+                    _this.star_left_blood -= (star.totalBlood + star.subBlood);
+                    if (_this.star_left_blood / _this.star_blood < 0.2) {
+                        _this.enterNewBatch();
+                    }
+                    _this.checkGameOver();
                     i--;
                 }
             }
@@ -455,9 +554,10 @@ var StartUI = (function (_super) {
                     if (star.starConfig['group'] & StarData.CAN_ATTACK) {
                         var dir = new egret.Point(star.model.x - bomb.pos.x, star.model.y - bomb.pos.y);
                         if (dir.length < bomb.scope) {
+                            // 被炸掉
                             _this.removeStar(star);
                             _this.star_fly.splice(i, 1);
-                            _this.clear_star_fly_eat(star);
+                            _this.clear_star_fly_ex(star);
                             i--;
                         }
                     }
@@ -466,11 +566,16 @@ var StartUI = (function (_super) {
         });
         this.bomb = [];
     };
-    StartUI.prototype.clear_star_fly_eat = function (star) {
+    StartUI.prototype.clear_star_fly_ex = function (star) {
         for (var i = 0; i < this.star_fly_eat.length; i++) {
             if (this.star_fly_eat[i] == star) {
                 this.star_fly_eat.splice(i, 1);
                 break;
+            }
+        }
+        for (var i = 0; i < this.star_add_blood.length; i++) {
+            if (this.star_add_blood[i] == star) {
+                this.star_add_blood.splice(i, 1);
             }
         }
     };
@@ -491,7 +596,7 @@ var StartUI = (function (_super) {
             }
         }
         if (game_over) {
-            //return this.gameOver();
+            //return this.gameOver(false);
         }
         // 遍历子弹，看是否命中，一次只命中一个？
         for (var i = 0; i < this.bullet_fly.length;) {
@@ -531,8 +636,9 @@ var StartUI = (function (_super) {
                     star.tw = null;
                 }
                 if (star.blood <= 0) {
+                    // 被打掉
                     this.star_fly.splice(i, 1);
-                    this.clear_star_fly_eat(star);
+                    this.clear_star_fly_ex(star);
                 }
                 else {
                     i++;
@@ -544,9 +650,10 @@ var StartUI = (function (_super) {
             }
         }
     };
+    // 显示血量和星球名称
     StartUI.prototype.changeBloodLable = function () {
         this.star_fly.forEach(function (star) {
-            if (star.starConfig['group'] & StarData.CAN_ATTACK) {
+            if (star && star.label_blood) {
                 star.label_blood.text = myMath.getString(star.blood);
                 star.label_blood.x = star.model.x;
                 star.label_blood.y = star.model.y;
@@ -555,11 +662,20 @@ var StartUI = (function (_super) {
                 star.label_blood.scaleX = star.model.scaleX;
                 star.label_blood.scaleY = star.model.scaleY;
             }
+            // if (star && star.label_name) {
+            //
+            //     star.label_name.x = star.model.x;
+            //     star.label_name.y = star.model.y - star.model.height / 2 * star.model.scaleY - star.label_name.height / 2;
+            //
+            //     // star.label_name.text = '' + Math.floor(star.model.x) + '|' + Math.floor(star.model.y);
+            //     // star.label_name.anchorOffsetY = star.label_name.height / 2;
+            //     // star.label_name.anchorOffsetX = star.label_name.width / 2;
+            // }
         });
     };
     // 创建一只怪
     StartUI.prototype.createStar = function (starConfig, level, blood, pos, dir, info) {
-        console.log("createStar:", level, blood, pos, dir, info);
+        //console.log("createStar:", level, blood, pos, dir, info)
         var model = ResTools.createBitmapByName(starConfig.model);
         var speed = new egret.Point(dir.x, dir.y);
         speed.normalize(starConfig.speed);
@@ -576,7 +692,13 @@ var StartUI = (function (_super) {
         if (level > 1)
             subBlood = Math.ceil(Tools.GetRandomNum(30, 80) / 100 * blood);
         blood -= subBlood;
-        this.addChild(model);
+        //this.addChild(model);
+        var layer = this.gp_layer[starConfig.layer || 0];
+        // if (layer != this.gp_layer_2) {
+        //     console.log('not gplayer2:', starConfig.layer || 0);
+        // }
+        layer.addChild(model);
+        //this.gp_layer_2.addChild(model);
         //let blood = GameData.getBlood(level);
         var star = {
             lifeTime: 0,
@@ -590,18 +712,35 @@ var StartUI = (function (_super) {
             blood: blood,
             //label_blood: null,
             life: 0,
-            scale: level / 6,
+            scale: 0.3 + 0.7 * level / 6,
         };
+        if (level == 0) {
+            star.scale = 1;
+        }
         if (blood > 0) {
-            var label_blood = new eui.Label(myMath.getString(blood));
-            label_blood.size = 60;
+            var label_blood = new egret.BitmapText();
+            label_blood.font = GameData.myFont;
+            label_blood.text = myMath.getString(blood);
+            //let label_blood = new eui.Label(myMath.getString(blood));
+            //label_blood.size = 60;
             label_blood.x = model.x;
             label_blood.y = model.y;
             label_blood.anchorOffsetX = label_blood.width / 2;
             label_blood.anchorOffsetY = label_blood.height / 2;
-            this.addChild(label_blood);
+            var layer_1 = this.gp_layer[starConfig.layer || 0];
+            layer_1.addChild(label_blood);
+            //this.addChild(label_blood);
+            //this.gp_layer_3.addChild(label_blood);
             star["label_blood"] = label_blood;
         }
+        // let label_name = new eui.Label(starConfig['name']);
+        // label_name.size = 20;
+        // label_name.anchorOffsetX = label_name.width / 2;
+        // label_name.anchorOffsetY = label_name.height / 2;
+        // label_name.x = model.x;
+        // label_name.y = model.y - model.height / 2 * model.scaleY - label_name.height / 2;
+        // this.gp_layer[starConfig.layer || 0].addChild(label_name);
+        // star["label_name"] = label_name;
         star.model.scaleX = star.scale;
         star.model.scaleY = star.scale;
         if (info) {
@@ -611,7 +750,61 @@ var StartUI = (function (_super) {
         if (starConfig["eat"]) {
             this.star_fly_eat.push(star);
         }
+        if (starConfig["fx"]) {
+            var fxInfo = starConfig["fx"];
+            var s = FxMgr.getFx(fxInfo.texture, fxInfo.json);
+            // let t = RES.getRes(fxInfo.texture);
+            // let j = RES.getRes(fxInfo.json);
+            // let s = new particle.GravityParticleSystem(t, j);
+            var myFx = {
+                star: star,
+                model: s,
+                info: fxInfo,
+            };
+            this.fx.push(myFx);
+            this.gp_layer_1.addChild(s);
+            s.start();
+            s.emitterX = 0;
+            s.emitterY = 0;
+            s.x = star.model.x;
+            s.y = star.model.y;
+            star['fx_data'] = myFx;
+        }
+        if (starConfig["add_blood_other"]) {
+            this.star_add_blood.push(star);
+        }
     };
+    // 特效跟随
+    StartUI.prototype.checkFx = function () {
+        this.fx.forEach(function (f) {
+            if (f.star) {
+                f.model.x = f.star.model.x;
+                f.model.y = f.star.model.y;
+                f.model.rotation = myMath.angle(f.star.speed);
+            }
+        });
+    };
+    StartUI.prototype.checkAddBloodOther = function (deltaTime) {
+        var _this = this;
+        if (this.last_add_boold_time + deltaTime > 1000) {
+            this.last_add_boold_time = 0;
+            this.star_add_blood.forEach(function (star_add) {
+                _this.star_fly.forEach(function (star) {
+                    if ((star.starConfig['group'] & StarData.CAN_ATTACK) && Tools.starCoTest(star_add.model, star.model)) {
+                        //console.log('addbloodother:', star.model.x, star.model.y, star_add.model.x, star_add.model.y, this.star_add_blood.length)
+                        _this.addStarBlood(star, star_add.starConfig['add_blood_other']);
+                    }
+                });
+            });
+        }
+        else {
+            this.last_add_boold_time += deltaTime;
+        }
+    };
+    StartUI.prototype.addStarBlood = function (star, ratio) {
+        star.blood += star["totalBlood"] * ratio;
+    };
+    // 播放打击特效
     StartUI.prototype.starPlayFx = function (star) {
         var _this = this;
         // 命中减速效果，只是设置个时间
@@ -627,18 +820,23 @@ var StartUI = (function (_super) {
             star.tw = egret.Tween.get(star.model);
             star.tw.to({ scaleX: 1.1, scaleY: 1.1 }, 300).to({ scaleX: 0.9, scaleY: 0.9 }, 300).call(function () {
                 //console.log('starPlayEx:', star.blood)
-                if (star.level > 1) {
-                    // 生成2个新的star
-                    var hitpos = { x: _this.boat.x, y: star.model.y + star.model.height };
-                    var pos1 = { x: star.model.x - star.model.width / 2, y: star.model.y };
-                    var pos2 = { x: star.model.x + star.model.width / 2, y: star.model.y };
-                    var dir1 = new egret.Point(pos1.x - hitpos.x, pos1.y - hitpos.y);
-                    var dir2 = new egret.Point(pos2.x - hitpos.x, pos2.y - hitpos.y);
-                    var blood1 = Math.ceil(star.subBlood * Tools.GetRandomNum(30, 70) / 100);
-                    var blood2 = star.subBlood - blood1;
-                    _this.createStar(star.starConfig, star.level - 1, blood1, pos1, dir1);
-                    _this.createStar(star.starConfig, star.level - 1, blood2, pos2, dir2);
-                }
+                // if (star.level > 1) {
+                //     // 生成2个新的star
+                //     let hitpos = { x: this.boat.x, y: star.model.y + star.model.height }
+                //     let pos1 = { x: star.model.x - star.model.width / 2, y: star.model.y }
+                //     let pos2 = { x: star.model.x + star.model.width / 2, y: star.model.y }
+                //
+                //     let dir1: egret.Point = new egret.Point(pos1.x - hitpos.x, pos1.y - hitpos.y)
+                //     let dir2: egret.Point = new egret.Point(pos2.x - hitpos.x, pos2.y - hitpos.y)
+                //
+                //     let blood1 = Math.ceil(star.subBlood * Tools.GetRandomNum(30, 70) / 100);
+                //     let blood2 = star.subBlood - blood1;
+                //
+                //     if (blood1 <= 0) blood1 = 1;
+                //     if (blood2 <= 0) blood2 = 1;
+                //     this.createStar(star.starConfig, star.level - 1, blood1, pos1, dir1)
+                //     this.createStar(star.starConfig, star.level - 1, blood2, pos2, dir2)
+                // }
                 // 如果补充库中还有库存，则生成一个
                 var batch_info = GameData.level_configs[_this.cur_level_batch];
                 if (_this.cur_add_ons < batch_info.add_ons.length) {
@@ -666,6 +864,7 @@ var StartUI = (function (_super) {
                     }
                 }
                 star.tw = null;
+                _this.checkGameOver();
             });
         }
     };
@@ -718,7 +917,7 @@ var StartUI = (function (_super) {
             bullet.anchorOffsetY = bullet.height / 2;
             bullet.x = this.boat.x; //this.boat.x - (count - 1 - 2 * i) * bullet.width/2;
             bullet.y = this.boat.y - this.boat.height / 2; //this.boat.y - this.boat.height / 2 - bullet.height / 2;
-            this.addChild(bullet);
+            this.gp_layer_4.addChild(bullet);
             egret.Tween.get(bullet).to({ x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2 }, 100);
             this.bullet_fly.push({
                 model: bullet,
@@ -731,25 +930,14 @@ var StartUI = (function (_super) {
             var bullet_1 = this.bullet_idle.shift();
             return bullet_1;
         }
-        var bullet = ResTools.createBitmapByName('bomb1_png');
+        var bullet = ResTools.createBitmapByName('bomb1');
         return bullet;
     };
     // 游戏结束检测
-    StartUI.prototype.gameOver = function () {
-        var _this = this;
+    StartUI.prototype.gameOver = function (success) {
         this.state = 'pause';
-        this.gp_root.addChild(this.gp_restart_form);
-        this.timer_left = 3;
-        this.txt_relife_time.text = '' + this.timer_left;
-        this.timer_relife = new egret.Timer(1000, 3);
-        this.timer_relife.addEventListener(egret.TimerEvent.TIMER, function () {
-            _this.timer_left--;
-            _this.txt_relife_time.text = '' + _this.timer_left;
-        }, this);
-        this.timer_relife.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function () {
-            _this.showResult();
-        }, this);
-        this.timer_relife.start();
+        GameData.cur_level++;
+        this.init();
     };
     // 复活
     StartUI.prototype.doRelife = function () {

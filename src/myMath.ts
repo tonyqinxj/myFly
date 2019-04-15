@@ -196,7 +196,7 @@ class myMath {
     public static getString(a: any): string {
         a = '' + Math.floor(a);
 
-        let ds = ['', 'K', 'M', 'T', 'A', 'B', 'C', 'D', 'E', 'AA', 'BB', 'CC', 'DD', 'EE']
+        let ds = ['', 'k', 'm', 't', 'A', 'B', 'C', 'D', 'E', 'AA', 'BB', 'CC', 'DD', 'EE']
         if (a.length < 4) return a;
         let i = Math.floor(a.length / 3);
         let m = a.length % 3;

@@ -49,6 +49,7 @@ var AssetAdapter = (function () {
                 onGetRes(data);
             }
             else {
+                console.log(source);
                 RES.getResAsync(source, onGetRes, this);
             }
         }

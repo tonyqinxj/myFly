@@ -1,11 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,7_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json",
 			"name": "preload"
 		},
 		{
-			"keys": "boat1_png,bomb1_png,star1_png,button_up_png,header_png,border_png,1_png,7_png,2_png,3_png,4_png,5_png,6_png,8_png,9_png,10_png,newParticle_json,newParticle_png",
+			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,4_json,flydata_json,myfont_json",
 			"name": "start"
 		}
 	],
@@ -131,71 +131,6 @@
 			"name": "description_json"
 		},
 		{
-			"url": "assets/game/boat1.png",
-			"type": "image",
-			"name": "boat1_png"
-		},
-		{
-			"url": "assets/game/bomb1.png",
-			"type": "image",
-			"name": "bomb1_png"
-		},
-		{
-			"url": "assets/game/star1.png",
-			"type": "image",
-			"name": "star1_png"
-		},
-		{
-			"url": "assets/game/1.png",
-			"type": "image",
-			"name": "1_png"
-		},
-		{
-			"url": "assets/game/7.png",
-			"type": "image",
-			"name": "7_png"
-		},
-		{
-			"url": "assets/game/2.png",
-			"type": "image",
-			"name": "2_png"
-		},
-		{
-			"url": "assets/game/3.png",
-			"type": "image",
-			"name": "3_png"
-		},
-		{
-			"url": "assets/game/4.png",
-			"type": "image",
-			"name": "4_png"
-		},
-		{
-			"url": "assets/game/5.png",
-			"type": "image",
-			"name": "5_png"
-		},
-		{
-			"url": "assets/game/6.png",
-			"type": "image",
-			"name": "6_png"
-		},
-		{
-			"url": "assets/game/8.png",
-			"type": "image",
-			"name": "8_png"
-		},
-		{
-			"url": "assets/game/9.png",
-			"type": "image",
-			"name": "9_png"
-		},
-		{
-			"url": "assets/game/10.png",
-			"type": "image",
-			"name": "10_png"
-		},
-		{
 			"url": "newParticle.json",
 			"type": "json",
 			"name": "newParticle_json"
@@ -204,6 +139,42 @@
 			"url": "newParticle.png",
 			"type": "image",
 			"name": "newParticle_png"
+		},
+		{
+			"url": "assets/game/flydata.png",
+			"type": "image",
+			"name": "flydata_png"
+		},
+		{
+			"url": "levels/1.json",
+			"type": "json",
+			"name": "1_json"
+		},
+		{
+			"url": "levels/2.json",
+			"type": "json",
+			"name": "2_json"
+		},
+		{
+			"url": "levels/3.json",
+			"type": "json",
+			"name": "3_json"
+		},
+		{
+			"url": "levels/4.json",
+			"type": "json",
+			"name": "4_json"
+		},
+		{
+			"url": "assets/game/myfont.json",
+			"type": "json",
+			"name": "myfont_json"
+		},
+		{
+			"url": "assets/game/flydata.json",
+			"type": "sheet",
+			"name": "flydata_json",
+			"subkeys": ".,0,1,2,3,4,5,6,7,8,9,boat1,bomb1,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9"
 		}
 	]
 }

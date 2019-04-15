@@ -1,35 +1,35 @@
 {
-  "engineVersion": "5.2.15",
-  "compilerVersion": "5.2.15",
-  "template": {},
-  "target": {
-    "current": "web"
-  },
-  "modules": [
-    {
-      "name": "egret"
-    },
-    {
-      "name": "eui"
-    },
-    {
-      "name": "assetsmanager"
-    },
-    {
-      "name": "tween"
-    },
-    {
-      "name": "game"
-    },
-    {
-      "name": "dragonBones"
-    },
-    {
-      "name": "promise"
-    },
-    {
-      "name": "particle",
-      "path": "../../egret-game-library-master/particle/libsrc"
-    }
-  ]
+	"engineVersion": "5.2.17",
+	"compilerVersion": "5.2.17",
+	"template": {},
+	"target": {
+		"current": "wxgame"
+	},
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "eui"
+		},
+		{
+			"name": "assetsmanager"
+		},
+		{
+			"name": "tween"
+		},
+		{
+			"name": "game"
+		},
+		{
+			"name": "dragonBones"
+		},
+		{
+			"name": "promise"
+		},
+		{
+			"name": "particle",
+			"path": "../../egret-game-library-master/particle/libsrc"
+		}
+	]
 }

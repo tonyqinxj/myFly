@@ -17173,7 +17173,7 @@ var egret;
          * @platform Web,Native
          * @language zh_CN
          */
-        Capabilities.engineVersion = "5.2.15";
+        Capabilities.engineVersion = "5.2.17";
         /***
          * current render mode.
          * @type {string}
@@ -18361,14 +18361,14 @@ var egret;
                         offsetX = texture.$offsetX;
                         offsetY = texture.$offsetY;
                     }
-                    // if (isFirstChar) {
-                    //     isFirstChar = false;
-                    //     textOffsetX = Math.min(offsetX, textOffsetX);
-                    // }
-                    // if (isFirstLine) {
-                    //     isFirstLine = false;
-                    //     textOffsetY = Math.min(offsetY, textOffsetY);
-                    // }
+                    if (isFirstChar) {
+                        isFirstChar = false;
+                        // textOffsetX = Math.min(offsetX, textOffsetX);
+                    }
+                    if (isFirstLine) {
+                        isFirstLine = false;
+                        // textOffsetY = Math.min(offsetY, textOffsetY);
+                    }
                     if (hasWidthSet && j > 0 && xPos + texureWidth > textFieldWidth) {
                         if (!setLineData(line.substring(0, j)))
                             break;
@@ -19260,9 +19260,6 @@ var egret;
         function TextField() {
             var _this = _super.call(this) || this;
             _this.$inputEnabled = false;
-            /**
-             * @private
-             */
             _this.inputUtils = null;
             /**
              * @private
@@ -23261,7 +23258,11 @@ var egret;
             }
         }
         var prototype = classDefinition.prototype;
-        prototype.__class__ = className;
+        Object.defineProperty(prototype, '__class__', {
+            value: className,
+            enumerable: false,
+            writable: true
+        });
         var types = [className];
         if (interfaceNames) {
             types = types.concat(interfaceNames);
@@ -23276,7 +23277,11 @@ var egret;
                 }
             }
         }
-        prototype.__types__ = types;
+        Object.defineProperty(prototype, '__types__', {
+            value: types,
+            enumerable: false,
+            writable: true
+        });
     }
     egret.registerClass = registerClass;
 })(egret || (egret = {}));
@@ -24212,7 +24217,9 @@ var egret;
             this.lastTimeStamp = timeStamp;
             this._currentCount++;
             var complete = (this.repeatCount > 0 && this._currentCount >= this.repeatCount);
-            egret.TimerEvent.dispatchTimerEvent(this, egret.TimerEvent.TIMER);
+            if (this.repeatCount == 0 || this._currentCount <= this.repeatCount) {
+                egret.TimerEvent.dispatchTimerEvent(this, egret.TimerEvent.TIMER);
+            }
             if (complete) {
                 this.stop();
                 egret.TimerEvent.dispatchTimerEvent(this, egret.TimerEvent.TIMER_COMPLETE);

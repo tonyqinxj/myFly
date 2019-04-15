@@ -20,6 +20,10 @@ export class WxgamePlugin implements plugins.Command {
             }
             else {
                 let content = file.contents.toString();
+                
+                if (filename == "libs/modules/particle/particle.js" || filename == 'libs/modules/particle/particle.min.js') {
+                    content += ";window.particle = particle;"
+                }
 
                 if (filename == "libs/modules/physics/physics.js" || filename == 'libs/modules/physics/physics.min.js') {
                     content = content.replace(/ module\.exports = a/, "window.p2 = a");

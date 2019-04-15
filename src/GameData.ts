@@ -2,6 +2,13 @@
 
 class GameData {
     // 所有的全局游戏数据放置到这里
+    public static myFont:egret.BitmapFont = null;
+
+    public static initFont():void{
+        let texture:egret.Texture = RES.getRes("flydata_png");
+        let config = RES.getRes("myfont_json");
+        this.myFont = new egret.BitmapFont(texture,config);//RES.getRes('myfont_fnt');
+    }
 
     public static main: Main = null; // main 指针
 
@@ -12,14 +19,14 @@ class GameData {
     public static score: number = 0;   // 当前分数
 
 
-    public static main_weapon: any = {attack: 3, speed: 11, bullet_speed: 2, bullet_rate: 100}; // 主武器属性
-    public static sub_weapon: any = {attack: 30, strength: 10}; // 副武器属性
+    public static main_weapon: any = { attack: 3, speed: 122, bullet_speed: 2, bullet_rate: 100 }; // 主武器属性
+    public static sub_weapon: any = { attack: 1, strength: 10 }; // 副武器属性
 
 
     public static bulletList: Array<number> = [1];    // 子弹发送顺序，发几颗
 
     public static item: any = {
-        'jitui': {endtime: 0, up: 3}
+        'jitui': { endtime: 0, up: 3 }
     }; // 全局道具，比如击退什么的
 
     public static getBlood(star_level: number): number {
@@ -33,112 +40,112 @@ class GameData {
 
 
     public static level_configs =
-        [
-            // 第1波
-            {
-                blood: 1000,
-                tip: {}, // 提示， 本轮是否有提示
-                init: [
-                    {time: 500, id: 110, level: 3, x: 100},
-                    {time: 500, id: 110, level: 3, x: 200},
-                    {time: 500, id: 110, level: 3, x: 300},
-                    {time: 500, id: 110, level: 3, x: 400},
-                    {time: 500, id: 110, level: 3, x: 500},
-                    {time: 500, id: 110, level: 3, x: 600},
-                    {time: 500, id: 110, level: 3, x: 700},
-                    {time: 500, id: 112, level: 0, x: 50},
+    [
+        // 第1波
+        {
+            blood: 1000,
+            tip: {}, // 提示， 本轮是否有提示
+            init: [
+                { time: 500, id: 106, level: 1, x: 350 },
+                { time: 500, id: 110, level: 3, x: 200 },
+                { time: 500, id: 110, level: 3, x: 300 },
+                { time: 500, id: 110, level: 3, x: 400 },
+                { time: 500, id: 110, level: 3, x: 500 },
+                { time: 500, id: 110, level: 3, x: 600 },
+                { time: 500, id: 112, level: 3, x: 700 },
+                { time: 3500, id: 101, level: 0, x: 100 },
+                //
+                // {time: 4000, id: 101, level: 1, x: 450},
+                // {time: 3000, id: 106, level: 2, x: 350},
+                // {time: 3000, id: 114, level: 2, x: 200},
+                // {time: 2000, id: 105, level: 1, x: 350},
+                // {time: 2000, id: 101, level: 1, x: 250},
+                // {time: 2000, id: 101, level: 1, x: 450},
+                // {time: 1000, id: 106, level: 2, x: 350},
+                // {time: 1000, id: 114, level: 2, x: 200},
+                // {time: 1000, id: 111, level: 2, x: 500},
+                // {time: 500, id: 110, level: 2, x: 500},
+                // {time: 1500, id: 101, level: 1, x: 240},
+                // {time: 2000, id: 101, level: 1, x: 440},
+                // {time: 2000, id: 101, level: 1, x: 375},
+                // {time: 2000, id: 101, level: 1, x: 100},
+            ],  // 初始轮, 按照时间出现
+            add_ons: [
+                { id: 101, level: 1, x: 375 },
+                { id: 101, level: 1, x: 240 },
+                { id: 101, level: 1, x: 440 },
+                { id: 101, level: 1, x: 375 },
+                { id: 101, level: 1, x: 100 },
+            ], // 补充轮, 初始轮死亡之后的补充
 
-                    {time: 4000, id: 101, level: 1, x: 450},
-                    {time: 3000, id: 106, level: 2, x: 350},
-                    {time: 3000, id: 114, level: 2, x: 200},
-                    {time: 2000, id: 105, level: 1, x: 350},
-                    {time: 2000, id: 101, level: 1, x: 250},
-                    {time: 2000, id: 101, level: 1, x: 450},
-                    {time: 1000, id: 106, level: 2, x: 350},
-                    {time: 1000, id: 114, level: 2, x: 200},
-                    {time: 1000, id: 111, level: 2, x: 500},
-                    {time: 500, id: 110, level: 2, x: 500},
-                    {time: 1500, id: 101, level: 1, x: 240},
-                    {time: 2000, id: 101, level: 1, x: 440},
-                    {time: 2000, id: 101, level: 1, x: 375},
-                    {time: 2000, id: 101, level: 1, x: 100},
-                ],  // 初始轮, 按照时间出现
-                add_ons: [
-                    {id: 101, level: 1, x: 375},
-                    {id: 101, level: 1, x: 240},
-                    {id: 101, level: 1, x: 440},
-                    {id: 101, level: 1, x: 375},
-                    {id: 101, level: 1, x: 100},
-                ], // 补充轮, 初始轮死亡之后的补充
+        },
+        // 第2波
+        {
+            blood: 1000,
+            tip: {}, // 提示， 本轮是否有提示
+            init: [
+                { time: 1000, id: 101, level: 1, x: 375 },
+                { time: 1500, id: 101, level: 1, x: 240 },
+                { time: 2000, id: 101, level: 1, x: 440 },
+                { time: 2000, id: 101, level: 1, x: 375 },
+                { time: 2000, id: 101, level: 1, x: 100 },
+            ],  // 初始轮, 按照时间出现
+            add_ons: [
+                { id: 101, level: 1, x: 375 },
+                { id: 101, level: 1, x: 240 },
+                { id: 101, level: 1, x: 440 },
+                { id: 101, level: 1, x: 375 },
+                { id: 101, level: 1, x: 100 },
+            ], // 补充轮, 初始轮死亡之后的补充
 
-            },
-            // 第2波
-            {
-                blood: 1000,
-                tip: {}, // 提示， 本轮是否有提示
-                init: [
-                    {time: 1000, id: 101, level: 1, x: 375},
-                    {time: 1500, id: 101, level: 1, x: 240},
-                    {time: 2000, id: 101, level: 1, x: 440},
-                    {time: 2000, id: 101, level: 1, x: 375},
-                    {time: 2000, id: 101, level: 1, x: 100},
-                ],  // 初始轮, 按照时间出现
-                add_ons: [
-                    {id: 101, level: 1, x: 375},
-                    {id: 101, level: 1, x: 240},
-                    {id: 101, level: 1, x: 440},
-                    {id: 101, level: 1, x: 375},
-                    {id: 101, level: 1, x: 100},
-                ], // 补充轮, 初始轮死亡之后的补充
+        },
+        // 第3波
+        {
+            blood: 1000,
+            tip: {}, // 提示， 本轮是否有提示
+            init: [
+                { time: 1000, id: 101, level: 1, x: 375 },
+                { time: 1500, id: 101, level: 1, x: 240 },
+                { time: 2000, id: 101, level: 1, x: 440 },
+                { time: 2000, id: 101, level: 1, x: 375 },
+                { time: 2000, id: 101, level: 1, x: 100 },
+            ],  // 初始轮, 按照时间出现
+            add_ons: [
+                { id: 101, level: 1, x: 375 },
+                { id: 101, level: 1, x: 240 },
+                { id: 101, level: 1, x: 440 },
+                { id: 101, level: 1, x: 375 },
+                { id: 101, level: 1, x: 100 },
+            ], // 补充轮, 初始轮死亡之后的补充
 
-            },
-            // 第3波
-            {
-                blood: 1000,
-                tip: {}, // 提示， 本轮是否有提示
-                init: [
-                    {time: 1000, id: 101, level: 1, x: 375},
-                    {time: 1500, id: 101, level: 1, x: 240},
-                    {time: 2000, id: 101, level: 1, x: 440},
-                    {time: 2000, id: 101, level: 1, x: 375},
-                    {time: 2000, id: 101, level: 1, x: 100},
-                ],  // 初始轮, 按照时间出现
-                add_ons: [
-                    {id: 101, level: 1, x: 375},
-                    {id: 101, level: 1, x: 240},
-                    {id: 101, level: 1, x: 440},
-                    {id: 101, level: 1, x: 375},
-                    {id: 101, level: 1, x: 100},
-                ], // 补充轮, 初始轮死亡之后的补充
+        },
 
-            },
+        // 第4波
+        {
+            blood: 2000,
+            tip: {
+                model: 'BOSS来袭', // 提示的模型
+                time: 1000,  // 什么时候提示，
+                wait: 3000,     // 提示之后多久开始出怪
+            }, // 提示， 本轮是否有提示
+            init: [
+                { time: 1000, id: 101, level: 1, x: 375 },
+                { time: 1500, id: 101, level: 1, x: 240 },
+                { time: 2000, id: 101, level: 1, x: 440 },
+                { time: 2000, id: 101, level: 1, x: 375 },
+                { time: 2000, id: 101, level: 1, x: 100 },
+            ],  // 初始轮, 按照时间出现
+            add_ons: [
+                { id: 101, level: 1, x: 375 },
+                { id: 101, level: 1, x: 240 },
+                { id: 101, level: 1, x: 440 },
+                { id: 101, level: 1, x: 375 },
+                { id: 101, level: 1, x: 100 },
+            ], // 补充轮, 初始轮死亡之后的补充
 
-            // 第4波
-            {
-                blood: 2000,
-                tip: {
-                    model: 'BOSS来袭', // 提示的模型
-                    time: 1000,  // 什么时候提示，
-                    wait: 3000,     // 提示之后多久开始出怪
-                }, // 提示， 本轮是否有提示
-                init: [
-                    {time: 1000, id: 101, level: 1, x: 375},
-                    {time: 1500, id: 101, level: 1, x: 240},
-                    {time: 2000, id: 101, level: 1, x: 440},
-                    {time: 2000, id: 101, level: 1, x: 375},
-                    {time: 2000, id: 101, level: 1, x: 100},
-                ],  // 初始轮, 按照时间出现
-                add_ons: [
-                    {id: 101, level: 1, x: 375},
-                    {id: 101, level: 1, x: 240},
-                    {id: 101, level: 1, x: 440},
-                    {id: 101, level: 1, x: 375},
-                    {id: 101, level: 1, x: 100},
-                ], // 补充轮, 初始轮死亡之后的补充
+        },
 
-            },
-
-        ]
+    ]
 
 
     public static bloodGen(batchInfo: any): void {
@@ -225,5 +232,9 @@ class GameData {
             }
         }
 
+    }
+    public static async genLevelData() {
+            let json = RES.getRes(this.cur_level+'_json');
+            this.level_configs = json;
     }
 }

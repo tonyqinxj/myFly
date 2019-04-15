@@ -46,6 +46,7 @@ class AssetAdapter implements eui.IAssetAdapter {
                 onGetRes(data);
             }
             else {
+                console.log(source);
                 RES.getResAsync(source, onGetRes, this);
             }
         }

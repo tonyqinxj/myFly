@@ -2,21 +2,10 @@
 <e:Skin class="StartUISkin" width="750" height="1624" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<w:Config id="169b91ebd03" ></w:Config>
 	<e:Group id="gp_root" width="750" height="1624" x="0" y="0">
-		<e:Image id="boat" x="286" y="1130.55" source="boat1_png" scaleX="1" scaleY="1"/>
-		<e:Button id="bt_use" label="修改" x="632.27" y="435.42"/>
-		<e:Group id="gp_setting" width="750" height="534.18" x="750" y="572.76" anchorOffsetX="0" anchorOffsetY="0">
-			<e:Image bottom="0" right="0" left="0" top="0" source="border_png"/>
-			<e:Label text="主武器子弹移动速度" x="60.52" y="75.48"/>
-			<e:TextInput id="txt_bullet_speed" width="198.79" height="32.12" x="406" y="73" anchorOffsetX="0" anchorOffsetY="0"/>
-			<e:TextInput id="txt_bullet_rate" width="198.79" height="32.12" x="406" y="149.36" anchorOffsetX="0" anchorOffsetY="0"/>
-			<e:Label text="主武器子弹发射频率" x="60.52" y="151.48"/>
-			<e:Button id="bt_close_setting" label="关闭" x="578.78" y="375.58"/>
-		</e:Group>
-		<e:Button id="bt_reopen" label="重开" x="630" y="324"/>
-		<e:Group id="gp_restart_form" width="452" height="368" x="162" y="730" anchorOffsetX="0" anchorOffsetY="0">
-			<e:Image source="border_png" top="0" left="0" right="0" bottom="0"/>
-			<e:Label id="txt_relife_time" text="3" x="187.5" y="64.85" size="160" bold="true" textColor="0x57bc0f"/>
-			<e:Button id="bt_relife" label="复活" x="187.5" y="243.34"/>
-		</e:Group>
+		<e:Group id="gp_layer_1" width="750" height="1624" x="0" y="0"/>
+		<e:Group id="gp_layer_2" width="750" height="1624" x="0" y="0"/>
+		<e:Group id="gp_layer_3" width="750" height="1624" x="0" y="0"/>
+		<e:Group id="gp_layer_4" width="750" height="1624" x="0" y="0"/>
+		<e:Image id="boat" x="286" y="1130.55" scaleX="1" scaleY="1" source="flydata_json.boat1"/>
 	</e:Group>
 </e:Skin>

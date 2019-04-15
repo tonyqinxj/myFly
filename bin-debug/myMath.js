@@ -188,7 +188,7 @@ var myMath = (function () {
     // 1234567      1.2m    2   1
     myMath.getString = function (a) {
         a = '' + Math.floor(a);
-        var ds = ['', 'K', 'M', 'T', 'A', 'B', 'C', 'D', 'E', 'AA', 'BB', 'CC', 'DD', 'EE'];
+        var ds = ['', 'k', 'm', 't', 'A', 'B', 'C', 'D', 'E', 'AA', 'BB', 'CC', 'DD', 'EE'];
         if (a.length < 4)
             return a;
         var i = Math.floor(a.length / 3);
@@ -204,6 +204,24 @@ var myMath = (function () {
         else {
             var second = a.substr(m, 1);
             return first + '.' + second + ds[i];
+        }
+    };
+    myMath.angle = function (dir) {
+        //返回角度,不是弧度
+        if (dir.x > 0) {
+            return 360 * Math.atan(dir.y / dir.x) / (2 * Math.PI);
+        }
+        else if (dir.x < 0) {
+            var ret = 360 * Math.atan(dir.y / dir.x) / (2 * Math.PI) + 180;
+            if (ret > 180)
+                ret -= 360;
+            return ret;
+        }
+        else {
+            if (dir.y > 0) {
+                return 90;
+            }
+            return -90;
         }
     };
     return myMath;
