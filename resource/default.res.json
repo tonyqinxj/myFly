@@ -5,7 +5,7 @@
 			"name": "preload"
 		},
 		{
-			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,4_json,flydata_json,myfont_json",
+			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,4_json,myfont_json,flydata_json",
 			"name": "start"
 		}
 	],
@@ -174,7 +174,7 @@
 			"url": "assets/game/flydata.json",
 			"type": "sheet",
 			"name": "flydata_json",
-			"subkeys": ".,0,1,2,3,4,5,6,7,8,9,boat1,bomb1,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9"
+			"subkeys": ".,0,1,2,3,4,5,6,7,8,9,b1,bb1,bbf1,boat1,bomb1,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9"
 		}
 	]
 }

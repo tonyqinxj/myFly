@@ -74,8 +74,8 @@ class StarData {
 			model:'star6',
 			speed:0.1,
 			attack_speed:0.5,
-			//group:StarData.CAN_ATTACK|StarData.CAN_CO,
-			group:0,
+			group:StarData.CAN_ATTACK|StarData.CAN_CO,
+			//group:0,
 			layer:1,
 			fx:{	// 特殊效果
 				texture:'newParticle_png',	// 特效的贴图

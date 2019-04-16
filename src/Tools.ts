@@ -137,6 +137,13 @@ class Tools {
 		return true;
 	}
 
+	public static bombTest(x:number,y:number,r:number, star:egret.DisplayObject):boolean{
+		let p:egret.Point = new egret.Point(x-star.x, y-star.y);
+		if(p.length < r) return true;
+		return false;
+
+	}
+
 	public static GetRandomNum(min: number, max: number): number {
 		if (max < min) return this.GetRandomNum(max, min);
 		else {

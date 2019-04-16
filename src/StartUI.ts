@@ -41,6 +41,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private bomb = [];
 
+    private weapon:Weapon = null;   // 僚机
+
     public constructor() {
         super();
     }
@@ -100,16 +102,27 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.star_fly_eat = [];
         this.star_add_blood = [];
         this.bomb = [];
+
+        if(this.weapon){
+            this.weapon.stop();
+        }
+
+        this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, GameData.sub_weapon.id, GameData.sub_weapon.attack, GameData.sub_weapon.strength);
+        //this.weapon.start();
+
+
+        //
+        // let d1 = ResTools.createBitmapByName('bb1');//RES.getRes("myfly1_json.1");
+        // d1.x = 300
+        // d1.y = 300;
+        // this.gp_layer_4.addChild(d1);
+        
     }
 
     private system: particle.GravityParticleSystem;
 
     private initBegin(): void {
 
-        let d1 = ResTools.createBitmapByName('star1');//RES.getRes("myfly1_json.1");
-        d1.x = 300
-        d1.y = 300;
-        this.addChild(d1);
 
         this.gp_layer.push(this.gp_layer_1);
         this.gp_layer.push(this.gp_layer_2);
@@ -129,50 +142,50 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.boat.y += this.boat.height / 2;
 
         //let font = RES.getRes('myfont2_fnt')
-        let a: egret.BitmapText = new egret.BitmapText();
-        a.font = GameData.myFont
-        a.text = '112';
-        a.x = 100;
-        a.y = 100;
-        this.addChild(a);
+        // let a: egret.BitmapText = new egret.BitmapText();
+        // a.font = GameData.myFont
+        // a.text = '112';
+        // a.x = 100;
+        // a.y = 100;
+        // this.addChild(a);
 
 
-        let a1: egret.BitmapText = new egret.BitmapText();
-        a1.font = GameData.myFont;
-        a1.text = '1';
-        a1.x = 100;
-        a1.y = 200;
-        this.gp_layer_2.addChild(a1);
-        a1.scaleX = 2;
-        a1.scaleY = 2;
+        // let a1: egret.BitmapText = new egret.BitmapText();
+        // a1.font = GameData.myFont;
+        // a1.text = '1';
+        // a1.x = 100;
+        // a1.y = 200;
+        // this.gp_layer_2.addChild(a1);
+        // a1.scaleX = 2;
+        // a1.scaleY = 2;
 
 
-        let a2: egret.BitmapText = new egret.BitmapText();
-        a2.font = GameData.myFont;
-        a2.text = '1m';
-        a2.x = 100;
-        a2.y = 300;
-        this.gp_layer_2.addChild(a2);
-        a2.scaleX = 2;
-        a2.scaleY = 2;
+        // let a2: egret.BitmapText = new egret.BitmapText();
+        // a2.font = GameData.myFont;
+        // a2.text = '1m';
+        // a2.x = 100;
+        // a2.y = 300;
+        // this.gp_layer_2.addChild(a2);
+        // a2.scaleX = 2;
+        // a2.scaleY = 2;
 
-        let a3: egret.BitmapText = new egret.BitmapText();
-        a3.font = GameData.myFont;
-        a3.text = '1111';
-        a3.x = 100;
-        a3.y = 300;
-        this.gp_layer_2.addChild(a3);
-        a3.scaleX = 2;
-        a3.scaleY = 2;
+        // let a3: egret.BitmapText = new egret.BitmapText();
+        // a3.font = GameData.myFont;
+        // a3.text = '1111';
+        // a3.x = 100;
+        // a3.y = 300;
+        // this.gp_layer_2.addChild(a3);
+        // a3.scaleX = 2;
+        // a3.scaleY = 2;
 
-        let a4: egret.BitmapText = new egret.BitmapText();
-        a4.font = GameData.myFont;
-        a4.text = '1m';
-        a4.x = 100;
-        a4.y = 300;
-        this.gp_layer_2.addChild(a4);
-        a4.scaleX = 2;
-        a4.scaleY = 2;
+        // let a4: egret.BitmapText = new egret.BitmapText();
+        // a4.font = GameData.myFont;
+        // a4.text = '1m';
+        // a4.x = 100;
+        // a4.y = 300;
+        // this.gp_layer_2.addChild(a4);
+        // a4.scaleX = 2;
+        // a4.scaleY = 2;
 
         // let b: egret.BitmapText = new egret.BitmapText();
         // b.font = GameData.myFont;
@@ -280,12 +293,17 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.checkBulletOver();
         }
 
+        this.weapon && this.weapon.update(deltaTime, this.star_fly);
+
+        this.playFxOrTestDie();
         this.checkEat();
         this.checkBomb();
         this.checkAddBloodOther(deltaTime);
         this.changeBloodLable();
 
-        this.checkFx();
+        this.checkFx(); // 拖尾等伴随特效
+
+
         //this.checkGameOver();
     }
 
@@ -678,7 +696,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
-    // 攻击检测
+    // 子弹移动，并进行攻击检测
     private checkAttack(deltaTime): void {
         // 子弹飞，并检测是否打到boat
         let speed = GameData.main_weapon.bullet_speed;
@@ -738,7 +756,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 i++;
             }
         }
+    }
 
+    // 播放怪物伤害特效，并检测怪物是否死亡
+    private playFxOrTestDie():void{
         for (let i = 0; i < this.star_fly.length;) {
             let star = this.star_fly[i];
             if (star.need_fx) {
@@ -832,7 +853,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
         layer.addChild(model);
 
         //this.gp_layer_2.addChild(model);
-        //let blood = GameData.getBlood(level);
 
         let star = {
             lifeTime: 0,         // 存活时间
@@ -962,9 +982,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     // 播放打击特效
     private starPlayFx(star: any): void {
-
         // 命中减速效果，只是设置个时间
-        star.snowTime = star.starConfig.snow_time + egret.getTimer();
+        if(star.starConfig.snow_time) star.snowTime = star.starConfig.snow_time + egret.getTimer();
 
         // 命中击退效果
         if (GameData.item['jitui']) {
@@ -1035,6 +1054,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
+    // 检测子弹跑出屏幕
     private checkBulletOver(): void {
         for (let i = 0; i < this.bullet_fly.length;) {
             let bullet = this.bullet_fly[i].model;
@@ -1064,6 +1084,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.send_timer.start();
         }
 
+        this.weapon && this.weapon.start()
     }
 
     // 子弹发送结束
@@ -1073,12 +1094,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.send_timer = null;
         }
 
+        this.weapon && this.weapon.stop()
     }
+
 
     // 发出一颗子弹
     private sendBullet(): void {
-
-
         let count = GameData.bulletList[this.send_index];
         this.send_index++;
         if (this.send_index == GameData.bulletList.length) {
