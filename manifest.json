@@ -12,7 +12,7 @@
 	],
 	"game": [
 		"bin-debug/Weapon.js",
-		"bin-debug/OverUI.js",
+		"bin-debug/ResTools.js",
 		"bin-debug/FxMgr.js",
 		"bin-debug/GameData.js",
 		"bin-debug/GameUI.js",
@@ -21,9 +21,9 @@
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/myMath.js",
-		"bin-debug/BodyGroup.js",
+		"bin-debug/OverUI.js",
 		"bin-debug/Platform.js",
-		"bin-debug/ResTools.js",
+		"bin-debug/BodyGroup.js",
 		"bin-debug/StarData.js",
 		"bin-debug/StartUI.js",
 		"bin-debug/ThemeAdapter.js",
@@ -31,6 +31,9 @@
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/Weapon1.js",
 		"bin-debug/Weapon2.js",
+		"bin-debug/Weapon3.js",
+		"bin-debug/Weapon4.js",
+		"bin-debug/Weapon5.js",
 		"bin-debug/WingMan.js"
 	]
 }

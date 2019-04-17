@@ -263,9 +263,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
     // 帧时间，逻辑循环从这里开始
     private onEnterFrame(e: egret.Event): void {
 
+        if(this.state == 'init') return;
+
         if (this.lastFramTime == 0) this.lastFramTime = egret.getTimer();
         let deltaTime = egret.getTimer() - this.lastFramTime;
         this.lastFramTime = egret.getTimer();
+        if(deltaTime<10 ||deltaTime>500) return;
 
         if (this.state == 'game') {
             // 处于游戏状态
@@ -745,6 +748,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
                         }
                         // 播放特效
                         star.need_fx = true;
+                        if (GameData.item['jitui']) {
+                            star['jitui'] = GameData.item['jitui'].up;
+                        }
 
                         hit = true;
                     }
@@ -990,10 +996,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
         if(star.starConfig.snow_time) star.snowTime = star.starConfig.snow_time + egret.getTimer();
 
         // 命中击退效果
-        if (GameData.item['jitui']) {
-            star.model.y -= GameData.item['jitui'].up;
+        if(star['jitui']){
+
+            star.model.y -= star['jitui'];
             if (star.model.y < 0) star.model.y = 0;
+
+            star['jitui'] = 0;
         }
+
 
         // 死亡效果，包括分裂，补充库的处理
         if (star.blood <= 0) {

@@ -10,6 +10,9 @@ class Weapon1 extends Weapon {
 
     private bullets: Array<any> = new Array<any>();
 
+    private scaleStart:number = 0.4;        // 初始子弹大小
+    private scaleTime:number = 400;         // 放大时间
+    private bulletScale: number = 1;        // 体积，成长
 
     private bullets_free = [];
     private fxs_free = [];
@@ -44,6 +47,12 @@ class Weapon1 extends Weapon {
 
         fun = this.config['bombScope'];
         if (fun) this.bombScope = fun(this.attack); //火力决定
+
+        fun = this.config['bulletScale'];
+        if (fun) this.bulletScale = fun(this.strength);
+
+        this.scaleStart = this.config['data']['scale']['start'];
+        this.scaleTime = this.config['data']['scale']['time'];
 
         // 提前创建2个子弹
         let b = [];
@@ -182,6 +191,8 @@ class Weapon1 extends Weapon {
         model.anchorOffsetX = model.width / 2
         model.anchorOffsetY = model.height / 2
         model.rotation = bconf.angle * -1 + 90;
+        model.scaleX = this.scaleStart;
+        model.scaleY = this.scaleStart;
         this.p.addChild(model);
 
         let speed: egret.Point = new egret.Point(Math.cos(bconf.angle / 180 * Math.PI), -1 * Math.sin(bconf.angle / 180 * Math.PI));
@@ -194,5 +205,8 @@ class Weapon1 extends Weapon {
         }
 
         this.bullets.push(bulletdata);
+
+        egret.Tween.get(model).to({scaleX:this.bulletScale, scaleY:this.bulletScale}, this.scaleTime);
+
     }
 }
