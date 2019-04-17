@@ -101,7 +101,7 @@ class StarData {
 			attack_speed:0,
 			group:0,
 			layer:0,
-			add_blood_other:0.1, // 给别人加血
+			add_blood_other:0.1, // 给别人加血, 每秒加
 		},// 慧尾
 
 		'108':{

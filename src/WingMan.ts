@@ -20,11 +20,14 @@ class WingMan{
         '1':{
             'model':'bb1',
             'weaponRatio':function (strength:number) {
-                return 0;       // 本僚机没有充能时间
-            },                  // 武器充能时间配置
+                return 500;
+            },                  // 武器充能时间配置，本武器充能好之后，就发射一枚子弹，交叉左右发射
             'bulletRatio':function (strength:number) {
                 return 500;
-            },                  // 每发子弹发送间隔，这个是可以成长的, todo:成长公式或者表格
+            },  // 每发子弹发送间隔，本武器此属性无用
+            'bombScope':function (strength:number) {
+                return 300;
+            },  // 子弹碰到人之后的爆炸范围
             'data':{          // 其他特殊配置
                 'bulletconfig':[         // 每次需要发送的子弹的初始值，这个是固定的
                     {
@@ -40,7 +43,6 @@ class WingMan{
                 ],
                 'flySpeed':1,       // 每ms飞行的距离
                 'flyTime':800,     // 每颗子弹的生命周期
-                'bombScope':300,    // 爆炸范围
                 'bombfx':'bbf1',     // 爆炸特效
             },
         }, // 高爆弹
