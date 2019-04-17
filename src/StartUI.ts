@@ -281,6 +281,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.starMove(deltaTime);
             this.checkAttack(deltaTime);
             this.checkBulletOver();
+
+            this.weapon && this.weapon.update(deltaTime, deltaTime, this.star_fly);
         } else {
             // 手离开屏幕，则
             // 1. 怪物的移动速度将为原来的20%
@@ -291,9 +293,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.starMove(deltaTime);       // todo: test use,
             this.checkAttack(deltaTime);
             this.checkBulletOver();
+
+            this.weapon && this.weapon.update(deltaTime, deltaTime, this.star_fly);
         }
 
-        this.weapon && this.weapon.update(deltaTime, this.star_fly);
+
 
         this.playFxOrTestDie();
         this.checkEat();

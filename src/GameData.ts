@@ -30,7 +30,7 @@ class GameData {
     public static sub_weapon: any = {
         attack: 1,          // 火力
         strength: 10,       // 强度
-        id:1,               // id
+        id:2,               // id
     }; // 副武器属性
     public static bulletList: Array<number> = [1];    // 子弹发送顺序，发几颗
     public static item: any = {

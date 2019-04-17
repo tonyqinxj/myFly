@@ -43,7 +43,7 @@ class Weapon1 extends Weapon {
         if (fun) this.weaponRatio = fun(this.strength);
 
         fun = this.config['bombScope'];
-        if (fun) this.bombScope = fun(this.strength);
+        if (fun) this.bombScope = fun(this.attack); //火力决定
 
         // 提前创建2个子弹
         let b = [];
@@ -79,7 +79,7 @@ class Weapon1 extends Weapon {
     }
 
     // 帧函数，子弹的移动，子弹的碰撞检测，子弹的生命周期检测
-    public update(deltaTime: number, star_flys: Array<any>): void {
+    public update(deltaTime: number, deltaTime_snow:number, star_flys: Array<any>): void {
 
         //console.log('update weapon...' + deltaTime)
         let needBombs = [];
@@ -190,7 +190,6 @@ class Weapon1 extends Weapon {
         let bulletdata = {
             model: model,
             speed: speed,
-            bombScope: this.config["data"]["bombScope"],
             endTime: egret.getTimer() + this.config["data"]["flyTime"],
         }
 

@@ -137,9 +137,10 @@ class Tools {
 		return true;
 	}
 
+	// 爆炸范围检测,star的中心进入范围
 	public static bombTest(x:number,y:number,r:number, star:egret.DisplayObject):boolean{
 		let p:egret.Point = new egret.Point(x-star.x, y-star.y);
-		if(p.length < r) return true;
+		if(p.length <= r) return true;
 		return false;
 
 	}

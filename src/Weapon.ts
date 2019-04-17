@@ -30,7 +30,7 @@ class Weapon{
     }
 
     // 帧函数
-    public update(deltaTime:number, star_flys:Array<any>):void{
+    public update(deltaTime:number, deltaTime_snow:number,  star_flys:Array<any>):void{
 
     }
 }

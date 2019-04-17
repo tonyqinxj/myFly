@@ -30,6 +30,7 @@
 		"bin-debug/Tools.js",
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/Weapon1.js",
+		"bin-debug/Weapon2.js",
 		"bin-debug/WingMan.js"
 	]
 }
