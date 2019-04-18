@@ -125,5 +125,35 @@ class WingMan {
             }
 
         }, // 冲击波
+        '4':{
+            'model':'bb1',
+            'weaponRatio': function (strength: number) {
+                return 5000; // 武器充能时间配置，本武器充能好之后，就发射一波子弹
+            },
+            'bulletScale': function (attack:number) {
+                return 1;   // 体积成长
+            },
+            'bombScope': function (attack: number) {
+                return 300;
+            },  // 子弹碰到人之后的爆炸范围
+
+            'data':{
+                'fly':{
+                    'speedStart':0.3,
+                    'speedEnd':0.1,
+                    'time':1500,
+                }, // 每ms飞行的距离, 一个减速的过程
+                'scale':{
+                    'start':0.5,    // 其实大小，相对于原始图
+                    'time':1000,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
+                },
+                'fx':'bbf1',        // 爆炸特效
+                'snow':{
+                    'time':2000,    // 减速时长
+                    'speedRatio':0.1,// 减速比例
+                }
+            }
+
+        }, // 闪点球
     }
 }

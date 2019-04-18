@@ -28,7 +28,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private real_height: number = 1624;	// 屏幕使用高度
 
-    private last_pos: any = { x: 0, y: 0 }	// 用于主机移动的辅助，记录上一次的位置，用来算每帧之间的相对位置
+    private last_pos: any = {x: 0, y: 0}	// 用于主机移动的辅助，记录上一次的位置，用来算每帧之间的相对位置
 
     private send_index = 0;	// 主机火力辅助变量，控制一次发送几个子弹
     private send_timer: egret.Timer = null;	// 主机子弹发射定时器
@@ -41,7 +41,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private bomb = [];
 
-    private weapon:Weapon = null;   // 僚机
+    private weapon: Weapon = null;   // 僚机
 
     public constructor() {
         super();
@@ -60,26 +60,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     }
 
-    private test(): void {
-        let r: egret.Texture = RES.getRes('7_png');
-        let p = r.getPixel32(100, 100);
-        let pp = ''
-        p.forEach(p1 => {
-            pp += p1.toString(16)
-        })
-
-        let b = r.getPixels(120, 120, 2, 2);
-        let bb = ''
-        b.forEach(p1 => {
-            bb += p1.toString(16)
-        })
-
-        console.log(pp, bb)
-    }
-
     private init(): void {
-        //console.log('init call',)
-        //this.test();
 
         this.noBatch = false;
         this.wait_end = false;
@@ -103,26 +84,17 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.star_add_blood = [];
         this.bomb = [];
 
-        if(this.weapon){
+        if (this.weapon) {
             this.weapon.stop();
         }
 
         this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, GameData.sub_weapon.id, GameData.sub_weapon.attack, GameData.sub_weapon.strength);
-        //this.weapon.start();
 
-
-        //
-        // let d1 = ResTools.createBitmapByName('bb1');//RES.getRes("myfly1_json.1");
-        // d1.x = 300
-        // d1.y = 300;
-        // this.gp_layer_4.addChild(d1);
-        
     }
 
     private system: particle.GravityParticleSystem;
 
     private initBegin(): void {
-
 
         this.gp_layer.push(this.gp_layer_1);
         this.gp_layer.push(this.gp_layer_2);
@@ -141,62 +113,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.boat.x += this.boat.width / 2;
         this.boat.y += this.boat.height / 2;
 
-        //let font = RES.getRes('myfont2_fnt')
-        // let a: egret.BitmapText = new egret.BitmapText();
-        // a.font = GameData.myFont
-        // a.text = '112';
-        // a.x = 100;
-        // a.y = 100;
-        // this.addChild(a);
-
-
-        // let a1: egret.BitmapText = new egret.BitmapText();
-        // a1.font = GameData.myFont;
-        // a1.text = '1';
-        // a1.x = 100;
-        // a1.y = 200;
-        // this.gp_layer_2.addChild(a1);
-        // a1.scaleX = 2;
-        // a1.scaleY = 2;
-
-
-        // let a2: egret.BitmapText = new egret.BitmapText();
-        // a2.font = GameData.myFont;
-        // a2.text = '1m';
-        // a2.x = 100;
-        // a2.y = 300;
-        // this.gp_layer_2.addChild(a2);
-        // a2.scaleX = 2;
-        // a2.scaleY = 2;
-
-        // let a3: egret.BitmapText = new egret.BitmapText();
-        // a3.font = GameData.myFont;
-        // a3.text = '1111';
-        // a3.x = 100;
-        // a3.y = 300;
-        // this.gp_layer_2.addChild(a3);
-        // a3.scaleX = 2;
-        // a3.scaleY = 2;
-
-        // let a4: egret.BitmapText = new egret.BitmapText();
-        // a4.font = GameData.myFont;
-        // a4.text = '1m';
-        // a4.x = 100;
-        // a4.y = 300;
-        // this.gp_layer_2.addChild(a4);
-        // a4.scaleX = 2;
-        // a4.scaleY = 2;
-
-        // let b: egret.BitmapText = new egret.BitmapText();
-        // b.font = GameData.myFont;
-        // b.text = '1111'
-        // b.width = this.boat.width ;
-        // b.height = this.boat.height;
-        // b.anchorOffsetX = b.width / 2;
-        // b.anchorOffsetY = b.height / 2;
-        // this.gp_root.addChild(b);
-        //  b.x = this.boat.x;
-        // b.y = this.boat.y;
 
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTap, this);
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
@@ -263,51 +179,41 @@ class StartUI extends eui.Component implements eui.UIComponent {
     // 帧时间，逻辑循环从这里开始
     private onEnterFrame(e: egret.Event): void {
 
-        if(this.state == 'init') return;
+        if (this.state == 'init') return;
 
         if (this.lastFramTime == 0) this.lastFramTime = egret.getTimer();
         let deltaTime = egret.getTimer() - this.lastFramTime;
         this.lastFramTime = egret.getTimer();
-        if(deltaTime<10 ||deltaTime>500) return;
+        if (deltaTime < 10 || deltaTime > 500) return;
+
+        let deltaTime_snow = deltaTime;
 
         if (this.state == 'game') {
             // 处于游戏状态
             this.game_time += deltaTime;
             if (this.cur_level_batch == -1) {
-
                 this.enterNewBatch();
-
                 return;
             }
-
+            // 生成怪物
             this.starCreate(deltaTime);
-            this.starMove(deltaTime);
-            this.checkAttack(deltaTime);
-            this.checkBulletOver();
-
-            this.weapon && this.weapon.update(deltaTime, deltaTime, this.star_fly);
         } else {
             // 手离开屏幕，则
             // 1. 怪物的移动速度将为原来的20%
             // 2. 子弹速度不变，用于回收已经发出去的子弹
-
-
-            //this.starMove(deltaTime * 0.2);
-            this.starMove(deltaTime);       // todo: test use,
-            this.checkAttack(deltaTime);
-            this.checkBulletOver();
-
-            this.weapon && this.weapon.update(deltaTime, deltaTime, this.star_fly);
+            deltaTime_snow = deltaTime ;
         }
 
+        this.starMove(deltaTime_snow);   // 怪物移动，包括减速等逻辑
+        this.checkBulle(deltaTime);    // 主武器子弹逻辑
 
-
-        this.playFxOrTestDie();
-        this.checkEat();
-        this.checkBomb();
+        this.weapon && this.weapon.update(deltaTime, deltaTime_snow, this.star_fly); // 僚机
+        this.checkJitui();  // 击退
+        this.checkEat();    // 黑洞
+        this.checkBomb();   // 炸弹
         this.checkAddBloodOther(deltaTime);
+        this.checkStarDie();   // 检查怪物死亡(blood<=0)
         this.changeBloodLable();
-
         this.checkFx(); // 拖尾等伴随特效
 
 
@@ -316,9 +222,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private noBatch = false; // 无怪可刷
     private wait_end = false;
+
     private checkGameOver(): void {
         if (!this.noBatch) return;
-
 
 
         for (let i = 0; i < this.star_fly.length; i++) {
@@ -367,15 +273,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
         batch_info.init.forEach(conf => {
             if (conf.time <= this.game_time && conf.time > last_game_time) {
                 let starConfig = StarData.StarConfig[conf.id];
-                let from = { x: 10, y: 0 }
-                let to = { x: Tools.GetRandomNum(0, 20), y: 10 }
+                let from = {x: 10, y: 0}
+                let to = {x: Tools.GetRandomNum(0, 20), y: 10}
                 // let to = { x: 10, y: 10 }
                 // if(starConfig.id == 101){
                 //     to.x=20;
                 // }
-                let dir = { x: to.x - from.x, y: to.y - from.y }
+                let dir = {x: to.x - from.x, y: to.y - from.y}
 
-                this.createStar(starConfig, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir)
+                this.createStar(starConfig, conf.level, conf["blood"], {x: conf.x, y: 0}, dir)
 
             }
         })
@@ -422,9 +328,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 // 生命周期结束
                 this.removeStar(star);
                 this.star_fly.splice(i, 1)
-                this.clear_star_fly_ex(star);
-
-
                 // 爆炸处理
                 if (star.starConfig['bomb']) {
                     let scope = star.starConfig['bomb'].scope,
@@ -454,7 +357,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 let follow = star.starConfig["follow"]
                 // 进入了区间
                 if (star["follow_speed"] == undefined) {
-                    star["follow_speed"] = { x: 0, y: 0 }
+                    star["follow_speed"] = {x: 0, y: 0}
                 }
 
                 let follow_speed = star["follow_speed"]
@@ -474,17 +377,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
             }
 
             // 攻击导致的减速结束处理
-            if (star.snowTime > 0) {
-                star.model.x += (star.speed.x + addspeedex.x) * deltaTime * star.starConfig.attack_speed;
-                star.model.y += (star.speed.y + addspeedex.y) * deltaTime * star.starConfig.attack_speed;
-                if (star.snowTime < egret.getTimer()) {
-                    star.snowTime = 0;
-                    console.log('速度恢复：', star.speed)
-                }
-            } else {
-                star.model.x += (star.speed.x + addspeedex.x) * deltaTime;
-                star.model.y += (star.speed.y + addspeedex.y) * deltaTime;
-            }
+            let snowRatio = MonsterTools.getSnowRatio(star, deltaTime);
+            star.model.x += (star.speed.x + addspeedex.x) * deltaTime * snowRatio;
+            star.model.y += (star.speed.y + addspeedex.y) * deltaTime * snowRatio;
 
             // 反弹检测
             if (star.starConfig["rebound"]) {
@@ -607,7 +502,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                             this.createStar(sconfig, createInfo.level, 0, {
                                 x: star.model.x,
                                 y: star.model.y
-                            }, { x: 0, y: 0 }, createInfo)
+                            }, {x: 0, y: 0}, createInfo)
 
                             star['last_create'] = egret.getTimer();
                         }
@@ -622,7 +517,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     }
 
+    // 击退逻辑，在所有移动和攻击之后调用
+    private checkJitui(): void {
+        this.star_fly.forEach(star => {
+            MonsterTools.doJitui(star);
+        })
+    }
+
     private removeStar(star: any): void {
+        this.clear_star_fly_ex(star);
         star && star.model && star.model.parent && star.model.parent.removeChild(star.model);
         star && star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
         star && star.label_name && star.label_name.parent && star.label_name.parent.removeChild(star.label_name);
@@ -651,8 +554,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     // 黑洞吞噬怪物，直接消失，不分裂
                     this.removeStar(star);
                     this.star_fly.splice(i, 1)
-                    this.clear_star_fly_ex(star);
-
                     this.star_left_blood -= (star.totalBlood + star.subBlood);
 
                     if (this.star_left_blood / this.star_blood < 0.2) {
@@ -666,6 +567,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         })
     }
 
+    // 处理炸弹效果
     private checkBomb(): void {
         this.bomb.forEach(bomb => {
             if (bomb.type == 1) {
@@ -677,7 +579,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
                             // 被炸掉
                             this.removeStar(star);
                             this.star_fly.splice(i, 1);
-                            this.clear_star_fly_ex(star);
                             i--;
                         }
                     }
@@ -704,7 +605,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     // 子弹移动，并进行攻击检测
-    private checkAttack(deltaTime): void {
+    private checkBulle(deltaTime): void {
         // 子弹飞，并检测是否打到boat
         let speed = GameData.main_weapon.bullet_speed;
         let dis = speed * deltaTime;
@@ -727,32 +628,34 @@ class StartUI extends eui.Component implements eui.UIComponent {
             //return this.gameOver(false);
         }
 
-
         // 遍历子弹，看是否命中，一次只命中一个？
         for (let i = 0; i < this.bullet_fly.length;) {
             let bullet = this.bullet_fly[i].model
             bullet.y -= dis;
 
-
             let rect = new egret.Rectangle(bullet.x - bullet.width / 2, bullet.y - bullet.height / 2, bullet.width, bullet.height + dis);
             let hit = false;
 
             for (let j = 0; j < this.star_fly.length; j++) {
-
                 let star = this.star_fly[j];
                 if (star.starConfig['group'] & StarData.CAN_ATTACK) {
                     if (rect.intersects(star.my_rect)) {
-                        star.blood -= GameData.main_weapon.attack;
-                        if (star.blood < 0) {
-                            star.blood = 0;
-                        }
-                        // 播放特效
-                        star.need_fx = true;
-                        if (GameData.item['jitui']) {
-                            star['jitui'] = GameData.item['jitui'].up;
+
+                        // 命中减速效果，只是设置个时间
+                        if (star.starConfig.snow_time) {
+                            MonsterTools.pushSnow(star, 'hit', star.starConfig.attack_speed || 1, star.starConfig.snow_time);
                         }
 
+                        // 击退效果
+                        if (GameData.item['jitui']) {
+                            MonsterTools.pushJitui(star, 'hit', GameData.item['jitui'].up);
+                        }
+
+                        // 播放主武器命中特效 todo
+                        MonsterTools.delHp(star, GameData.main_weapon.attack);
                         hit = true;
+
+                        break;
                     }
                 }
             }
@@ -766,29 +669,69 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 i++;
             }
         }
+
+        this.checkBulletOver(); // 主武器子弹消失
     }
 
-    // 播放怪物伤害特效，并检测怪物是否死亡
-    private playFxOrTestDie():void{
+    // 怪物死亡, 受伤死亡， 不包括黑洞和炸弹清屏幕
+    private checkStarDie(): void {
         for (let i = 0; i < this.star_fly.length;) {
             let star = this.star_fly[i];
-            if (star.need_fx) {
-                star.need_fx = false;
+            if (star.blood <= 0) {
+                this.star_fly.splice(i, 1);
+                this.removeStar(star);
 
-                if (star.tw) {
-                    egret.Tween.removeTweens(star.model);
-                    star.tw = null;
+                if (star.level > 1) {
+                    // 生成2个新的star
+                    let hitpos = {x: this.boat.x, y: star.model.y + star.model.height}
+                    let pos1 = {x: star.model.x - star.model.width / 2, y: star.model.y}
+                    let pos2 = {x: star.model.x + star.model.width / 2, y: star.model.y}
+
+                    let dir1: egret.Point = new egret.Point(pos1.x - hitpos.x, pos1.y - hitpos.y)
+                    let dir2: egret.Point = new egret.Point(pos2.x - hitpos.x, pos2.y - hitpos.y)
+
+                    let blood1 = Math.ceil(star.subBlood * Tools.GetRandomNum(30, 70) / 100);
+                    let blood2 = star.subBlood - blood1;
+
+                    if (blood1 <= 0) blood1 = 1;
+                    if (blood2 <= 0) blood2 = 1;
+                    this.createStar(star.starConfig, star.level - 1, blood1, pos1, dir1)
+                    this.createStar(star.starConfig, star.level - 1, blood2, pos2, dir2)
                 }
 
-                if (star.blood <= 0) {
-                    // 被打掉
-                    this.star_fly.splice(i, 1);
-                    this.clear_star_fly_ex(star);
-                } else {
-                    i++;
+                // 如果补充库中还有库存，则生成一个
+                let batch_info = GameData.level_configs[this.cur_level_batch]
+                if (this.cur_add_ons < batch_info.add_ons.length) {
+                    let conf = batch_info.add_ons[this.cur_add_ons]
+
+                    let starConfig = StarData.StarConfig[conf.id];
+                    let from = {x: 10, y: 0}
+                    let to = {x: Tools.GetRandomNum(0, 20), y: 10}
+                    let dir = {x: to.x - from.x, y: to.y - from.y}
+                    this.createStar(starConfig, conf.level, conf["blood"], {x: conf.x, y: 0}, dir);
+
+                    this.cur_add_ons++;
                 }
 
-                this.starPlayFx(star);
+
+
+                this.star_left_blood -= star.totalBlood;
+                if (this.star_left_blood / this.star_blood < 0.2) {
+                    this.enterNewBatch();
+                }
+
+                if (star.starConfig["create_new_star"]) {
+                    let createInfo = star.starConfig["create_new_star"]
+                    if (createInfo.time == 0) {
+                        let sconfig = StarData.StarConfig[createInfo.id];
+                        this.createStar(sconfig, createInfo.level, 0, {
+                            x: star.model.x,
+                            y: star.model.y
+                        }, {x: 0, y: 0}, createInfo)
+                    }
+                }
+                star.tw = null;
+                this.checkGameOver();
 
             } else {
                 i++;
@@ -823,8 +766,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
             // }
 
 
-
-
         })
     }
 
@@ -847,7 +788,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         if (info) {
             model.scaleX = info.scaleX;
             model.scaleY = info.scaleY;
-            egret.Tween.get(model).to({ scaleX: info.scale.scaleX, scaleY: info.scale.scaleY }, info.scale.time);
+            egret.Tween.get(model).to({scaleX: info.scale.scaleX, scaleY: info.scale.scaleY}, info.scale.time);
         }
 
         let subBlood = 0;
@@ -870,7 +811,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
             starConfig: starConfig, // 怪物的配置
             level: level,       // 怪物等级
             speed: speed,       // 当前速度
-            snowTime: 0,         // 被攻击之后的减速结束时间点，结束之后恢复到starConfig中的speed
             totalBlood: blood,   // 自己总血量
             subBlood: subBlood,  // 分裂的总血量
             blood: blood,       // 剩余血量
@@ -896,7 +836,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             label_blood.y = model.y;
             label_blood.anchorOffsetX = label_blood.width / 2;
             label_blood.anchorOffsetY = label_blood.height / 2;
-            let layer =this.gp_layer[starConfig.layer || 0];
+            let layer = this.gp_layer[starConfig.layer || 0];
             layer.addChild(label_blood);
             //this.addChild(label_blood);
             //this.gp_layer_3.addChild(label_blood);
@@ -967,6 +907,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     // 彗尾给别人加血
     private last_add_boold_time: number = 0;
+
     private checkAddBloodOther(deltaTime): void {
         if (this.last_add_boold_time + deltaTime > 1000) {
             this.last_add_boold_time = 0;
@@ -990,83 +931,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
         star.blood += star["totalBlood"] * ratio;
     }
 
-    // 播放打击特效
-    private starPlayFx(star: any): void {
-        // 命中减速效果，只是设置个时间
-        if(star.starConfig.snow_time) star.snowTime = star.starConfig.snow_time + egret.getTimer();
-
-        // 命中击退效果
-        if(star['jitui']){
-
-            star.model.y -= star['jitui'];
-            if (star.model.y < 0) star.model.y = 0;
-
-            star['jitui'] = 0;
-        }
-
-
-        // 死亡效果，包括分裂，补充库的处理
-        if (star.blood <= 0) {
-            star.tw = egret.Tween.get(star.model);
-            star.tw.to({ scaleX: 1.1, scaleY: 1.1 }, 300).to({ scaleX: 0.9, scaleY: 0.9 }, 300).call(() => {
-                //console.log('starPlayEx:', star.blood)
-                if (star.level > 1) {
-                    // 生成2个新的star
-                    let hitpos = { x: this.boat.x, y: star.model.y + star.model.height }
-                    let pos1 = { x: star.model.x - star.model.width / 2, y: star.model.y }
-                    let pos2 = { x: star.model.x + star.model.width / 2, y: star.model.y }
-
-                    let dir1: egret.Point = new egret.Point(pos1.x - hitpos.x, pos1.y - hitpos.y)
-                    let dir2: egret.Point = new egret.Point(pos2.x - hitpos.x, pos2.y - hitpos.y)
-
-                    let blood1 = Math.ceil(star.subBlood * Tools.GetRandomNum(30, 70) / 100);
-                    let blood2 = star.subBlood - blood1;
-
-                    if (blood1 <= 0) blood1 = 1;
-                    if (blood2 <= 0) blood2 = 1;
-                    this.createStar(star.starConfig, star.level - 1, blood1, pos1, dir1)
-                    this.createStar(star.starConfig, star.level - 1, blood2, pos2, dir2)
-                }
-
-                // 如果补充库中还有库存，则生成一个
-                let batch_info = GameData.level_configs[this.cur_level_batch]
-                if (this.cur_add_ons < batch_info.add_ons.length) {
-                    let conf = batch_info.add_ons[this.cur_add_ons]
-
-                    let starConfig = StarData.StarConfig[conf.id];
-                    let from = { x: 10, y: 0 }
-                    let to = { x: Tools.GetRandomNum(0, 20), y: 10 }
-                    let dir = { x: to.x - from.x, y: to.y - from.y }
-                    this.createStar(starConfig, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir);
-
-                    this.cur_add_ons++;
-                }
-
-                this.removeStar(star);
-
-                this.star_left_blood -= star.totalBlood;
-                if (this.star_left_blood / this.star_blood < 0.2) {
-                    this.enterNewBatch();
-                }
-
-                if (star.starConfig["create_new_star"]) {
-                    let createInfo = star.starConfig["create_new_star"]
-                    if (createInfo.time == 0) {
-                        let sconfig = StarData.StarConfig[createInfo.id];
-                        this.createStar(sconfig, createInfo.level, 0, {
-                            x: star.model.x,
-                            y: star.model.y
-                        }, { x: 0, y: 0 }, createInfo)
-                    }
-                }
-
-
-                star.tw = null;
-
-                this.checkGameOver();
-            });
-        }
-    }
 
     // 检测子弹跑出屏幕
     private checkBulletOver(): void {
@@ -1129,7 +993,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             bullet.y = this.boat.y - this.boat.height / 2; //this.boat.y - this.boat.height / 2 - bullet.height / 2;
             this.gp_layer_4.addChild(bullet);
 
-            egret.Tween.get(bullet).to({ x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2 }, 100);
+            egret.Tween.get(bullet).to({x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2}, 100);
 
             this.bullet_fly.push({
                 model: bullet,

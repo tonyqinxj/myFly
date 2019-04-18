@@ -28,9 +28,9 @@ class GameData {
         bullet_rate: 100    // 子弹发射频率
     }; // 主武器属性
     public static sub_weapon: any = {
-        attack: 1,          // 火力
+        attack: 11,          // 火力
         strength: 10,       // 强度
-        id:2,               // id
+        id:4,               // id
     }; // 副武器属性
     public static bulletList: Array<number> = [1];    // 子弹发送顺序，发几颗
     public static item: any = {

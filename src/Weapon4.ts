@@ -2,26 +2,32 @@
  * Created by Administrator on 2019/4/16 0016.
  */
 class Weapon4 extends Weapon {
-
-
     private timer_send: egret.Timer = null; // 发射子弹
 
     private weaponRatio: number = 3000;        //  充能时长，每次结束之后都需要充能这么久
-    private bulletRatio: number = 300;       //  子弹发送频率
-    private bulletCount: number = 3;        //  容量，能量桶
-
-    private flySpeed: number = 0;            // 飞行速度
-
-    private scaleStart:number = 0.4;        // 初始子弹大小
-    private scaleTime:number = 400;         // 放大时间
     private bulletScale: number = 1;        // 体积，成长
+    private bombScope: number = 300;         // 爆炸范围
+
+    private fly: any = {
+        speedStart: 1,
+        speedEnd: 0.5,
+        time: 2000,
+    };
+
+    private snow: any = {
+        time: 2000,
+        speedRatio: 0.2,
+    };
+    // 飞行速度
+    private scaleStart: number = 0.4;        // 初始子弹大小
+    private scaleTime: number = 400;         // 放大时间
 
     private energy: number = 0;              // 当前能量
 
     private bullets: Array<any> = new Array<any>();
     private bullets_free = [];
 
-    private fx = null;
+    private fx = [];
 
     private state: number = 0;              // 0的时候充能， 1的时候放能
 
@@ -37,13 +43,13 @@ class Weapon4 extends Weapon {
 
     // 特效创建
     private createFx() {
-        if (this.fx == null) {
-            let modelname = this.config['data']['fx']
-            this.fx = ResTools.createBitmapByName(modelname);
-            egret.Tween.get(this.fx, {loop: true}).to({alpha: 0.5}, 300).to({alpha: 1}, 300);
+        if (this.fx.length) {
+            return this.fx.shift();
+
         }
 
-        return this.fx
+        let modelname = this.config['data']['fx']
+        return ResTools.createBitmapByName(modelname);
     }
 
     //
@@ -56,18 +62,16 @@ class Weapon4 extends Weapon {
         let fun = this.config['weaponRatio'];
         if (fun) this.weaponRatio = fun(this.strength);
 
-        fun = this.config['bulletRatio'];
-        if (fun) this.bulletRatio = fun(this.strength);
-
-        fun = this.config['bulletCount'];
-        if (fun) this.bulletCount = fun(this.strength);
-
         fun = this.config['bulletScale'];
         if (fun) this.bulletScale = fun(this.strength);
 
-        this.flySpeed = this.config['data']['flySpeed'];
+        fun = this.config['bombScope'];
+        if (fun) this.bombScope = fun(this.strength);
+
         this.scaleStart = this.config['data']['scale']['start'];
         this.scaleTime = this.config['data']['scale']['time'];
+        this.fly = this.config['data']['fly'];
+        this.snow = this.config['data']['snow'];
 
         // 提前创建2个子弹
         let b = [];
@@ -76,69 +80,71 @@ class Weapon4 extends Weapon {
         }
         b.forEach(bb => this.bullets_free.push(bb));
 
-        this.createFx()
+        this.fx.push(this.createFx());
 
     }
 
     // 启动
     public start(): void {
-
+        this.canSend = true;
     }
 
     // 暂停
     public stop(): void {
-
+        this.canSend = false;
     }
 
+    private canSend = false;
     // 帧函数，子弹的移动，子弹的碰撞检测，子弹的生命周期检测
     public update(deltaTime: number, deltaTime_snow: number, star_flys: Array<any>): void {
-        // 充能
-        if (this.state == 0) {
-            this.energy += deltaTime_snow;
-            if (this.energy >= this.bulletRatio) {
-                this.energy = 0;
-                this.state = 1;
-                this.beginSend();
-            }
 
-            return;
+        // 充能
+        this.energy += deltaTime_snow;
+        if (this.energy >= this.weaponRatio) {
+            this.energy = 0;
+            this.sendBullet();
         }
 
+
+        let bombs = [];
+
         // 子弹飞行
-        for (let i = 0; i < this.bullets.length;) {
+        for (let i = 0; i < this.bullets.length; i++) {
             // 先移动
             let data = this.bullets[i];
-            let oldy = data.model.y;
-            data.model.y -= this.flySpeed * deltaTime;
+            let speed = this.fly.speedStart;
+            if (data.flyTime >= this.fly.time) speed = this.fly.speedEnd;
+            else if (data.flyTime > 0) {
+                let r2 = (this.fly.time - data.flyTime) / this.fly.time;
+                let r1 = 1 - r2;
+                speed = this.fly.speedStart * r1 + this.fly.speedEnd * r2;
+            }
 
-            let rect: egret.Rectangle = new egret.Rectangle(
-                data.model.x - data.model.width / 2 * data.model.scaleX,
-                data.model.y - data.model.height / 2 * data.model.scaleY,
-                data.model.width * data.model.scaleX,
-                data.model.height * data.model.scaleY + this.flySpeed * deltaTime
-            )
+            data.model.y -= speed * deltaTime;
 
-            star_flys.forEach(star => {
+            for (let j = 0; j < star_flys.length; j++) {
+                let star = star_flys[j];
                 if (star.starConfig['group'] & StarData.CAN_ATTACK) {
-                    let rect_star: egret.Rectangle = new egret.Rectangle(
-                        star.model.x - star.model.width / 2 * star.model.scaleX,
-                        star.model.y - star.model.height / 2 * star.model.scaleY,
-                        star.model.width * star.model.scaleX,
-                        star.model.height * star.model.scaleY
-                    )
 
-                    if (rect.intersection(rect_star)) {
-                        star.need_fx = true;
-                        star.blood -= this.attack;
-                        if (star.blood < 0) {
-                            star.blood = 0;
-                        }
+                    if (Tools.starCoTest(star.model, data.model)) {
+                        // 碰到怪物，则子弹消失，播放子弹爆炸特效，并检测爆炸范围
+
+                        bombs.push({
+                            x: data.model.x,
+                            y: data.model.y,
+                        })
+
+                        this.bullets.splice(i, 1);
+                        data.model.parent && data.model.parent.removeChild(data.model);
+
+                        i--;
+                        break;
                     }
 
-                    // 播放打击特效
-                    // 是否
+
                 }
-            })
+            }
+
 
         }
 
@@ -150,27 +156,57 @@ class Weapon4 extends Weapon {
                 data.model.parent && data.model.parent.removeChild(data.model)
                 this.bullets_free.push(data.model);
                 this.bullets.splice(i, 1)
+
+                if (this.bullets.length == 0) {
+                    this.state = 0;
+                }
+
             } else {
                 i++;
             }
         }
+
+        bombs.forEach(p => {
+
+            this.playFx(p.x, p.y);
+
+            for (let j = 0; j < star_flys.length; j++) {
+                let star = star_flys[j];
+                let r = star.model.width / 2 * star.model.scaleX + this.bombScope / 2;
+                if (Tools.bombTest(p.x, p.y, r, star.model)) {
+
+                    // 怪物减速设置
+                    if (this.snow) {
+                        MonsterTools.pushSnow(star, 'weapon4', this.snow.speedRatio, this.snow.time)
+                    }
+
+                    MonsterTools.delHp(star, this.attack);
+
+                }
+
+                // 播放打击特效
+                // 是否
+            }
+        })
     }
 
 
-    private beginSend(): void {
-        this.sendBullet();
-        if (this.bulletCount > 1) {
-            this.timer_send = new egret.Timer(this.bulletRatio, this.bulletCount);
-            this.timer_send.addEventListener(egret.TimerEvent.TIMER, this.sendBullet, this);
-            this.timer_send.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.sendOver, this);
-            this.timer_send.start();
-        }
+    private playFx(x: number, y: number): void {
+        let fx = this.createFx();
+        fx.x = x;
+        fx.y = y;
+        fx.anchorOffsetX = fx.width / 2;
+        fx.anchorOffsetY = fx.height / 2;
 
-    }
-
-    private sendOver(): void {
-        this.timer_send = null;
-        this.state = 0;
+        let scale = this.bombScope / fx.width;
+        fx.scaleX = scale;
+        fx.scaleY = scale;
+        fx.alpha = 1;
+        this.p.addChild(fx);
+        egret.Tween.get(fx).to({alpha: 0.9}, this.snow.time).call(() => {
+            this.p.removeChild(fx);
+            this.fx.push(fx);
+        })
     }
 
     // 发送一颗子弹
@@ -192,11 +228,12 @@ class Weapon4 extends Weapon {
 
         let bulletdata = {
             model: model,
+            flyTime: 0,
         }
 
         this.bullets.push(bulletdata);
 
-        egret.Tween.get(model).to({scaleX:this.bulletScale, scaleY:this.bulletScale}, this.scaleTime);
+        egret.Tween.get(model).to({scaleX: this.bulletScale, scaleY: this.bulletScale}, this.scaleTime);
 
     }
 }

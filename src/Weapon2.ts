@@ -168,10 +168,9 @@ class Weapon2 extends Weapon {
 
             let len = bdata.model.height / 2 + this.flySpeed * deltaTime;
             if (this.target == bdata.target && Tools.bombTest(oldx, oldy, len, this.target.model)) {
-                this.target.need_fx = true;
-                this.target.blood -= GameData.sub_weapon.attack;
-                if (this.target.blood < 0) {
-                    this.target.blood = 0;
+
+                MonsterTools.delHp(this.target, GameData.sub_weapon.attack);
+                if (this.target.blood <= 0) {
                     this.target = null; // 需要切换target
                     this.setState(Weapon2.STATE_INT)
                 }

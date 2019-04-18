@@ -122,11 +122,7 @@ class Weapon5 extends Weapon {
                     )
 
                     if (rect.intersection(rect_star)) {
-                        star.need_fx = true;
-                        star.blood -= this.attack;
-                        if (star.blood < 0) {
-                            star.blood = 0;
-                        }
+                            MonsterTools.delHp(star, this.attack);
                     }
 
                     // 播放打击特效

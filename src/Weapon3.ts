@@ -92,16 +92,13 @@ class Weapon3 extends Weapon {
 
         // 充能
         if (this.state == 0) {
-
             this.energy += deltaTime_snow;
-            if (this.energy >= this.bulletRatio) {
+            if (this.energy >= this.weaponRatio) {
                 this.energy = 0;
                 this.state = 1;
                 this.beginSend();
 
             }
-
-
             return;
         }
 
@@ -130,7 +127,6 @@ class Weapon3 extends Weapon {
                     )
 
                     if (rect.intersects(rect_star)) {
-                        star.need_fx = true;
                         star.blood -= this.attack;
                         if (star.blood < 0) {
                             star.blood = 0;
