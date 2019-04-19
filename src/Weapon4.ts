@@ -117,8 +117,10 @@ class Weapon4 extends Weapon {
             else if (data.flyTime > 0) {
                 let r2 = (this.fly.time - data.flyTime) / this.fly.time;
                 let r1 = 1 - r2;
-                speed = this.fly.speedStart * r1 + this.fly.speedEnd * r2;
+                speed = this.fly.speedStart * r2 + this.fly.speedEnd * r1;
             }
+
+            data.flyTime += deltaTime;
 
             data.model.y -= speed * deltaTime;
 

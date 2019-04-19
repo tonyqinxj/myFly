@@ -3,8 +3,8 @@
     "blood": 10000,
     "tip": {},
     "init": [
-      { "time":500, "id":101,"level":5,"x":350 },
-       { "time":500, "id":103,"level":5,"x":350 }
+      { "time":500, "id":101,"level":1,"x":350 ,"items":2},
+      { "time":500, "id":101,"level":1,"x":350 ,"items":2}
 
     ],
 

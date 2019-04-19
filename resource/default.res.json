@@ -174,7 +174,13 @@
 			"url": "assets/game/flydata.json",
 			"type": "sheet",
 			"name": "flydata_json",
-			"subkeys": ".,0,1,2,3,4,5,6,7,8,9,b1,bb1,bbf1,boat1,bomb1,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9"
+			"subkeys": ".,0,1,2,3,4,5,6,7,8,9,b1,bb1,bbf1,boat1,bomb1,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,ireduceBoat,ireducess,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9"
+		},
+		{
+			"url": "assets/game/11.json",
+			"type": "sheet",
+			"name": "11_json",
+			"subkeys": ".,_,bb1,boat1,star2,star7"
 		}
 	]
 }

@@ -12,6 +12,12 @@ class Weapon3 extends Weapon {
     private scaleTime: number = 400;         // 放大时间
     private bulletScale: number = 1;        // 体积，成长
 
+    private fly: any = {
+        speedStart: 1,
+        speedEnd: 0.5,
+        time: 2000,
+    };
+
     private energy: number = 0;              // 当前能量
 
     private bullets: Array<any> = new Array<any>();
@@ -64,6 +70,7 @@ class Weapon3 extends Weapon {
         this.scaleStart = this.config['data']['scale']['start'];
         this.scaleTime = this.config['data']['scale']['time'];
         this.flySpeed = this.config['data']['flySpeed'];
+        this.fly = this.config['data']['fly'];
 
         // 提前创建2个子弹
         let b = [];
@@ -107,13 +114,24 @@ class Weapon3 extends Weapon {
             // 先移动
             let data = this.bullets[i];
             let oldy = data.model.y;
-            data.model.y -= this.flySpeed * deltaTime;
+
+            let speed = this.fly.speedStart;
+            if (data.flyTime >= this.fly.time) speed = this.fly.speedEnd;
+            else if (data.flyTime > 0) {
+                let r2 = (this.fly.time - data.flyTime) / this.fly.time;
+                let r1 = 1 - r2;
+                speed = this.fly.speedStart * r2 + this.fly.speedEnd * r1;
+            }
+
+            data.flyTime += deltaTime;
+
+            data.model.y -= speed * deltaTime;
 
             let rect: egret.Rectangle = new egret.Rectangle(
                 data.model.x - data.model.width / 2 * data.model.scaleX,
                 data.model.y - data.model.height / 2 * data.model.scaleY,
                 data.model.width * data.model.scaleX,
-                data.model.height * data.model.scaleY + this.flySpeed * deltaTime
+                data.model.height * data.model.scaleY + speed * deltaTime
             )
 
             for (let j = 0; j < star_flys.length; j++) {
@@ -198,6 +216,7 @@ class Weapon3 extends Weapon {
 
         let bulletdata = {
             model: model,
+            flyTime:0,
         }
 
         this.bullets.push(bulletdata);

@@ -44,4 +44,10 @@ class FxMgr{
         return this.loadFx(t,j);
 
     }
+
+    public static releaseFx(t:string, j:string,s:particle.GravityParticleSystem):void{
+        this.fxmap.push({
+                   t,j,s
+                })
+    }
 }

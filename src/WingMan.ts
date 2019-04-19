@@ -117,6 +117,11 @@ class WingMan {
             },
             'data':{
                 'flySpeed':2.5, // 每ms飞行的距离
+                'fly':{
+                    'speedStart':1.3,
+                    'speedEnd':3.1,
+                    'time':1500,
+                }, // 每ms飞行的距离, 一个减速的过程
                 'scale':{
                     'start':0.5,    // 其实大小，相对于原始图
                     'time':100,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
@@ -134,7 +139,7 @@ class WingMan {
                 return 1;   // 体积成长
             },
             'bombScope': function (attack: number) {
-                return 300;
+                return 500;
             },  // 子弹碰到人之后的爆炸范围
 
             'data':{

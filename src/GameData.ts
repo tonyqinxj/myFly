@@ -23,22 +23,17 @@ class GameData {
     public static myFont:egret.BitmapFont = null; // 美术数字
     public static main_weapon: any = {
         attack: 3,  // 火力，每颗子弹的伤害
-        speed: 11, // 射速
+        speed: 111, // 射速
         bullet_speed: 2,    // 子弹飞行速度
         bullet_rate: 100    // 子弹发射频率
     }; // 主武器属性
     public static sub_weapon: any = {
-        attack: 11,          // 火力
+        attack: 111,          // 火力
         strength: 10,       // 强度
-        id:4,               // id
+        id:3,               // id
     }; // 副武器属性
     public static bulletList: Array<number> = [1];    // 子弹发送顺序，发几颗
-    public static item: any = {
-        'jitui': {
-            endtime: 0, // 是道具结束的时间点
-            up: 3       // 每次被击退的距离
-        },
-    }; // 当前全局道具，比如击退什么的
+
     public static level_configs = [] // 当前关卡数据，由/levels/*.json提供数据
 
     // 美术字的初始化
@@ -46,6 +41,14 @@ class GameData {
         let texture:egret.Texture = RES.getRes("flydata_png");
         let config = RES.getRes("myfont_json");
         this.myFont = new egret.BitmapFont(texture,config);//RES.getRes('myfont_fnt');
+    }
+    public static getMainAttack():number{
+        let item = MonsterTools.getItem('addHitAttack')
+
+        let attck = this.main_weapon.attack
+        if(item) attck += item['config']['ratio']
+
+        return attck;
     }
     // 对一波怪物的血量进行初始化
     public static bloodGen(batchInfo: any): void {
@@ -74,6 +77,11 @@ class GameData {
     // 根据主武器的射速生成弹夹
     public static genBulletList(): void {
         let speed = GameData.main_weapon.speed;
+        let item = MonsterTools.getItem('addHitSpeed');
+        if(item){
+            speed += item['config']['ratio'];
+        }
+
         if (speed <= 10) {
             return;
         }

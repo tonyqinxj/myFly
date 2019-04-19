@@ -55,6 +55,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         super.childrenCreated();
 
         GameData.initFont();
+        MonsterTools.itemPanel = this.gp_layer_2;
         //FxMgr.init();
         this.initBegin();
 
@@ -96,6 +97,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private initBegin(): void {
 
+
         this.gp_layer.push(this.gp_layer_1);
         this.gp_layer.push(this.gp_layer_2);
         this.gp_layer.push(this.gp_layer_3);
@@ -121,6 +123,21 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
 
+
+        let anm:myTestAnm = new myTestAnm();
+        anm.x = 375;
+        anm.y = 600;
+        anm.rotation = 180;
+    
+        this.addChild(anm);
+        anm.play();
+
+
+        // let kkk=ResTools.createBitmapByName('ihitspeed')
+        // kkk.x = 350;
+        // kkk.y = 300;
+
+        // this.addChild(kkk);
     }
 
     // 点击屏幕
@@ -146,8 +163,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
         let deltax = e.stageX - this.last_pos.x;
         let deltay = e.$stageY - this.last_pos.y;
 
-        this.boat.x += deltax;
-        this.boat.y += deltay;
+        let ratio = 1
+        let item = MonsterTools.getItem('reduceBoatMove');
+        if(item) ratio = item['config']['ratio'];
+        this.boat.x += deltax * ratio;
+        this.boat.y += deltay * ratio;
 
         if (this.boat.x > 750) this.boat.x = 750;
         else if (this.boat.x < 0) this.boat.x = 0;
@@ -211,10 +231,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.checkJitui();  // 击退
         this.checkEat();    // 黑洞
         this.checkBomb();   // 炸弹
-        this.checkAddBloodOther(deltaTime);
+        this.checkAddBloodOther(deltaTime); // 给别人加血
         this.checkStarDie();   // 检查怪物死亡(blood<=0)
+        this.checkScale();  // 处理体型
         this.changeBloodLable();
         this.checkFx(); // 拖尾等伴随特效
+        MonsterTools.updateItems(deltaTime_snow);
+
+        this.checkItem(deltaTime_snow);
 
 
         //this.checkGameOver();
@@ -281,7 +305,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 // }
                 let dir = {x: to.x - from.x, y: to.y - from.y}
 
-                this.createStar(starConfig, conf.level, conf["blood"], {x: conf.x, y: 0}, dir)
+                this.createStar(starConfig, conf['items']||0, conf.level, conf["blood"], {x: conf.x, y: 0}, dir)
 
             }
         })
@@ -416,61 +440,74 @@ class StartUI extends eui.Component implements eui.UIComponent {
             }
 
 
+            let dirchange = false;
             // 位置根据屏幕进行调整
             if (star.model.y - star.model.height / 2 * star.model.scaleY < 0) {
                 star.model.y = star.model.height / 2 * star.model.scaleY;
                 star.speed.y *= -1;
+                dirchange = true;
             }
             if (star.model.x - star.model.width / 2 * star.model.scaleX < 0) {
                 star.model.x = star.model.width / 2 * star.model.scaleX;
                 star.speed.x *= -1;
+                dirchange = true;
             }
             if (star.model.x + star.model.width / 2 * star.model.scaleX > 750) {
                 star.model.x = 750 - star.model.width / 2 * star.model.scaleX;
                 star.speed.x *= -1;
+                dirchange = true;
             }
             if (star.model.y - star.model.height / 2 * star.model.scaleY >= this.real_height) {
                 star.model.y = 0;
+                dirchange = true;
+            }
+
+            if(dirchange){
+                if(star['fx_data']){
+                    star.fx_data.model.stop();
+                    this.deleteFx(star.fx_data);
+                    this.createFx(star, star.fx_data.info);
+                }
             }
 
 
-            // 体型随时间进行变化
-            if (star.starConfig["scale_info"]) {
-                let scale_info = star.starConfig['scale_info']
-                let totalTime = 0;
-                scale_info.forEach(as => {
-                    totalTime += as.time;
-                })
-
-                let lifeTime = star.lifeTime % totalTime;
-                let curTime = 0;
-                let as = null;
-                let lastscale = {
-                    scaleX: 1,
-                    scaleY: 1,
-                }
-                for (let i = 0; i < scale_info.length; i++) {
-                    as = scale_info[i];
-                    if (lifeTime < curTime + as.time && lifeTime >= curTime) {
-                        break;
-                    }
-
-                    curTime += as.time;
-                    lastscale.scaleX = as.scaleX;
-                    lastscale.scaleY = as.scaleY;
-                }
-
-                let r = (lifeTime - curTime) / as.time;
-
-                if (as.wait == false) {
-                    star.model.scaleX = lastscale.scaleX * r + as.scaleX * (1 - r);
-                    star.model.scaleY = lastscale.scaleY * r + as.scaleY * (1 - r);
-                    star.model.scaleX *= star.scale;
-                    star.model.scaleY *= star.scale;
-
-                    console.log('scale:', r, star.model.scaleX, star.model.scaleY, lastscale, as);
-                }
-            }
+            // // 体型随时间进行变化
+            // if (star.starConfig["scale_info"]) {
+            //     let scale_info = star.starConfig['scale_info']
+            //     let totalTime = 0;
+            //     scale_info.forEach(as => {
+            //         totalTime += as.time;
+            //     })
+            //
+            //     let lifeTime = star.lifeTime % totalTime;
+            //     let curTime = 0;
+            //     let as = null;
+            //     let lastscale = {
+            //         scaleX: 1,
+            //         scaleY: 1,
+            //     }
+            //     for (let i = 0; i < scale_info.length; i++) {
+            //         as = scale_info[i];
+            //         if (lifeTime < curTime + as.time && lifeTime >= curTime) {
+            //             break;
+            //         }
+            //
+            //         curTime += as.time;
+            //         lastscale.scaleX = as.scaleX;
+            //         lastscale.scaleY = as.scaleY;
+            //     }
+            //
+            //     let r = (lifeTime - curTime) / as.time;
+            //
+            //     if (as.wait == false) {
+            //         star.model.scaleX = lastscale.scaleX * r + as.scaleX * (1 - r);
+            //         star.model.scaleY = lastscale.scaleY * r + as.scaleY * (1 - r);
+            //         star.model.scaleX *= star.scale;
+            //         star.model.scaleY *= star.scale;
+            //
+            //         console.log('scale:', r, star.model.scaleX, star.model.scaleY, lastscale, as);
+            //     }
+            // }
 
             if (star.starConfig["add_blood_self"]) {
                 let addBlood = star.starConfig["add_blood_self"];
@@ -499,7 +536,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     if (star['last_create']) {
                         if (egret.getTimer() - star['last_create'] >= createInfo.time) {
                             let sconfig = StarData.StarConfig[createInfo.id];
-                            this.createStar(sconfig, createInfo.level, 0, {
+                            this.createStar(sconfig, 0, createInfo.level, 0, {
                                 x: star.model.x,
                                 y: star.model.y
                             }, {x: 0, y: 0}, createInfo)
@@ -525,6 +562,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private removeStar(star: any): void {
+        star && star.fx_data && star.fx_data.parent && star.fx_data.parent.removeChild(star.fx_data);
         this.clear_star_fly_ex(star);
         star && star.model && star.model.parent && star.model.parent.removeChild(star.model);
         star && star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
@@ -647,12 +685,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
                         }
 
                         // 击退效果
-                        if (GameData.item['jitui']) {
-                            MonsterTools.pushJitui(star, 'hit', GameData.item['jitui'].up);
+                        let itemHitBack =MonsterTools.getItem('hitBack')
+                        if (itemHitBack) {
+                            MonsterTools.pushJitui(star, 'hit', itemHitBack['config']['up']);
                         }
 
                         // 播放主武器命中特效 todo
-                        MonsterTools.delHp(star, GameData.main_weapon.attack);
+                        MonsterTools.delHp(star, GameData.getMainAttack());
                         hit = true;
 
                         break;
@@ -677,7 +716,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private checkStarDie(): void {
         for (let i = 0; i < this.star_fly.length;) {
             let star = this.star_fly[i];
-            if (star.blood <= 0) {
+            if (star.life == 0 && star.blood <= 0) {
                 this.star_fly.splice(i, 1);
                 this.removeStar(star);
 
@@ -695,8 +734,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
                     if (blood1 <= 0) blood1 = 1;
                     if (blood2 <= 0) blood2 = 1;
-                    this.createStar(star.starConfig, star.level - 1, blood1, pos1, dir1)
-                    this.createStar(star.starConfig, star.level - 1, blood2, pos2, dir2)
+                    this.createStar(star.starConfig, 0, star.level - 1, blood1, pos1, dir1)
+                    this.createStar(star.starConfig, 0, star.level - 1, blood2, pos2, dir2)
                 }
 
                 // 如果补充库中还有库存，则生成一个
@@ -708,7 +747,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     let from = {x: 10, y: 0}
                     let to = {x: Tools.GetRandomNum(0, 20), y: 10}
                     let dir = {x: to.x - from.x, y: to.y - from.y}
-                    this.createStar(starConfig, conf.level, conf["blood"], {x: conf.x, y: 0}, dir);
+                    this.createStar(starConfig, conf['items']||0, conf.level, conf["blood"], {x: conf.x, y: 0}, dir);
 
                     this.cur_add_ons++;
                 }
@@ -724,13 +763,20 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     let createInfo = star.starConfig["create_new_star"]
                     if (createInfo.time == 0) {
                         let sconfig = StarData.StarConfig[createInfo.id];
-                        this.createStar(sconfig, createInfo.level, 0, {
+                        this.createStar(sconfig, 0, createInfo.level, 0, {
                             x: star.model.x,
                             y: star.model.y
                         }, {x: 0, y: 0}, createInfo)
                     }
                 }
                 star.tw = null;
+
+
+                // 全局道具产生
+                if(star.items > 0){
+                    this.createItems(star.model.x, star.model.y, star.items);
+                }
+
                 this.checkGameOver();
 
             } else {
@@ -739,6 +785,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
+    private checkScale():void{
+        this.star_fly.forEach(star=>{
+            MonsterTools.doScale(star);
+        })
+    }
     // 显示血量和星球名称
     private changeBloodLable(): void {
         this.star_fly.forEach(star => {
@@ -770,9 +821,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     // 创建一只怪
-    private createStar(starConfig: any, level: number, blood: number, pos: any, dir: any, info?: any): void {
+    private createStar(starConfig: any, items:number, level: number, blood: number, pos: any, dir: any, info?: any): void {
 
-        //console.log("createStar:", level, blood, pos, dir, info)
+        console.log("createStar:", level, blood, pos, dir, info)
 
         let model = ResTools.createBitmapByName(starConfig.model);
 
@@ -785,11 +836,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
         model.x = pos.x;
         model.y = pos.y;
 
-        if (info) {
-            model.scaleX = info.scaleX;
-            model.scaleY = info.scaleY;
-            egret.Tween.get(model).to({scaleX: info.scale.scaleX, scaleY: info.scale.scaleY}, info.scale.time);
-        }
+        // if (info) {
+        //     model.scaleX = info.scaleX;
+        //     model.scaleY = info.scaleY;
+        //     egret.Tween.get(model).to({scaleX: info.scale.scaleX, scaleY: info.scale.scaleY}, info.scale.time);
+        // }
 
         let subBlood = 0;
         if (level > 1) subBlood = Math.ceil(Tools.GetRandomNum(30, 80) / 100 * blood);
@@ -809,6 +860,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             lifeTime: 0,         // 存活时间
             model: model,           // 怪物模型
             starConfig: starConfig, // 怪物的配置
+            items:items,  // 怪物死亡爆道具数量
             level: level,       // 怪物等级
             speed: speed,       // 当前速度
             totalBlood: blood,   // 自己总血量
@@ -820,9 +872,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         };
 
-        if (level == 0) {
-            star.scale = 1;
-        }
 
         if (blood > 0) {
             let label_blood: egret.BitmapText = new egret.BitmapText();
@@ -854,8 +903,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
         // star["label_name"] = label_name;
 
 
-        star.model.scaleX = star.scale;
-        star.model.scaleY = star.scale;
+        // star.model.scaleX = star.scale;
+        // star.model.scaleY = star.scale;
 
         if (info) {
             star.life = info.life;
@@ -869,30 +918,127 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         if (starConfig["fx"]) {
             let fxInfo = starConfig["fx"];
-            let s = FxMgr.getFx(fxInfo.texture, fxInfo.json);
-            // let t = RES.getRes(fxInfo.texture);
-            // let j = RES.getRes(fxInfo.json);
-            // let s = new particle.GravityParticleSystem(t, j);
-            let myFx = {
-                star: star,
-                model: s,
-                info: fxInfo,
-            };
-            this.fx.push(myFx);
-            this.gp_layer_1.addChild(s);
-            s.start();
-            s.emitterX = 0;
-            s.emitterY = 0;
-            s.x = star.model.x;
-            s.y = star.model.y;
-
-            star['fx_data'] = myFx;
+            this.createFx(star, fxInfo);
         }
 
         if (starConfig["add_blood_other"]) {
             this.star_add_blood.push(star);
         }
+
+        MonsterTools.doScale(star);
     }
+
+
+    private items=[];// 全局道具
+    // 创建全局道具
+    private createItems(x:number, y:number, nums:number):void{
+        for(let i=0;i<nums;i++){
+            let rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
+            //let rand = 8;
+            let itemConfig = ItemData.itemConfig[rand-1];
+
+            let model = ResTools.createBitmapByName(itemConfig.model);
+            model.x =x + Tools.GetRandomNum(1, 30) - 15;
+            model.y =y - Tools.GetRandomNum(1, 30) ;
+            this.addChild(model);
+
+            let speed:egret.Point = new egret.Point(Tools.GetRandomNum(0, 10)-5, Tools.GetRandomNum(0, 10)-5);
+            speed.normalize(ItemData.itemFlySpeed);
+
+            this.items.push({
+                config:itemConfig,
+                model:model,
+                speed:speed,
+                flyTime:0,
+                lifeTime:ItemData.itemFlyTime,
+            })
+        }
+    }
+
+    // 全局道具主逻辑
+    private checkItem(deltaTime:number):void{
+        // fly
+        for(let i=0;i<this.items.length;i++){
+            let item = this.items[i]
+            item.flyTime += deltaTime;
+            if(item.flyTime > item.lifeTime){
+                item.model.parent && item.model.parent.removeChild(item.model);
+                this.items.splice(i,1)
+                i--
+                break;
+            }
+
+            item.model.x += item.speed.x * deltaTime;
+            item.model.y += item.speed.y * deltaTime;
+
+            if(item.model.x <= 0){
+                item.model.x =0;
+                item.speed.x *=-1;
+
+            }
+
+            if(item.model.x >= 750){
+                item.model.x = 750;
+                item.speed.x *= -1;
+            }
+
+            if(item.model.y <= 0){
+                item.model.y = 0;
+                item.speed.y *= -1;
+            }
+
+            if(item.model.y >= this.real_height){
+                item.model.y = 0;
+            }
+        }
+
+        for(let i=0;i<this.items.length;i++){
+            let item = this.items[i]
+            if(Tools.starCoTest(this.boat, item.model)){
+                MonsterTools.addItem(item.config);
+                item.model.parent && item.model.parent.removeChild(item.model);
+                this.items.splice(i,1)
+                i--;
+            }
+        }
+    }
+
+
+
+    private createFx(star:any, fxInfo:any){
+        let s = FxMgr.getFx(fxInfo.texture, fxInfo.json);
+        // let t = RES.getRes(fxInfo.texture);
+        // let j = RES.getRes(fxInfo.json);
+        // let s = new particle.GravityParticleSystem(t, j);
+        let myFx = {
+            star: star,
+            model: s,
+            info: fxInfo,
+        };
+        this.fx.push(myFx);
+        this.gp_layer_1.addChild(s);
+        s.start();
+        s.emitterX = 0;
+        s.emitterY = 0;
+        s.x = star.model.x;
+        s.y = star.model.y;
+
+        
+
+        star['fx_data'] = myFx;
+    }
+
+
+    private deleteFx(fx){
+        for(let i=0;i<this.fx.length;i++){
+            if(this.fx[i] == fx){
+                this.fx.splice(i,1)
+                //FxMgr.releaseFx(fx.info.texture, fx.info.json, fx.model);
+                break;
+            }
+        }
+    }
+
 
     // 特效跟随
     private checkFx(): void {
@@ -900,7 +1046,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             if (f.star) {
                 f.model.x = f.star.model.x;
                 f.model.y = f.star.model.y;
-                f.model.rotation = myMath.angle(f.star.speed);
+                f.model.rotation = myMath.angle(f.star.speed) + 90;
             }
         })
     }
@@ -980,7 +1126,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private sendBullet(): void {
         let count = GameData.bulletList[this.send_index];
         this.send_index++;
-        if (this.send_index == GameData.bulletList.length) {
+        if (this.send_index >= GameData.bulletList.length) {
             this.send_index = 0;
         }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="myTestAnmSkin" width="400" height="400" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*"  >
+	<w:Declarations>
+		<tween:TweenGroup id="tweenGroup">
+			<tween:TweenItem target="{i1}">
+				<tween:To duration="3000">
+					<tween:props>
+						<e:Object alpha="{0.5}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{g1}">
+				<tween:To duration="3000">
+					<tween:props>
+						<e:Object rotation="{360}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+		<tween:TweenGroup id="g2">
+			<tween:TweenItem target="{i2}">
+				<tween:To duration="1000" ease="quartIn">
+					<tween:props>
+						<e:Object width="{80}" height="{80}" x="{306}" y="{71}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<w:Config id="16a2f83221e" ></w:Config>
+	<e:Image id="i1" x="200" y="200" source="flydata_json.star1" anchorOffsetX="69" anchorOffsetY="49"/>
+	<e:Group id="g1" width="400" height="400" x="200" y="200" anchorOffsetX="200" anchorOffsetY="200">
+		<e:Image id="i2" width="20" height="20" x="299" y="313" source="flydata_json.bbf1"/>
+	</e:Group>
+</e:Skin>

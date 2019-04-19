@@ -20,6 +20,8 @@ declare module skins{
 	class ItemRendererSkin extends eui.Skin{
 	}
 }
+declare class myTestAnmSkin extends eui.Skin{
+}
 declare class OverUISkin extends eui.Skin{
 }
 declare module skins{
