@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="guaiwuSkin" width="300" height="300" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*"   states="guaiwu-1" >
+	<w:Declarations>
+		<tween:TweenGroup id="TG_1">
+			<tween:TweenItem target="{image0}">
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{0}" scaleY="{1}" scaleX="{0.99}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object rotation="{360}" alpha="{0.2}" scaleX="{1}" scaleY="{0.98}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object rotation="{-360}" alpha="{1}" scaleX="{0.98}" scaleY="{1}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{image}">
+				<tween:Set>
+					<tween:props>
+						<e:Object scaleX="{0.98}" scaleY="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object scaleY="{0.98}" scaleX="{1}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object scaleX="{0.98}" scaleY="{1}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{image1}">
+				<tween:Set/>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object rotation="{180}" alpha="{0.4}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object rotation="{360}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<w:Config id="16a34a95deb" ></w:Config>
+	<e:Image id="image" includeIn="guaiwu-1" anchorOffsetX="200" anchorOffsetY="200" horizontalCenter="0" verticalCenter="0" width="400" height="400" source="flydata_json.8-3"/>
+	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="200" anchorOffsetY="200" height="400" width="400" horizontalCenter="0" verticalCenter="0" source="flydata_json.8-2"/>
+	<e:Image source="flydata_json.1-3" includeIn="guaiwu-1" width="400" height="400" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="image1" width="300" height="300" source="flydata_json.8-1" anchorOffsetX="150" anchorOffsetY="150" horizontalCenter="0" verticalCenter="0"/>
+</e:Skin>

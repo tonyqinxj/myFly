@@ -127,9 +127,9 @@ class Tools {
 		if(r1 < r2) return false;
 
 		// 把球心位置转成全局坐标
-		let obj1_global = eat.localToGlobal(0, 0)
-		let obj2_global = star.localToGlobal(0, 0)
-		let p:egret.Point = new egret.Point(obj1_global.x - obj2_global.x, obj1_global.y-obj2_global.y);
+		// let obj1_global = eat.localToGlobal(0, 0)
+		// let obj2_global = star.localToGlobal(0, 0)
+		let p:egret.Point = new egret.Point(star.x - eat.x, star.y-eat.y);
 		if(r1 - r2 <= p.length){
 			return false;
 		}

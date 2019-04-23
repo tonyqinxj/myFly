@@ -4,6 +4,10 @@ class StarData {
 
     // layer:层级管理，目前有4个级别，分别为0，1，2，3， 数字大的在前面
     public static scaleWithLevel = [1, 0.3, 0.45, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
+    public static colorLevels =[0.1,0.01,0.001,0.0001];
+    public static colorNames=['x-5', 'x-4', 'x-3', 'x-2', 'x-1'];
+
+
 
     public static CAN_ATTACK = Math.pow(2, 11);// 可被攻击
     public static CAN_CO = Math.pow(2, 12);// 可以被碰
@@ -12,7 +16,7 @@ class StarData {
             name: '小陨石',
             id: 101,
             model: 'star1',		// 模型名称
-            speed: 0.1,			// 移动速度
+            speed: 0.3,			// 移动速度
             attack_speed: 0.3,	// 收到攻击之后的移动速度， 那减速的时间段呢（减速多久）
             snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
@@ -191,10 +195,10 @@ class StarData {
             name: '黑洞',
             id: 112,
             model: 'star2',
-            speed: 0.15,
+            speed: 0.001,
             attack_speed: 0.3,
             group: StarData.CAN_ATTACK,
-            layer: 2,
+            layer: 1,
             eat: {
                 blood: 1,	// 增加当前血量的比例
                 scale: 0.15, // 增加体型的比例, 针对原始尺寸

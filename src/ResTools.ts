@@ -10,6 +10,10 @@ class ResTools {
 		return result;
 	}
 
+	public static createTextureByName(name:string):egret.Texture{
+		return RES.getRes('flydata_json.'+name);
+	}
+
     /**
      * 根据name关键字创建一个Bitmap对象。此name 是根据TexturePacker 组合成的一张位图
      */

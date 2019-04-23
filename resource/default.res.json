@@ -1,11 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,4_json",
 			"name": "preload"
 		},
 		{
-			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,4_json,myfont_json,flydata_json",
+			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,myfont_json,flydata_json",
 			"name": "start"
 		}
 	],
@@ -161,11 +161,6 @@
 			"name": "3_json"
 		},
 		{
-			"url": "levels/4.json",
-			"type": "json",
-			"name": "4_json"
-		},
-		{
 			"url": "assets/game/myfont.json",
 			"type": "json",
 			"name": "myfont_json"
@@ -174,13 +169,24 @@
 			"url": "assets/game/flydata.json",
 			"type": "sheet",
 			"name": "flydata_json",
-			"subkeys": ".,0,1,2,3,4,5,6,7,8,9,b1,bb1,bbf1,boat1,bomb1,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,ireduceBoat,ireducess,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9"
+			"subkeys": ".,0,1,1-1,1-2,1-3,2,2-1,2-2,3,3-1,3-2,4,4-1,4-2,5,5-1,6,6-1,6-2,7,8,8-1,8-2,8-3,9,9-1,9-2,b1,b2,b23,b234,b24,b3,b34,b4,bb1,bbf1,boat1,bomb1,gold,hit,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,ireduceBoat,ireducess,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9,x-1,x-2,x-3,x-4,x-5"
 		},
 		{
 			"url": "assets/game/11.json",
 			"type": "sheet",
 			"name": "11_json",
 			"subkeys": ".,_,bb1,boat1,star2,star7"
+		},
+		{
+			"url": "assets/game/guaiwu.json",
+			"type": "sheet",
+			"name": "guaiwu_json",
+			"subkeys": "1-1,1-2,1-3,2-1,2-2,2-3,3-1,3-2,4-1,4-2,5-1,6-1,6-2,7-1,8-1,8-2,8-3,9-1,9-2,x-5"
+		},
+		{
+			"url": "levels/4.json",
+			"type": "json",
+			"name": "4_json"
 		}
 	]
 }

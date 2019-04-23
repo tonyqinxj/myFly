@@ -2,33 +2,13 @@ class Main extends eui.UILayer {
     // 主调度模块，主要用于切换子页面
 
     private curPage: any;
-    public saveUserInfo() {
-        var key: string = "myUserData";
-        egret.localStorage.setItem(key, JSON.stringify({
-            openid:GameData.openid,
-            total_money:GameData.total_money,
-            cur_level:GameData.cur_level,
-
-        }));
-    }
-
-    private loadUserInfo(): void {
-        var key: string = "myUserData";
-        let userinfo = egret.localStorage.getItem(key);
-        if (userinfo) {
-            let userinfo_data:any = JSON.parse(userinfo);
-            GameData.openid = userinfo_data.openid;
-            GameData.cur_level = userinfo_data.cur_level;
-            GameData.total_money = userinfo_data.total_money;
-        }
-    }
 
     protected createChildren(): void {
         super.createChildren();
 
         GameData.main = this;
         this.curPage = null;
-        this.loadUserInfo();
+        GameData.loadUserInfo();
 
         egret.lifecycle.addLifecycleListener((context) => {
             // custom lifecycle plugin
@@ -76,7 +56,7 @@ class Main extends eui.UILayer {
             console.log('res:', res);
             if (res.errcode == 0) {
                 let data = JSON.parse(res.data);
-                GameData.openid = data.openid;
+                GameData.UserInfo.openid = data.openid;
             }
         }
 

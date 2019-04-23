@@ -62,7 +62,11 @@ class MonsterTools {
      6. 被黑洞吸收，变小
      */
     public static doScale(star: any): void {
+        // 黑洞不再此列
+        if(star.starConfig['eat']) return;
+
         let scale = StarData.scaleWithLevel[star.level]; // 来自体型的
+
 
         if(star.starConfig['group']&StarData.CAN_ATTACK){
             let itemBigStar = this.getItem('bigStar')
@@ -218,10 +222,10 @@ class MonsterTools {
 
     // 延长道具时间
     public static setItemTime(item: any): void {
-
+        // 时间进度条更新
     }
 
-    // update
+    // update, 全局道具
     public static updateItems(deltaTime: number): void {
         // 先计算过期
         for (let i = 0; i < this.items.length; i++) {
@@ -272,5 +276,20 @@ class MonsterTools {
         }
 
         return null;
+    }
+
+
+    public static getBulletName():string{
+        let gold = this.getItem('gold'); //b2
+        let hitBack = this.getItem('hitBack'); // b3
+        let addHitAttack = this.getItem('addHitAttack'); // b4
+        if(gold && hitBack && addHitAttack) return 'b234'
+        if(gold && hitBack) return 'b23'
+        if(gold && addHitAttack) return 'b24'
+        if(hitBack && addHitAttack) return 'b34'
+        if(gold) return 'b2'
+        if(hitBack) return 'b3'
+        if(addHitAttack) return 'b4'
+        return 'b1'
     }
 }
