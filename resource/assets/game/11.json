@@ -1,7 +1,0 @@
-{"file":"11.png","frames":{
-".":{"x":419,"y":1,"w":32,"h":30,"offX":0,"offY":0,"sourceW":32,"sourceH":30},
-"_":{"x":453,"y":1,"w":27,"h":28,"offX":1,"offY":0,"sourceW":28,"sourceH":28},
-"bb1":{"x":239,"y":207,"w":107,"h":251,"offX":0,"offY":2,"sourceW":107,"sourceH":255},
-"star2":{"x":348,"y":207,"w":148,"h":145,"offX":0,"offY":0,"sourceW":148,"sourceH":145},
-"star7":{"x":1,"y":1,"w":236,"h":236,"offX":0,"offY":0,"sourceW":236,"sourceH":236},
-"boat1":{"x":239,"y":1,"w":178,"h":204,"offX":0,"offY":0,"sourceW":178,"sourceH":204}}}

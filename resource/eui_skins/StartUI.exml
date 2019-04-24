@@ -2,10 +2,52 @@
 <e:Skin class="StartUISkin" width="750" height="1624" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<w:Config id="169b91ebd03" ></w:Config>
 	<e:Group id="gp_root" width="750" height="1624" x="0" y="0">
+		<e:Image id="img_bg" width="750" height="1624" x="0" y="0" source="sq_beijing_png"/>
+		<e:Image x="540" y="102" source="UI_json.sq_jia"/>
 		<e:Group id="gp_layer_1" width="750" height="1624" x="0" y="0"/>
 		<e:Group id="gp_layer_2" width="750" height="1624" x="0" y="0"/>
 		<e:Group id="gp_layer_3" width="750" height="1624" x="0" y="0"/>
-		<e:Group id="gp_layer_4" width="750" height="1624" x="0" y="0"/>
-		<e:Image id="boat" x="286" y="1130.55" scaleX="1" scaleY="1" source="flydata_json.boat1"/>
+		<e:Group id="gp_layer_4" width="750" height="1624" x="0" y="0">
+		</e:Group>
+		<e:Image id="boat" x="286" y="869" scaleX="1" scaleY="1" source="flydata_json.boat1"/>
+		<e:Group id="gp_ui" width="750" height="1624" x="0" y="0" scaleX="1" scaleY="1">
+			<e:Image x="31" y="91" source="UI_json.sq_jinbi_2" width="48" height="48"/>
+			<e:Label id="txt_gold" text="650K" x="92" y="104" bold="true"/>
+			<e:Image x="176" y="102" source="UI_json.sq_jia"/>
+			<e:Image x="353.72" y="102" source="UI_json.sq_jia"/>
+			<e:Image x="264" y="88" source="UI_json.sq_shandian"/>
+			<e:Image x="407" y="97" source="UI_json.sq_zuanshi_1"/>
+			<e:Label id="txt_tili" text="80" x="304" y="104" bold="true"/>
+			<e:Label id="txt_diamond" text="100" x="476" y="104" bold="true"/>
+			<e:Image x="89" y="242" source="UI_json.sq_logo"/>
+			<e:Image id="img_luntan" x="35" y="446" source="UI_json.sq_luntan"/>
+			<e:Image id="img_zhuanshi" x="35" y="603" source="UI_json.sq_zhuanshi"/>
+			<e:Image id="img_paihang" x="35" y="738" source="UI_json.sq_paihang"/>
+			<e:Image x="579" y="451" source="UI_json.sq_lingqujingdu_2"/>
+			<e:Image id="img_jindu" x="579" y="451" source="UI_json.sq_lingqujingdu"/>
+			<e:Image x="624" y="470" source="UI_json.sq_jinbi_2"/>
+			<e:Label id="txt_goldtime" text="48.5K" x="560" y="544" textColor="0x4ca8fe" width="200" height="30" textAlign="center" bold="true"/>
+			<e:Image x="595" y="582" source="UI_json.sq_lingqujindu_3"/>
+			<e:Label text="点击领取" x="610" y="592" size="24" bold="true"/>
+		</e:Group>
+		<e:Group id="gp_b3" width="750" height="200" x="750" y="500" anchorOffsetY="0"/>
+		<e:Group id="gp_b2" width="750" x="0" y="1281.93" height="230">
+			<e:Image id="img_up_bg" y="0" horizontalCenter="0" source="UI_json.sq_jin"/>
+			<e:Label id="txt_up1" text="射速" x="51" bold="true" textAlign="left" top="42"/>
+			<e:Label id="txt_up1_lv" text="Lv2001" bold="true" textAlign="right" top="30" left="427" textColor="0x810048" width="120" size="24"/>
+			<e:Label id="txt_up1_value" text="284" bold="true" textAlign="right" top="61" left="427" textColor="0xffffff" width="120"/>
+			<e:Label id="txt_up1_cost" text="28.4k" bold="true" textAlign="left" top="41" left="615" textColor="0xFFFFFF" width="100"/>
+			<e:Label id="txt_up2_cost" text="28.4k" bold="true" textAlign="left" top="155" left="615" textColor="0xFFFFFF" width="100"/>
+			<e:Label id="txt_up2" text="火力" x="51" bold="true" textAlign="left" bottom="42"/>
+			<e:Image id="img_up1" x="552.5" y="20" source="UI_json.sq_shengji_1"/>
+			<e:Label id="txt_up2_lv" text="Lv2001" bold="true" textAlign="right" top="144" left="425" textColor="0x810048" width="120" size="24"/>
+			<e:Label id="txt_up2_value" text="284" bold="true" textAlign="right" top="175" left="425" textColor="0xFFFFFF" width="120"/>
+			<e:Image id="img_up2" x="550.5" y="134" source="UI_json.sq_shengji_1"/>
+		</e:Group>
+		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93">
+			<e:Image id="img_main" source="UI_json.sq_zhuwuqi" left="14" bottom="3"/>
+			<e:Image id="img_sub" bottom="3" source="UI_json.sq_fuwuqi" horizontalCenter="0.5"/>
+			<e:Image id="img_gold" source="UI_json.sq_jinbi_3" bottom="3" right="12"/>
+		</e:Group>
 	</e:Group>
 </e:Skin>

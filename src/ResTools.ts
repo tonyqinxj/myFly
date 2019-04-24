@@ -14,7 +14,19 @@ class ResTools {
 		return RES.getRes('flydata_json.'+name);
 	}
 
-    /**
+
+	public static createUIBitmap(name: string): egret.Bitmap {
+		var result: egret.Bitmap = new egret.Bitmap();
+		var texture: egret.Texture = RES.getRes('UI_json.'+name);
+		result.texture = texture;
+		return result;
+	}
+
+	public static createUITexture(name:string):egret.Texture{
+		return RES.getRes('UI_json.'+name);
+	}
+
+	/**
      * 根据name关键字创建一个Bitmap对象。此name 是根据TexturePacker 组合成的一张位图
      */
 	public static createBitmapFromSheet(name: string, sheetName: string = "gameRes"): egret.Bitmap {

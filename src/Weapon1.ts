@@ -120,7 +120,7 @@ class Weapon1 extends Weapon {
             // 计算伤害
             star_flys.forEach(star => {
                 if (Tools.bombTest(data.model.x, data.model.y, 0.5 * this.bombScope, star.model)) {
-                    MonsterTools.delHp(star, GameData.sub_weapon.attack);
+                    MonsterTools.delHp(star, GameData.getSubAttack());
                 }
             })
             // 子弹消失
