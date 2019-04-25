@@ -174,6 +174,14 @@ class MonsterTools {
     public static items = []; // 全局道具icon
     public static itemMap = {}; // key :y, value:item
 
+    public static clearItems():void{
+        this.items.forEach(item=>{
+            item.model && item.model.parent && item.model.parent.removeChild(item.model);
+        })
+        this.items =[];
+        this.itemMap ={};
+    }
+
     protected static findItemEmptyPos(): number {
         let y = 0;
         for (let i = 0; i < this.itemYs.length; i++) {

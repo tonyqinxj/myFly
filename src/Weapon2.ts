@@ -117,6 +117,16 @@ class Weapon2 extends Weapon {
 
     }
 
+    public clear(): void {
+        for (let i = 0; i < this.bullets.length; i++) {
+            let data = this.bullets[i];
+            data.model.parent && data.model.parent.removeChild(data.model)
+            this.bullets_free.push(data.model);
+        }
+
+        this.bullets = [];
+    }
+
     // 帧函数，子弹的移动，子弹的碰撞检测，子弹的生命周期检测
     public update(deltaTime: number, deltaTime_snow: number, star_flys: Array<any>): void {
         // 充能

@@ -33,13 +33,13 @@ class GameData {
 
     public static UserInfo = {
         openid: '',  // 玩家的openid
-        tili:80,    // 体力
-        total_money: 88888888888,  // 玩家当前拥有的金币
-        total_diamond: 0,   // 钻石
-        cur_level: 1, // 当前处于关卡
-        next_level: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
-        goldcostlevel: 1,    // 金币价值等级
-        goldtimelevel: 1,    // 挂机收益等级
+        tili: 80,    // 体力
+        totalMoney: 10000,  // 玩家当前拥有的金币
+        totalDiamond: 0,   // 钻石
+        curLevel: 1, // 当前处于关卡
+        nextLevel: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        goldCostLevel: 1,    // 金币价值等级
+        goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
             attack: 60,
             speed: 10,
@@ -49,11 +49,12 @@ class GameData {
             strength: 1,
             attack: 1,
         }],
-        CurSubWeaponId: 1,
+        curSubWeaponId: 1,
+        lastGetGoldTime: 0,          //
     }
 
+
     public static needSaveUserInfo = false; //
-    public static goldperstar = 6;  // 每个怪物产生的金币
     public static total_blood = 0; // 关卡总血量
     public static colors_blood = []; // 血量颜色值
     public static main: Main = null; // main 指针
@@ -71,7 +72,6 @@ class GameData {
     public static level_configs = [] // 当前关卡数据，由/levels/*.json提供数据
 
     public static init(): void {
-        this.goldperstar = this.UserInfo.goldcostlevel * 6;
         this.score = 0;
         this.genBulletList();
         this.genLevelData();
@@ -103,24 +103,58 @@ class GameData {
         return this.UserInfo.MainWeapon.speed + 10;
     }
 
-    public static getSubWeapon():any{
-        return this.UserInfo.SubWeapons[this.UserInfo.CurSubWeaponId-1];
+    public static getSubWeapon(): any {
+        return this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
     }
 
-    public static getSubStrenth():number {
-        return this.UserInfo.SubWeapons[this.UserInfo.CurSubWeaponId-1].strength+20;
+    public static getSubStrenth(): number {
+        return this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1].strength + 20;
     }
-    public static getSubAttack():number {
-        let attack = this.UserInfo.SubWeapons[this.UserInfo.CurSubWeaponId-1].attack;
+
+    public static getSubAttack(): number {
+        let attack = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1].attack;
         return attack;
     }
 
-    public static getGoldCost():number {
-        return this.UserInfo.goldcostlevel*6;
+    public static getGoldCost(): number {
+        return this.UserInfo.goldCostLevel * 6;
     }
 
-    public static getGoldTime():number{
-        return this.UserInfo.goldtimelevel*12;
+    public static getGoldTime(): number {
+        return this.UserInfo.goldTimeLevel * 12;
+    }
+
+    public static getGoldTimeMax(): number {
+        return this.getGoldTime() * 4 * 60 * 6; // 每10秒增加一次, 最多加2小时
+    }
+
+    public static getCurGoldTime(): number {
+        if (this.UserInfo.lastGetGoldTime == 0) {
+            this.UserInfo.lastGetGoldTime = new Date().getTime();
+            this.needSaveUserInfo = true;
+            return 0;
+        }
+
+        let time = new Date().getTime() - this.UserInfo.lastGetGoldTime;
+        let gold = time * this.getGoldTime()/10000;
+        let max = this.getGoldTimeMax();
+
+        //gold = max/3;
+
+        return Math.min(gold, max);
+    }
+
+    public static onGetGoldTime():void{
+        this.addGold(this.getCurGoldTime())
+        this.UserInfo.lastGetGoldTime = new Date().getTime();
+        this.needSaveUserInfo = true;
+    }
+
+    public static onHandleResult(ratio:number):void{
+        let gold = this.score * ratio;
+        this.score = 0;
+
+        this.addGold(gold);
     }
 
     // 对一波怪物的血量进行初始化
@@ -232,7 +266,7 @@ class GameData {
 
     // 装载关卡数据
     public static genLevelData() {
-        let json = RES.getRes(this.UserInfo.cur_level + '_json');
+        let json = RES.getRes(this.UserInfo.curLevel + '_json');
         this.level_configs = json;
 
         this.total_blood = 0;
@@ -257,19 +291,25 @@ class GameData {
     }
 
     public static addGold(gold: number): boolean {
-        this.UserInfo.total_money += gold;
+        this.UserInfo.totalMoney += gold;
         this.needSaveUserInfo = true;
         return true;
     }
 
     public static delGold(gold: number): boolean {
-        if (this.UserInfo.total_money > gold) {
-            this.UserInfo.total_money -= gold;
+        if (this.UserInfo.totalMoney > gold) {
+            this.UserInfo.totalMoney -= gold;
             this.needSaveUserInfo = true;
             return true;
         } else {
             return false;
         }
+    }
+
+    public static passLevel():void{
+        this.UserInfo.curLevel ++;
+        if(this.UserInfo.nextLevel == this.UserInfo.curLevel) this.UserInfo.nextLevel++;
+        this.needSaveUserInfo = true;
     }
 
     public static saveUserInfo() {
@@ -286,16 +326,17 @@ class GameData {
         if (userinfo) {
             let userinfo_data: any = JSON.parse(userinfo);
             if (userinfo_data) {
-                if (userinfo_data.total_money) GameData.UserInfo.total_money = userinfo_data.total_money
-                if (userinfo_data.total_diamond) GameData.UserInfo.total_diamond = userinfo_data.total_diamond
-                if (userinfo_data.cur_level) GameData.UserInfo.cur_level = userinfo_data.cur_level
-                if (userinfo_data.next_level) GameData.UserInfo.next_level = userinfo_data.next_level
-                if (userinfo_data.goldcostlevel) GameData.UserInfo.goldcostlevel = userinfo_data.goldcostlevel
-                if (userinfo_data.goldtimelevel) GameData.UserInfo.goldtimelevel = userinfo_data.goldtimelevel
+               // if (userinfo_data.totalMoney) GameData.UserInfo.totalMoney = userinfo_data.totalMoney
+                if (userinfo_data.totalDiamond) GameData.UserInfo.totalDiamond = userinfo_data.totalDiamond
+                if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
+                if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
+                if (userinfo_data.goldCostLevel) GameData.UserInfo.goldCostLevel = userinfo_data.goldCostLevel
+                if (userinfo_data.goldTimeLevel) GameData.UserInfo.goldTimeLevel = userinfo_data.goldTimeLevel
                 if (userinfo_data.MainWeapon) GameData.UserInfo.MainWeapon = userinfo_data.MainWeapon
                 if (userinfo_data.SubWeapons) GameData.UserInfo.SubWeapons = userinfo_data.SubWeapons
-                if (userinfo_data.CurSubWeaponId) GameData.UserInfo.CurSubWeaponId = userinfo_data.CurSubWeaponId
+                if (userinfo_data.curSubWeaponId) GameData.UserInfo.curSubWeaponId = userinfo_data.curSubWeaponId
                 if (userinfo_data.tili) GameData.UserInfo.tili = userinfo_data.tili
+                if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
             }
         }
     }
@@ -314,27 +355,27 @@ class GameData {
 
                 break;
             case 'gold_cost':
-                if (this.UserInfo.goldcostlevel <= 220) needGold = 14 * Math.pow(this.UserInfo.goldcostlevel, 2.43);
-                else needGold = 30000 * this.UserInfo.goldcostlevel;
+                if (this.UserInfo.goldCostLevel <= 220) needGold = 14 * Math.pow(this.UserInfo.goldCostLevel, 2.43);
+                else needGold = 30000 * this.UserInfo.goldCostLevel;
 
                 break;
             case 'gold_time':
                 //前220级: y=14x^2.43
                 //220级以后： y=30000x
 
-                if (this.UserInfo.goldtimelevel <= 220) needGold = 14 * Math.pow(this.UserInfo.goldtimelevel, 2.43);
-                else needGold = 30000 * this.UserInfo.goldtimelevel;
+                if (this.UserInfo.goldTimeLevel <= 220) needGold = 14 * Math.pow(this.UserInfo.goldTimeLevel, 2.43);
+                else needGold = 30000 * this.UserInfo.goldTimeLevel;
 
                 break;
             case 'sub_attack':
-                var sub = this.UserInfo.SubWeapons[this.UserInfo.CurSubWeaponId - 1];
+                var sub = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
 
                 if (sub.attack <= 220) needGold = 14 * Math.pow(sub.attack, 2.43);
                 else needGold = 30000 * sub.attack;
 
                 break;
             case 'sub_speed':
-                var sub = this.UserInfo.SubWeapons[this.UserInfo.CurSubWeaponId - 1];
+                var sub = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
 
                 if (sub.strength <= 220) needGold = 14 * Math.pow(sub.strength, 2.43);
                 else needGold = 30000 * sub.strength;
@@ -366,10 +407,10 @@ class GameData {
                 }
                 break;
             case 'gold_cost':
-                if (this.UserInfo.goldcostlevel <= 220) needGold = 14 * Math.pow(this.UserInfo.goldcostlevel, 2.43);
-                else needGold = 30000 * this.UserInfo.goldcostlevel;
+                if (this.UserInfo.goldCostLevel <= 220) needGold = 14 * Math.pow(this.UserInfo.goldCostLevel, 2.43);
+                else needGold = 30000 * this.UserInfo.goldCostLevel;
                 if (this.delGold(needGold)) {
-                    this.UserInfo.goldcostlevel++;
+                    this.UserInfo.goldCostLevel++;
                     this.needSaveUserInfo = true;
                 }
                 break;
@@ -377,15 +418,15 @@ class GameData {
                 //前220级: y=14x^2.43
                 //220级以后： y=30000x
 
-                if (this.UserInfo.goldtimelevel <= 220) needGold = 14 * Math.pow(this.UserInfo.goldtimelevel, 2.43);
-                else needGold = 30000 * this.UserInfo.goldtimelevel;
+                if (this.UserInfo.goldTimeLevel <= 220) needGold = 14 * Math.pow(this.UserInfo.goldTimeLevel, 2.43);
+                else needGold = 30000 * this.UserInfo.goldTimeLevel;
                 if (this.delGold(needGold)) {
-                    this.UserInfo.goldtimelevel++;
+                    this.UserInfo.goldTimeLevel++;
                     this.needSaveUserInfo = true;
                 }
                 break;
             case 'sub_attack':
-                var sub = this.UserInfo.SubWeapons[this.UserInfo.CurSubWeaponId - 1];
+                var sub = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
 
                 if (sub.attack <= 220) needGold = 14 * Math.pow(sub.attack, 2.43);
                 else needGold = 30000 * sub.attack;
@@ -395,7 +436,7 @@ class GameData {
                 }
                 break;
             case 'sub_speed':
-                var sub = this.UserInfo.SubWeapons[this.UserInfo.CurSubWeaponId - 1];
+                var sub = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
 
                 if (sub.strength <= 220) needGold = 14 * Math.pow(sub.strength, 2.43);
                 else needGold = 30000 * sub.strength;

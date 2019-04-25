@@ -29,6 +29,9 @@ class Weapon{
 
     }
 
+    public clear():void{
+
+    }
     // 帧函数
     public update(deltaTime:number, deltaTime_snow:number,  star_flys:Array<any>):void{
 

@@ -5,18 +5,19 @@ class Weapon1 extends Weapon {
     private timer_send: egret.Timer = null; // 武器充能定时器， 因为是一颗子弹一颗子弹的发，所以这里用一个连续的充能定时器即可
 
     private weaponRatio: number = 1000; //  当前武器充能时间
-    private bombScope:number = 200;     //  当期子弹爆炸范围
+    private bombScope: number = 200;     //  当期子弹爆炸范围
     private lastIndex: number = 0;      //  上一次发送子弹的翼
 
     private bullets: Array<any> = new Array<any>();
 
-    private scaleStart:number = 0.4;        // 初始子弹大小
-    private scaleTime:number = 400;         // 放大时间
+    private scaleStart: number = 0.4;        // 初始子弹大小
+    private scaleTime: number = 400;         // 放大时间
     private bulletScale: number = 1;        // 体积，成长
 
     private bullets_free = [];
     private fxs_free = [];
 
+    private lastSendTime: number = 0;
 
     private createBullet() {
         if (this.bullets_free.length) {
@@ -71,24 +72,36 @@ class Weapon1 extends Weapon {
     // 启动
     public start(): void {
 
-        console.log('start weapon...')
-        if (this.timer_send == null) {
-            this.timer_send = new egret.Timer(this.weaponRatio, 0);
-            this.timer_send.addEventListener(egret.TimerEvent.TIMER, this.sendBullet, this);
-            this.timer_send.start();
-        }
+        // console.log('start weapon...')
+        // if (this.timer_send == null) {
+        //     this.timer_send = new egret.Timer(this.weaponRatio, 0);
+        //     this.timer_send.addEventListener(egret.TimerEvent.TIMER, this.sendBullet, this);
+        //     this.timer_send.start();
+        // }
     }
 
     // 暂停
     public stop(): void {
 
-        console.log('stop weapon...')
-        this.timer_send.stop();
-        this.timer_send = null;
+        // console.log('stop weapon...')
+        // this.timer_send.stop();
+        // this.timer_send = null;
+
+
+    }
+
+    public clear(): void {
+        for (let i = 0; i < this.bullets.length; i++) {
+            let data = this.bullets[i];
+            data.model.parent && data.model.parent.removeChild(data.model)
+            this.bullets_free.push(data.model);
+        }
+
+        this.bullets = [];
     }
 
     // 帧函数，子弹的移动，子弹的碰撞检测，子弹的生命周期检测
-    public update(deltaTime: number, deltaTime_snow:number, star_flys: Array<any>): void {
+    public update(deltaTime: number, deltaTime_snow: number, star_flys: Array<any>): void {
 
         //console.log('update weapon...' + deltaTime)
         let needBombs = [];
@@ -141,6 +154,15 @@ class Weapon1 extends Weapon {
             } else {
                 i++;
             }
+        }
+
+        this.lastSendTime += deltaTime_snow;
+
+        if (this.lastSendTime >= this.weaponRatio) {
+            // 到了发射子弹的间隔
+            this.lastSendTime -= this.weaponRatio;
+            this.sendBullet();
+
         }
     }
 
@@ -204,7 +226,7 @@ class Weapon1 extends Weapon {
 
         this.bullets.push(bulletdata);
 
-        egret.Tween.get(model).to({scaleX:this.bulletScale, scaleY:this.bulletScale}, this.scaleTime);
+        egret.Tween.get(model).to({scaleX: this.bulletScale, scaleY: this.bulletScale}, this.scaleTime);
 
     }
 }
