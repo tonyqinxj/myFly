@@ -47,7 +47,7 @@ class GameData {
             speed: 10,
         },
         SubWeapons: [{
-            id: 1,
+            id: 2,
             strength: 1,
             attack: 1,
         }],
@@ -345,17 +345,17 @@ class GameData {
         if (userinfo) {
             let userinfo_data: any = JSON.parse(userinfo);
             if (userinfo_data) {
-               // if (userinfo_data.totalMoney) GameData.UserInfo.totalMoney = userinfo_data.totalMoney
-                if (userinfo_data.totalDiamond) GameData.UserInfo.totalDiamond = userinfo_data.totalDiamond
-               // if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
-               // if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
-                if (userinfo_data.goldCostLevel) GameData.UserInfo.goldCostLevel = userinfo_data.goldCostLevel
-                if (userinfo_data.goldTimeLevel) GameData.UserInfo.goldTimeLevel = userinfo_data.goldTimeLevel
-                if (userinfo_data.MainWeapon) GameData.UserInfo.MainWeapon = userinfo_data.MainWeapon
-                if (userinfo_data.SubWeapons) GameData.UserInfo.SubWeapons = userinfo_data.SubWeapons
-                if (userinfo_data.curSubWeaponId) GameData.UserInfo.curSubWeaponId = userinfo_data.curSubWeaponId
-                if (userinfo_data.tili) GameData.UserInfo.tili = userinfo_data.tili
-                if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
+                // if (userinfo_data.totalMoney) GameData.UserInfo.totalMoney = userinfo_data.totalMoney
+                // if (userinfo_data.totalDiamond) GameData.UserInfo.totalDiamond = userinfo_data.totalDiamond
+                // if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
+                // if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
+                // if (userinfo_data.goldCostLevel) GameData.UserInfo.goldCostLevel = userinfo_data.goldCostLevel
+                // if (userinfo_data.goldTimeLevel) GameData.UserInfo.goldTimeLevel = userinfo_data.goldTimeLevel
+                // if (userinfo_data.MainWeapon) GameData.UserInfo.MainWeapon = userinfo_data.MainWeapon
+                // if (userinfo_data.SubWeapons) GameData.UserInfo.SubWeapons = userinfo_data.SubWeapons
+                // if (userinfo_data.curSubWeaponId) GameData.UserInfo.curSubWeaponId = userinfo_data.curSubWeaponId
+                // if (userinfo_data.tili) GameData.UserInfo.tili = userinfo_data.tili
+                // if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
             }
         }
     }

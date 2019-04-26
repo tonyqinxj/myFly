@@ -19,6 +19,12 @@ class Weapon1 extends Weapon {
 
     private lastSendTime: number = 0;
 
+    public getAttack(): number {
+        let attacklevel = this.attack;
+        if(attacklevel <=100) return attacklevel*attacklevel;
+        return 120*Math.exp(0.054*attacklevel);
+    }
+
     private createBullet() {
         if (this.bullets_free.length) {
             return this.bullets_free.shift();
@@ -133,7 +139,7 @@ class Weapon1 extends Weapon {
             // 计算伤害
             star_flys.forEach(star => {
                 if (Tools.bombTest(data.model.x, data.model.y, 0.5 * this.bombScope, star.model)) {
-                    MonsterTools.delHp(star, GameData.getSubAttack());
+                    MonsterTools.delHp(star, this.getAttack());
                 }
             })
             // 子弹消失

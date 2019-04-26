@@ -26,6 +26,13 @@ class Weapon2 extends Weapon {
     private target: any = null; // 当前目标
 
     private lastSendTime: number = 0;
+    public getAttack(): number {
+        let attacklevel = this.attack;
+        if(attacklevel <=100) return 2* (attacklevel+20)*(attacklevel+20);
+        return 140*Math.exp(0.054*attacklevel);
+    }
+
+
 
     private setState(state: number) {
         this.state = state;
@@ -134,7 +141,7 @@ class Weapon2 extends Weapon {
 
         // 目标进入不可见范围
         if (this.target) {
-            if (this.target.model.y > this.mainWeapon.y - this.mainWeapon.height / 2) {
+            if (this.target.model == null || this.target.model.y > this.mainWeapon.y - this.mainWeapon.height / 2) {
                 this.target = null;
                 this.setState(Weapon2.STATE_INT)
             }
@@ -179,7 +186,7 @@ class Weapon2 extends Weapon {
             let len = bdata.model.height / 2 + this.flySpeed * deltaTime;
             if (this.target == bdata.target && Tools.bombTest(oldx, oldy, len, this.target.model)) {
 
-                MonsterTools.delHp(this.target, GameData.getSubAttack());
+                MonsterTools.delHp(this.target, this.getAttack());
                 if (this.target.blood <= 0) {
                     this.target = null; // 需要切换target
                     this.setState(Weapon2.STATE_INT)

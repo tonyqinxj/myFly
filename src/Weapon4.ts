@@ -30,7 +30,11 @@ class Weapon4 extends Weapon {
     private fx = [];
 
     private state: number = 0;              // 0的时候充能， 1的时候放能
-
+    public getAttack(): number {
+        let attacklevel = this.attack;
+        if(attacklevel <=100) return 40* (attacklevel + 20)*(attacklevel + 20);
+        return 600*Math.exp(0.054*attacklevel);
+    }
     // 子弹创建
     private createBullet() {
         if (this.bullets_free.length) {
@@ -192,7 +196,7 @@ class Weapon4 extends Weapon {
                         MonsterTools.pushSnow(star, 'weapon4', this.snow.speedRatio, this.snow.time)
                     }
 
-                    MonsterTools.delHp(star, this.attack);
+                    MonsterTools.delHp(star, this.getAttack());
 
                 }
 

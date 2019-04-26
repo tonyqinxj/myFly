@@ -36,4 +36,8 @@ class Weapon{
     public update(deltaTime:number, deltaTime_snow:number,  star_flys:Array<any>):void{
 
     }
+
+    public getAttack():number{
+        return GameData.getSubAttack();
+    }
 }

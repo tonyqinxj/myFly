@@ -27,6 +27,12 @@ class Weapon3 extends Weapon {
 
     private state: number = 0;              // 0的时候充能， 1的时候放能
 
+    public getAttack(): number {
+        let attacklevel = this.attack;
+        if (attacklevel <= 100) return 10 * attacklevel * attacklevel + 750;
+        return 1200 * Math.exp(0.054 * attacklevel);
+    }
+
     // 子弹创建
     private createBullet() {
         if (this.bullets_free.length) {
@@ -155,10 +161,9 @@ class Weapon3 extends Weapon {
                     )
 
                     if (rect.intersects(rect_star)) {
-                        star.blood -= this.attack;
-                        if (star.blood < 0) {
-                            star.blood = 0;
-                        }
+
+                        MonsterTools.delHp(star, this.getAttack());
+
                     }
 
                     // 播放打击特效
@@ -226,7 +231,7 @@ class Weapon3 extends Weapon {
 
         let bulletdata = {
             model: model,
-            flyTime:0,
+            flyTime: 0,
         }
 
         this.bullets.push(bulletdata);
