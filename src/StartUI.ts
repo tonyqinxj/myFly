@@ -10,6 +10,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private star_blood = 0; // 当前波怪物的总血量
     private star_left_blood = 0; // 当前波怪物剩余的血量之和，当少于20％的时候，触发下一波怪物的产生
+    private kill_blood  = 0;
 
     private fx = []; // 特效
     private star_add_blood = []; // 给别人加血
@@ -74,11 +75,138 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private img_re_gold3: eui.Image;
     private txt_re_gold3: eui.Label;
 
-    private img_gold_dest:eui.Image;
+    private img_gold_dest: eui.Image;
+
+
+
+    private gp_ui_lv1:eui.Group;
+    private txt_ui_lv1_1:eui.Label;
+    private txt_ui_lv1_2:eui.Label;
+    private txt_ui_lv1_3:eui.Label;
+    private gp_ui_lv2:eui.Group;
+    private txt_ui_lv2_1:eui.Label;
+    private txt_ui_lv2_2:eui.Label;
+    private txt_ui_lv2_3:eui.Label;
+    private txt_ui_lv2_4:eui.Label;
+    private txt_ui_lv2_5:eui.Label;
+    private txt_ui_lv2_6:eui.Label;
+    private txt_ui_lv2_7:eui.Label;
+    private img_ui_lv2_1:eui.Image;
+    private img_ui_lv2_2:eui.Image;
+    private img_ui_lv2_3:eui.Image;
+    private img_ui_lv2_4:eui.Image;
+    private img_ui_lv2_5:eui.Image;
+    private img_ui_lv2_6:eui.Image;
+    private img_ui_lv2_7:eui.Image;
+
+    private select_lv:number = 0;
+
+
+
+    private initUILv(type:number):void{
+
+        function transTexture(img:eui.Image, sel:boolean):void{
+            let name = ''
+            if(sel){
+                name = 'sy_guanka_3'
+            }else{
+                name = 'sy_guanka_1'
+            }
+
+            img.texture = ResTools.createUITexture(name);
+        }
+
+        function checkchange():void{
+            let select_list:Array<eui.Image> =[];
+            select_list.push(this.img_ui_lv2_1)
+            select_list.push(this.img_ui_lv2_2)
+            select_list.push(this.img_ui_lv2_3)
+            select_list.push(this.img_ui_lv2_4)
+            select_list.push(this.img_ui_lv2_5)
+            select_list.push(this.img_ui_lv2_6)
+            select_list.push(this.img_ui_lv2_7)
+
+            if(this.select_lv >=1 && this.select_lv<= select_list.length){
+                transTexture(select_list[this.select_lv-1], false);
+            }
+
+            for(let i=0;i<select_list.length;i++){
+                let mylv = GameData.UserInfo.nextLevel-6+i
+                if(mylv == GameData.UserInfo.curLevel){
+                    this.select_lv = i+1;
+                    transTexture(select_list[i], true);
+                    break;
+                }
+            }
+
+        }
+
+        function select(index:number):void{
+            GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-7+index;
+            this.initUILv(1);
+        }
+
+        if(type == 1){
+            this.gp_ui_lv2.parent && this.gp_ui_lv2.parent.removeChild(this.gp_ui_lv2)
+            this.gp_root.addChild(this.gp_ui_lv1);
+            this.txt_ui_lv1_1.text = ''+(GameData.UserInfo.curLevel-1);
+            this.txt_ui_lv1_2.text = ''+(GameData.UserInfo.curLevel);
+            this.txt_ui_lv1_3.text = ''+(GameData.UserInfo.curLevel+1);
+
+            if(GameData.UserInfo.nextLevel >=7){
+                this.gp_ui_lv1.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
+                    this.initUILv(2);
+                }, this);
+            }
+        }else{
+            this.gp_ui_lv1.parent && this.gp_ui_lv1.parent.removeChild(this.gp_ui_lv1)
+            this.gp_root.addChild(this.gp_ui_lv2);
+            this.txt_ui_lv2_1.text = ''+(GameData.UserInfo.nextLevel-6);
+            this.txt_ui_lv2_2.text = ''+(GameData.UserInfo.nextLevel-5);
+            this.txt_ui_lv2_3.text = ''+(GameData.UserInfo.nextLevel-4);
+            this.txt_ui_lv2_4.text = ''+(GameData.UserInfo.nextLevel-3);
+            this.txt_ui_lv2_5.text = ''+(GameData.UserInfo.nextLevel-2);
+            this.txt_ui_lv2_6.text = ''+(GameData.UserInfo.nextLevel-1);
+            this.txt_ui_lv2_7.text = ''+(GameData.UserInfo.nextLevel);
+
+            checkchange.call(this);
+
+            this.txt_ui_lv2_1.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,1);}, this);
+            this.txt_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,2);}, this);
+            this.txt_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,3);}, this);
+            this.txt_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,4);}, this);
+            this.txt_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,5);}, this);
+            this.txt_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,6);}, this);
+            this.txt_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,7);}, this);
+
+            this.img_ui_lv2_1.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,1);}, this);
+            this.img_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,2);}, this);
+            this.img_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,3);}, this);
+            this.img_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,4);}, this);
+            this.img_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,5);}, this);
+            this.img_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,6);}, this);
+            this.img_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,7);}, this);
+       
+
+            // this.img_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-5; this.initUILv(1); this.select_lv = 2;}, this);
+            // this.img_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-4; this.initUILv(1); this.select_lv = 3;}, this);
+            // this.img_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-3; this.initUILv(1); this.select_lv = 4;}, this);
+            // this.img_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-2; this.initUILv(1); this.select_lv = 5;}, this);
+            // this.img_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-1; this.initUILv(1); this.select_lv = 6;}, this);
+            // this.img_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel; this.initUILv(1); this.select_lv = 7;}, this);
+
+
+
+
+        }
+    }
 
     private initUI(): void {
 
+
+
         this.gp_game_data.parent && this.gp_game_data.parent.removeChild(this.gp_game_data)
+
 
         this.gp_root.addChild(this.gp_ui);
         this.gp_root.addChild(this.gp_b1);
@@ -114,17 +242,32 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.initMask();
 
-        egret.Tween.get(this.boat).to({x:375, y:this.gp_b1.y - this.boat.height}, 500);
+        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b1.y - this.boat.height}, 500);
+
+        this.initUILv(1);
     }
 
+    private win = false;
 
-    //
     private showResult(win: boolean): void {
 
-        if(this.state == 'result') return;
+        this.win = win;
+        let timer_show: egret.Timer = new egret.Timer(1000, 1);
+        timer_show.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.showResult_real, this)
+        timer_show.start();
+    }
+
+    //
+    private showResult_real(e: egret.TimerEvent): void {
+        this.showGameUI();
+        if (this.state == 'result') return;
         this.state = 'result';
 
-        GameData.passLevel();
+        if (this.win) {
+            GameData.passLevel();
+            // + tili 6
+        }
+
         this.sendEnd();
         this.removeMoveEvent();
 
@@ -157,7 +300,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
             self.initUI();
 
-            GoldFx.playResult({x:375, y:self.gp_result.y}, {x:self.img_gold_dest.x, y:self.img_gold_dest.y}, self);
+            GoldFx.playResult({x: 375, y: self.gp_result.y}, {x: self.img_gold_dest.x, y: self.img_gold_dest.y}, self);
 
             //
             // 进入主页
@@ -169,6 +312,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private showRelife(): void {
+        this.showGameUI();
         this.state = 'relife'
         this.canReLife = false;
         this.sendEnd();
@@ -228,7 +372,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.img_up_bg.texture = ResTools.createUITexture('sq_zhu')
 
-        egret.Tween.get(this.boat).to({x:375, y:this.gp_b3.y - this.boat.height}, 500);
+        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
     }
 
     private onSubClick(e: egret.TouchEvent): void {
@@ -253,7 +397,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.img_up_bg.texture = ResTools.createUITexture('sq_fu')
 
-        egret.Tween.get(this.boat).to({x:375, y:this.gp_b3.y - this.boat.height}, 500);
+        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
     }
 
     private onGoldClick(e: egret.TouchEvent): void {
@@ -276,7 +420,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.img_up_bg.texture = ResTools.createUITexture('sq_jin')
 
-        egret.Tween.get(this.boat).to({x:375, y:this.gp_b3.y - this.boat.height}, 500);
+        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
     }
 
     private onLevelUp1(e: egret.TouchEvent): void {
@@ -327,25 +471,26 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
 
     // game ui
-    private gp_game_data:eui.Group;
-    private img_game_gold_dest:eui.Image;
-    private txt_game_gold:eui.Label;
-    private txt_game_jindu:eui.Label;
-    private txt_game_lv1:eui.Label;
-    private txt_game_lv2:eui.Label;
-    private txt_game_lv3:eui.Label;
-    private img_game_jindu:eui.Image;
-    private img_game_jindu_bg:eui.Image;
+    private gp_game_data: eui.Group;
+    private img_game_gold_dest: eui.Image;
+    private txt_game_gold: eui.Label;
+    private txt_game_jindu: eui.Label;
+    private txt_game_lv1: eui.Label;
+    private txt_game_lv2: eui.Label;
+    private txt_game_lv3: eui.Label;
+    private img_game_jindu: eui.Image;
+    private img_game_jindu_bg: eui.Image;
 
-    private showGameUI():void{
+    private showGameUI(): void {
         this.addChild(this.gp_game_data);
-        this.txt_game_lv1.text = ''+(GameData.UserInfo.curLevel-1);
-        this.txt_game_lv2.text = ''+(GameData.UserInfo.curLevel);
-        this.txt_game_lv3.text = ''+(GameData.UserInfo.curLevel+1);
+        this.txt_game_lv1.text = '' + (GameData.UserInfo.curLevel - 1);
+        this.txt_game_lv2.text = '' + (GameData.UserInfo.curLevel);
+        this.txt_game_lv3.text = '' + (GameData.UserInfo.curLevel + 1);
         this.txt_game_gold.text = myMath.getString(GameData.score);
-        let cur = 90;
-        this.txt_game_jindu.text = cur+'%';
-        this.img_game_jindu.width = this.img_game_jindu_bg.width*cur/100;
+        let cur = Math.floor(100*(1- this.kill_blood/GameData.total_blood));
+
+        this.txt_game_jindu.text = cur + '%';
+        this.img_game_jindu.width = this.img_game_jindu_bg.width * cur / 100;
     }
 
 
@@ -382,6 +527,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private init(): void {
+        this.create_nums = 0;
         this.canReLife = true;
         this.cantdietime = 0;
         this.noBatch = false;
@@ -396,6 +542,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.cur_add_ons = 0;
         this.star_blood = 0;
         this.star_left_blood = 0;
+        this.kill_blood = 0;
+
         // 清空子弹
         this.clearBullet();
 
@@ -486,7 +634,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
             this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
 
-            egret.Tween.get(this.boat).to({x:375, y:this.gp_b1.y - this.boat.height}, 500);
+            egret.Tween.get(this.boat).to({x: 375, y: this.gp_b1.y - this.boat.height}, 500);
         } else if (this.state == 'init') {
             this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
             this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
@@ -495,6 +643,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.gp_top.parent && this.gp_top.parent.removeChild(this.gp_top)
             this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
             this.gp_goldtime.parent && this.gp_goldtime.parent.removeChild(this.gp_goldtime)
+            this.gp_ui_lv1.parent && this.gp_ui_lv1.parent.removeChild(this.gp_ui_lv1)
+            this.gp_ui_lv2.parent && this.gp_ui_lv2.parent.removeChild(this.gp_ui_lv2)
             this.state = 'pause';
 
             this.addMoveEvent();
@@ -539,7 +689,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             y: e.$stageY,
         }
 
-       // console.log('onTouchBegin call:', this.last_pos)
+        // console.log('onTouchBegin call:', this.last_pos)
         this.sendStart();
     }
 
@@ -663,18 +813,27 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.wait_end = true;
 
 
-           // 直接死亡，进入结果界面
+        // 直接死亡，进入结果界面
+
         this.showResult(true);
     }
 
     // 进入新的一轮怪物
+    private create_nums:number = 0;
     private enterNewBatch(): void {
+
+        if(this.cur_level_batch != -1){
+            let batchInfo = GameData.level_configs[this.cur_level_batch];
+            if(this.create_nums < batchInfo.init.length+batchInfo.add_ons.length) return; // 确保怪出完才能进入下一bo
+        }
+
         //console.log('enterNewBatch...',this.cur_level_batch )
         if (this.cur_level_batch + 1 < GameData.level_configs.length) {
 
             this.game_time = 0;
             this.cur_level_batch++;
             this.cur_add_ons = 0;
+            this.create_nums = 0;
 
             let batchInfo = GameData.level_configs[this.cur_level_batch];
             this.star_left_blood = batchInfo.blood;
@@ -705,6 +864,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 if (conf['y']) y = conf['y'];
 
                 this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], {x: conf.x, y: y}, dir)
+                this.create_nums++;
 
             }
         })
@@ -1039,6 +1199,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
             // 黑洞吞噬怪物，直接消失，不分裂
             this.removeStar(star);
             this.star_left_blood -= (star.totalBlood + star.subBlood);
+            this.kill_blood += (star.totalBlood + star.subBlood)
+
+            console.log('kill_blood by eat:',this.kill_blood)
             if (this.star_left_blood / this.star_blood < 0.2) {
                 this.enterNewBatch();
             }
@@ -1107,7 +1270,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         if (game_over) {
 
-            if(this.state == 'relife' || this.state == 'result') return;
+            if (this.state == 'relife' || this.state == 'result') return;
 
             console.log('game_over:', this.canReLife);
             if (this.canReLife) {
@@ -1178,7 +1341,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let x1 = x + 2 * r * Math.cos(45 * i + 45);
             let y1 = y + 2 * r * Math.sin(45 * i + 45);
 
-            GoldFx.playFx({x: x1, y: y1}, {x: 50, y: 50}, this);
+            GoldFx.playFx({x: x1, y: y1}, {x: this.img_game_gold_dest.x, y: this.img_game_gold_dest.y}, this);
         }
     }
 
@@ -1220,10 +1383,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], {x: conf.x, y: 0}, dir);
 
                     this.cur_add_ons++;
+                    this.create_nums++;
                 }
 
 
                 this.star_left_blood -= star.totalBlood;
+                this.kill_blood += star.totalBlood;
+                console.log('kill_blood:',this.kill_blood)
                 if (this.star_left_blood / this.star_blood < 0.2) {
                     this.enterNewBatch();
                 }
@@ -1246,7 +1412,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     this.createItems(star.model.x, star.model.y, star.items);
                 }
 
-                
 
                 this.star_fly.splice(i, 1);
                 this.removeStar(star);
@@ -1326,7 +1491,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     // 创建一只怪
     private createStar(starConfig: any, items: number, level: number, blood: number, pos: any, dir: any, info?: any): void {
 
-        //console.log("createStar:", level, blood, pos, dir, info)
+        console.log("createStar:", starConfig.id, blood)
 
         let model = this.getStarByName(starConfig.model)// new Star1(); // ResTools.createBitmapByName(starConfig.model);
 

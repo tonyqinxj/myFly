@@ -36,8 +36,8 @@ class GameData {
         tili: 80,    // 体力
         totalMoney: 10000,  // 玩家当前拥有的金币
         totalDiamond: 0,   // 钻石
-        curLevel: 1, // 当前处于关卡
-        nextLevel: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        curLevel: 2, // 当前处于关卡
+        nextLevel: 7, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
@@ -74,7 +74,7 @@ class GameData {
     public static init(): void {
         this.score = 0;
         this.genBulletList();
-        this.genLevelData();
+        this.genLevelData().catch();
     }
 
     // 美术字的初始化
@@ -265,19 +265,21 @@ class GameData {
     }
 
     // 装载关卡数据
-    public static genLevelData() {
-        let json = RES.getRes(this.UserInfo.curLevel + '_json');
-        this.level_configs = json;
+    public static async genLevelData() {
 
-        this.total_blood = 0;
-        json.forEach(j => {
-            this.total_blood += j['blood'] || 0;
-        })
+            let json = await RES.getResByUrl('/resource/levels/'+this.UserInfo.curLevel + '.json');
+            this.level_configs = json;
 
-        this.colors_blood = [];
-        StarData.colorLevels.forEach(r => {
-            this.colors_blood.push(this.total_blood * r)
-        })
+            this.total_blood = 0;
+            json.forEach(j => {
+                this.total_blood += j['blood'] || 0;
+            })
+
+            this.colors_blood = [];
+            StarData.colorLevels.forEach(r => {
+                this.colors_blood.push(this.total_blood * r)
+            })
+
 
     }
 
@@ -308,7 +310,7 @@ class GameData {
 
     public static passLevel():void{
         this.UserInfo.curLevel ++;
-        if(this.UserInfo.nextLevel == this.UserInfo.curLevel) this.UserInfo.nextLevel++;
+        if(this.UserInfo.nextLevel <= this.UserInfo.curLevel) this.UserInfo.nextLevel++;
         this.needSaveUserInfo = true;
     }
 
@@ -328,8 +330,8 @@ class GameData {
             if (userinfo_data) {
                // if (userinfo_data.totalMoney) GameData.UserInfo.totalMoney = userinfo_data.totalMoney
                 if (userinfo_data.totalDiamond) GameData.UserInfo.totalDiamond = userinfo_data.totalDiamond
-                if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
-                if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
+               // if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
+               // if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
                 if (userinfo_data.goldCostLevel) GameData.UserInfo.goldCostLevel = userinfo_data.goldCostLevel
                 if (userinfo_data.goldTimeLevel) GameData.UserInfo.goldTimeLevel = userinfo_data.goldTimeLevel
                 if (userinfo_data.MainWeapon) GameData.UserInfo.MainWeapon = userinfo_data.MainWeapon

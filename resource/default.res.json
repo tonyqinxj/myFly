@@ -1,11 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,4_json,UI_json,sq_beijing_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,4_json,UI_json,sq_beijing_png,5_json,6_json,7_json,8_json",
 			"name": "preload"
 		},
 		{
-			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,myfont_json,flydata_json,sq_beijing_png,UI_json",
+			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,myfont_json,flydata_json,sq_beijing_png,UI_json,4_json,5_json,6_json,7_json,8_json",
 			"name": "start"
 		}
 	],
@@ -186,6 +186,26 @@
 			"url": "assets/game/sq_beijing.png",
 			"type": "image",
 			"name": "sq_beijing_png"
+		},
+		{
+			"url": "levels/5.json",
+			"type": "json",
+			"name": "5_json"
+		},
+		{
+			"url": "levels/6.json",
+			"type": "json",
+			"name": "6_json"
+		},
+		{
+			"url": "levels/7.json",
+			"type": "json",
+			"name": "7_json"
+		},
+		{
+			"url": "levels/8.json",
+			"type": "json",
+			"name": "8_json"
 		}
 	]
 }
