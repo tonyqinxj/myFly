@@ -66,6 +66,9 @@ class MonsterTools {
         if(star.starConfig['eat']) return;
 
         let scale = StarData.scaleWithLevel[star.level]; // 来自体型的
+        if(star['bosssize']){
+            scale = StarData.scaleWithLevel[star['bosssize']];
+        }
 
 
         if(star.starConfig['group']&StarData.CAN_ATTACK){

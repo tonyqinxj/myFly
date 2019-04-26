@@ -7,7 +7,7 @@ class WingMan {
         'strength': [],  // 强度提升需要的金币
     }
 
-    public static createWeapon(p: eui.Group, mainWeapon: eui.Image, id: number, attack: number, strength: number): Weapon {
+    public static createWeapon(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number): Weapon {
         let w: Weapon = null;
         switch (id) {
             case 1:

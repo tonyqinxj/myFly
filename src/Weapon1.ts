@@ -37,7 +37,7 @@ class Weapon1 extends Weapon {
         return ResTools.createBitmapByName(modelname);
     }
 
-    public constructor(p: eui.Group, mainWeapon: eui.Image, id: number, attack: number, strength: number) {
+    public constructor(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number) {
 
         super(p, mainWeapon, id, attack, strength);
 

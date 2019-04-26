@@ -4,7 +4,11 @@
     "tip": {},
 
     "init": [
-      { "time":500, "id":103,"level":1,"x":350 ,"y":500,"items":2}
+
+      { "time":500, "id":102,"level":1,"x":550 ,"y":200,"items":2},
+      { "time":500, "id":110,"level":3,"x":550 ,"y":500,"items":2},
+      { "time":500, "id":113,"level":1,"x":250 ,"y":200,"items":2, "bossblood":300000, "bosssize":6}
+
     ],
 
     "add_ons": [

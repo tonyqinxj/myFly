@@ -18,19 +18,19 @@
 		"OverUI": "resource/eui_skins/OverUI.exml",
 		"myTestAnm": "resource/eui_skins/myTestAnm.exml",
 		"Star1": "resource/eui_skins/guaiwu.1.exml",
-		"Star2": "resource/eui_skins/guaiwu.2.exml",
-		"Star3": "resource/eui_skins/guaiwu.3.exml",
+		"Star2": "resource/eui_skins/guaiwu.exml",
+		"Star3": "resource/eui_skins/guaiwu.2.exml",
 		"Star4": "resource/eui_skins/guaiwu.4.exml",
 		"Star5": "resource/eui_skins/guaiwu.5.exml",
 		"Star6": "resource/eui_skins/guaiwu.6.exml",
 		"Star7": "resource/eui_skins/guaiwu.7.exml",
-		"Star8": "resource/eui_skins/guaiwu.8.exml",
+		"Star8": "resource/eui_skins/guaiwu.3.exml",
 		"Star9": "resource/eui_skins/guaiwu.1.exml",
-		"Star10": "resource/eui_skins/guaiwu.1.exml",
-		"Star11": "resource/eui_skins/guaiwu.2.exml",
-		"Star12": "resource/eui_skins/guaiwu.3.exml",
+		"Star10": "resource/eui_skins/guaiwu.5.exml",
+		"Star11": "resource/eui_skins/guaiwu.8.exml",
+		"Star12": "resource/eui_skins/guaiwu.7.exml",
 		"Star13": "resource/eui_skins/guaiwu.4.exml",
-		"Star14": "resource/eui_skins/guaiwu.5.exml",
+		"Star14": "resource/eui_skins/guaiwu.6.exml",
 		"Star15": "resource/eui_skins/guaiwu.6.exml"
 	},
 	"autoGenerateExmlsList": true,
@@ -60,7 +60,8 @@
 		"resource/eui_skins/TextInputSkin.exml",
 		"resource/eui_skins/ToggleSwitchSkin.exml",
 		"resource/eui_skins/VScrollBarSkin.exml",
-		"resource/eui_skins/VSliderSkin.exml"
+		"resource/eui_skins/VSliderSkin.exml",
+		"resource/eui_skins/wuqi_1.exml"
 	],
 	"path": "resource/default.thm.json"
 }

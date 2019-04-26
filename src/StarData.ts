@@ -40,16 +40,17 @@ class StarData {
             attack_speed: 0.3,
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
-            create_new_star: { // 生成新的怪，移动一定时间产生
-                time: 1000, // 每移动time的时间，就产生一个新的怪物
-                id: '104',	// 怪物id
-                level: 0,	// 怪物等级
-                life: 5000,	// 怪物的生存时间，ms
-                //
-                // scaleX: 0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
-                // scaleY: 0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
-                // scale: {time: 1000, scaleX: 1.4, scaleY: 1}	// 怪物随时间的缩放，相对于原始尺寸
-            }
+            // create_new_star: { // 生成新的怪，移动一定时间产生
+            //     time: 1000, // 每移动time的时间，就产生一个新的怪物
+            //     id: '104',	// 怪物id
+            //     level: 0,	// 怪物等级
+            //     life: 5000,	// 怪物的生存时间，ms
+            //     //
+            //     // scaleX: 0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
+            //     // scaleY: 0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
+            //     // scale: {time: 1000, scaleX: 1.4, scaleY: 1}	// 怪物随时间的缩放，相对于原始尺寸
+            // }
+            // todo:修改为爆炸效果,过一段时间爆炸一下
         },//熔岩陨石 103
         '104': {
             name: '岩浆',
@@ -72,7 +73,7 @@ class StarData {
                     ]
                 }
             },
-        }, // 岩浆（特殊）		104
+        }, // 岩浆（特殊）		104 //todo:废除掉
         '105': {
             name: '磁铁陨石',
             id: 105,
@@ -110,6 +111,7 @@ class StarData {
             // 	scaleY:0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
             // 	scale:{time:3000, scaleX:1.4, scaleY:1.0}	// 怪物随时间的缩放，相对于原始尺寸
             // }
+            // todo: 修改为隔一段时间范围加血，特效播放完毕之后加血
         },//彗星
         '107': {
             name: '慧尾',
@@ -120,7 +122,7 @@ class StarData {
             group: 0,
             layer: 0,
             add_blood_other: 0.1, // 给别人加血, 每秒加
-        },// 慧尾
+        },// 慧尾 todo:废除
 
         '108': {
             name: '冰块陨石',
@@ -149,7 +151,7 @@ class StarData {
             attack_speed: 0,
             group: 0,
             layer: 0,
-        },// 碎冰（特殊）
+        },// 碎冰（特殊）// todo: 缺少资源
 
         '110': {
             name: '金刚陨石',
@@ -195,7 +197,7 @@ class StarData {
             name: '黑洞',
             id: 112,
             model: 'star2',
-            speed: 0.001,
+            speed: 0.01,
             attack_speed: 0.3,
             group: StarData.CAN_ATTACK,
             layer: 1,
@@ -250,6 +252,6 @@ class StarData {
                 scope: 100,			// 伤害范围
                 type: 1, // 1 表示摧毁所有物体
             }
-        }, // 卫星碎片
+        }, // 卫星碎片 // todo; 需要资源
     }
 }

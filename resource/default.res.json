@@ -1,11 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,4_json,UI_json,sq_beijing_png,5_json,6_json,7_json,8_json",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,4_json,UI_json,sq_beijing_png,5_json,6_json,7_json,8_json,fuwuqi_json",
 			"name": "preload"
 		},
 		{
-			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,myfont_json,flydata_json,sq_beijing_png,UI_json,4_json,5_json,6_json,7_json,8_json",
+			"keys": "newParticle_json,newParticle_png,1_json,2_json,3_json,myfont_json,sq_beijing_png,UI_json,4_json,5_json,6_json,7_json,8_json,flydata_json",
 			"name": "start"
 		}
 	],
@@ -169,7 +169,7 @@
 			"url": "assets/game/flydata.json",
 			"type": "sheet",
 			"name": "flydata_json",
-			"subkeys": ".,0,1,1-1,1-2,1-3,2,2-1,2-2,3,3-1,3-2,4,4-1,4-2,5,5-1,6,6-1,6-2,7,8,8-1,8-2,8-3,9,9-1,9-2,b1,b2,b23,b234,b24,b3,b34,b4,bb1,bbf1,boat1,bomb1,gold,hit,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,ireduceBoat,ireducess,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9,x-1,x-2,x-3,x-4,x-5"
+			"subkeys": ".,0,1,1-1,1-2,1-3,2,2-1,2-2,3,3-1,3-2,4,4-1,4-2,5,5-1,6,6-1,6-2,7,7-1,8,8-1,8-2,8-3,9,9-1,9-2,b1,b2,b23,b234,b24,b3,b34,b4,bb1,bbf1,boat1,bomb1,gold,hit,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,ireduceBoat,ireducess,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9,x-1,x-2,x-3,x-4,x-5"
 		},
 		{
 			"url": "levels/4.json",
@@ -206,6 +206,12 @@
 			"url": "levels/8.json",
 			"type": "json",
 			"name": "8_json"
+		},
+		{
+			"url": "assets/game/fuwuqi.json",
+			"type": "sheet",
+			"name": "fuwuqi_json",
+			"subkeys": "hy_1,hy_2,hy_3,pt_1,pt_2,wq_1"
 		}
 	]
 }

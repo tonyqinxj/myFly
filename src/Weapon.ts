@@ -7,10 +7,10 @@ class Weapon{
     protected strength:number = 0;
     protected id:number = 0;
     protected config:any = null;
-    protected mainWeapon:eui.Image = null;
+    protected mainWeapon:eui.Component = null;
 
     // 参数重置
-    public constructor(p:eui.Group, mainWeapon:eui.Image, id:number, attack:number, strength:number){
+    public constructor(p:eui.Group, mainWeapon:eui.Component, id:number, attack:number, strength:number){
         this.p = p;
         this.id = id;
         this.attack = attack;

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="wuqi_1Skin" width="150" height="230" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" >
+	<w:Declarations>
+		<tween:TweenGroup id="wuqidh">
+			<tween:TweenItem target="{image}">
+				<tween:Set/>
+				<tween:To duration="150">
+					<tween:props>
+						<e:Object scaleY="{1}" scaleX="{0.8}" alpha="{0.5}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="150">
+					<tween:props>
+						<e:Object scaleX="{1}" scaleY="{1}" alpha="{1}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{image0}">
+				<tween:Set/>
+				<tween:To duration="150">
+				<tween:props>
+					<e:Object scaleY="{1}" scaleX="{0.8}" alpha="{0.5}"/>
+				</tween:props>
+				</tween:To>
+				<tween:To duration="150">
+				<tween:props>
+					<e:Object scaleX="{1}" scaleY="{1}" alpha="{1}"/>
+				</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{image1}">
+				<tween:Set/>
+				<tween:To duration="150">
+				<tween:props>
+					<e:Object scaleY="{1}" scaleX="{0.8}" alpha="{0.5}"/>
+				</tween:props>
+				</tween:To>
+				<tween:To duration="150">
+				<tween:props>
+					<e:Object scaleX="{1}" scaleY="{1}" alpha="{1}"/>
+				</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{paota_2}">
+				<tween:Set/>
+				<tween:To duration="300">
+					<tween:props>
+						<e:Object alpha="{0.3}" scaleX="{3}" scaleY="{3}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<w:Config id="16a4e15c4e2" ></w:Config>
+	<e:Image id="jisheng_1" width="140" height="110" source="fuwuqi_json.wq_1" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="image0" width="28" height="26" anchorOffsetX="14" anchorOffsetY="13" horizontalCenter="52" verticalCenter="47" source="fuwuqi_json.hy_1"/>
+	<e:Image id="image1" width="28" height="26" source="fuwuqi_json.hy_1" anchorOffsetX="14" anchorOffsetY="13" horizontalCenter="-52" verticalCenter="47"/>
+	<e:Image id="image" width="30" height="40" anchorOffsetX="15" anchorOffsetY="20" verticalCenter="75" source="fuwuqi_json.hy_2" horizontalCenter="0"/>
+	<e:Image width="29.23" height="29.63" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="-69" source="fuwuqi_json.hy_3" horizontalCenter="-0.5"/>
+	<e:Image id="paota_1" width="60" height="60" anchorOffsetX="30" anchorOffsetY="30" verticalCenter="-82" horizontalCenter="0" source="fuwuqi_json.pt_1"/>
+	<e:Image id="paota_2" width="10" height="10" anchorOffsetX="30" anchorOffsetY="30" verticalCenter="-82" source="fuwuqi_json.pt_2" horizontalCenter="0"/>
+</e:Skin>

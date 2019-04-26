@@ -31,6 +31,8 @@ class GameData {
         '234': 'b234'
     };// 主武器子弹模型
 
+    public static MAX_LEVEL = 8;
+
     public static UserInfo = {
         openid: '',  // 玩家的openid
         tili: 80,    // 体力
@@ -273,6 +275,17 @@ class GameData {
             this.total_blood = 0;
             json.forEach(j => {
                 this.total_blood += j['blood'] || 0;
+                j.init.forEach(s=>{
+                    if(s['bossblood']){
+                        this.total_blood += s['bossblood'] // boss 额外加血
+                    }
+                })
+
+                j.add_ons.forEach(s=>{
+                    if(s['bossblood']){
+                        this.total_blood += s['bossblood']
+                    }
+                })
             })
 
             this.colors_blood = [];
@@ -311,6 +324,10 @@ class GameData {
     public static passLevel():void{
         this.UserInfo.curLevel ++;
         if(this.UserInfo.nextLevel <= this.UserInfo.curLevel) this.UserInfo.nextLevel++;
+
+        if(this.UserInfo.curLevel>this.MAX_LEVEL) this.UserInfo.curLevel = this.MAX_LEVEL;
+        if(this.UserInfo.nextLevel>this.MAX_LEVEL) this.UserInfo.nextLevel = this.MAX_LEVEL;
+
         this.needSaveUserInfo = true;
     }
 
