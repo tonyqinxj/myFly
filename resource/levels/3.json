@@ -1,57 +1,52 @@
 [
   {
-    "blood": 1000,
+    "blood": 400,
     "tip": {},
+
     "init": [
-      { "time":500, "id":105,"level":1,"x":350 },
-      { "time":1500, "id":105,"level":1,"x":350 }
+
+      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
+	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
+      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
+
     ],
 
     "add_ons": [
-      { "time":500, "id":105,"level":1,"x":350 },
-      { "time":1500, "id":105,"level":1,"x":350 }
+      { "time":300, "id":101,"level":1,"x":250 ,"y":0,"items":0}
     ]
    },
-  {
+   {
+    "blood": 600,
+    "tip": {},
+
+    "init": [
+
+
+      { "time":2300, "id":101,"level":1,"x":350 ,"y":0,"items":0}
+    ],
+
+    "add_ons": [
+      { "time":800, "id":101,"level":2,"x":250 ,"y":0,"items":2},
+	  { "time":1200, "id":105,"level":1,"x":550 ,"y":0,"items":0}
+    ]
+   },
+   {
     "blood": 1000,
     "tip": {},
 
     "init": [
-      { "time":500, "id":105,"level":1,"x":350 },
-      { "time":1500, "id":105,"level":1,"x":350 }
+
+      { "time":100, "id":106,"level":1,"x":150 ,"y":0,"items":0},
+      { "time":2500, "id":101,"level":3,"x":650 ,"y":0,"items":2}
+
     ],
 
     "add_ons": [
-      { "time":500, "id":105,"level":1,"x":350 },
-      { "time":1500, "id":105,"level":1,"x":350 }
+     { "time":300, "id":101,"level":2,"x":350 ,"y":0,"items":0},
+	 { "time":1300, "id":101,"level":1,"x":350 ,"y":0,"items":0},
+	 { "time":1300, "id":101,"level":1,"x":350 ,"y":0,"items":0},				
+     { "time":500, "id":101,"level":1,"x":650 ,"y":0,"items":0}
+
     ]
-  },
-  {
-    "blood": 1000,
-    "tip": {},
-
-    "init": [
-      { "time":500, "id":105,"level":1,"x":350 },
-      { "time":1500, "id":105,"level":1,"x":350 }
-    ],
-
-    "add_ons": [
-      { "time":500, "id":105,"level":1,"x":350 },
-      { "time":1500, "id":105,"level":1,"x":350 }
-    ]
-  },
-  {
-    "blood": 1000,
-    "tip": {},
-
-    "init": [
-      { "time":500, "id":105,"level":1,"x":350 },
-      { "time":1500, "id":105,"level":1,"x":350 }
-    ],
-
-    "add_ons": [
-      { "time":500, "id":105,"level":1,"x":350 },
-      { "time":1500, "id":105,"level":1,"x":350 }
-    ]
-  }
+   }
 ]

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="weaponSkin" width="120" height="120" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group id="gp_weapon" width="120" height="120" x="0" y="0">
+		<e:Label id="id" text="{data.id}" x="0" y="0" scaleX="1" scaleY="1" visible="false"/>
+		<e:Label id="open" text="{data.open}" x="0" y="0" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="img_bg" width="120" height="120" x="0" y="0" source="UI_json.sq_fu_2" visible="true" scaleX="1" scaleY="1"/>
+		<e:Image id="img_weapon" width="120" height="120" x="0" y="0" source="{data.weaponName}" visible="true" scaleX="1" scaleY="1"/>
+		<e:Image id="img_select" width="120" height="120" x="0" y="0" source="UI_json.sq_fu_3" scaleX="1" scaleY="1" visible="false"/>
+	</e:Group>
+</e:Skin>

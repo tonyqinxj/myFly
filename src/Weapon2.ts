@@ -26,12 +26,6 @@ class Weapon2 extends Weapon {
     private target: any = null; // 当前目标
 
     private lastSendTime: number = 0;
-    public getAttack(): number {
-        let attacklevel = this.attack;
-        if(attacklevel <=100) return 2* (attacklevel+20)*(attacklevel+20);
-        return 140*Math.exp(0.054*attacklevel);
-    }
-
 
 
     private setState(state: number) {
@@ -84,6 +78,17 @@ class Weapon2 extends Weapon {
         return this.fx
     }
 
+    public updateProperty():void{
+        let fun = this.config['energySpeed'];
+        if (fun) this.energySpeed = fun(this.getStrength());
+
+        fun = this.config['bulletRatio'];
+        if (fun) this.bulletRatio = fun(this.getStrength());
+
+        fun = this.config['maxEnergy'];
+        if (fun) this.maxEnergy = fun(this.getStrength());
+    }
+
     //
     public constructor(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number) {
 
@@ -92,13 +97,13 @@ class Weapon2 extends Weapon {
         console.log('create weapon...')
 
         let fun = this.config['energySpeed'];
-        if (fun) this.energySpeed = fun(this.strength);
+        if (fun) this.energySpeed = fun(this.getStrength());
 
         fun = this.config['bulletRatio'];
-        if (fun) this.bulletRatio = fun(this.strength);
+        if (fun) this.bulletRatio = fun(this.getStrength());
 
         fun = this.config['maxEnergy'];
-        if (fun) this.maxEnergy = fun(this.strength);
+        if (fun) this.maxEnergy = fun(this.getStrength());
 
         this.flySpeed = this.config['data']['flySpeed'];
 

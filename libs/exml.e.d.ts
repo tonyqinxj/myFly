@@ -60,5 +60,7 @@ declare module skins{
 	class VSliderSkin extends eui.Skin{
 	}
 }
+declare class weaponSkin extends eui.Skin{
+}
 declare class wuqi_1Skin extends eui.Skin{
 }

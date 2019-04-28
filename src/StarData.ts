@@ -16,8 +16,8 @@ class StarData {
             name: '小陨石',
             id: 101,
             model: 'star1',		// 模型名称
-            speed: 0.3,			// 移动速度
-            attack_speed: 0.3,	// 收到攻击之后的移动速度， 那减速的时间段呢（减速多久）
+            speed: 0.2,			// 移动速度
+            attack_speed: 0.4,	// 收到攻击之后的移动速度， 那减速的时间段呢（减速多久）
             snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
@@ -27,8 +27,9 @@ class StarData {
             name: '冲击陨石',
             id: 102,
             model: 'star2',
-            speed: 0.2,
-            attack_speed: 0.3,
+            speed: 0.25,
+            attack_speed: 0.4,
+			snow_time: 100,	
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
         }, // 冲击陨石 102
@@ -36,8 +37,9 @@ class StarData {
             name: '熔岩陨石',
             id: 103,
             model: 'star3',
-            speed: 0.1,
-            attack_speed: 0.3,
+            speed: 0.22,
+            attack_speed: 0.4,
+			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
             // create_new_star: { // 生成新的怪，移动一定时间产生
@@ -78,12 +80,13 @@ class StarData {
             name: '磁铁陨石',
             id: 105,
             model: 'star5',
-            speed: 0.1,
-            attack_speed: 0.5,
+            speed: 0.2,
+            attack_speed: 0.4,
+			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
             follow: {		// todo, need test
-                scope: 300,// 警戒范围,
+                scope: 400,// 警戒范围,
                 add_speed: 0.0005,// 每ms加速
             }
         }, // 磁铁陨石		105, 跟踪怪
@@ -91,8 +94,9 @@ class StarData {
             name: '彗星',
             id: 106,
             model: 'star6',
-            speed: 0.1,
-            attack_speed: 0.5,
+            speed: 0.15,
+            attack_speed: 0.4,
+			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             //group:0,
             layer: 1,
@@ -128,8 +132,9 @@ class StarData {
             name: '冰块陨石',
             id: 108,
             model: 'star8',
-            speed: 0.1,
-            attack_speed: 0.5,
+            speed: 0.25,
+            attack_speed: 0.4,
+			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
             create_new_star: { // 生成新的怪
@@ -157,8 +162,9 @@ class StarData {
             name: '金刚陨石',
             id: 110,
             model: 'star10',
-            speed: 0.15,
-            attack_speed: 0.3,
+            speed: 0.2,
+            attack_speed: 0.4,
+			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
             rebound: true,	// 反弹属性，碰到其他怪之后，会反弹 // todo need test
@@ -169,8 +175,9 @@ class StarData {
             name: '星际尘埃',
             id: 111,
             model: 'star1',
-            speed: 0.15,
-            attack_speed: 0.3,
+            speed: 0.2,
+            attack_speed: 0.4,
+			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
             scale_info: {
@@ -189,7 +196,7 @@ class StarData {
                 }
             },
             add_blood_self: {	// todo, need test, and need fx
-                times: 10,	// 加多少秒
+                times: 3,	// 加多少秒
                 speed: 0.1, // 每秒增加的比例，按照初始血量来增加
             }, // 这个加血只对自己有效
         },	// 星际尘埃
@@ -197,10 +204,10 @@ class StarData {
             name: '黑洞',
             id: 112,
             model: 'star2',
-            speed: 0.01,
-            attack_speed: 0.3,
+            speed: 0.16,
+            // attack_speed: 0.3,   //黑洞不被减速，by 李
             group: StarData.CAN_ATTACK,
-            layer: 1,
+            layer: 0,
             eat: {
                 blood: 1,	// 增加当前血量的比例
                 scale: 0.15, // 增加体型的比例, 针对原始尺寸
@@ -210,8 +217,9 @@ class StarData {
             name: '风暴球团',
             id: 113,
             model: 'star3',
-            speed: 0.15,
-            attack_speed: 0.3,
+            speed: 0.3,
+            attack_speed: 0.7,
+			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
             add_speed: [
@@ -225,8 +233,9 @@ class StarData {
             name: '爆炸卫星',
             id: 114,
             model: 'star4',
-            speed: 0.15,
-            attack_speed: 0.3,
+            speed: 0.2,
+            attack_speed: 0.4,
+			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
             create_new_star: { // 生成新的怪，移动一定时间产生
@@ -247,9 +256,9 @@ class StarData {
             speed: 0,
             attack_speed: 0,
             group: 0,
-            layer: 0,
+            layer: 1,
             bomb: {	// todo need test
-                scope: 100,			// 伤害范围
+                scope: 200,			// 伤害范围
                 type: 1, // 1 表示摧毁所有物体
             }
         }, // 卫星碎片 // todo; 需要资源

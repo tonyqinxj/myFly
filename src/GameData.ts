@@ -1,16 +1,6 @@
 // TypeScript file
 
 class GameData {
-    // 1624
-    // -140     -370
-    // 1484        1254
-    //
-    // 113
-    // 4
-    // 113  230
-    // 140
-
-
     // 成长
     /**
      1. 金币价值 y=6x
@@ -31,26 +21,55 @@ class GameData {
         '234': 'b234'
     };// 主武器子弹模型
 
+
+    public static weaponOpenLevels = [20, 60, 100];//僚机开放等级（关卡等级）
+    public static weaponNames = ['UI_json.sq_fu_4','UI_json.sq_fu_4','UI_json.sq_fu_4','UI_json.sq_fu_4'];
+
     public static MAX_LEVEL = 8;
 
     public static UserInfo = {
         openid: '',  // 玩家的openid
         tili: 80,    // 体力
-        totalMoney: 10000,  // 玩家当前拥有的金币
+        totalMoney: 20000000,  // 玩家当前拥有的金币
         totalDiamond: 0,   // 钻石
-        curLevel: 1, // 当前处于关卡
+        curLevel: 4, // 当前处于关卡
         nextLevel: 7, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
-            attack: 60,
-            speed: 10,
-        },
-        SubWeapons: [{
-            id: 2,
-            strength: 1,
             attack: 1,
-        }],
+            speed: 1,
+        },
+        SubWeapons: [
+            {
+                id: 1,
+                strength: 1,
+                attack: 1,
+                open: 1,
+                openlevel: 0,
+            },
+            {
+                id: 2,
+                strength: 1,
+                attack: 1,
+                open: 1,
+                openlevel: 1,
+            },
+            {
+                id: 3,
+                strength: 1,
+                attack: 1,
+                open: 1,
+                openlevel: 2,
+            },
+            {
+                id: 4,
+                strength: 1,
+                attack: 1,
+                open: 1,
+                openlevel: 3,
+            }
+        ],
         curSubWeaponId: 1,
         lastGetGoldTime: 0,          //
     }
@@ -98,7 +117,7 @@ class GameData {
         if (attck > 50) value = Math.floor(10 * Math.exp(0.05 * attck));
 
 
-        return attck;
+        return value;
     }
 
     public static getMainSpeed(): number {
@@ -110,7 +129,7 @@ class GameData {
     }
 
     public static getSubStrenth(): number {
-        return this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1].strength + 20;
+        return this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1].strength;
     }
 
     public static getSubAttack(): number {
@@ -138,7 +157,7 @@ class GameData {
         }
 
         let time = new Date().getTime() - this.UserInfo.lastGetGoldTime;
-        let gold = time * this.getGoldTime()/10000;
+        let gold = time * this.getGoldTime() / 10000;
         let max = this.getGoldTimeMax();
 
         //gold = max/3;
@@ -146,13 +165,13 @@ class GameData {
         return Math.min(gold, max);
     }
 
-    public static onGetGoldTime():void{
+    public static onGetGoldTime(): void {
         this.addGold(this.getCurGoldTime())
         this.UserInfo.lastGetGoldTime = new Date().getTime();
         this.needSaveUserInfo = true;
     }
 
-    public static onHandleResult(ratio:number):void{
+    public static onHandleResult(ratio: number): void {
         let gold = this.score * ratio;
         this.score = 0;
 
@@ -269,29 +288,29 @@ class GameData {
     // 装载关卡数据
     public static async genLevelData() {
 
-            let json = await RES.getResByUrl('/resource/levels/'+this.UserInfo.curLevel + '.json');
-            this.level_configs = json;
+        let json = await RES.getResByUrl('/resource/levels/' + this.UserInfo.curLevel + '.json');
+        this.level_configs = json;
 
-            this.total_blood = 0;
-            json.forEach(j => {
-                this.total_blood += j['blood'] || 0;
-                j.init.forEach(s=>{
-                    if(s['bossblood']){
-                        this.total_blood += s['bossblood'] // boss 额外加血
-                    }
-                })
-
-                j.add_ons.forEach(s=>{
-                    if(s['bossblood']){
-                        this.total_blood += s['bossblood']
-                    }
-                })
+        this.total_blood = 0;
+        json.forEach(j => {
+            this.total_blood += j['blood'] || 0;
+            j.init.forEach(s => {
+                if (s['bossblood']) {
+                    this.total_blood += s['bossblood'] // boss 额外加血
+                }
             })
 
-            this.colors_blood = [];
-            StarData.colorLevels.forEach(r => {
-                this.colors_blood.push(this.total_blood * r)
+            j.add_ons.forEach(s => {
+                if (s['bossblood']) {
+                    this.total_blood += s['bossblood']
+                }
             })
+        })
+
+        this.colors_blood = [];
+        StarData.colorLevels.forEach(r => {
+            this.colors_blood.push(this.total_blood * r)
+        })
 
 
     }
@@ -321,14 +340,43 @@ class GameData {
         }
     }
 
-    public static passLevel():void{
-        this.UserInfo.curLevel ++;
-        if(this.UserInfo.nextLevel <= this.UserInfo.curLevel) this.UserInfo.nextLevel++;
 
-        if(this.UserInfo.curLevel>this.MAX_LEVEL) this.UserInfo.curLevel = this.MAX_LEVEL;
-        if(this.UserInfo.nextLevel>this.MAX_LEVEL) this.UserInfo.nextLevel = this.MAX_LEVEL;
+    public static passLevel(): void {
+
+        this.UserInfo.curLevel++;
+        if (this.UserInfo.nextLevel <= this.UserInfo.curLevel) this.UserInfo.nextLevel++;
+
+        if (this.UserInfo.curLevel > this.MAX_LEVEL) this.UserInfo.curLevel = this.MAX_LEVEL;
+        if (this.UserInfo.nextLevel > this.MAX_LEVEL) this.UserInfo.nextLevel = this.MAX_LEVEL;
+
+
+        for(let i=0;i<this.UserInfo.SubWeapons.length;i++){
+            let sub = this.UserInfo.SubWeapons[i]
+            if(sub.open == 0){
+                if(this.UserInfo.nextLevel > sub.openlevel){
+                    // todo:提示新的僚机获得
+                    sub.open = 1;
+                    this.needSaveUserInfo = true;
+                }
+                break;
+            }
+        }
 
         this.needSaveUserInfo = true;
+    }
+
+    public static selectWeapon(id:number):number{
+        // 选择当前僚机
+        if(id > this.UserInfo.SubWeapons.length) return;
+        let sub = this.UserInfo.SubWeapons[id-1]
+
+        if(sub.open){
+            this.UserInfo.curSubWeaponId = id;
+            return 0;
+        }else{
+            //todo: 提示武器将在某个等级开放
+            return sub.openlevel
+        }
     }
 
     public static saveUserInfo() {

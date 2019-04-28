@@ -27,11 +27,7 @@ class Weapon3 extends Weapon {
 
     private state: number = 0;              // 0的时候充能， 1的时候放能
 
-    public getAttack(): number {
-        let attacklevel = this.attack;
-        if (attacklevel <= 100) return 10 * attacklevel * attacklevel + 750;
-        return 1200 * Math.exp(0.054 * attacklevel);
-    }
+
 
     // 子弹创建
     private createBullet() {
@@ -54,6 +50,20 @@ class Weapon3 extends Weapon {
         return this.fx
     }
 
+    public updateProperty():void{
+        let fun = this.config['weaponRatio'];
+        if (fun) this.weaponRatio = fun(this.getStrength());
+
+        fun = this.config['bulletRatio'];
+        if (fun) this.bulletRatio = fun(this.getStrength());
+
+        fun = this.config['bulletCount'];
+        if (fun) this.bulletCount = fun(this.getStrength());
+
+        fun = this.config['bulletScale'];
+        if (fun) this.bulletScale = fun(this.getStrength());
+    }
+
     //
     public constructor(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number) {
 
@@ -62,16 +72,16 @@ class Weapon3 extends Weapon {
         console.log('create weapon...')
 
         let fun = this.config['weaponRatio'];
-        if (fun) this.weaponRatio = fun(this.strength);
+        if (fun) this.weaponRatio = fun(this.getStrength());
 
         fun = this.config['bulletRatio'];
-        if (fun) this.bulletRatio = fun(this.strength);
+        if (fun) this.bulletRatio = fun(this.getStrength());
 
         fun = this.config['bulletCount'];
-        if (fun) this.bulletCount = fun(this.strength);
+        if (fun) this.bulletCount = fun(this.getStrength());
 
         fun = this.config['bulletScale'];
-        if (fun) this.bulletScale = fun(this.strength);
+        if (fun) this.bulletScale = fun(this.getStrength());
 
         this.scaleStart = this.config['data']['scale']['start'];
         this.scaleTime = this.config['data']['scale']['time'];
@@ -236,7 +246,10 @@ class Weapon3 extends Weapon {
 
         this.bullets.push(bulletdata);
 
-        egret.Tween.get(model).to({scaleX: this.bulletScale, scaleY: this.bulletScale}, this.scaleTime);
+
+        let scale = this.bulletScale/model.width;
+
+        egret.Tween.get(model).to({scaleX: scale, scaleY:1}, this.scaleTime);
 
     }
 }

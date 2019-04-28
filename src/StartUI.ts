@@ -361,6 +361,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.txt_up2.text = '火力'
         this.txt_up2_lv.text = 'Lv' + (GameData.UserInfo.MainWeapon.attack + 1);
+        this.txt_up2_lv.textColor = 0xFF87CE;
         this.txt_up2_value.text = myMath.getString(GameData.getMainAttack());
         this.txt_up2_cost.text = myMath.getString(GameData.getCost('main_attack'));
 
@@ -380,12 +381,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.txt_up1.text = '强度';
         this.txt_up1_lv.text = 'Lv' + (sub.strength + 1);
         this.txt_up1_lv.textColor = 0XCC6FFD;
-        this.txt_up1_value.text = myMath.getString(GameData.getSubStrenth());
+        this.txt_up1_value.text = ''+this.weapon.getStrength();
         this.txt_up1_cost.text = myMath.getString(GameData.getCost('sub_speed'));
 
         this.txt_up2.text = '火力'
         this.txt_up2_lv.text = 'Lv' + (sub.attack + 1);
-        this.txt_up2_value.text = myMath.getString(GameData.getSubAttack());
+        this.txt_up2_lv.textColor = 0XCC6FFD;
+        this.txt_up2_value.text = myMath.getString(this.weapon.getAttack());
         this.txt_up2_cost.text = myMath.getString(GameData.getCost('sub_attack'));
 
         this.gp_root.addChild(this.gp_b2);
@@ -409,6 +411,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.txt_up2.text = '日常收益'
         this.txt_up2_lv.text = 'Lv' + GameData.UserInfo.goldTimeLevel;
+        this.txt_up2_lv.textColor = 0xCC6FFD;
         this.txt_up2_value.text = myMath.getString(GameData.getGoldTime());
         this.txt_up2_cost.text = myMath.getString(GameData.getCost('gold_time'));
 
@@ -432,6 +435,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 GameData.levelup('sub_speed')
                 this.resetHB();
                 this.onSubClick(e);
+                this.weapon.updateProperty();
                 break;
             default:
                 GameData.levelup('gold_cost')
@@ -560,12 +564,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.star_add_blood = [];
         this.bomb = [];
 
-        // 僚机的清空
-        if (this.weapon) {
-            this.weapon.clear();
-        }
-        let sub_weapon = GameData.getSubWeapon();
-        this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, sub_weapon.id, sub_weapon.attack, sub_weapon.strength);
+        // 僚机的初始化
+        this.initWeapon();
+
     }
 
     private system: particle.GravityParticleSystem;
@@ -1224,7 +1225,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         let speed = GameData.main_weapon.bullet_speed;
         let dis = speed * deltaTime;
 
-        let boat_rect = new egret.Rectangle(this.boat.x - this.boat.width / 4, this.boat.y - this.boat.height / 2, this.boat.width/2, this.boat.height)
+        let boat_rect = new egret.Rectangle(this.boat.x - this.boat.width / 6, this.boat.y - this.boat.height / 4, this.boat.width/3, this.boat.height/2)
         let game_over = false;
 
 
@@ -1880,6 +1881,55 @@ class StartUI extends eui.Component implements eui.UIComponent {
         shape.graphics.drawArc(this.img_jindu.x, this.img_jindu.y, this.img_jindu.height, -90 * Math.PI / 180, (360 * cur / total - 90) * Math.PI / 180, false);
         shape.graphics.lineTo(this.img_jindu.x, this.img_jindu.y);
         shape.graphics.endFill();
+    }
+
+    // 僚机。。。。。。。。。。。。。。。。。。。。。
+
+    private listWeaponUI:eui.List;
+    private initWeapon():void{
+        if (this.weapon) {
+            this.weapon.clear();
+        }
+        let sub_weapon = GameData.getSubWeapon();
+        this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, sub_weapon.id, sub_weapon.attack, sub_weapon.strength);
+
+
+        let list = [];
+        GameData.UserInfo.SubWeapons.forEach(sub=>{
+            list.push({
+                id:sub.id,
+                open:sub.open,
+                weaponName:GameData.weaponNames[sub.id-1]
+            })
+        })
+
+        this.listWeaponUI.dataProvider = new eui.ArrayCollection(list);
+        this.listWeaponUI.itemRenderer = WeaponRender;
+
+        EventManager.register('selectWeapon', this.selectWeapon.bind(this), this);
+    }
+
+    // 僚机选择
+    private selectWeapon(e: egret.Event):void{
+        let id = parseInt(e.data.id);
+        let ret =GameData.selectWeapon(id);
+        if(ret > 0){
+            //
+            this.showSelectWeaponTip(ret);
+        }else{
+            // 僚机的清空
+            if (this.weapon) {
+                this.weapon.clear();
+            }
+            let sub_weapon = GameData.getSubWeapon();
+            this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, sub_weapon.id, sub_weapon.attack, sub_weapon.strength);
+
+            this.onSubClick(null);
+        }
+    }
+
+    private showSelectWeaponTip(level:number):void{
+
     }
 
 }

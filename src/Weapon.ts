@@ -3,8 +3,6 @@
  */
 class Weapon{
     protected p:eui.Group = null;
-    protected attack:number =0;
-    protected strength:number = 0;
     protected id:number = 0;
     protected config:any = null;
     protected mainWeapon:eui.Component = null;
@@ -13,8 +11,6 @@ class Weapon{
     public constructor(p:eui.Group, mainWeapon:eui.Component, id:number, attack:number, strength:number){
         this.p = p;
         this.id = id;
-        this.attack = attack;
-        this.strength = strength;
         this.mainWeapon = mainWeapon;
         this.config = WingMan.WingConfig[this.id];
     }
@@ -38,6 +34,18 @@ class Weapon{
     }
 
     public getAttack():number{
+        let fun = this.config['getAttack'];
+        if(fun) return fun(GameData.getSubAttack())
+
         return GameData.getSubAttack();
     }
+
+    public getStrength():number{
+        let fun = this.config['getStrength'];
+        if(fun) return fun(GameData.getSubStrenth())
+
+        return GameData.getSubStrenth();
+    }
+
+    public updateProperty():void{};
 }

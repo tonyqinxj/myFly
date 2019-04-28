@@ -13,6 +13,7 @@
 		"eui.VScrollBar": "resource/eui_skins/VScrollBarSkin.exml",
 		"eui.VSlider": "resource/eui_skins/VSliderSkin.exml",
 		"eui.ItemRenderer": "resource/eui_skins/ItemRendererSkin.exml",
+		"weaponSkin": "resource/eui_skins/weaponSkin.exml",
 		"StartUI": "resource/eui_skins/StartUI.exml",
 		"GameUI": "resource/eui_skins/GameUI.exml",
 		"OverUI": "resource/eui_skins/OverUI.exml",
@@ -61,6 +62,7 @@
 		"resource/eui_skins/ToggleSwitchSkin.exml",
 		"resource/eui_skins/VScrollBarSkin.exml",
 		"resource/eui_skins/VSliderSkin.exml",
+		"resource/eui_skins/weaponSkin.exml",
 		"resource/eui_skins/wuqi_1.exml"
 	],
 	"path": "resource/default.thm.json"

@@ -19,12 +19,6 @@ class Weapon1 extends Weapon {
 
     private lastSendTime: number = 0;
 
-    public getAttack(): number {
-        let attacklevel = this.attack;
-        if(attacklevel <=100) return attacklevel*attacklevel;
-        return 120*Math.exp(0.054*attacklevel);
-    }
-
     private createBullet() {
         if (this.bullets_free.length) {
             return this.bullets_free.shift();
@@ -43,6 +37,20 @@ class Weapon1 extends Weapon {
         return ResTools.createBitmapByName(modelname);
     }
 
+    public updateProperty():void{
+        let fun = this.config['weaponRatio'];
+        if (fun) this.weaponRatio = fun(this.getStrength());
+
+        fun = this.config['bombScope'];
+        if (fun) this.bombScope = fun(this.getStrength()); //火力决定
+
+        fun = this.config['bulletScale'];
+        if (fun) this.bulletScale = fun(this.getStrength());
+
+        fun = this.config['bulletScale'];
+        if (fun) this.bulletScale = fun(this.getStrength());
+    }
+
     public constructor(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number) {
 
         super(p, mainWeapon, id, attack, strength);
@@ -50,13 +58,13 @@ class Weapon1 extends Weapon {
         console.log('create weapon...')
 
         let fun = this.config['weaponRatio'];
-        if (fun) this.weaponRatio = fun(this.strength);
+        if (fun) this.weaponRatio = fun(this.getStrength());
 
         fun = this.config['bombScope'];
-        if (fun) this.bombScope = fun(this.attack); //火力决定
+        if (fun) this.bombScope = fun(this.getStrength()); //火力决定
 
         fun = this.config['bulletScale'];
-        if (fun) this.bulletScale = fun(this.strength);
+        if (fun) this.bulletScale = fun(this.getStrength());
 
         this.scaleStart = this.config['data']['scale']['start'];
         this.scaleTime = this.config['data']['scale']['time'];

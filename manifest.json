@@ -13,6 +13,7 @@
 	"game": [
 		"bin-debug/Weapon.js",
 		"bin-debug/OverUI.js",
+		"bin-debug/EventManager.js",
 		"bin-debug/FxMgr.js",
 		"bin-debug/GameData.js",
 		"bin-debug/GameUI.js",
@@ -40,6 +41,7 @@
 		"bin-debug/Weapon3.js",
 		"bin-debug/Weapon4.js",
 		"bin-debug/Weapon5.js",
+		"bin-debug/WeaponRender.js",
 		"bin-debug/WingMan.js",
 		"bin-debug/wuqi_1.js"
 	]

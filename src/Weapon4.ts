@@ -30,11 +30,7 @@ class Weapon4 extends Weapon {
     private fx = [];
 
     private state: number = 0;              // 0的时候充能， 1的时候放能
-    public getAttack(): number {
-        let attacklevel = this.attack;
-        if(attacklevel <=100) return 40* (attacklevel + 20)*(attacklevel + 20);
-        return 600*Math.exp(0.054*attacklevel);
-    }
+
     // 子弹创建
     private createBullet() {
         if (this.bullets_free.length) {
@@ -56,6 +52,17 @@ class Weapon4 extends Weapon {
         return ResTools.createBitmapByName(modelname);
     }
 
+    public updateProperty():void{
+        let fun = this.config['weaponRatio'];
+        if (fun) this.weaponRatio = fun(this.getStrength());
+
+        fun = this.config['bulletScale'];
+        if (fun) this.bulletScale = fun(this.getStrength());
+
+        fun = this.config['bombScope'];
+        if (fun) this.bombScope = fun(this.getStrength());
+    }
+
     //
     public constructor(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number) {
 
@@ -64,13 +71,13 @@ class Weapon4 extends Weapon {
         console.log('create weapon...')
 
         let fun = this.config['weaponRatio'];
-        if (fun) this.weaponRatio = fun(this.strength);
+        if (fun) this.weaponRatio = fun(this.getStrength());
 
         fun = this.config['bulletScale'];
-        if (fun) this.bulletScale = fun(this.strength);
+        if (fun) this.bulletScale = fun(this.getStrength());
 
         fun = this.config['bombScope'];
-        if (fun) this.bombScope = fun(this.strength);
+        if (fun) this.bombScope = fun(this.getStrength());
 
         this.scaleStart = this.config['data']['scale']['start'];
         this.scaleTime = this.config['data']['scale']['time'];
@@ -249,7 +256,8 @@ class Weapon4 extends Weapon {
 
         this.bullets.push(bulletdata);
 
-        egret.Tween.get(model).to({scaleX: this.bulletScale, scaleY: this.bulletScale}, this.scaleTime);
+        let scale = this.bulletScale/model.width;
+        egret.Tween.get(model).to({scaleX: scale, scaleY: scale}, this.scaleTime);
 
     }
 }
