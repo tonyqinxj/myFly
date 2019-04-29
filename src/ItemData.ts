@@ -3,6 +3,7 @@
  */
 class ItemData {
     public static itemFlyTime = 15000; // 道具在空中飞行的时间
+    public static  itemFlyTipTime = 3000; // 道具飞行生命周期低于这个，透明度发生变化，提示
     public static itemFlySpeed = 0.1; // 道具飞行速度
     public static itemConfig = [
         {
@@ -11,7 +12,7 @@ class ItemData {
             'model': 'iaddss',
             'icon': 'iaddss',
             'ratio': 1.5,    // 加速比例
-            'time': 30000,
+            'time': 3000,
         },  // 加速怪物
         {
             'id': 'reduceStarMove',
@@ -79,4 +80,12 @@ class ItemData {
             'time': 3000, // todo： 友机的移动方式，提升方式
         },  // 呼叫支援
     ]
+
+    public static getItemConfig(id:string):any{
+        for(let i=0;i< this.itemConfig.length;i++){
+            if(id == this.itemConfig[i].id) return this.itemConfig[i]
+        }
+
+        return null;
+    }
 }

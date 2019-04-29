@@ -779,7 +779,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.checkBomb();   // 炸弹
             this.checkAddBloodOther(deltaTime); // 给别人加血
             this.checkStarDie();   // 检查怪物死亡(blood<=0)
-            this.checkScale();  // 处理体型
+            this.checkScale(deltaTime_snow);  // 处理体型
             this.changeBloodLable();
             this.checkFx(); // 拖尾等伴随特效
             MonsterTools.updateItems(deltaTime_snow);
@@ -1399,9 +1399,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
-    private checkScale(): void {
+    private checkScale(deltaTime_snow:number): void {
         this.star_fly.forEach(star => {
-            MonsterTools.doScale(star);
+            MonsterTools.doScale(star, deltaTime_snow);
         })
     }
 
@@ -1553,7 +1553,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.star_add_blood.push(star);
         }
 
-        MonsterTools.doScale(star);
+        MonsterTools.doScale(star, 0);
     }
 
     private changeStarColor(star: any): void {
@@ -1566,9 +1566,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
     // 创建全局道具
     private createItems(x: number, y: number, nums: number): void {
         for (let i = 0; i < nums; i++) {
-            let rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
-            //let rand = 8;
-            let itemConfig = ItemData.itemConfig[rand - 1];
+
+            let itemConfig = MonsterTools.testRandItem();
+            if(itemConfig == null){
+                let rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
+                //let rand = 8;
+                itemConfig = ItemData.itemConfig[rand - 1];
+            }
+
 
             let model = ResTools.createBitmapByName(itemConfig.model);
             model.x = x + Tools.GetRandomNum(1, 30) - 15;
@@ -1585,6 +1590,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 flyTime: 0,
                 lifeTime: ItemData.itemFlyTime,
             })
+
+            MonsterTools.pushItemToGame(itemConfig.id)
         }
     }
 
@@ -1608,7 +1615,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 item.model.parent && item.model.parent.removeChild(item.model);
                 this.items.splice(i, 1)
                 i--
+                MonsterTools.popItemFromGame(item.config.id)
                 break;
+            }else if(item.lifeTime - item.flyTime <= ItemData.itemFlyTipTime && item.lifeTime - item.flyTime + deltaTime > ItemData.itemFlyTipTime){
+                egret.Tween.get(item.model, {loop:true}).to({alpha:0.5}, 200).to({alpha:1}, 200)
             }
 
             item.model.x += item.speed.x * deltaTime;

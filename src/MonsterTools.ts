@@ -61,7 +61,7 @@ class MonsterTools {
      5. 黑洞变大
      6. 被黑洞吸收，变小
      */
-    public static doScale(star: any): void {
+    public static doScale(star: any, deltaTime_snow:number): void {
         // 黑洞不再此列
         if(star.starConfig['eat']) return;
 
@@ -129,6 +129,26 @@ class MonsterTools {
             }
         }
 
+        if(deltaTime_snow && star['hurtScale']){
+            let hurtScale = star['hurtScale'];
+            hurtScale.time += deltaTime_snow;
+
+            if(hurtScale.time > hurtScale.maxtime){
+                delete star['hurtScale']
+            }else if(hurtScale.time > hurtScale.maxtime/2){
+                // 后半程
+                let r1 = (hurtScale.time - hurtScale.maxtime/2)/(hurtScale.maxtime/2)
+                let r2 = 1-r1
+                let s = hurtScale.scale * r2 + r1;
+                scale *= s;
+            }else{
+                let r1 = (hurtScale.maxtime/2 - hurtScale.time)/(hurtScale.maxtime/2)
+                let r2 = 1-r1
+                let s = hurtScale.scale * r2 + r1;
+                scale *= s;
+            }
+        }
+
         star.model.scaleX = lastscale.scaleX * scale;
         star.model.scaleY = lastscale.scaleY * scale;
     }
@@ -170,12 +190,58 @@ class MonsterTools {
         if (star.blood < 0) {
             star.blood = 0;
         }
+
+        if(!star['hurtScale']){
+            star['hurtScale'] = {
+                time:0,
+                maxtime:StarData.hurtScale.time,
+                scale:StarData.hurtScale.scale
+            }
+        }
     }
 
     public static itemPanel: eui.Group = null;
-    public static itemYs = [100, 200, 300, 400, 500, 600]; // 位置
+    public static itemYs = [100, 200, 300, 400, 500]; // 位置, 5个, 关于道具随机，一旦同时爆出了5个不同类型的道具，以后都在这个范围内爆
     public static items = []; // 全局道具icon
     public static itemMap = {}; // key :y, value:item
+
+    public static itemInGames = []; // 当前存在的item，最多5种
+
+    public static pushItemToGame(id:string){
+        for(let i=0;i<this.itemInGames.length;i++){
+            if(this.itemInGames[i].id == id){
+                this.itemInGames[i].nums ++;
+                return;
+            }
+        }
+
+        this.itemInGames.push({
+            id:id,
+            nums:1
+        })
+    }
+
+    public static popItemFromGame(id:string){
+        for(let i=0;i<this.itemInGames.length;i++){
+            if(this.itemInGames[i].id == id){
+                this.itemInGames[i].nums --;
+                if(this.itemInGames[i].nums == 0){
+                    this.itemInGames.splice(i,1);
+                }
+                return;
+            }
+        }
+    }
+
+    public static testRandItem(){
+        if(this.itemInGames.length == this.itemYs.length){
+            let rand = Tools.GetRandomNum(1, this.itemYs.length);
+            let id = this.itemInGames[rand-1].id
+            return ItemData.getItemConfig(id);
+        }
+
+        return null;
+    }
 
     public static clearItems():void{
         this.items.forEach(item=>{
@@ -183,6 +249,7 @@ class MonsterTools {
         })
         this.items =[];
         this.itemMap ={};
+        this.itemInGames = [];
     }
 
     protected static findItemEmptyPos(): number {
@@ -193,6 +260,7 @@ class MonsterTools {
             y = thisY;
             break;
         }
+
         return y;
     }
 
@@ -223,6 +291,7 @@ class MonsterTools {
         this.items.push(item)
 
         if (y > 0) {
+            model.y = y;
             this.itemPanel.addChild(model);
             this.itemMap[y] = item;
             this.setItemTime(item);
@@ -253,18 +322,18 @@ class MonsterTools {
             }
         }
 
-        // 换位置
-        for (let i = 0; i < this.items.length; i++) {
-            let item = this.items[i]
-            if (item.y == 0) {
-                let y = this.findItemEmptyPos();
-                if (y == 0) break;
-
-                item.y = y;
-                this.itemPanel.addChild(item.model);
-                this.setItemTime(item)
-            }
-        }
+        // // 换位置
+        // for (let i = 0; i < this.items.length; i++) {
+        //     let item = this.items[i]
+        //     if (item.y == 0) {
+        //         let y = this.findItemEmptyPos();
+        //         if (y == 0) break;
+        //
+        //         item.y = y;
+        //         this.itemPanel.addChild(item.model);
+        //         this.setItemTime(item)
+        //     }
+        // }
 
     }
 
@@ -272,6 +341,10 @@ class MonsterTools {
         if(item.config.id == 'addHitSpeed'){
             GameData.genBulletList();
         }
+
+        item.model && item.model.parent && item.model.parent.removeChild(item.model);
+
+        this.popItemFromGame(item.config.id);
     }
 
     public static itemBegin(item: any): void {

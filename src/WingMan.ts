@@ -2,10 +2,6 @@
  * Created by Administrator on 2019/4/16 0016.
  */
 class WingMan {
-    public static upgradeGold = { // 成长体系
-        'attack': [],    // 火力提升需要的金币
-        'strength': [],  // 强度提升需要的金币
-    }
 
     public static createWeapon(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number): Weapon {
         let w: Weapon = null;

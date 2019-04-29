@@ -7,6 +7,11 @@ class StarData {
     public static colorLevels =[0.1,0.01,0.001,0.0001];
     public static colorNames=['x-5', 'x-4', 'x-3', 'x-2', 'x-1'];
 
+    public static hurtScale = {
+        scale:0.95,
+        time:60,
+    }
+
 
 
     public static CAN_ATTACK = Math.pow(2, 11);// 可被攻击
@@ -139,7 +144,7 @@ class StarData {
             layer: 1,
             create_new_star: { // 生成新的怪
                 time: 0, // 每移动time的时间，就产生一个新的怪物, 0表示死亡产生
-                id: '8',	// 怪物id
+                id: '109',	// 怪物id
                 level: 1,	// 怪物等级
                 life: 5000,	// 怪物的生存时间，ms
 
