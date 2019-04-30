@@ -63,7 +63,10 @@
 		"resource/eui_skins/VScrollBarSkin.exml",
 		"resource/eui_skins/VSliderSkin.exml",
 		"resource/eui_skins/weaponSkin.exml",
-		"resource/eui_skins/wuqi_1.exml"
+		"resource/eui_skins/wuqi_1.exml",
+		"resource/eui_skins/wuqi_2.exml",
+		"resource/eui_skins/wuqi_3.exml",
+		"resource/eui_skins/wuqi_4.exml"
 	],
 	"path": "resource/default.thm.json"
 }

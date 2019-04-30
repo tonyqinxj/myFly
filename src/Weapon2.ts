@@ -90,7 +90,7 @@ class Weapon2 extends Weapon {
     }
 
     //
-    public constructor(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number) {
+    public constructor(p: eui.Group, mainWeapon: wuqi_1, id: number, attack: number, strength: number) {
 
         super(p, mainWeapon, id, attack, strength);
 
@@ -139,6 +139,15 @@ class Weapon2 extends Weapon {
         this.bullets = [];
     }
 
+    private setTarget(star:any):void{
+        this.target = star;
+        if(this.target){
+            this.mainWeapon.setTarget(star.model);
+        }else{
+            this.mainWeapon.setTarget(null);
+        }
+    }
+
     // 帧函数，子弹的移动，子弹的碰撞检测，子弹的生命周期检测
     public update(deltaTime: number, deltaTime_snow: number, star_flys: Array<any>): void {
         // 充能
@@ -147,7 +156,7 @@ class Weapon2 extends Weapon {
         // 目标进入不可见范围
         if (this.target) {
             if (this.target.model == null || this.target.model.y > this.mainWeapon.y - this.mainWeapon.height / 2) {
-                this.target = null;
+                this.setTarget(null);
                 this.setState(Weapon2.STATE_INT)
             }
         }
@@ -160,7 +169,7 @@ class Weapon2 extends Weapon {
                     let p: egret.Point = new egret.Point(star.model.x - this.mainWeapon.x, star.model.y - this.mainWeapon.y)
                     if (p.length < len) {
                         len = p.length;
-                        this.target = star;
+                        this.setTarget(star);
                     }
                 }
             })
@@ -168,9 +177,7 @@ class Weapon2 extends Weapon {
             if(this.target){
                 this.setState(Weapon2.STATE_SEND);
             }
-
         }
-
 
         // 子弹飞行
         for (let i = 0; i < this.bullets.length;) {
@@ -193,7 +200,7 @@ class Weapon2 extends Weapon {
 
                 MonsterTools.delHp(this.target, this.getAttack());
                 if (this.target.blood <= 0) {
-                    this.target = null; // 需要切换target
+                    this.setTarget(null); // 需要切换target
                     this.setState(Weapon2.STATE_INT)
                 }
 
@@ -232,7 +239,7 @@ class Weapon2 extends Weapon {
                 // 发射一颗子弹，消耗一定的能量
                 this.energy -= this.bulletRatio;
                 if (this.energy <= 0) {
-                    this.target = null;
+                    this.setTarget(null);
                     this.setState(Weapon2.STATE_EMPTY);
                 }
             }

@@ -3,7 +3,7 @@
  */
 class WingMan {
 
-    public static createWeapon(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number): Weapon {
+    public static createWeapon(p: eui.Group, mainWeapon: wuqi_1, id: number, attack: number, strength: number): Weapon {
         let w: Weapon = null;
         switch (id) {
             case 1:
@@ -27,7 +27,7 @@ class WingMan {
 
     public static WingConfig = {
         '1': {
-            'model': 'bb1',
+            'model': 'fuwuqi_1_1',
             'getAttack': function (level:number) {
                 if(level <=100) return level*level;
                 return 120*Math.exp(0.054*level);
@@ -68,12 +68,12 @@ class WingMan {
                     'start':0.5,    // 其实大小，相对于原始图
                     'time':500,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
                 },
-                'bombfx': 'bbf1',     // 爆炸特效
+                'bombfx': 'fuwuqi_1_2',     // 爆炸特效
 
             },
         }, // 高爆弹
         '2': {
-            'model': 'bb1',
+            'model': 'fuwuqi_2_1',
             'getAttack': function (level:number) {
                 if(level <=100) return 2* (level+20)*(level+20);
                 return 140*Math.exp(0.054*level);
@@ -114,7 +114,7 @@ class WingMan {
             }
         }, // 跟踪子弹
         '3':{
-            'model':'bb1',
+            'model':'fuwuqi_3_1',
             'getAttack': function (level:number) {
                 if (level <= 100) return 10 * level * level + 750;
                 return 1200 * Math.exp(0.054 * level);
@@ -150,7 +150,7 @@ class WingMan {
 
         }, // 冲击波
         '4':{
-            'model':'bb1',
+            'model':'fuwuqi_4_1',
             'getAttack': function (level:number) {
                 if(level <=100) return 40* (level + 20)*(level + 20);
                 return 600*Math.exp(0.054*level);
@@ -178,7 +178,7 @@ class WingMan {
                     'start':0.5,    // 其实大小，相对于原始图
                     'time':1000,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
                 },
-                'fx':'bbf1',        // 爆炸特效
+                'fx':'fuwuqi_4_2',        // 爆炸特效
                 'snow':{
                     'time':2000,    // 减速时长
                     'speedRatio':0.1,// 减速比例

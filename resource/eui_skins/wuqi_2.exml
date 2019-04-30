@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="wuqi_1Skin" width="200" height="230" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" >
+	<w:Declarations>
+		<tween:TweenGroup id="wuqidh">
+			<tween:TweenItem target="{image}">
+				<tween:Set/>
+				<tween:To duration="150">
+					<tween:props>
+						<e:Object scaleY="{1}" scaleX="{0.8}" alpha="{0.5}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="150">
+					<tween:props>
+						<e:Object scaleX="{1}" scaleY="{1}" alpha="{1}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{paota_2}">
+				<tween:Set/>
+				<tween:To duration="300">
+					<tween:props>
+						<e:Object alpha="{0.3}" scaleX="{3}" scaleY="{3}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<w:Config id="16a4e15c4e2" ></w:Config>
+	<e:Image id="wuqi_1" width="95" height="110" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="0" horizontalCenter="0" source="flydata_json.wuqi_2_1"/>
+	<e:Image id="wuqi_2" width="54" height="77" anchorOffsetX="27" anchorOffsetY="50" verticalCenter="-6.5" horizontalCenter="-62" source="flydata_json.wuqi_2_2"/>
+	<e:Image id="wuqi_3" width="54" height="77" anchorOffsetX="27" anchorOffsetY="50" verticalCenter="-6.5" horizontalCenter="62" source="flydata_json.wuqi_2_2"/>
+	<e:Image id="wuqi_4" width="11" height="19" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="-35.5" source="flydata_json.wuqi_2_3" horizontalCenter="0.5"/>
+	<e:Image id="image" width="30" height="40" anchorOffsetX="15" anchorOffsetY="20" verticalCenter="75" horizontalCenter="0" source="flydata_json.weiba_1"/>
+	<e:Image id="paota_1" width="56" height="53" anchorOffsetX="30" anchorOffsetY="30" verticalCenter="-81.5" horizontalCenter="0" source="flydata_json.gongji_1"/>
+	<e:Image id="paota_2" width="10" height="10" anchorOffsetX="30" anchorOffsetY="30" verticalCenter="-79" source="fuwuqi_json.pt_2" horizontalCenter="0"/>
+</e:Skin>

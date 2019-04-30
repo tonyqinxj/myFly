@@ -250,9 +250,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private showResult(win: boolean): void {
 
         this.win = win;
-        let timer_show: egret.Timer = new egret.Timer(1000, 1);
-        timer_show.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.showResult_real, this)
-        timer_show.start();
+        // let timer_show: egret.Timer = new egret.Timer(1000, 1);
+        // timer_show.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.showResult_real, this)
+        // timer_show.start();
+
+        this.showResult_real(null)
     }
 
     //
@@ -430,6 +432,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 GameData.levelup('main_speed')
                 this.resetHB();
                 this.onMainClick(e);
+                GameData.genBulletList();
                 break;
             case '强度':
                 GameData.levelup('sub_speed')
@@ -697,6 +700,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         // console.log('onTouchBegin call:', this.last_pos)
         this.sendStart();
+        platform.playHit();
     }
 
     // 在屏幕上滑动
@@ -739,12 +743,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.state = 'pause';
         this.sendEnd();
+        platform.stopHit();
     }
 
     // 帧时间，逻辑循环从这里开始
     private onEnterFrame(e: egret.Event): void {
 
-        if (this.state == 'game' || this.state == 'pause' || this.state == 'result') {
+        if (this.state == 'game' || this.state == 'pause' ) {
             if (this.lastFramTime == 0) this.lastFramTime = egret.getTimer();
             let deltaTime = egret.getTimer() - this.lastFramTime;
             this.lastFramTime = egret.getTimer();
@@ -794,6 +799,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.starCount.y = this.boat.y;
             //this.checkGameOver();
             this.showGameUI();
+            this.boat.update();
         }
 
         GameData.saveUserInfo();
@@ -1284,9 +1290,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
                             - (star.model.x - bullet.x) * (star.model.x - bullet.x),
                             0.5);
 
-                        HitFx.playFx(bullet.x, star.model.y + fx_y - Tools.GetRandomNum(1, 10), this);
+                        let x = bullet.x
+                        let y = star.model.y + fx_y - Tools.GetRandomNum(1, 10);
+                        HitFx.playFx(x, y, this);
                         MonsterTools.delHp(star, GameData.getMainAttack());
                         hit = true;
+
+                        if(MonsterTools.getItem('gold')){
+                            GoldFx.playFx({x: x, y: y}, {x: this.img_game_gold_dest.x, y: this.img_game_gold_dest.y}, this);
+                        }
 
                         break;
                     }
@@ -1570,7 +1582,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let itemConfig = MonsterTools.testRandItem();
             if(itemConfig == null){
                 let rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
-                //let rand = 8;
+                //rand = 7;
                 itemConfig = ItemData.itemConfig[rand - 1];
             }
 
@@ -1753,6 +1765,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     // 开始发送子弹
     private sendStart(): void {
+
         this.sendBullet();
         if (this.send_timer == null) {
             this.send_timer = new egret.Timer(GameData.main_weapon.bullet_rate, 10);
@@ -1927,6 +1940,16 @@ class StartUI extends eui.Component implements eui.UIComponent {
             //
             this.showSelectWeaponTip(ret);
         }else{
+            this.boat.stop();
+            this.boat.parent && this.boat.parent.removeChild(this.boat);
+            this.boat  = new wuqi_1();
+            this.addChild(this.boat);
+            this.boat.play();
+            this.boat.anchorOffsetX = this.boat.width / 2;
+            this.boat.anchorOffsetY = this.boat.height / 2;
+            this.boat.x += this.boat.width / 2;
+            this.boat.y += this.boat.height / 2;
+
             // 僚机的清空
             if (this.weapon) {
                 this.weapon.clear();

@@ -52,9 +52,9 @@
 		</tween:TweenGroup>
 	</w:Declarations>
 	<w:Config id="16a4e15c4e2" ></w:Config>
-	<e:Image id="wuqi_1" width="95" height="110" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="0" source="flydata_json.wuqi_1_1" horizontalCenter="0"/>
-	<e:Image id="wuqi_2" width="44" height="82" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="-7" source="flydata_json.wuqi_1_2" x="20"/>
-	<e:Image id="wuqi_3" width="44" height="82" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="-7" source="flydata_json.wuqi_1_2" x="137"/>
+	<e:Image id="wuqi_1" width="95" height="110" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="0" horizontalCenter="0" source="flydata_json.wuqi_3_1"/>
+	<e:Image id="wuqi_2" width="38" height="70" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="-1" x="23" source="flydata_json.wuqi_3_2"/>
+	<e:Image id="wuqi_3" width="38" height="70" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="-1" x="140" source="flydata_json.wuqi_3_2"/>
 	<e:Image id="image0" width="28" height="26" anchorOffsetX="14" anchorOffsetY="13" verticalCenter="47" source="flydata_json.weiba_2" x="159"/>
 	<e:Image id="image1" width="28" height="26" anchorOffsetX="14" anchorOffsetY="13" verticalCenter="47" source="flydata_json.weiba_2" x="42"/>
 	<e:Image id="image" width="30" height="40" anchorOffsetX="15" anchorOffsetY="20" verticalCenter="75" horizontalCenter="0" source="flydata_json.weiba_1"/>

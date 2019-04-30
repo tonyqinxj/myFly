@@ -16,6 +16,8 @@ declare interface Platform {
 
     pauseLoopMusic():void;
     resumeLoopMusic():void;
+    playHit():void;
+    stopHit():void;
     playMusic(name:string, times:number):void;
     navigateToMiniProgram(appid:string, param:string):Promise<any>;
     shareAppMessage(title:string, url:string):void;
@@ -49,6 +51,14 @@ class DebugPlatform implements Platform {
     }
 
     resumeLoopMusic():void{
+
+    }
+
+    playHit():void{
+
+    }
+
+    stopHit():void{
 
     }
 

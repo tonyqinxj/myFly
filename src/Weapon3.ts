@@ -65,7 +65,7 @@ class Weapon3 extends Weapon {
     }
 
     //
-    public constructor(p: eui.Group, mainWeapon: eui.Component, id: number, attack: number, strength: number) {
+    public constructor(p: eui.Group, mainWeapon: wuqi_1, id: number, attack: number, strength: number) {
 
         super(p, mainWeapon, id, attack, strength);
 
