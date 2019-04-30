@@ -55,6 +55,8 @@ class Weapon2 extends Weapon {
                 }
             }
         }
+
+        this.mainWeapon.updateMask(this.energy/this.maxEnergy);
     }
 
     // 子弹创建
@@ -78,7 +80,7 @@ class Weapon2 extends Weapon {
         return this.fx
     }
 
-    public updateProperty():void{
+    public updateProperty(): void {
         let fun = this.config['energySpeed'];
         if (fun) this.energySpeed = fun(this.getStrength());
 
@@ -137,13 +139,14 @@ class Weapon2 extends Weapon {
         }
 
         this.bullets = [];
+        this.stopFx();
     }
 
-    private setTarget(star:any):void{
+    private setTarget(star: any): void {
         this.target = star;
-        if(this.target){
+        if (this.target) {
             this.mainWeapon.setTarget(star.model);
-        }else{
+        } else {
             this.mainWeapon.setTarget(null);
         }
     }
@@ -174,7 +177,7 @@ class Weapon2 extends Weapon {
                 }
             })
 
-            if(this.target){
+            if (this.target) {
                 this.setState(Weapon2.STATE_SEND);
             }
         }
@@ -248,7 +251,7 @@ class Weapon2 extends Weapon {
 
         if (this.target) {
             this.playFx();
-        }else{
+        } else {
             this.stopFx();
         }
     }

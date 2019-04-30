@@ -101,6 +101,64 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private select_lv:number = 0;
 
+    private registerCallback():void{
+
+        this.img_main.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onMainClick, this);
+        this.img_sub.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onSubClick, this);
+        this.img_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGoldClick, this);
+        this.img_up1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1, this);
+        this.img_up2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2, this);
+
+        this.gp_goldtime.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
+
+
+        this.txt_ui_lv2_1.name = '1'
+        this.txt_ui_lv2_2.name = '2'
+        this.txt_ui_lv2_3.name = '3'
+        this.txt_ui_lv2_4.name = '4'
+        this.txt_ui_lv2_5.name = '5'
+        this.txt_ui_lv2_6.name = '6'
+        this.txt_ui_lv2_7.name = '7'
+
+
+        this.img_ui_lv2_1.name = '1'
+        this.img_ui_lv2_2.name = '2'
+        this.img_ui_lv2_3.name = '3'
+        this.img_ui_lv2_4.name = '4'
+        this.img_ui_lv2_5.name = '5'
+        this.img_ui_lv2_6.name = '6'
+        this.img_ui_lv2_7.name = '7'
+
+        this.txt_ui_lv2_1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.txt_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.txt_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.txt_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.txt_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.txt_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.txt_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+
+        this.img_ui_lv2_1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.img_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.img_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.img_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.img_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.img_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+        this.img_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
+
+        this.gp_ui_lv1.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
+            if(GameData.UserInfo.nextLevel >=7) {
+                this.initUILv(2);
+            }
+        }, this);
+    }
+
+    private selectSub(e: egret.TouchEvent):void{
+        console.log(e.target.text)
+        let index = parseInt(e.target.name);
+        GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-7+index;
+        this.initUILv(1);
+    }
+
     private initUILv(type:number):void{
 
         function transTexture(img:eui.Image, sel:boolean):void{
@@ -114,8 +172,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
             img.texture = ResTools.createUITexture(name);
         }
 
-        function checkchange():void{
-            let select_list:Array<eui.Image> =[];
+        function checkchange():void {
+            let select_list: Array<eui.Image> = [];
             select_list.push(this.img_ui_lv2_1)
             select_list.push(this.img_ui_lv2_2)
             select_list.push(this.img_ui_lv2_3)
@@ -124,24 +182,19 @@ class StartUI extends eui.Component implements eui.UIComponent {
             select_list.push(this.img_ui_lv2_6)
             select_list.push(this.img_ui_lv2_7)
 
-            if(this.select_lv >=1 && this.select_lv<= select_list.length){
-                transTexture(select_list[this.select_lv-1], false);
+            if (this.select_lv >= 1 && this.select_lv <= select_list.length) {
+                transTexture(select_list[this.select_lv - 1], false);
             }
 
-            for(let i=0;i<select_list.length;i++){
-                let mylv = GameData.UserInfo.nextLevel-6+i
-                if(mylv == GameData.UserInfo.curLevel){
-                    this.select_lv = i+1;
+            for (let i = 0; i < select_list.length; i++) {
+                let mylv = GameData.UserInfo.nextLevel - 6 + i
+                if (mylv == GameData.UserInfo.curLevel) {
+                    this.select_lv = i + 1;
                     transTexture(select_list[i], true);
                     break;
                 }
             }
 
-        }
-
-        function select(index:number):void{
-            GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-7+index;
-            this.initUILv(1);
         }
 
         if(type == 1){
@@ -151,11 +204,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.txt_ui_lv1_2.text = ''+(GameData.UserInfo.curLevel);
             this.txt_ui_lv1_3.text = ''+(GameData.UserInfo.curLevel+1);
 
-            if(GameData.UserInfo.nextLevel >=7){
-                this.gp_ui_lv1.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
-                    this.initUILv(2);
-                }, this);
-            }
         }else{
             this.gp_ui_lv1.parent && this.gp_ui_lv1.parent.removeChild(this.gp_ui_lv1)
             this.gp_root.addChild(this.gp_ui_lv2);
@@ -166,46 +214,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.txt_ui_lv2_5.text = ''+(GameData.UserInfo.nextLevel-2);
             this.txt_ui_lv2_6.text = ''+(GameData.UserInfo.nextLevel-1);
             this.txt_ui_lv2_7.text = ''+(GameData.UserInfo.nextLevel);
-
             checkchange.call(this);
-
-            this.txt_ui_lv2_1.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,1);}, this);
-            this.txt_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,2);}, this);
-            this.txt_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,3);}, this);
-            this.txt_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,4);}, this);
-            this.txt_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,5);}, this);
-            this.txt_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,6);}, this);
-            this.txt_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,7);}, this);
-
-            this.img_ui_lv2_1.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,1);}, this);
-            this.img_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,2);}, this);
-            this.img_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,3);}, this);
-            this.img_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,4);}, this);
-            this.img_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,5);}, this);
-            this.img_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,6);}, this);
-            this.img_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{select.call(this,7);}, this);
-       
-
-            // this.img_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-5; this.initUILv(1); this.select_lv = 2;}, this);
-            // this.img_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-4; this.initUILv(1); this.select_lv = 3;}, this);
-            // this.img_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-3; this.initUILv(1); this.select_lv = 4;}, this);
-            // this.img_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-2; this.initUILv(1); this.select_lv = 5;}, this);
-            // this.img_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel-1; this.initUILv(1); this.select_lv = 6;}, this);
-            // this.img_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel; this.initUILv(1); this.select_lv = 7;}, this);
-
-
-
-
         }
+
     }
 
     private initUI(): void {
 
-
-
         this.gp_game_data.parent && this.gp_game_data.parent.removeChild(this.gp_game_data)
-
-
         this.gp_root.addChild(this.gp_ui);
         this.gp_root.addChild(this.gp_b1);
         this.gp_root.addChild(this.gp_left);
@@ -227,14 +243,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_b3.y = this.gp_b2.y - this.gp_b3.height;
 
 
-        this.img_main.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onMainClick, this);
-        this.img_sub.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onSubClick, this);
-        this.img_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGoldClick, this);
-
-        this.img_up1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1, this);
-        this.img_up2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2, this);
-
-        this.gp_goldtime.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
 
         this.txt_goldtime.text = myMath.getString(GameData.getCurGoldTime());
 
@@ -577,7 +585,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private initBegin(): void {
 
         this.boat = new wuqi_1();
-        this.addChild(this.boat);
+        this.gp_ui.addChild(this.boat);
         this.boat.play();
 
 
@@ -610,6 +618,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         // this.gp_layer_4.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouchEnd, this);
 
         this.gp_ui.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBeginUI, this);
+        this.registerCallback();
 
         this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
 
@@ -661,6 +670,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private addMoveEvent(): void {
+        this.addChild(this.boat);
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTap, this);
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
         this.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouchMove, this);
