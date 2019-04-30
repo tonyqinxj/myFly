@@ -37,7 +37,7 @@ class WingMan {
             },
             'weaponRatio': function (strength: number) {
                 // strength 每10s发射的次数
-                return Math.floor(10000/strength);
+                return Math.floor(5000/strength);
                 //return 500;
             },                  // 武器充能时间配置，本武器充能好之后，就发射一枚子弹，交叉左右发射
             'bulletRatio': function (strength: number) {
@@ -65,8 +65,8 @@ class WingMan {
                 'flySpeed': 1,       // 每ms飞行的距离
                 'flyTime': 800,     // 每颗子弹的生命周期
                 'scale':{
-                    'start':0.5,    // 其实大小，相对于原始图
-                    'time':500,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
+                    'start':0.2,    // 其实大小，相对于原始图
+                    'time':300,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
                 },
                 'bombfx': 'fuwuqi_1_2',     // 爆炸特效
 
@@ -82,7 +82,7 @@ class WingMan {
                 return (level+19)*100;
             },
             'energySpeed': function (strength: number) {
-                return strength/5000; // 每毫秒增加2毫秒的发射时长
+                return strength/3000; // 每毫秒增加2毫秒的发射时长
             },
             'bulletRatio': function (strength: number) {
                 return 200;
@@ -93,23 +93,23 @@ class WingMan {
             'data': {
                 'bulletconfig': [         // 每次需要发送的子弹的初始值，这个是固定的
                     {
-                        startx: 50,  // 子弹开始位置，相对于主机中心
-                        starty: 40,  // 子弹开始位置，相对于主机中心
+                        startx: 55,  // 子弹开始位置，相对于主机中心
+                        starty: -40,  // 子弹开始位置，相对于主机中心
                     },
                     {
-                        startx: -50,  // 子弹开始位置，相对于主机中心
-                        starty: 40,  // 子弹开始位置，相对于主机中心
+                        startx: -55,  // 子弹开始位置，相对于主机中心
+                        starty: -40,  // 子弹开始位置，相对于主机中心
                     },
                     {
-                        startx: 150,  // 子弹开始位置，相对于主机中心
-                        starty: 0,  // 子弹开始位置，相对于主机中心
+                        startx: 70,  // 子弹开始位置，相对于主机中心
+                        starty: -40,  // 子弹开始位置，相对于主机中心
                     },
                     {
-                        startx: -150,  // 子弹开始位置，相对于主机中心
-                        starty: 0,  // 子弹开始位置，相对于主机中心
+                        startx: -70,  // 子弹开始位置，相对于主机中心
+                        starty: -40,  // 子弹开始位置，相对于主机中心
                     }
                 ],
-                'flySpeed': 2.5,       // 每ms飞行的距离
+                'flySpeed': 1.5,       // 每ms飞行的距离
                 'lockfx': 'bbf1',      // 锁定特效
             }
         }, // 跟踪子弹
@@ -123,26 +123,26 @@ class WingMan {
                 return (level+19)*10;
             },
             'weaponRatio': function (strength: number) {
-                return 5000; // 武器充能时间配置，本武器充能好之后，就发射一波子弹
+                return 3000; // 武器充能时间配置，本武器充能好之后，就发射一波子弹
             },
             'bulletRatio': function (strength: number) {
                 return 200; // 每发子弹发送间隔
             },
             'bulletCount': function (strength: number) {
-                return 3;   // 每次发送的子弹个数，这个也是成长的
+                return 1;   // 每次发送的子弹个数，这个也是成长的
             },
             'bulletScale': function (strength:number) {
                 return strength;   // 体积成长,就是强度值, 这里宽度的绝对值，这里有个问题
             },
             'data':{
-                'flySpeed':2.5, // 每ms飞行的距离
+                'flySpeed':2, // 每ms飞行的距离
                 'fly':{
-                    'speedStart':1.3,
-                    'speedEnd':3.1,
+                    'speedStart':2,
+                    'speedEnd':4,
                     'time':1500,
                 }, // 每ms飞行的距离, 一个减速的过程
                 'scale':{
-                    'start':0.5,    // 其实大小，相对于原始图
+                    'start':0.2,    // 其实大小，相对于原始图
                     'time':100,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
                 },
                 'fx':'bbf1'
@@ -162,20 +162,20 @@ class WingMan {
                 return 5000; // 武器充能时间配置，本武器充能好之后，就发射一波子弹
             },
             'bulletScale': function (strength:number) {
-                return (19+strength)*2;   // 体积成长
+                return (19+strength)*5;   // 体积成长
             },
             'bombScope': function (strength: number) {
-                return (19+strength)*5;
+                return (19+strength)*13;
             },  // 子弹碰到人之后的爆炸范围
 
             'data':{
                 'fly':{
                     'speedStart':0.3,
                     'speedEnd':0.1,
-                    'time':1500,
+                    'time':3300,
                 }, // 每ms飞行的距离, 一个减速的过程
                 'scale':{
-                    'start':0.5,    // 其实大小，相对于原始图
+                    'start':0.2,    // 其实大小，相对于原始图
                     'time':1000,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
                 },
                 'fx':'fuwuqi_4_2',        // 爆炸特效
