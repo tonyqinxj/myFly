@@ -318,7 +318,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             // 进入主页
 
 
-            platform.playMusic('resource/sounds/GetGold.mp3',4);
+            platform.playMusic('resource/sounds/GetGold_result.mp3',4);
 
         }
 
@@ -490,7 +490,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         console.log('onGetGoldTime');
         GameData.onGetGoldTime();
         this.updateMask();
-        platform.playMusic('resource/sounds/GetGold.mp3',3);
+        platform.playMusic('resource/sounds/GetGold.mp3',1);
     }
 
 
