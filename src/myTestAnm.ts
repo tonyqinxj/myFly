@@ -23,7 +23,7 @@ class myTestAnm extends eui.Component implements  eui.UIComponent {
      * 动画组播放完成
      */
     private onTweenGroupComplete(): void {
-        console.log('TweenGroup play completed.');
+        //console.log('TweenGroup play completed.');
     }
     /**
      * 动画组中的一项播放完成
@@ -31,7 +31,7 @@ class myTestAnm extends eui.Component implements  eui.UIComponent {
     private onTweenItemComplete(event: egret.Event): void {
         const item = event.data as egret.tween.TweenItem;
         console.log(item.target);
-        console.log('TweenItem play completed.');
+        //console.log('TweenItem play completed.');
     }
 
 	public play():void{

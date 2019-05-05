@@ -132,6 +132,7 @@ class Weapon1 extends Weapon {
                 if (star.starConfig['group'] & StarData.CAN_ATTACK && Tools.starCoTest(bdata.model, star.model)) {
                     co = true;
                     needBombs.push(bdata);
+
                     break;
                 }
             }
@@ -155,6 +156,7 @@ class Weapon1 extends Weapon {
             this.bullets_free.push(data.model);
             // 播放特效
             this.playFx(data.model.x, data.model.y);
+
         });
 
         // 生命周期检测
@@ -165,6 +167,7 @@ class Weapon1 extends Weapon {
                 data.model.parent && data.model.parent.removeChild(data.model)
                 this.bullets_free.push(data.model);
                 this.bullets.splice(i, 1)
+                this.playFx(data.model.x, data.model.y);
             } else {
                 i++;
             }
@@ -191,6 +194,8 @@ class Weapon1 extends Weapon {
 
 
         this.p.addChild(fx_model);
+
+        platform.playMusic('resource/sounds/Weapon1_Boom.mp3',1);
 
         egret.Tween.get(fx_model).to({scaleX: 1.3, scaleY: 1.3}, 300).call(() => {
             this.p.removeChild(fx_model);

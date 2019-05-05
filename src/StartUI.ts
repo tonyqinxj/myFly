@@ -101,8 +101,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private select_lv:number = 0;
 
+    private img_add_gold:eui.Image;
+    private txt_add_tili:eui.Label;
+
     private registerCallback():void{
 
+        this.img_add_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onAddGoldClick, this);
         this.img_main.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onMainClick, this);
         this.img_sub.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onSubClick, this);
         this.img_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGoldClick, this);
@@ -314,6 +318,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
             // 进入主页
 
 
+            platform.playMusic('resource/sounds/GetGold.mp3',4);
+
         }
 
 
@@ -358,6 +364,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.txt_gold.text = myMath.getString(GameData.UserInfo.totalMoney);
         this.txt_tili.text = myMath.getString(GameData.UserInfo.tili);
         this.txt_diamond.text = myMath.getString(GameData.UserInfo.totalDiamond);
+    }
+
+    private onAddGoldClick(e:egret.TouchEvent):void{
+        GameData.onBuyGoldByDiamond(1);
     }
 
     private onMainClick(e: egret.TouchEvent): void {
@@ -480,6 +490,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         console.log('onGetGoldTime');
         GameData.onGetGoldTime();
         this.updateMask();
+        platform.playMusic('resource/sounds/GetGold.mp3',3);
     }
 
 
@@ -666,6 +677,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.state = 'pause';
 
             this.addMoveEvent();
+            GameData.UserInfo.tili -= 5;
         }
     }
 
@@ -710,7 +722,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         // console.log('onTouchBegin call:', this.last_pos)
         this.sendStart();
-        platform.playHit();
+
     }
 
     // 在屏幕上滑动
@@ -753,11 +765,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.state = 'pause';
         this.sendEnd();
-        platform.stopHit();
+
     }
 
     // 帧时间，逻辑循环从这里开始
     private onEnterFrame(e: egret.Event): void {
+
+        GameData.onCheckTili(this.txt_add_tili);
 
         if (this.state == 'game' || this.state == 'pause' ) {
             if (this.lastFramTime == 0) this.lastFramTime = egret.getTimer();
@@ -1592,7 +1606,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let itemConfig = MonsterTools.testRandItem();
             if(itemConfig == null){
                 let rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
-                //rand = 7;
+                rand = 7;
                 itemConfig = ItemData.itemConfig[rand - 1];
             }
 
@@ -1775,13 +1789,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     // 开始发送子弹
     private sendStart(): void {
+        //platform.playHit();
 
         this.sendBullet();
         if (this.send_timer == null) {
-            this.send_timer = new egret.Timer(GameData.main_weapon.bullet_rate, 10);
+            this.send_timer = new egret.Timer(GameData.main_weapon.bullet_rate, 0);
             this.send_timer.addEventListener(egret.TimerEvent.TIMER, this.sendBullet, this);
             this.send_timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
-                //console.log('timer end...')
+                console.log('timer end...')
                 this.send_timer = null;
                 this.sendStart();
             }, this);
@@ -1793,6 +1808,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     // 子弹发送结束
     private sendEnd(): void {
+        //platform.stopHit();
         if (this.send_timer) {
             this.send_timer.stop();
             this.send_timer = null;
@@ -1826,6 +1842,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
             });
 
         }
+
+        let name = MonsterTools.getBulletName();
+        if(name == 'b1'){
+            platform.playMusic('resource/sounds/Mainweapon_Shot1.mp3',1);
+        }else{
+            platform.playMusic('resource/sounds/Mainweapon_Shot2.mp3',1);
+        }
+
+
     }
 
     // 创建一个子弹模型

@@ -54,7 +54,7 @@
 		<e:Group id="gp_top" width="750" height="200" x="0" y="0" scaleX="1" scaleY="1">
 			<e:Image id="img_gold_dest" x="49" y="113" source="UI_json.sq_jinbi_2" width="48" height="48" scaleX="1" scaleY="1"
 			         anchorOffsetX="24" anchorOffsetY="24" />
-			<e:Image x="176" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
+			<e:Image id="img_add_gold" x="176" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
 			<e:Image x="353.72" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
 			<e:Image x="264" y="88" source="UI_json.sq_shandian" scaleX="1" scaleY="1" />
 			<e:Image x="407" y="97" source="UI_json.sq_zuanshi_1" scaleX="1" scaleY="1" />
@@ -62,6 +62,7 @@
 			<e:Label id="txt_gold" text="650K" x="92" y="104" bold="true" scaleX="1" scaleY="1" />
 			<e:Label id="txt_tili" text="80" x="304" y="104" bold="true" scaleX="1" scaleY="1" />
 			<e:Label id="txt_diamond" text="100" x="476" y="104" bold="true" scaleX="1" scaleY="1" />
+			<e:Label id="txt_add_tili" text="5:23+1" x="299" y="144" size="24"/>
 		</e:Group>
 		<e:Group id="gp_left" width="125.76" height="432.3" x="0" y="588" scaleX="1" scaleY="1" anchorOffsetY="0"
 		         anchorOffsetX="0">

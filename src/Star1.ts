@@ -47,7 +47,7 @@ class Star1 extends eui.Component implements  eui.UIComponent {
      * 动画组播放完成
      */
     private onTweenGroupComplete(): void {
-        console.log('TweenGroup play completed.');
+        //console.log('TweenGroup play completed.');
 		this.TG_1.play(0)
     }
     /**

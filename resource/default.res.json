@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,WeaponLevelUp_mp3,Die_mp3,WaveWarning_mp3,Weapon1_Boom_mp3,Weapon2_Shot_mp3,Weapon3_Shot_mp3",
 			"name": "preload"
 		},
 		{
@@ -208,20 +208,34 @@
 			"name": "8_json"
 		},
 		{
-			"url": "assets/game/fuwuqi.json",
-			"type": "sheet",
-			"name": "fuwuqi_json",
-			"subkeys": "hy_1,hy_2,hy_3,pt_1,pt_2,wq_1"
+			"name": "WeaponLevelUp_mp3",
+			"type": "sound",
+			"url": "sounds/WeaponLevelUp.mp3"
 		},
 		{
-			"url": "sounds/hit.mp3",
+			"name": "Die_mp3",
 			"type": "sound",
-			"name": "hit_mp3"
+			"url": "sounds/Die.mp3"
 		},
 		{
-			"url": "sounds/coin.mp3",
+			"name": "WaveWarning_mp3",
 			"type": "sound",
-			"name": "coin_mp3"
+			"url": "sounds/WaveWarning.mp3"
+		},
+		{
+			"name": "Weapon1_Boom_mp3",
+			"type": "sound",
+			"url": "sounds/Weapon1_Boom.mp3"
+		},
+		{
+			"name": "Weapon2_Shot_mp3",
+			"type": "sound",
+			"url": "sounds/Weapon2_Shot.mp3"
+		},
+		{
+			"name": "Weapon3_Shot_mp3",
+			"type": "sound",
+			"url": "sounds/Weapon3_Shot.mp3"
 		}
 	]
 }

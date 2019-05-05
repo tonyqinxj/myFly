@@ -9,7 +9,7 @@ class GameData {
      前200级: y=14x^2.43
      200级以后： y=30000x
      */
-        // 所有的全局游戏数据放置到这里
+    // 所有的全局游戏数据放置到这里
     public static bulletModel = {
         '1': 'b1',   // 普通子弹
         '2': 'b2',   // 黄金子弹
@@ -23,17 +23,17 @@ class GameData {
 
 
     public static weaponOpenLevels = [20, 60, 100];//僚机开放等级（关卡等级）
-    public static weaponNames = ['UI_json.sq_fu_4','UI_json.sq_fu_4','UI_json.sq_fu_4','UI_json.sq_fu_4'];
+    public static weaponNames = ['UI_json.sq_fu_4', 'UI_json.sq_fu_4', 'UI_json.sq_fu_4', 'UI_json.sq_fu_4'];
 
-    public static MAX_LEVEL = 8;
+    public static MAX_LEVEL = 40;
 
     public static UserInfo = {
         openid: '',  // 玩家的openid
         tili: 80,    // 体力
         totalMoney: 20000000,  // 玩家当前拥有的金币
-        totalDiamond: 0,   // 钻石
-        curLevel: 4, // 当前处于关卡
-        nextLevel: 7, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        totalDiamond: 10,   // 钻石
+        curLevel: 1, // 当前处于关卡
+        nextLevel: 8, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
@@ -72,6 +72,7 @@ class GameData {
         ],
         curSubWeaponId: 1,
         lastGetGoldTime: 0,          //
+        lastGetTiliTime: 0,     //
     }
 
 
@@ -170,6 +171,51 @@ class GameData {
         this.UserInfo.lastGetGoldTime = new Date().getTime();
         this.needSaveUserInfo = true;
     }
+
+    // 第一次登陆的时候计算
+    public static onCheckTili(txt:eui.Label): void {
+        if (this.UserInfo.tili >= 80) {
+            txt.text = ''
+            return;
+        }
+
+        if (this.UserInfo.lastGetTiliTime) {
+            let deltaTime = new Date().getTime() - this.UserInfo.lastGetTiliTime
+            let add = Math.floor(deltaTime / 1000 / 60 / 6)
+            if (add > 0) {
+                this.UserInfo.tili += add;
+                if (this.UserInfo.tili > 80) {
+                    txt.text = ''
+                    this.UserInfo.tili == 80
+                }
+
+                this.UserInfo.lastGetTiliTime = new Date().getTime();
+                this.needSaveUserInfo = true;
+            }else{
+                deltaTime = Math.floor(deltaTime/1000)
+                deltaTime = 6*60 - deltaTime;
+                let fen = Math.floor(deltaTime/60);
+                let miao = deltaTime - fen*60;
+                txt.text = fen+':'+miao+'+1'
+            }
+
+        } else {
+            this.UserInfo.lastGetTiliTime = new Date().getTime();
+            txt.text = ''
+        }
+    }
+
+    public static onBuyGoldByDiamond(diamond:number):void{
+        if(diamond > this.UserInfo.totalDiamond) return;
+
+        this.UserInfo.totalDiamond -= diamond;
+
+        this.addGold(this.getGoldCost() * 500*diamond);
+
+        this.UserInfo.lastGetTiliTime = new Date().getTime();
+        this.needSaveUserInfo = true;
+    }
+
 
     public static onHandleResult(ratio: number): void {
         let gold = this.score * ratio;
@@ -350,10 +396,10 @@ class GameData {
         if (this.UserInfo.nextLevel > this.MAX_LEVEL) this.UserInfo.nextLevel = this.MAX_LEVEL;
 
 
-        for(let i=0;i<this.UserInfo.SubWeapons.length;i++){
+        for (let i = 0; i < this.UserInfo.SubWeapons.length; i++) {
             let sub = this.UserInfo.SubWeapons[i]
-            if(sub.open == 0){
-                if(this.UserInfo.nextLevel > sub.openlevel){
+            if (sub.open == 0) {
+                if (this.UserInfo.nextLevel > sub.openlevel) {
                     // todo:提示新的僚机获得
                     sub.open = 1;
                     this.needSaveUserInfo = true;
@@ -365,22 +411,24 @@ class GameData {
         this.needSaveUserInfo = true;
     }
 
-    public static selectWeapon(id:number):number{
+    public static selectWeapon(id: number): number {
         // 选择当前僚机
-        if(id > this.UserInfo.SubWeapons.length) return;
-        let sub = this.UserInfo.SubWeapons[id-1]
+        if (id > this.UserInfo.SubWeapons.length) return;
+        let sub = this.UserInfo.SubWeapons[id - 1]
 
-        if(sub.open){
+        if (sub.open) {
             this.UserInfo.curSubWeaponId = id;
             return 0;
-        }else{
+        } else {
             //todo: 提示武器将在某个等级开放
             return sub.openlevel
         }
     }
 
     public static saveUserInfo() {
+
         if (this.needSaveUserInfo) {
+            this.needSaveUserInfo = false;
             var key: string = "myUserData";
             egret.localStorage.setItem(key, JSON.stringify(GameData.UserInfo));
         }
@@ -456,6 +504,7 @@ class GameData {
 
     public static levelup(type: string): boolean {
         let needGold = 0;
+        this.needSaveUserInfo = false;
         switch (type) {
             case 'main_attack':
                 if (this.UserInfo.MainWeapon.attack <= 220) needGold = 14 * Math.pow(this.UserInfo.MainWeapon.attack, 2.43);
@@ -513,6 +562,11 @@ class GameData {
                 }
                 break;
 
+        }
+
+
+        if(this.needSaveUserInfo){
+            platform.playMusic('resource/sounds/WeaponLevelUp.mp3',1);
         }
 
 
