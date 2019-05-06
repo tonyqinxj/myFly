@@ -24,6 +24,22 @@ class Main extends eui.UILayer {
         egret.lifecycle.onResume = () => { 
             console.log('onResume');
             egret.ticker.resume();
+
+
+            // 检测分享反馈
+            if(this.game){
+                let shareok:boolean = false;
+                if((egret.getTimer() - this.game_set_time) > 6*1000) shareok = true;
+
+                if(!shareok){
+                    ResTools.showTextTip(this, '换个朋友试试吧');
+                }
+
+                this.game.resume(this.game_set_type, shareok);
+                this.game = null;
+                this.game_set_time = 0;
+                this.game_set_type = '';
+            }
         }
 
         //inject the custom material parser
@@ -42,6 +58,15 @@ class Main extends eui.UILayer {
         //     console.log('timer....')
         // }, this)
         // timer.start();
+    }
+
+    private game:StartUI = null;
+    private game_set_type:string = '';
+    private game_set_time:number = 0;
+    public setGame(game:StartUI, type:string):void{
+        this.game = game;
+        this.game_set_type = type;
+        this.game_set_time = egret.getTimer();
     }
 
     private async goStart() {

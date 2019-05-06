@@ -166,8 +166,8 @@ class GameData {
         return Math.min(gold, max);
     }
 
-    public static onGetGoldTime(): void {
-        this.addGold(this.getCurGoldTime())
+    public static onGetGoldTime(ratio:number): void {
+        this.addGold(this.getCurGoldTime()*ratio)
         this.UserInfo.lastGetGoldTime = new Date().getTime();
         this.needSaveUserInfo = true;
     }

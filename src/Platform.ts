@@ -21,6 +21,8 @@ declare interface Platform {
     playMusic(name:string, times:number):void;
     navigateToMiniProgram(appid:string, param:string):Promise<any>;
     shareAppMessage(title:string, url:string):void;
+    showBannerAd():void;
+    showRewardAd():Promise<any>;
 }
 
 class DebugPlatform implements Platform {
@@ -63,6 +65,16 @@ class DebugPlatform implements Platform {
     }
 
     async navigateToMiniProgram(appid:string, param:string){
+
+    }
+
+
+
+    showBannerAd():void{
+
+    }
+
+    async showRewardAd(){
 
     }
 }
