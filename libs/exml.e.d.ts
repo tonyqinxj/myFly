@@ -44,6 +44,8 @@ declare module skins{
 }
 declare class StartUISkin extends eui.Skin{
 }
+declare class test extends eui.Skin{
+}
 declare module skins{
 	class TextInputSkin extends eui.Skin{
 	}

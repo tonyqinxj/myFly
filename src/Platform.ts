@@ -75,7 +75,7 @@ class DebugPlatform implements Platform {
     }
 
     async showRewardAd(){
-
+        return 0;
     }
 }
 

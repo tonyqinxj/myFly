@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="guaiwuSkin" width="500" height="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*"   states="guaiwu-1" >
+	<w:Declarations>
+		<tween:TweenGroup id="sddh">
+			<tween:TweenItem target="{sd}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+			<tween:TweenItem target="{sd0}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+			<tween:TweenItem target="{sd1}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+			<tween:TweenItem target="{sd2}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="150"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+			<tween:TweenItem target="{sd3}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="200"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+			<tween:TweenItem target="{sd4}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="250"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<w:Config id="16a34a95deb" ></w:Config>
+	<e:Image id="sd" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="500" height="500" source="flydata_json.bp_2_1"/>
+	<e:Image id="sd0" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="500" height="500" source="flydata_json.bp_2_2"/>
+	<e:Image id="sd1" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="500" height="500" source="flydata_json.bp_2_3"/>
+	<e:Image id="sd2" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="500" height="500" source="flydata_json.bp_2_4"/>
+	<e:Image id="sd3" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="500" height="500" source="flydata_json.bp_2_5"/>
+	<e:Image id="sd4" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="500" height="500" source="flydata_json.bp_2_6"/>
+</e:Skin>

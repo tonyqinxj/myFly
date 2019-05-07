@@ -169,7 +169,7 @@
 			"url": "assets/game/flydata.json",
 			"type": "sheet",
 			"name": "flydata_json",
-			"subkeys": ".,0,1,1-1,1-2,1-3,2,2-1,2-2,3,3-1,3-2,4,4-1,4-2,5,5-1,6,6-1,6-2,7,7-1,8,8-1,8-2,8-3,9,9-1,9-2,b1,b2,b23,b234,b24,b3,b34,b4,bb1,bbf1,bomb1,fuwuqi_1_1,fuwuqi_1_2,fuwuqi_2_1,fuwuqi_3_1,fuwuqi_4_1,fuwuqi_4_2,gold,gongji_1,hit,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,ireduceBoat,ireducess,k,m,star1,star10,star2,star3,star4,star5,star6,star7,star8,star9,weiba_1,weiba_2,wuqi_1_1,wuqi_1_2,wuqi_2_1,wuqi_2_2,wuqi_2_3,wuqi_3_1,wuqi_3_2,wuqi_4_1,wuqi_4_2,wuqi_4_3,x-1,x-2,x-3,x-4,x-5"
+			"subkeys": ".,0,1,1-1,1-2,1-3,2,2-1,2-2,3,3-1,3-2,4,4-1,4-2,5,5-1,6,6-1,6-2,7,7-1,8,8-1,8-2,8-3,9,9-1,9-2,b1,b2,b23,b234,b24,b3,b34,b4,bomb1,bp_1_1,bp_1_2,bp_1_3,bp_1_4,bp_1_5,bp_2_1,bp_2_2,bp_2_3,bp_2_4,bp_2_5,bp_2_6,fuwuqi_1_1,fuwuqi_2_1,fuwuqi_3_1,fuwuqi_miaozhun,gold,gongji_1,hit,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,ireduceBoat,ireducess,k,m,pt_2,sd_1,sd_2,sd_3,sd_4,sd_5,sw_1_1,sw_1_2,sw_1_3,sw_1_4,sw_1_5,sw_1_6,sw_2_1,sw_2_2,sw_2_3,sw_2_4,sw_2_5,sw_2_6,sw_3_1,sw_3_2,sw_3_3,sw_3_4,sw_3_5,sw_3_6,sw_4_1,sw_4_2,sw_4_3,sw_4_4,sw_4_5,sw_4_6,weiba_1,weiba_2,wuqi_1_1,wuqi_1_2,wuqi_2_1,wuqi_2_2,wuqi_2_3,wuqi_3_1,wuqi_3_2,wuqi_4_1,wuqi_4_2,wuqi_4_3,x-1,x-2,x-3,x-4,x-5"
 		},
 		{
 			"url": "levels/4.json",
@@ -180,7 +180,7 @@
 			"url": "assets/game/UI.json",
 			"type": "sheet",
 			"name": "UI_json",
-			"subkeys": "share_retry_tip,sq_fu,sq_fu_2,sq_fu_3,sq_fu_4,sq_fu_5,sq_fu_6,sq_fuhuo_1,sq_fuhuo_2,sq_fuwuqi,sq_guanbi,sq_guanqia_1,sq_guanqia_2,sq_haoyou,sq_huode,sq_jia,sq_jia_1,sq_jian_1,sq_jiantou,sq_jiantou_2,sq_jin,sq_jinbi_1,sq_jinbi_2,sq_jinbi_3,sq_jindutiao_1,sq_jindutiao_2,sq_jinggao,sq_lingqu,sq_lingqu_1,sq_lingqujindu_3,sq_lingqujingdu,sq_lingqujingdu_2,sq_logo,sq_luntan,sq_manji,sq_mingci_1,sq_mingci_2,sq_mingci_3,sq_paihang,sq_paihangbang,sq_paihbang_2,sq_richang_1,sq_richang_2,sq_richang_3,sq_sanbei_1,sq_sanbei_2,sq_shandian,sq_shengji_1,sq_shengji_2,sq_shengji_3,sq_shengji_4,sq_tanchuang,sq_tishi,sq_tishiwenzi,sq_xiaohao,sq_yaoqing_1,sq_yaoqingwanjia,sq_yaoqingwanjia_3,sq_yaoqingwenjia_2,sq_zhu,sq_zhuanshi,sq_zhuwuqi,sq_zuanshi_1,sy_guanka_1,sy_guanka_2,sy_guanka_3"
+			"subkeys": "fuwuqi_cjb,fuwuqi_gbd,fuwuqi_pt,fuwuqi_sdq,share_retry_tip,sq_fu,sq_fu_2,sq_fu_3,sq_fu_5,sq_fu_6,sq_fuhuo_1,sq_fuhuo_2,sq_fuwuqi,sq_guanbi,sq_guanqia_1,sq_guanqia_2,sq_haoyou,sq_huode,sq_jia,sq_jia_1,sq_jian_1,sq_jiantou,sq_jiantou_2,sq_jin,sq_jinbi_1,sq_jinbi_2,sq_jinbi_3,sq_jindutiao_1,sq_jindutiao_2,sq_jinggao,sq_lingqu,sq_lingqu_1,sq_lingqujindu_3,sq_lingqujingdu,sq_lingqujingdu_2,sq_logo,sq_luntan,sq_manji,sq_mingci_1,sq_mingci_2,sq_mingci_3,sq_paihang,sq_paihangbang,sq_paihbang_2,sq_richang_1,sq_richang_2,sq_richang_3,sq_sanbei_1,sq_sanbei_2,sq_shandian,sq_shengji_1,sq_shengji_2,sq_shengji_3,sq_shengji_4,sq_tanchuang,sq_tishi,sq_tishiwenzi,sq_xiaohao,sq_yaoqing_1,sq_yaoqingwanjia,sq_yaoqingwanjia_3,sq_yaoqingwenjia_2,sq_zhu,sq_zhuanshi,sq_zhuwuqi,sq_zuanshi_1,sy_guanka_1,sy_guanka_2,sy_guanka_3"
 		},
 		{
 			"url": "assets/game/sq_beijing.png",

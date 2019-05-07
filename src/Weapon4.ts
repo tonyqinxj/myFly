@@ -37,8 +37,10 @@ class Weapon4 extends Weapon {
             return this.bullets_free.shift();
         }
 
-        let modelname = this.config['model'];
-        return ResTools.createBitmapByName(modelname);
+        return new AnmObj('w4_bullet', 0);
+
+        // let modelname = this.config['model'];
+        // return ResTools.createBitmapByName(modelname);
     }
 
     // 特效创建
@@ -215,21 +217,29 @@ class Weapon4 extends Weapon {
 
 
     private playFx(x: number, y: number): void {
-        let fx = this.createFx();
+        let fx = new AnmObj('w4_bomb', 1);
         fx.x = x;
         fx.y = y;
         fx.anchorOffsetX = fx.width / 2;
         fx.anchorOffsetY = fx.height / 2;
+        this.p.addChild(fx);
+        platform.playMusic('resource/sounds/Weapon4_Boom.mp3',1);
 
+        // let fx = this.createFx();
+        // fx.x = x;
+        // fx.y = y;
+        // fx.anchorOffsetX = fx.width / 2;
+        // fx.anchorOffsetY = fx.height / 2;
+        //
         let scale = this.bombScope / fx.width;
         fx.scaleX = scale;
         fx.scaleY = scale;
-        fx.alpha = 1;
-        this.p.addChild(fx);
-        egret.Tween.get(fx).to({alpha: 0.9}, this.snow.time).call(() => {
-            this.p.removeChild(fx);
-            this.fx.push(fx);
-        })
+        //fx.alpha = 1;
+        // this.p.addChild(fx);
+        // egret.Tween.get(fx).to({alpha: 0.9}, this.snow.time).call(() => {
+        //     this.p.removeChild(fx);
+        //     this.fx.push(fx);
+        // })
     }
 
     // 发送一颗子弹

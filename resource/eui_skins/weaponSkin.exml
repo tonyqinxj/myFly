@@ -3,8 +3,11 @@
 	<e:Group id="gp_weapon" width="120" height="120" x="0" y="0">
 		<e:Label id="id" text="{data.id}" x="0" y="0" scaleX="1" scaleY="1" visible="false"/>
 		<e:Label id="open" text="{data.open}" x="0" y="0" scaleX="1" scaleY="1" visible="false"/>
+		<e:Label id="sel" text="{data.sel}" x="0" y="0" scaleX="1" scaleY="1" visible="false"/>
+		<e:Rect width="120" height="120" x="0" y="0" fillColor="0x601986" visible="false"/>
 		<e:Image id="img_bg" width="120" height="120" x="0" y="0" source="UI_json.sq_fu_2" visible="true" scaleX="1" scaleY="1"/>
 		<e:Image id="img_weapon" width="120" height="120" x="0" y="0" source="{data.weaponName}" visible="true" scaleX="1" scaleY="1"/>
-		<e:Image id="img_select" width="120" height="120" x="0" y="0" source="UI_json.sq_fu_3" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="img_select" width="120" height="120" x="0" y="0" source="UI_json.sq_fu_3" scaleX="1" scaleY="1"/>
+		<e:Image id="img_try" x="0" y="0" scaleX="1" scaleY="1" source="UI_json.sq_fu_5"/>
 	</e:Group>
 </e:Skin>

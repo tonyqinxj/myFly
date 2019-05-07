@@ -186,23 +186,25 @@ class Weapon1 extends Weapon {
     // 播放子弹爆炸特效
     private playFx(x: number, y: number): void {
 
-        let fx_model = this.createFx();
-        fx_model.x = x;
-        fx_model.y = y;
-        fx_model.anchorOffsetX = fx_model.width / 2;
-        fx_model.anchorOffsetY = fx_model.height / 2;
-
-
-        this.p.addChild(fx_model);
+        let fx = new AnmObj('w1_bomb', 1);
+        fx.x = x;
+        fx.y = y;
+        fx.anchorOffsetX = fx.width / 2;
+        fx.anchorOffsetY = fx.height / 2;
+        this.p.addChild(fx);
 
         platform.playMusic('resource/sounds/Weapon1_Boom.mp3',1);
-
-        egret.Tween.get(fx_model).to({scaleX: 1.3, scaleY: 1.3}, 300).call(() => {
-            this.p.removeChild(fx_model);
-            this.fxs_free.push(fx_model);
-
-
-        })
+        //
+        // let fx_model = this.createFx();
+        // fx_model.x = x;
+        // fx_model.y = y;
+        // fx_model.anchorOffsetX = fx_model.width / 2;
+        // fx_model.anchorOffsetY = fx_model.height / 2;
+        // this.p.addChild(fx_model);
+        // egret.Tween.get(fx_model).to({scaleX: 1.3, scaleY: 1.3}, 300).call(() => {
+        //     this.p.removeChild(fx_model);
+        //     this.fxs_free.push(fx_model);
+        // })
     }
 
     // 发送一颗子弹

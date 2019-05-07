@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="guaiwuSkin" width="300" height="300" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*"   states="guaiwu-1" >
+	<w:Declarations>
+		<tween:TweenGroup id="sddh">
+			<tween:TweenItem target="{sw1_1}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+			<tween:TweenItem target="{sw1_2}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+			<tween:TweenItem target="{sw1_3}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="100"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+			<tween:TweenItem target="{sw1_5}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="150"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<w:Config id="16a34a95deb" ></w:Config>
+	<e:Image id="sw1_1" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_4_1"/>
+	<e:Image id="sw1_2" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_4_2"/>
+	<e:Image id="sw1_3" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_4_3"/>
+	<e:Image id="sw1_4" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_4_4" visible="false"/>
+	<e:Image id="sw1_5" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_4_5"/>
+	<e:Image id="sw1_6" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_4_6" visible="false"/>
+</e:Skin>

@@ -56,12 +56,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private txt_up1_value: eui.Label;
     private txt_up1_cost: eui.Label;
     private img_up1: eui.Image;
+    private img_up1_free: eui.Image;
 
     private txt_up2: eui.Label;
     private txt_up2_lv: eui.Label;
     private txt_up2_value: eui.Label;
     private txt_up2_cost: eui.Label;
     private img_up2: eui.Image;
+    private img_up2_free: eui.Image;
 
     private img_up_bg: eui.Image;
 
@@ -104,14 +106,18 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private txt_add_tili: eui.Label;
 
 
-    private gp_goldtime_get:eui.Group;
-    private txt_goldtime_get_1:eui.Label;
-    private txt_goldtime_get_3:eui.Label;
+    private gp_goldtime_get: eui.Group;
+    private txt_goldtime_get_1: eui.Label;
+    private txt_goldtime_get_3: eui.Label;
 
     private registerCallback(): void {
 
-        this.txt_goldtime_get_1.name='1'
-        this.txt_goldtime_get_3.name='3'
+        EventManager.register('selectWeapon', this.selectWeapon.bind(this), this);
+
+        this.gp_goldtime_get.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
+
+        this.txt_goldtime_get_1.name = '1'
+        this.txt_goldtime_get_3.name = '3'
         this.txt_goldtime_get_1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
         this.txt_goldtime_get_3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
 
@@ -121,6 +127,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.img_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGoldClick, this);
         this.img_up1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1, this);
         this.img_up2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2, this);
+        this.img_up1_free.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1_free, this);
+        this.img_up2_free.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2_free, this);
 
         this.gp_goldtime.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeClick, this);
 
@@ -232,7 +240,32 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     }
 
+    private img_failtry: eui.Image;
+    private img_main0: eui.Image;
+    private img_sub0: eui.Image;
+    private img_gold0: eui.Image;
+
     private initUI(): void {
+
+        if (GameData.failTryId && GameData.failTryState == 1) {
+            this.img_failtry.visible = true;
+        } else {
+            this.img_failtry.visible = false;
+        }
+
+        this.img_sub0.parent && this.img_sub0.parent.removeChild(this.img_sub0)
+        this.img_main0.parent && this.img_main0.parent.removeChild(this.img_main0)
+        this.img_gold0.parent && this.img_gold0.parent.removeChild(this.img_gold0)
+
+        if (GameData.upfree) {
+            if (GameData.upfree == 1 || GameData.upfree == 2) {
+                this.gp_b1.addChild(this.img_main0)
+                egret.Tween.get(this.img_main0, {loop: true}).to({y: -20}, 300).to({y: -10})
+            } else {
+                this.gp_b1.addChild(this.img_gold0)
+                egret.Tween.get(this.img_gold0, {loop: true}).to({y: -20}, 300).to({y: -10})
+            }
+        }
 
         this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
         this.gp_game_data.parent && this.gp_game_data.parent.removeChild(this.gp_game_data)
@@ -271,6 +304,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private showResult(win: boolean): void {
 
         this.win = win;
+        GameData.clearWin(win);
+        GameData.setWin(win);
+
         // let timer_show: egret.Timer = new egret.Timer(1000, 1);
         // timer_show.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.showResult_real, this)
         // timer_show.start();
@@ -412,20 +448,32 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.img_up_bg.texture = ResTools.createUITexture('sq_zhu')
 
         egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
+
+        if (GameData.upfree == 1) {
+            this.gp_b2.addChild(this.img_up1_free);
+        } else {
+            this.img_up1_free.parent && this.img_up1_free.parent.removeChild(this.img_up1_free)
+        }
+
+        if (GameData.upfree == 2) {
+            this.gp_b2.addChild(this.img_up2_free);
+        } else {
+            this.img_up2_free.parent && this.img_up2_free.parent.removeChild(this.img_up2_free)
+        }
     }
 
     private onSubClick(e: egret.TouchEvent): void {
 
-        let sub = GameData.UserInfo.SubWeapons[GameData.UserInfo.curSubWeaponId - 1];
+        //let sub = GameData.getSubWeapon();
 
         this.txt_up1.text = '强度';
-        this.txt_up1_lv.text = 'Lv' + (sub.strength + 1);
+        this.txt_up1_lv.text = 'Lv' + GameData.getSubStrenth();
         this.txt_up1_lv.textColor = 0XCC6FFD;
         this.txt_up1_value.text = '' + this.weapon.getStrength();
         this.txt_up1_cost.text = myMath.getString(GameData.getCost('sub_speed'));
 
         this.txt_up2.text = '火力'
-        this.txt_up2_lv.text = 'Lv' + (sub.attack + 1);
+        this.txt_up2_lv.text = 'Lv' + GameData.getSubAttack();
         this.txt_up2_lv.textColor = 0XCC6FFD;
         this.txt_up2_value.text = myMath.getString(this.weapon.getAttack());
         this.txt_up2_cost.text = myMath.getString(GameData.getCost('sub_attack'));
@@ -436,6 +484,18 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.state = 'ui';
 
         this.img_up_bg.texture = ResTools.createUITexture('sq_fu')
+
+        if (GameData.upfree == 5) {
+            this.gp_b2.addChild(this.img_up1_free);
+        } else {
+            this.img_up1_free.parent && this.img_up1_free.parent.removeChild(this.img_up1_free)
+        }
+
+        if (GameData.upfree == 6) {
+            this.gp_b2.addChild(this.img_up2_free);
+        } else {
+            this.img_up2_free.parent && this.img_up2_free.parent.removeChild(this.img_up2_free)
+        }
 
         egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
     }
@@ -460,6 +520,18 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.state = 'ui';
 
         this.img_up_bg.texture = ResTools.createUITexture('sq_jin')
+
+        if (GameData.upfree == 3) {
+            this.gp_b2.addChild(this.img_up1_free);
+        } else {
+            this.img_up1_free.parent && this.img_up1_free.parent.removeChild(this.img_up1_free)
+        }
+
+        if (GameData.upfree == 4) {
+            this.gp_b2.addChild(this.img_up2_free);
+        } else {
+            this.img_up2_free.parent && this.img_up2_free.parent.removeChild(this.img_up2_free)
+        }
 
         egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
     }
@@ -506,7 +578,65 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
+    private onLevelUp1_free(e: egret.TouchEvent): void {
+        ResTools.playAd(GameData.main, GameData.start, 'upfree').then(ret => {
+            if (ret == 0) {
+                this.doUpFree(1)
+            }
+        });
+    }
+
+    private doUpFree(type: number): void {
+        GameData.upfree = 0;
+        if (type == 1) {
+            switch (this.txt_up1.text) {
+                case '射速':
+                    GameData.levelup_free('main_speed')
+                    this.onMainClick(null);
+                    GameData.genBulletList();
+                    break;
+                case '强度':
+                    GameData.levelup_free('sub_speed')
+                    this.onSubClick(null);
+                    this.weapon.updateProperty();
+                    break;
+                default:
+                    GameData.levelup_free('gold_cost')
+                    this.onGoldClick(null);
+                    break;
+            }
+        } else {
+            switch (this.txt_up1.text) {
+                case '射速':
+                    GameData.levelup_free('main_attack')
+                    this.onMainClick(null);
+                    break;
+                case '强度':
+                    GameData.levelup_free('sub_attack')
+                    this.onSubClick(null);
+                    break;
+                default:
+                    GameData.levelup_free('gold_time')
+                    this.onGoldClick(null);
+                    break;
+            }
+        }
+
+
+    }
+
+    private onLevelUp2_free(e: egret.TouchEvent): void {
+        ResTools.playAd(GameData.main, GameData.start, 'upfree').then(ret => {
+            if (ret == 0) {
+                this.doUpFree(2)
+            }
+        });
+    }
+
     private onGetGoldTimeClick(e: egret.TouchEvent): void {
+        let gold = GameData.getCurGoldTime()
+        this.txt_goldtime_get_1.text = myMath.getString(gold);
+        this.txt_goldtime_get_3.text = myMath.getString(gold * 3);
         this.addChild(this.gp_goldtime_get);
     }
 
@@ -515,18 +645,22 @@ class StartUI extends eui.Component implements eui.UIComponent {
         console.log('onGetGoldTime');
         let ratio = parseInt(e.target.name);
 
-        if(ratio == 1){
+        if (ratio == 1) {
             this.getGoldTime(1)
-        }else{
-            ResTools.playAd(GameData.main, this, 'goldtime3').then(ret=>{
-                if(ret == 0){
+        } else {
+            ResTools.playAd(GameData.main, this, 'goldtime3').then(ret => {
+                if (ret == 0) {
                     this.getGoldTime(3)
                 }
             })
         }
     }
 
-    private getGoldTime(ratio:number):void{
+    private onGetGoldTimeCancelClick(e: egret.TouchEvent): void {
+        this.gp_goldtime_get && this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
+    }
+
+    private getGoldTime(ratio: number): void {
         this.gp_goldtime_get && this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
         GameData.onGetGoldTime(ratio);
         this.updateMask();
@@ -584,6 +718,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     protected childrenCreated(): void {
         super.childrenCreated();
 
+        GameData.start = this;
         GameData.initFont();
         MonsterTools.itemPanel = this.gp_layer_2;
         //FxMgr.init();
@@ -1469,13 +1604,37 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
 
                 this.star_fly.splice(i, 1);
-                this.removeStar(star);
+                this.starBeKill(star);
                 this.checkGameOver();
 
             } else {
                 i++;
             }
         }
+    }
+
+    private starBeKill(star: any): void {
+
+        let rand = Tools.GetRandomNum(1, 4);
+
+
+        let fx = new AnmObj('sw_' + rand, 1);
+        fx.x = star.model.x;
+        fx.y = star.model.y;
+        fx.anchorOffsetX = fx.width / 2;
+        fx.anchorOffsetY = fx.height / 2;
+        this.addChild(fx);
+        fx.alpha = 0.6;
+        // fx.scaleX = (star.model.width * star.model.scaleX) / fx.width
+        // fx.scaleY = (star.model.height * star.model.scaleY) / fx.height
+
+        egret.Tween.get(star.model).to({
+            scaleX: 1.1 * star.model.scaleX,
+            scaleY: 1.1 * star.model.scaleY
+        }, 200).call(() => {
+            this.removeStar(star);
+        })
+
     }
 
     private checkScale(deltaTime_snow: number): void {
@@ -1649,7 +1808,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let itemConfig = MonsterTools.testRandItem();
             if (itemConfig == null) {
                 let rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
-                rand = 7;
+                //rand = 7;
                 itemConfig = ItemData.itemConfig[rand - 1];
             }
 
@@ -2002,6 +2161,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             list.push({
                 id: sub.id,
                 open: sub.open,
+                sel: sub_weapon.id == sub.id ? "1" : "0",
                 weaponName: GameData.weaponNames[sub.id - 1]
             })
         })
@@ -2009,7 +2169,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.listWeaponUI.dataProvider = new eui.ArrayCollection(list);
         this.listWeaponUI.itemRenderer = WeaponRender;
 
-        EventManager.register('selectWeapon', this.selectWeapon.bind(this), this);
+        //GameData.clearWin();
     }
 
     // 僚机选择
@@ -2020,6 +2180,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
             //
             this.showSelectWeaponTip(ret);
         } else {
+
+            WeaponRender.selectWeapon();
+
             this.boat.stop();
             this.boat.parent && this.boat.parent.removeChild(this.boat);
             this.boat = new wuqi_1();
@@ -2058,9 +2221,25 @@ class StartUI extends eui.Component implements eui.UIComponent {
             if (shareok) {
                 this.handleGold3();
             }
-        } else if(type == 'goldtime3'){
-            if(shareok){
+        } else if (type == 'goldtime3') {
+            if (shareok) {
                 this.getGoldTime(3);
+            }
+        } else if (type == 'failtry') {
+            if (shareok) {
+                WeaponRender.try_sel && WeaponRender.try_sel.doSelect();
+            }
+        } else if (type == 'upfree') {
+            if (shareok) {
+                if (GameData.upfree == 1) {
+                    this.doUpFree(1)
+                } else if (GameData.upfree == 2) {
+                    this.doUpFree(1)
+                } else if (GameData.upfree == 3) {
+                    this.doUpFree(2)
+                } else if (GameData.upfree == 4) {
+                    this.doUpFree(2)
+                }
             }
         }
     }

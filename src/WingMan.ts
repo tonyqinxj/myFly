@@ -110,7 +110,7 @@ class WingMan {
                     }
                 ],
                 'flySpeed': 1.5,       // 每ms飞行的距离
-                'lockfx': 'bbf1',      // 锁定特效
+                'lockfx': 'fuwuqi_miaozhun',      // 锁定特效
             }
         }, // 跟踪子弹
         '3':{

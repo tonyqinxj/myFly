@@ -23,7 +23,7 @@ class GameData {
 
 
     public static weaponOpenLevels = [20, 60, 100];//僚机开放等级（关卡等级）
-    public static weaponNames = ['UI_json.sq_fu_4', 'UI_json.sq_fu_4', 'UI_json.sq_fu_4', 'UI_json.sq_fu_4'];
+    public static weaponNames = ['UI_json.fuwuqi_gbd', 'UI_json.fuwuqi_pt', 'UI_json.fuwuqi_cjb', 'UI_json.fuwuqi_sdq'];
 
     public static MAX_LEVEL = 40;
 
@@ -59,20 +59,27 @@ class GameData {
                 id: 3,
                 strength: 1,
                 attack: 1,
-                open: 1,
+                open: 0,
                 openlevel: 2,
             },
             {
                 id: 4,
                 strength: 1,
                 attack: 1,
-                open: 1,
+                open: 0,
                 openlevel: 3,
             }
         ],
         curSubWeaponId: 1,
         lastGetGoldTime: 0,          //
         lastGetTiliTime: 0,     //
+        failTry: {
+            failTimes: 0,    // 连续失败次数， >=3则给一次僚机满级试用，每天最多给2次机会，关卡20级之前，用share，否则用视频
+                             // 如果满级还是未通关，则给一次免费升级主机或者金币的机会
+                             // 机会在内存中，如果重启就没了，或者进入关卡就消失
+            tryTimes: 0,  // 今日试用次数
+            lastTryTime: 0,  // 上次试用时间
+        }
     }
 
 
@@ -80,6 +87,7 @@ class GameData {
     public static total_blood = 0; // 关卡总血量
     public static colors_blood = []; // 血量颜色值
     public static main: Main = null; // main 指针
+    public static start:StartUI = null;
 
     public static score: number = 0;   // 当前分数
     public static myFont: egret.BitmapFont = null; // 美术数字
@@ -126,14 +134,26 @@ class GameData {
     }
 
     public static getSubWeapon(): any {
+        if (this.failTryId && this.failTryState == 2&& this.UserInfo.curSubWeaponId == this.failTryId){
+            return this.UserInfo.SubWeapons[this.failTryId - 1];
+        }
+
         return this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
     }
 
     public static getSubStrenth(): number {
+        if (this.failTryId &&  this.failTryState == 2 && this.UserInfo.curSubWeaponId == this.failTryId ){
+            return 33;
+        }
+
         return this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1].strength;
     }
 
     public static getSubAttack(): number {
+        if (this.failTryId && this.failTryState == 2&& this.UserInfo.curSubWeaponId == this.failTryId){
+            return 200;
+        }
+
         let attack = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1].attack;
         return attack;
     }
@@ -163,7 +183,7 @@ class GameData {
 
         //gold = max/3;
 
-        return Math.min(gold, max);
+        return Math.ceil(Math.min(gold, max));
     }
 
     public static onGetGoldTime(ratio:number): void {
@@ -452,6 +472,9 @@ class GameData {
                 // if (userinfo_data.curSubWeaponId) GameData.UserInfo.curSubWeaponId = userinfo_data.curSubWeaponId
                 // if (userinfo_data.tili) GameData.UserInfo.tili = userinfo_data.tili
                 // if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
+                // if (userinfo_data.lastGetTiliTime) GameData.UserInfo.lastGetTiliTime = userinfo_data.lastGetTiliTime
+                // if (userinfo_data.failTry) GameData.UserInfo.failTry = userinfo_data.failTry
+
             }
         }
     }
@@ -500,6 +523,35 @@ class GameData {
         }
 
         return needGold;
+    }
+
+    public static levelup_free(type:string):void{
+        switch (type) {
+            case 'main_attack':
+                this.UserInfo.MainWeapon.attack++;
+                break;
+            case 'main_speed':
+                this.UserInfo.MainWeapon.speed++;
+                break;
+            case 'gold_cost':
+                this.UserInfo.goldCostLevel++;
+                break;
+            case 'gold_time':
+                this.UserInfo.goldTimeLevel++;
+                break;
+            case 'sub_attack':
+                var sub = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
+                sub.attack++;
+                break;
+            case 'sub_speed':
+                var sub = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
+                sub.strength++;
+                break;
+            default:
+                break;
+        }
+
+        this.needSaveUserInfo = true;
     }
 
     public static levelup(type: string): boolean {
@@ -571,6 +623,64 @@ class GameData {
 
 
         return false;
+    }
+
+    public static  failTryId = 0;   // 僚机id
+    public static  failTryState = 0; // 1: 表示需要播放视频，2：表示可以使用，0：表示不可使用
+
+    public static setWin(win:boolean):void{
+        if(win){
+            if(this.UserInfo.failTry.failTimes > 0){
+                this.needSaveUserInfo = true;
+            }
+            this.UserInfo.failTry.failTimes = 0;
+        }else{
+            this.UserInfo.failTry.failTimes++;
+            this.needSaveUserInfo = true;
+
+            if(this.UserInfo.failTry.failTimes >=3 ){
+                // 连续失败三次, 给一次满级试用资格, 每天最多2次
+                if(this.UserInfo.failTry.lastTryTime > 0){
+                    let day = new Date(this.UserInfo.failTry.lastTryTime);
+                    let tnow = new Date();
+                    if(day.getDate() != tnow.getDate() || day.getFullYear() != tnow.getFullYear()){
+                        this.UserInfo.failTry.lastTryTime == 0;
+                        this.UserInfo.failTry.tryTimes = 0;
+                    }
+                }
+
+                if(this.UserInfo.failTry.tryTimes >=2) return;
+
+                let count = 0;
+                this.UserInfo.SubWeapons.forEach(s=>{
+                    if(s.open) count++;
+                })
+
+                this.failTryId = Tools.GetRandomNum(1, count);
+                this.failTryState = 1;
+
+                this.UserInfo.failTry.failTimes = 0;
+            }
+        }
+    }
+
+
+    public static upfree:number = 0;   // 免费升级资格
+    public static clearWin(win:boolean):void{
+        if(this.failTryState > 0){
+            this.UserInfo.failTry.tryTimes++;
+            this.UserInfo.failTry.lastTryTime = new Date().getTime();
+            this.needSaveUserInfo = true;
+
+            if(!win){
+                // 随机一个免费的主武器或者金币的升级资格,需要播放视频
+                this.upfree = Tools.GetRandomNum(1,4)
+
+            }
+        }
+
+        this.failTryState = 0;
+        this.failTryId = 0;
     }
 
 }
