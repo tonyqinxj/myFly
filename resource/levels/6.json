@@ -12,12 +12,12 @@
 
     "add_ons": [
       { "time":300, "id":101,"level":1,"x":250 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
+	  { "time":300, "id":103,"level":2,"x":150 ,"y":0,"items":0},
 	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0}
     ]
    },
    {
-    "blood": 2160,
+    "blood": 3420,
     "tip": {},
 
     "init": [
@@ -34,7 +34,7 @@
     ]
    },
    {
-    "blood": 5310,
+    "blood": 4050,
     "tip": {},
 
     "init": [
