@@ -1,6 +1,6 @@
 [
   {
-    "blood": 700,
+    "blood": 650,
     "tip": {},
 
     "init": [
@@ -18,7 +18,7 @@
    }, 
 
    {
-    "blood": 700,
+    "blood": 1300,
     "tip": {},
 
     "init": [
@@ -46,11 +46,11 @@
     "add_ons": [
 	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
 	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":2},
-	  { "time":200, "id":105,"level":1,"x":550 ,"y":0,"items":0}
+	  { "time":200, "id":110,"level":1,"x":550 ,"y":0,"items":0}
     ]
    },
    {
-    "blood": 2900,
+    "blood": 3050,
     "tip": {},
 
     "init": [
