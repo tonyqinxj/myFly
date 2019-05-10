@@ -25,7 +25,7 @@
 				</tween:To>
 				<tween:To duration="400">
 					<tween:props>
-						<e:Object alpha="{0.2}"/>
+						<e:Object alpha="{0.2}" x="{1}" y="{-1}"/>
 					</tween:props>
 				</tween:To>
 			</tween:TweenItem>
