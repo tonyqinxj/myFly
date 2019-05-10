@@ -372,7 +372,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.initUI();
 
         GoldFx.playResult({x: 375, y: this.gp_result.y}, {x: this.img_gold_dest.x, y: this.img_gold_dest.y}, this);
-        platform.playMusic('resource/sounds/GetGold_result.mp3', 1);
+        platform.playMusic('sounds/GetGold_result.mp3', 1);
 
     }
 
@@ -688,7 +688,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_goldtime_get && this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
         GameData.onGetGoldTime(ratio);
         this.updateMask();
-        platform.playMusic('resource/sounds/GetGold.mp3', 1);
+        platform.playMusic('sounds/GetGold.mp3', 1);
     }
 
     // game ui
@@ -997,6 +997,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
             if (this.cantdietime > 0) this.cantdietime -= deltaTime_snow; // 无敌时间扣除
 
+            this.updateFriend(deltaTime_snow);
             this.starMove(deltaTime_snow);   // 怪物移动，包括减速等逻辑
             this.checkBullet(deltaTime);    // 主武器子弹逻辑
 
@@ -1078,7 +1079,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 obj.x = 0;
                 obj.y = 242;
                 this.addChild(obj);
-                platform.playMusic('resource/sounds/' + batchInfo.tip.music + '.mp3', 1);
+                platform.playMusic('sounds/' + batchInfo.tip.music + '.mp3', 1);
             }
 
             GameData.bloodGen(batchInfo);
@@ -1839,7 +1840,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let itemConfig = MonsterTools.testRandItem();
             if (itemConfig == null) {
                 let rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
-                //rand = 7;
+                //rand = 9;
                 itemConfig = ItemData.itemConfig[rand - 1];
             }
 
@@ -1872,6 +1873,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.items = [];
 
         MonsterTools.clearItems();
+
+        this.RemoveFriend();
     }
 
     // 全局道具主逻辑
@@ -2061,26 +2064,43 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         //console.log('sendBullet', count)
         for (let i = 0; i < count; i++) {
-            let bullet = this.createBullet();
-            bullet.anchorOffsetX = bullet.width / 2;
-            bullet.anchorOffsetY = bullet.height / 2;
-            bullet.x = this.boat.x; //this.boat.x - (count - 1 - 2 * i) * bullet.width/2;
-            bullet.y = this.boat.y - this.boat.height / 2; //this.boat.y - this.boat.height / 2 - bullet.height / 2;
-            this.gp_layer_4.addChild(bullet);
+            if(this.boat){
+                let bullet = this.createBullet();
+                bullet.anchorOffsetX = bullet.width / 2;
+                bullet.anchorOffsetY = bullet.height / 2;
+                bullet.x = this.boat.x; //this.boat.x - (count - 1 - 2 * i) * bullet.width/2;
+                bullet.y = this.boat.y - this.boat.height / 2; //this.boat.y - this.boat.height / 2 - bullet.height / 2;
+                this.gp_layer_4.addChild(bullet);
 
-            egret.Tween.get(bullet).to({x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2}, GameData.main_weapon.bullet_scale_time);
+                egret.Tween.get(bullet).to({x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2}, GameData.main_weapon.bullet_scale_time);
 
-            this.bullet_fly.push({
-                model: bullet,
-            });
+                this.bullet_fly.push({
+                    model: bullet,
+                });
+            }
+
+            if(this.friend){
+                let bullet = this.createBullet();
+                bullet.anchorOffsetX = bullet.width / 2;
+                bullet.anchorOffsetY = bullet.height / 2;
+                bullet.x = this.friend.x; //this.boat.x - (count - 1 - 2 * i) * bullet.width/2;
+                bullet.y = this.friend.y - this.friend.height / 2; //this.boat.y - this.boat.height / 2 - bullet.height / 2;
+                this.gp_layer_4.addChild(bullet);
+
+                egret.Tween.get(bullet).to({x: this.friend.x - (count - 1 - 2 * i) * bullet.width / 2}, GameData.main_weapon.bullet_scale_time);
+
+                this.bullet_fly.push({
+                    model: bullet,
+                });
+            }
 
         }
 
         let name = MonsterTools.getBulletName();
         if (name == 'b1') {
-            platform.playMusic('resource/sounds/Mainweapon_Shot1.mp3', 1);
+            platform.playMusic('sounds/Mainweapon_Shot1.mp3', 1);
         } else {
-            platform.playMusic('resource/sounds/Mainweapon_Shot2.mp3', 1);
+            platform.playMusic('sounds/Mainweapon_Shot2.mp3', 1);
         }
 
 
@@ -2237,6 +2257,35 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private showSelectWeaponTip(level: number): void {
 
+    }
+
+    private friend:wuqi_1 = null;
+    public CreateFriend():void{
+        this.friend = new wuqi_1();
+        this.friend.x = 375;
+        this.friend.y = this.real_height;
+        this.gp_layer_4.addChild(this.friend);
+    }
+
+    public RemoveFriend():void{
+        if(this.friend) this.friend.stop();
+        this.friend && this.friend.parent && this.friend.parent.removeChild(this.friend)
+        this.friend = null;
+    }
+
+    private updateFriend(deltaTime:number):void{
+        let boat_p:egret.Point = new egret.Point(this.boat.x, this.boat.y)
+        if(this.friend){
+            // 1s 追上，追的目标位置为boat与当前friend位置方向的100
+            let dir:egret.Point = new egret.Point(this.friend.x - this.boat.x, this.friend.y - this.boat.y)
+            dir.normalize(100)
+            let dest:egret.Point = boat_p.add(dir);
+            let dis:egret.Point = new egret.Point(dest.x-this.friend.x, dest.y-this.friend.y)
+            let len = dis.length * deltaTime/500
+            dis.normalize(len);
+            this.friend.x += dis.x;
+            this.friend.y += dis.y;
+        }
     }
 
     // 响应main的resume事件，目前只有复活一个环节需要

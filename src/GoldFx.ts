@@ -50,7 +50,7 @@ class GoldFx{
 
         egret.Tween.get(fx).to({x:dest.x, y:dest.y}, this.fxtime).call(()=>{
             GameData.score += GameData.getGoldCost();
-            platform.playMusic('resource/sounds/GetGold.mp3',1)
+            platform.playMusic('sounds/GetGold.mp3',1)
             p.removeChild(fx);
             this.retOne(fx);
         });

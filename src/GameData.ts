@@ -1,6 +1,9 @@
 // TypeScript file
 
 class GameData {
+
+    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/myFly';
+    public static domain = '';
     // 成长
     /**
      1. 金币价值 y=6x
@@ -382,7 +385,7 @@ class GameData {
     // 装载关卡数据
     public static async genLevelData() {
 
-        let json = await RES.getResByUrl('/resource/levels/' + this.UserInfo.curLevel + '.json');
+        let json = await RES.getResByUrl(GameData.domain+'/resource/levels/' + this.UserInfo.curLevel + '.json');
         this.level_configs = json;
 
         this.total_blood = 0;
@@ -662,7 +665,7 @@ class GameData {
 
 
         if(this.needSaveUserInfo){
-            platform.playMusic('resource/sounds/WeaponLevelUp.mp3',1);
+            platform.playMusic('sounds/WeaponLevelUp.mp3',1);
         }
 
 

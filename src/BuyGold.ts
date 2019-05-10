@@ -40,7 +40,7 @@ class BuyGold extends eui.Component implements  eui.UIComponent {
 			GameData.onBuyGoldByDiamond(this.diamond);
 
 			GoldFx.playResult({x: this.img_buy.x+this.gp_buy.x, y: this.img_buy.y+this.gp_buy.y}, {x: this.destPos.x, y: this.destPos.y}, this.p);
-			platform.playMusic('resource/sounds/GetGold_result.mp3', 1);
+			platform.playMusic('sounds/GetGold_result.mp3', 1);
 			this.parent && this.parent.removeChild(this);
 
 		}, this)

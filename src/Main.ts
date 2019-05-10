@@ -80,7 +80,8 @@ class Main extends eui.UILayer {
 
     private async loadResource() {
         try {
-            await RES.loadConfig("default.res.json", "/resource");
+            //await RES.loadConfig("default.res.json", "/resource");
+            await RES.loadConfig("default.res.json", GameData.domain+"/resource");
             await this.loadTheme();
             await RES.loadGroup("start");
         }

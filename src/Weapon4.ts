@@ -223,7 +223,7 @@ class Weapon4 extends Weapon {
         fx.anchorOffsetX = fx.width / 2;
         fx.anchorOffsetY = fx.height / 2;
         this.p.addChild(fx);
-        platform.playMusic('resource/sounds/Weapon4_Boom.mp3',1);
+        platform.playMusic('sounds/Weapon4_Boom.mp3',1);
 
         // let fx = this.createFx();
         // fx.x = x;

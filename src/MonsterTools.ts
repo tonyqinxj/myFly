@@ -329,6 +329,9 @@ class MonsterTools {
         if(item.config.id == 'addHitSpeed'){
             GameData.genBulletList();
         }
+        if(item.config.id == 'friend'){
+            GameData.start.RemoveFriend();
+        }
 
         item.model && item.model.parent && item.model.parent.removeChild(item.model);
 
@@ -339,6 +342,10 @@ class MonsterTools {
         //if(item.id == 'addStarMove' || item.id == 'reduceStarMove')
         if(item.config.id == 'addHitSpeed'){
             GameData.genBulletList();
+        }
+
+        if(item.config.id == 'friend'){
+            GameData.start.CreateFriend();
         }
     }
 

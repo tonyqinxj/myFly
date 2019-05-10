@@ -20,11 +20,19 @@ declare module skins{
 	class HSliderSkin extends eui.Skin{
 	}
 }
+declare class InviteLqSkin extends eui.Skin{
+}
+declare class InvitUISkin extends eui.Skin{
+}
 declare class ItemIconSkin extends eui.Skin{
 }
 declare module skins{
 	class ItemRendererSkin extends eui.Skin{
 	}
+}
+declare class jinggao_1 extends eui.Skin{
+}
+declare class loginUISkin extends eui.Skin{
 }
 declare class myTestAnmSkin extends eui.Skin{
 }
@@ -41,6 +49,8 @@ declare module skins{
 declare module skins{
 	class RadioButtonSkin extends eui.Skin{
 	}
+}
+declare class RankUISkin extends eui.Skin{
 }
 declare module skins{
 	class ScrollerSkin extends eui.Skin{

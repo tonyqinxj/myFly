@@ -86,7 +86,7 @@ class ItemData {
             'icon': 'ifriend_1',
             'jindu': 'daoju_jingdu_1',
             'ratio': 1,
-            'time': 3000, // todo： 友机的移动方式，提升方式
+            'time': 6000, // todo： 友机的移动方式，提升方式
         },  // 呼叫支援
     ]
 
