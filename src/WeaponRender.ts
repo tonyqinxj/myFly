@@ -25,6 +25,8 @@ class WeaponRender extends eui.ItemRenderer {
     public gp_weapon: eui.Group;
     public img_try: eui.Image;
 
+    private last_open:string = '0';
+
     public constructor() {
         super();
         this.skinName = "weaponSkin";
@@ -74,6 +76,7 @@ class WeaponRender extends eui.ItemRenderer {
 
     public doChange(): void {
         console.log('doChange...', this.id.text, this.sel.text, this.open.text)
+        let id = parseInt(this.id.text);
 
         if (this.sel.text == '1') {
             this.gp_weapon.addChild(this.img_select);
@@ -85,21 +88,31 @@ class WeaponRender extends eui.ItemRenderer {
         }
 
         if (this.open.text == '1') {
+            if(this.last_open == '0'){
+                this.img_weapon.texture = ResTools.createUITexture(GameData.weaponNames[id-1])
+            }
+            this.last_open = '1'
             // 还原
-            this.img_weapon.filters = [];
+            //this.img_weapon.filters = [];
         } else {
+
+            if(this.last_open == '0'){
+                this.img_weapon.texture = ResTools.createUITexture(GameData.weaponNames[id-1]+'_1')
+            }
+            this.last_open = '0'
+
             // 灰度化
-            var colorMatrix = [
-                0.2, 0, 0, 0, 55,
-                0, 0.2, 0, 0, 55,
-                0, 0, 0.2, 0, 55,
-                0, 0, 0, 1, 0
-            ];
-            var colorFlilter = new egret.ColorMatrixFilter(colorMatrix);
-            this.img_weapon.filters = [colorFlilter];
+            // var colorMatrix = [
+            //     0.2, 0, 0, 0, 55,
+            //     0, 0.2, 0, 0, 55,
+            //     0, 0, 0.2, 0, 55,
+            //     0, 0, 0, 1, 0
+            // ];
+            // var colorFlilter = new egret.ColorMatrixFilter(colorMatrix);
+            // this.img_weapon.filters = [colorFlilter];
         }
 
-        let id = parseInt(this.id.text);
+
         if (GameData.failTryId && id == GameData.failTryId && GameData.failTryState == 1) {
             // 被选为试用武器
             this.gp_weapon.addChild(this.img_try);

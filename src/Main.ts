@@ -70,20 +70,11 @@ class Main extends eui.UILayer {
     }
 
     private async goStart() {
+        // let res = await platform.createAuthButton();
+        // console.log(res);
         await this.loadResource()
-        this.setPage("start");
+        this.setPage("logon");
 
-        const loginInfo = await platform.login();
-        console.log('loginInfo:', loginInfo);
-
-        if (loginInfo && loginInfo.code) {
-            const res = await HttpTools.httpPost("https://www.nskqs.com/getOpenId", { code: loginInfo.code, name: 'myfruit', num: 333 });
-            console.log('res:', res);
-            if (res.errcode == 0) {
-                let data = JSON.parse(res.data);
-                GameData.UserInfo.openid = data.openid;
-            }
-        }
 
     }
 
@@ -120,6 +111,9 @@ class Main extends eui.UILayer {
 
         this.clearCurScene();
         switch (page) {
+            case 'logon':
+                this.curPage = new loginUI();
+                break;
             case "start":
                 this.curPage = new StartUI();
                 break;

@@ -2,6 +2,8 @@ declare module skins{
 	class ButtonSkin extends eui.Skin{
 	}
 }
+declare class BuyGoldSkin extends eui.Skin{
+}
 declare module skins{
 	class CheckBoxSkin extends eui.Skin{
 	}
@@ -17,6 +19,8 @@ declare module skins{
 declare module skins{
 	class HSliderSkin extends eui.Skin{
 	}
+}
+declare class ItemIconSkin extends eui.Skin{
 }
 declare module skins{
 	class ItemRendererSkin extends eui.Skin{
@@ -43,8 +47,6 @@ declare module skins{
 	}
 }
 declare class StartUISkin extends eui.Skin{
-}
-declare class test extends eui.Skin{
 }
 declare module skins{
 	class TextInputSkin extends eui.Skin{

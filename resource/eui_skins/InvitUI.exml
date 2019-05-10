@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="InvitUISkin" width="750" height="1624" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" >
+	<w:Config id="16a9b3f1865" ></w:Config>
+	<e:Rect id="rect_all" width="750" height="1624" x="0" y="0" fillAlpha="0.5"/>
+	<e:Group id="gp_data" width="624" height="946" y="202" horizontalCenter="0">
+		<e:Image source="sq_yaoqingwanjia_png"/>
+		<e:Image id="img_kan" source="UI_json.sq_yaoqingwanjia_3" left="20" bottom="95"/>
+		<e:Image id="img_share" source="UI_json.sq_yaoqing_1" right="20" bottom="95"/>
+		<e:Image id="img_left" source="UI_json.sq_jiantou_2" scaleX="1" left="197" bottom="226"/>
+		<e:Image id="img_right" source="UI_json.sq_jiantou_2" scaleX="-1" right="197" bottom="226"/>
+		<e:Label id="txt_page" text="1/1" bottom="231" horizontalCenter="0" size="24" textColor="0x54bcf7"/>
+	</e:Group>
+</e:Skin>

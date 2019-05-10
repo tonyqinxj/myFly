@@ -21,13 +21,37 @@ class GameData {
         '234': 'b234'
     };// 主武器子弹模型
 
+    public static wxuserinfo = null;
 
     public static weaponOpenLevels = [20, 60, 100];//僚机开放等级（关卡等级）
-    public static weaponNames = ['UI_json.fuwuqi_gbd', 'UI_json.fuwuqi_pt', 'UI_json.fuwuqi_cjb', 'UI_json.fuwuqi_sdq'];
+    public static weaponNames = ['fuwuqi_gbd', 'fuwuqi_pt', 'fuwuqi_cjb', 'fuwuqi_sdq'];
 
     public static MAX_LEVEL = 40;
+    public static setOpenid(openid:string):void{
+        this.UserInfo.openid = openid;
+
+        if(!this.UserInfo.sendInvite){
+            let query = platform.getLaunchQuery();
+            console.log('query:',query)
+            if(query && query.openid){
+
+                // let obj = Tools.getQueryString(query)
+                // if(obj && obj.openid){
+
+                    HttpTools.httpPost("https://www.nskqs.com/inviteok", {name:'flygame', inviter:query.openid, openid:openid}).then(ret=>{
+                        if(ret && ret.errcoce == 0&& ret.data && ret.data.errcode == 0){
+                            this.UserInfo.sendInvite = true;
+                            this.needSaveUserInfo = true;
+                        }
+                    })
+                //}
+            }
+        }
+
+    }
 
     public static UserInfo = {
+        sendInvite:false,
         openid: '',  // 玩家的openid
         tili: 80,    // 体力
         totalMoney: 20000000,  // 玩家当前拥有的金币
@@ -79,6 +103,10 @@ class GameData {
                              // 机会在内存中，如果重启就没了，或者进入关卡就消失
             tryTimes: 0,  // 今日试用次数
             lastTryTime: 0,  // 上次试用时间
+        },
+        d_kan:{ // 看视频的钻石
+            times:0,
+            lastTime:0,
         }
     }
 
@@ -390,11 +418,19 @@ class GameData {
         return StarData.colorNames[i];
     }
 
+    public static addDiamond(diamond: number): boolean {
+        this.UserInfo.totalDiamond += diamond;
+        this.needSaveUserInfo = true;
+        return true;
+    }
+
     public static addGold(gold: number): boolean {
         this.UserInfo.totalMoney += gold;
         this.needSaveUserInfo = true;
         return true;
     }
+
+
 
     public static delGold(gold: number): boolean {
         if (this.UserInfo.totalMoney > gold) {
@@ -408,7 +444,6 @@ class GameData {
 
 
     public static passLevel(): void {
-
         this.UserInfo.curLevel++;
         if (this.UserInfo.nextLevel <= this.UserInfo.curLevel) this.UserInfo.nextLevel++;
 
@@ -429,6 +464,13 @@ class GameData {
         }
 
         this.needSaveUserInfo = true;
+
+        if(platform &&　platform['openDataContext']){
+            platform['openDataContext'].postMessage({
+                command:'rank_save',
+                score:''+this.UserInfo.nextLevel,
+            });
+        }
     }
 
     public static selectWeapon(id: number): number {
@@ -474,6 +516,8 @@ class GameData {
                 // if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
                 // if (userinfo_data.lastGetTiliTime) GameData.UserInfo.lastGetTiliTime = userinfo_data.lastGetTiliTime
                 // if (userinfo_data.failTry) GameData.UserInfo.failTry = userinfo_data.failTry
+                // if (userinfo_data.d_kan) GameData.UserInfo.d_kan = userinfo_data.d_kan
+
 
             }
         }
@@ -683,4 +727,8 @@ class GameData {
         this.failTryId = 0;
     }
 
+
+    public static showTips(tip:string):void{
+
+    }
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ItemIconSkin" width="100" height="114" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16a955b0379" ></w:Config>
+	<e:Image id="item" x="0" y="0" source="UI_json.iaddss_1"/>
+	<e:Image id="jindu" source="UI_json.daoju_jingdu_2" anchorOffsetX="50" anchorOffsetY="45" x="50" y="46"/>
+</e:Skin>

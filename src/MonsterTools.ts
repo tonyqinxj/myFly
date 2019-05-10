@@ -200,8 +200,8 @@ class MonsterTools {
         }
     }
 
-    public static itemPanel: eui.Group = null;
-    public static itemYs = [100, 200, 300, 400, 500]; // 位置, 5个, 关于道具随机，一旦同时爆出了5个不同类型的道具，以后都在这个范围内爆
+    public static itemPanel: eui.Component = null;
+    public static itemYs = [50, 200, 350, 500, 650]; // 位置, 5个, 关于道具随机，一旦同时爆出了5个不同类型的道具，以后都在这个范围内爆
     public static items = []; // 全局道具icon
     public static itemMap = {}; // key :y, value:item
 
@@ -264,6 +264,7 @@ class MonsterTools {
         return y;
     }
 
+
     public static  addItem(config: any): void {
         // 看是否有同类道具存在，有的话，只延长时间
         for (let j = 0; j < this.items.length; j++) {
@@ -276,8 +277,8 @@ class MonsterTools {
         }
 
         // 增加一个新道具
-        let model = ResTools.createBitmapByName(config.icon);
-        model.x = 700;
+        let model = new ItemIcon(config.time, config.icon, config.jindu); //ResTools.createUIBitmap(config.icon);
+        model.x = 640;
 
         // 没有同类道具，则需要找一个新的位置
         let y = this.findItemEmptyPos();
@@ -311,6 +312,7 @@ class MonsterTools {
         for (let i = 0; i < this.items.length; i++) {
             let item = this.items[i]
             item.time += deltaTime
+            item.model.setTime(item.time);
             if (item.time >= item.config.time) {
                 // 结束
                 if (item.y > 0) delete this.itemMap[item.y]
@@ -321,20 +323,6 @@ class MonsterTools {
                 this.itemEnd(item);
             }
         }
-
-        // // 换位置
-        // for (let i = 0; i < this.items.length; i++) {
-        //     let item = this.items[i]
-        //     if (item.y == 0) {
-        //         let y = this.findItemEmptyPos();
-        //         if (y == 0) break;
-        //
-        //         item.y = y;
-        //         this.itemPanel.addChild(item.model);
-        //         this.setItemTime(item)
-        //     }
-        // }
-
     }
 
     public static itemEnd(item: any): void {

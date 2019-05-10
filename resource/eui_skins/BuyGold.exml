@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="BuyGoldSkin" width="750" height="1624" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16a95aa9139" ></w:Config>
+	<e:Rect id="rect_all" width="750" height="1624" x="0" y="0" fillAlpha="0.5" strokeColor="0xd82929"/>
+	<e:Group id="gp_buy" width="520" height="594" x="115" y="515">
+		<e:Image width="520" height="594" y="0" x="0" source="UI_json.sq_tanchuang" scaleX="1" scaleY="1" scale9Grid="31,25,63,67"/>
+		<e:Image x="30" y="100" source="UI_json.sq_xiaohao"/>
+		<e:Image x="30" y="267" source="UI_json.sq_huode"/>
+		<e:Image id="img_buy" bottom="46" horizontalCenter="0" source="UI_json.sq_duihuan"/>
+		<e:Image id="img_jian" x="52" y="171" source="UI_json.sq_jian_1"/>
+		<e:Image id="img_jia" x="421" y="172" source="UI_json.sq_jia_1"/>
+		<e:Image x="218" y="175" source="UI_json.sq_zuanshi_1"/>
+		<e:Label id="txt_zs" text="1" x="279" y="181" textAlign="left" bold="true" size="36"/>
+		<e:Image x="242" y="365" source="UI_json.sq_jinbi_2" width="48" height="48" anchorOffsetX="24" anchorOffsetY="24"/>
+		<e:Label id="txt_jinbi" text="1" x="279" y="347" textAlign="left" bold="true" size="36"/>
+	</e:Group>
+</e:Skin>

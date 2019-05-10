@@ -5,7 +5,7 @@
  * 由于不同平台的接口形式各有不同，白鹭推荐开发者将所有接口封装为基于 Promise 的异步形式
  */
 declare interface Platform {
-    
+    createAuthButton():Promise<any>;
     getUserInfo(): Promise<any>;
 
     login(): Promise<any>;
@@ -20,14 +20,21 @@ declare interface Platform {
     stopHit():void;
     playMusic(name:string, times:number):void;
     navigateToMiniProgram(appid:string, param:string):Promise<any>;
-    shareAppMessage(title:string, url:string):void;
+    shareAppMessage(title:string, url:string, qurey:string):void;
     showBannerAd():void;
     showRewardAd():Promise<any>;
+    getLaunchQuery():any;
 }
 
 class DebugPlatform implements Platform {
-    
-    
+    async createAuthButton(){
+        return null;
+    }
+
+    getLaunchQuery():any{
+        return {};
+    }
+
     async getUserInfo() {
         return { nickName: "username" }
     }
@@ -40,7 +47,7 @@ class DebugPlatform implements Platform {
 
     }
 
-    shareAppMessage(title:string, url:string){
+    shareAppMessage(title:string, url:string, qurey:string){
         
     }
 

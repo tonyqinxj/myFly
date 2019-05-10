@@ -11,29 +11,29 @@
     ],
 
     "add_ons": [
-      { "time":300, "id":101,"level":1,"x":250 ,"y":500,"items":1}
+      { "time":300, "id":101,"level":1,"x":250 ,"y":0,"items":1}
 
     ]
    },
    {
     "blood": 130,
-    "tip": {},
+     "tip": {"fx":"jinggao_2","music":"WaveWarning"},
 
     "init": [
 
       { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-      { "time":1300, "id":101,"level":1,"x":250 ,"y":500,"items":2}
+      { "time":1300, "id":101,"level":1,"x":250 ,"y":0,"items":2}
     ],
 
     "add_ons": [
 	     { "time":100, "id":102,"level":1,"x":550 ,"y":0,"items":0},
-      { "time":300, "id":101,"level":1,"x":350 ,"y":500,"items":0}
+      { "time":300, "id":101,"level":1,"x":350 ,"y":0,"items":0}
 
     ]
    },
    {
     "blood": 100,
-    "tip": {},
+     "tip": {"fx":"jinggao_1","music":"WaveWarning"},
 
     "init": [
 

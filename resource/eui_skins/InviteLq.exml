@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="InviteLqSkin" width="560" height="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16a9b5eb40b" ></w:Config>
+	<e:Image x="0" y="0" source="UI_json.sq_yaoqingwenjia_2" scaleX="1" scaleY="1"/>
+	<e:Image id="img_head" width="72" height="72" x="67" y="14"/>
+	<e:Label id="txt_id" text="1" x="28" y="38" textColor="0x54BCF7" bold="true"/>
+	<e:Image id="img_lq" right="11" top="15" source="UI_json.sq_lingqu_1"/>
+	<e:Label id="txt_lq" text="已领取" y="36" bold="true" right="26"/>
+</e:Skin>

@@ -28,9 +28,13 @@ class HttpTools {
 			request.addEventListener(egret.Event.COMPLETE, (event: egret.Event): void => {
 				var request = <egret.HttpRequest>event.currentTarget;
 				console.log("get data : ", request.response);
+				let data = {};
+				if(typeof request.response == "string"){
+					data = JSON.parse(request.response);
+				}
 				resolve({
 					errcode: 0,
-					data: request.response
+					data: data
 				});
 
 			},

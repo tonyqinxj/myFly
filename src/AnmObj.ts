@@ -8,12 +8,13 @@ class AnmObj extends eui.Component implements  eui.UIComponent {
     private sddh:egret.tween.TweenGroup; // 通用动作组
     private maxTimes:number = 1;
     private times:number = 0;
-
-    public constructor(name:string, times:number) {
+    private setAnchor:boolean = true;
+    public constructor(name:string, times:number, setAnchor:boolean = true) {
         super();
         this.skinName = "resource/eui_skins/"+name+".exml";
         this.maxTimes = times;
         this.times = 0;
+        this.setAnchor = setAnchor;
     }
 
     protected partAdded(partName:string,instance:any):void
@@ -25,8 +26,11 @@ class AnmObj extends eui.Component implements  eui.UIComponent {
     {
         super.childrenCreated();
 
-        this.anchorOffsetX = this.width/2;
-        this.anchorOffsetY = this.height/2;
+        if(this.setAnchor){
+            this.anchorOffsetX = this.width/2;
+            this.anchorOffsetY = this.height/2;
+        }
+
         this.sddh.addEventListener('complete', this.onTweenGroupComplete, this);
         //this.sddh.addEventListener('itemComplete', this.onTweenItemComplete, this);
         this.sddh.play(0)

@@ -70,22 +70,22 @@ class ResTools {
 
     public static playAd(main: Main, game: StartUI, type: string): Promise<number> {
         return new Promise((resolve, reject) => {
-            // ResTools.share(main, game, type);
-            // resolve(11)
-
-            window.platform.showRewardAd().then(ret => {
-                console.log('showRewardAd:', ret)
-                if (ret == 0) {
-                    // 视频播放成功
-                    resolve(0)
-                } else if (ret == 3) {
-                    // 视频播放被取消
-                    resolve(3)
-                } else {
-                    ResTools.share(main, game, type);
-                    resolve(11)
-                }
-            });
+            ResTools.share(main, game, type);
+            resolve(11)
+            //
+            // window.platform.showRewardAd().then(ret => {
+            //     console.log('showRewardAd:', ret)
+            //     if (ret == 0) {
+            //         // 视频播放成功
+            //         resolve(0)
+            //     } else if (ret == 3) {
+            //         // 视频播放被取消
+            //         resolve(3)
+            //     } else {
+            //         ResTools.share(main, game, type);
+            //         resolve(11)
+            //     }
+            // });
         })
     }
 
@@ -98,7 +98,7 @@ class ResTools {
         let n = Tools.GetRandomNum(1, share_data.length);
         let title = share_data[n - 1].title;
         let url = share_data[n - 1].url;
-        window.platform.shareAppMessage(title, url);
+        window.platform.shareAppMessage(title, url, "openid="+GameData.UserInfo.openid);
     }
 
     public static showTextTip(parent: egret.DisplayObjectContainer, text: string) {

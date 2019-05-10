@@ -103,10 +103,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private select_lv: number = 0;
 
     private img_add_gold: eui.Image;
+    private img_add_tili: eui.Image;
+    private img_add_diamond: eui.Image;
     private txt_add_tili: eui.Label;
 
 
     private gp_goldtime_get: eui.Group;
+    private img_goldtime_get_1: eui.Image;
+    private img_goldtime_get_3: eui.Image;
     private txt_goldtime_get_1: eui.Label;
     private txt_goldtime_get_3: eui.Label;
 
@@ -114,14 +118,22 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         EventManager.register('selectWeapon', this.selectWeapon.bind(this), this);
 
-        this.gp_goldtime_get.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
+        this.img_zhuanshi.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
+        this.img_paihang.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openRank, this);
+        this.gp_goldtime_get.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeCancelClick, this);
 
+        this.img_goldtime_get_1.name = '1'
+        this.img_goldtime_get_3.name = '3'
         this.txt_goldtime_get_1.name = '1'
         this.txt_goldtime_get_3.name = '3'
+        this.img_goldtime_get_1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
+        this.img_goldtime_get_3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
         this.txt_goldtime_get_1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
         this.txt_goldtime_get_3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
 
         this.img_add_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onAddGoldClick, this);
+        this.img_add_diamond.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
+
         this.img_main.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onMainClick, this);
         this.img_sub.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onSubClick, this);
         this.img_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGoldClick, this);
@@ -360,9 +372,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.initUI();
 
         GoldFx.playResult({x: 375, y: this.gp_result.y}, {x: this.img_gold_dest.x, y: this.img_gold_dest.y}, this);
-        //
-        // 进入主页
-        platform.playMusic('resource/sounds/GetGold_result.mp3', 4);
+        platform.playMusic('resource/sounds/GetGold_result.mp3', 1);
 
     }
 
@@ -423,7 +433,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onAddGoldClick(e: egret.TouchEvent): void {
-        GameData.onBuyGoldByDiamond(1);
+        //GameData.onBuyGoldByDiamond(1);
+
+        let ui = new BuyGold({x: this.img_gold_dest.x, y: this.img_gold_dest.y}, this);
+        this.addChild(ui);
     }
 
     private onMainClick(e: egret.TouchEvent): void {
@@ -498,6 +511,17 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
+    }
+
+
+    private openInvite(e: egret.TouchEvent): void {
+        let invite = new InvitUI();
+        this.addChild(invite);
+    }
+
+    private openRank(e: egret.TouchEvent): void {
+        let rank = new RankUI();
+        this.addChild(rank);
     }
 
     private onGoldClick(e: egret.TouchEvent): void {
@@ -720,7 +744,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         GameData.start = this;
         GameData.initFont();
-        MonsterTools.itemPanel = this.gp_layer_2;
+        MonsterTools.itemPanel = this;
         //FxMgr.init();
         this.initBegin();
 
@@ -791,10 +815,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.boat.x += this.boat.width / 2;
         this.boat.y += this.boat.height / 2;
 
-        this.starCount = new egret.BitmapText();
-        this.starCount.font = GameData.myFont;
-        this.starCount.text = '';
-        this.addChild(this.starCount);
+        // this.starCount = new egret.BitmapText();
+        // this.starCount.font = GameData.myFont;
+        // this.starCount.text = '';
+        // this.addChild(this.starCount);
 
         //
         // this.gp_layer_4.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTap, this);
@@ -856,7 +880,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private addMoveEvent(): void {
-        this.addChild(this.boat);
+        this.gp_layer_4.addChild(this.boat);
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTap, this);
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
         this.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouchMove, this);
@@ -990,11 +1014,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.checkItem(deltaTime_snow);
 
 
-            this.starCount.text = '' + this.star_fly.length;
-            this.starCount.anchorOffsetX = this.starCount.width / 2;
-            this.starCount.anchorOffsetY = this.starCount.height / 2;
-            this.starCount.x = this.boat.x;
-            this.starCount.y = this.boat.y;
+            // this.starCount.text = '' + this.star_fly.length;
+            // this.starCount.anchorOffsetX = this.starCount.width / 2;
+            // this.starCount.anchorOffsetY = this.starCount.height / 2;
+            // this.starCount.x = this.boat.x;
+            // this.starCount.y = this.boat.y;
             //this.checkGameOver();
             this.showGameUI();
             this.boat.update();
@@ -1049,6 +1073,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let batchInfo = GameData.level_configs[this.cur_level_batch];
             this.star_left_blood = batchInfo.blood;
             this.star_blood = this.star_left_blood;
+            if (batchInfo.tip && batchInfo.tip.fx && batchInfo.tip.music) {
+                let obj = new AnmObj(batchInfo.tip.fx, 1, false);
+                obj.x = 0;
+                obj.y = 242;
+                this.addChild(obj);
+                platform.playMusic('resource/sounds/' + batchInfo.tip.music + '.mp3', 1);
+            }
 
             GameData.bloodGen(batchInfo);
         } else {
@@ -1623,7 +1654,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         fx.y = star.model.y;
         fx.anchorOffsetX = fx.width / 2;
         fx.anchorOffsetY = fx.height / 2;
-        this.addChild(fx);
+        this.gp_layer_4.addChild(fx);
         fx.alpha = 0.6;
         // fx.scaleX = (star.model.width * star.model.scaleX) / fx.width
         // fx.scaleY = (star.model.height * star.model.scaleY) / fx.height
@@ -1816,7 +1847,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let model = ResTools.createBitmapByName(itemConfig.model);
             model.x = x + Tools.GetRandomNum(1, 30) - 15;
             model.y = y - Tools.GetRandomNum(1, 30);
-            this.addChild(model);
+            this.gp_layer_4.addChild(model);
 
             let speed: egret.Point = new egret.Point(Tools.GetRandomNum(0, 10) - 5, Tools.GetRandomNum(0, 10) - 5);
             speed.normalize(ItemData.itemFlySpeed);
@@ -2162,7 +2193,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 id: sub.id,
                 open: sub.open,
                 sel: sub_weapon.id == sub.id ? "1" : "0",
-                weaponName: GameData.weaponNames[sub.id - 1]
+                weaponName: 'UI_json.' + GameData.weaponNames[sub.id - 1]
             })
         })
 
@@ -2186,7 +2217,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.boat.stop();
             this.boat.parent && this.boat.parent.removeChild(this.boat);
             this.boat = new wuqi_1();
-            this.addChild(this.boat);
+            this.gp_layer_4.addChild(this.boat);
             this.boat.play();
             this.boat.anchorOffsetX = this.boat.width / 2;
             this.boat.anchorOffsetY = this.boat.height / 2;
@@ -2240,6 +2271,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 } else if (GameData.upfree == 4) {
                     this.doUpFree(2)
                 }
+            }
+        } else if (type == 'd_kan') {
+            if (shareok) {
+                if (GameData.UserInfo.d_kan.times >= 2) return;
+
+                GameData.addDiamond(10);
+                GameData.UserInfo.d_kan.times++;
+                GameData.UserInfo.d_kan.lastTime = new Date().getTime();
             }
         }
     }

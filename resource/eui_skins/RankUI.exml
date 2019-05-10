@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="RankUISkin" width="750" height="1624" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16a9c06ccb5" ></w:Config>
+	<e:Rect id="rect_all" width="750" height="1624" x="0" y="0" fillAlpha="0.5"/>
+	<e:Group id="gp_data" width="624" height="888" y="290" x="63">
+		<e:Image x="0" y="0" source="sq_paihangbang_png"/>
+		<e:Image id="img_left" source="UI_json.sq_jiantou_2" scaleX="1" x="197" y="688"/>
+		<e:Image id="img_right" source="UI_json.sq_jiantou_2" scaleX="-1" right="197" bottom="168" x="10" y="10"/>
+		<e:Image id="img_share" source="UI_json.sq_haoyou" horizontalCenter="0" bottom="37"/>
+	</e:Group>
+</e:Skin>
