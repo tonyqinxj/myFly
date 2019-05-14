@@ -29,9 +29,9 @@ class WingMan {
         '1': {
             'model': 'fuwuqi_1_1',
             'getAttackCost':function(level:number){
-                if(level <= 220) return 1.8*Math.pow(level, 2.43);
+                if(level <= 220) return 2.8*Math.pow(level, 2.43);
 
-                return 30000*level;
+                return 6000*level;
             },
             'getStrengthCost':function(level:number){
                 if(level<=15) return 1000*Math.pow(level, 3);
@@ -39,11 +39,11 @@ class WingMan {
                 return 260000*level;
             },
             'getAttack': function (level:number) {
-                if(level <=100) return level*level;
+                if(level <=67) return level*level;
                 return 120*Math.exp(0.054*level);
             },
             'getStrength':function (level:number) {
-                return Math.floor(0.01*(level+8)*(level+8) - 0.15*(level+8)+3)
+                return Math.floor(0.03*(level+8)*(level+8) - 0.45*(level+8)+9)
             },
             'weaponRatio': function (strength: number) {
                 // strength 每10s发射的次数
@@ -85,9 +85,9 @@ class WingMan {
         '2': {
             'model': 'fuwuqi_2_1',
             'getAttackCost':function(level:number){
-                if(level <= 220) return 1.1*1.8*Math.pow(level, 2.43);
+                if(level <= 220) return 1.1*2.8*Math.pow(level, 2.43);
 
-                return 1.1*30000*level;
+                return 1.1*6000*level;
             },
             'getStrengthCost':function(level:number){
                 if(level<=15) return 1.1*1000*Math.pow(level, 3);
@@ -95,8 +95,8 @@ class WingMan {
                 return 1.1*260000*level;
             },
             'getAttack': function (level:number) {
-                if(level <=100) return 2* (level+20)*(level+20);
-                return 140*Math.exp(0.054*level);
+                if(level <=109) return 2* (level+20)*(level+20);
+                return 140*Math.exp(0.051*level);
             },
             'getStrength':function (level:number) {
                 return (level+19)*100;
@@ -136,9 +136,9 @@ class WingMan {
         '3':{
             'model':'fuwuqi_3_1',
             'getAttackCost':function(level:number){
-                if(level <= 220) return 1.3*1.8*Math.pow(level, 2.43);
+                if(level <= 220) return 1.3*2.8*Math.pow(level, 2.43);
 
-                return 1.3*30000*level;
+                return 1.3*6000*level;
             },
             'getStrengthCost':function(level:number){
                 if(level<=15) return 1.3*1000*Math.pow(level, 3);
@@ -146,7 +146,7 @@ class WingMan {
                 return 1.3*260000*level;
             },
             'getAttack': function (level:number) {
-                if (level <= 100) return 10 * level * level + 750;
+                if (level <= 67) return 10 * level * level + 750;
                 return 1200 * Math.exp(0.054 * level);
             },
             'getStrength':function (level:number) {
@@ -182,9 +182,9 @@ class WingMan {
         '4':{
             'model':'fuwuqi_4_1',
             'getAttackCost':function(level:number){
-                if(level <= 220) return 1.5*1.8*Math.pow(level, 2.43);
+                if(level <= 220) return 1.5*2.8*Math.pow(level, 2.43);
 
-                return 1.5*30000*level;
+                return 1.5*6000*level;
             },
             'getStrengthCost':function(level:number){
                 if(level<=15) return 1.5*1000*Math.pow(level, 3);
@@ -192,7 +192,7 @@ class WingMan {
                 return 1.5*260000*level;
             },
             'getAttack': function (level:number) {
-                if(level <=100) return 40* (level + 20)*(level + 20);
+                if(level <=139) return 40* (level + 20)*(level + 20);
                 return 600*Math.exp(0.054*level);
             },
             'getStrength':function (level:number) {
@@ -202,10 +202,10 @@ class WingMan {
                 return 5000; // 武器充能时间配置，本武器充能好之后，就发射一波子弹
             },
             'bulletScale': function (strength:number) {
-                return (19+strength)*5;   // 体积成长
+                return (19+strength)*10;   // 体积成长
             },
             'bombScope': function (strength: number) {
-                return (19+strength)*13;
+                return (19+strength)*25;
             },  // 子弹碰到人之后的爆炸范围
 
             'data':{
