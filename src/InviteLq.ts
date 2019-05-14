@@ -46,7 +46,7 @@ class InviteLq extends eui.Component implements  eui.UIComponent {
 			this.img_lq.visible = true;
 
 			this.img_lq.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
-				HttpTools.httpPost('https://www.nskqs.com/getInviteGold', {name:'flygame', inviter:GameData.UserInfo.openid, openid:this.data.openid}).then(ret=>{
+				HttpTools.httpPost('https://www.nskqs.com/getInviteGold', {name:GameData.gameName, inviter:GameData.UserInfo.openid, openid:this.data.openid}).then(ret=>{
 					if(ret && ret.errcode == 0 && ret.data && ret.data.errcode == 0){
 						// fx?
 						GameData.addDiamond(10);

@@ -4,6 +4,7 @@
 	<w:Config id="169b91ebd03"></w:Config>
 	<e:Group id="gp_root" width="750" height="1624" x="0" y="0">
 		<e:Image id="img_bg" width="750" height="1624" x="0" y="0" source="sq_beijing_png"  locked="true"/>
+		<e:Group id="gp_xingqiu" width="200" height="200" x="0" y="0" locked="true"/>
 		<e:Group id="gp_layer_1" width="750" height="1624" x="0" y="0"  locked="true"/>
 		<e:Group id="gp_layer_2" width="750" height="1624" x="0" y="0"  locked="true"/>
 		<e:Group id="gp_layer_3" width="750" height="1624" x="0" y="0"  locked="true"/>
@@ -48,7 +49,7 @@
 			<e:Image id="img_up2" x="550.5" y="134" source="UI_json.sq_shengji_1" />
 			<e:Image id="img_up2_free" x="550.5" y="134" source="UI_json.sq_shengji_2"/>
 		</e:Group>
-		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93" locked="true">
+		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93">
 			<e:Image id="img_failtry" x="262.5" y="-70" source="UI_json.sq_manji"/>
 			<e:Image id="img_main" source="UI_json.sq_zhuwuqi" left="14" bottom="3" />
 			<e:Image id="img_main0" source="UI_json.sq_tishi" x="206" y="-11"/>
@@ -71,7 +72,7 @@
 			<e:Label id="txt_add_tili" text="5:23+1" x="299" y="144" size="24"/>
 		</e:Group>
 		<e:Group id="gp_left" width="125.76" height="282.3" x="0" y="588" scaleX="1" scaleY="1" anchorOffsetY="0"
-		         anchorOffsetX="0">
+		         anchorOffsetX="0" locked="true">
 			<e:Image id="img_zhuanshi" x="4.7" y="2.96" source="UI_json.sq_zhuanshi" scaleX="1" scaleY="1" />
 			<e:Image id="img_paihang" x="4.7" y="142.52" source="UI_json.sq_paihang" scaleX="1" scaleY="1" />
 		</e:Group>
@@ -88,7 +89,7 @@
 		</e:Group>
 		<e:Group id="gp_ui_lv1" width="459.09" height="83.76" x="142" y="447" anchorOffsetX="0" anchorOffsetY="0" locked="true">
 			<e:Image x="0.86" y="7" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image x="159.1" y="0" width="139" height="84" source="UI_json.sy_guanka_2" />
+			<e:Image id="img_lv_cur" x="159.1" y="0" width="139" height="84"  source="UI_json.sy_guanka_2"/>
 			<e:Image x="331.96" y="7" width="125" height="77" source="UI_json.sy_guanka_1" />
 			<e:Image x="134.98" y="26" source="UI_json.sq_jiantou" />
 			<e:Image x="304.6" y="26" source="UI_json.sq_jiantou" />
@@ -137,7 +138,7 @@
 		<e:Group id="gp_game_data" width="750" height="258" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" locked="true">
 			<e:Image id="img_game_gold_dest" x="57" y="121" source="UI_json.sq_jinbi_1" anchorOffsetX="24" anchorOffsetY="24" />
 			<e:Image x="213" y="93" width="90" height="55" source="UI_json.sy_guanka_1" />
-			<e:Image x="325" y="91" width="100" height="60" source="UI_json.sy_guanka_2" />
+			<e:Image id="img_game_lv_cur" x="325" y="91" width="100" height="60" source="UI_json.sy_guanka_2" />
 			<e:Image x="447" y="93" width="90" height="55" source="UI_json.sy_guanka_1" />
 			<e:Image x="304.67" y="110.01" source="UI_json.sq_jiantou" />
 			<e:Image x="427.33" y="108.02" source="UI_json.sq_jiantou" />
@@ -153,6 +154,7 @@
 			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
 		</e:Group>
 		<e:Group id="gp_goldtime_get" width="750" height="1624" y="0" scaleX="1" scaleY="1" x="0" locked="true">
+			<e:Rect id="rect_goldtime_get_cancel" fillAlpha="0.5" top="0" left="0" right="0" bottom="0"/>
 			<e:Group height="240" x="50" y="698" width="650">
 				<e:Image source="UI_json.sq_tanchuang" x="0" y="0" width="650" height="240" scaleX="1" scaleY="1" scale9Grid="31,26,58,68"/>
 				<e:Image x="163.63" y="23.61" source="UI_json.sq_jinbi_2" scaleX="1" scaleY="1"/>

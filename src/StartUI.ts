@@ -22,6 +22,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     // ui components
     private gp_root: eui.Group; // 根层级
+    private gp_xingqiu:eui.Group;// 放星球装饰
 
     private gp_layer_1: eui.Group;// 最底层，放特效等
     private gp_layer_2: eui.Group;// 普通星球
@@ -80,7 +81,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private img_gold_dest: eui.Image;
 
-
+    private img_lv_cur:eui.Image;
     private gp_ui_lv1: eui.Group;
     private txt_ui_lv1_1: eui.Label;
     private txt_ui_lv1_2: eui.Label;
@@ -110,10 +111,13 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
 
     private gp_goldtime_get: eui.Group;
+    private  rect_goldtime_get_cancel:eui.Rect;
     private img_goldtime_get_1: eui.Image;
     private img_goldtime_get_3: eui.Image;
     private txt_goldtime_get_1: eui.Label;
     private txt_goldtime_get_3: eui.Label;
+
+
 
     private registerCallback(): void {
 
@@ -121,7 +125,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.img_zhuanshi.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
         this.img_paihang.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openRank, this);
-        this.gp_goldtime_get.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeCancelClick, this);
+        this.rect_goldtime_get_cancel.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeCancelClick, this);
 
         this.img_goldtime_get_1.name = '1'
         this.img_goldtime_get_3.name = '3'
@@ -238,6 +242,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.txt_ui_lv1_2.text = '' + (GameData.UserInfo.curLevel);
             this.txt_ui_lv1_3.text = '' + (GameData.UserInfo.curLevel + 1);
 
+            if(GameData.UserInfo.curLevel % 5 == 0){
+                this.img_lv_cur.texture = ResTools.createUITexture("sy_guanka_2");
+            }else{
+                this.img_lv_cur.texture = ResTools.createUITexture("sy_guanka_1");
+            }
+
         } else {
             this.gp_ui_lv1.parent && this.gp_ui_lv1.parent.removeChild(this.gp_ui_lv1)
             this.gp_root.addChild(this.gp_ui_lv2);
@@ -266,22 +276,34 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.img_failtry.visible = false;
         }
 
-        this.img_sub0.parent && this.img_sub0.parent.removeChild(this.img_sub0)
-        this.img_main0.parent && this.img_main0.parent.removeChild(this.img_main0)
-        this.img_gold0.parent && this.img_gold0.parent.removeChild(this.img_gold0)
-
-        if (GameData.upfree) {
-            if (GameData.upfree == 1 || GameData.upfree == 2) {
-                this.gp_b1.addChild(this.img_main0)
-                egret.Tween.get(this.img_main0, { loop: true }).to({ y: -20 }, 300).to({ y: -10 })
-            } else {
-                this.gp_b1.addChild(this.img_gold0)
-                egret.Tween.get(this.img_gold0, { loop: true }).to({ y: -20 }, 300).to({ y: -10 })
-            }
+        if(GameData.canUpMain() || (GameData.upfree && (GameData.upfree ==1 || GameData.upfree == 2))){
+            this.gp_b1.addChild(this.img_main0)
+            egret.Tween.get(this.img_main0, { loop: true }).to({ y: -20 }, 300).to({ y: -10 })
+        }else{
+            this.img_main0.parent && this.img_main0.parent.removeChild(this.img_main0)
         }
+
+
+        if(GameData.canUpGold() || (GameData.upfree && (GameData.upfree ==3 || GameData.upfree == 4))){
+            this.gp_b1.addChild(this.img_gold0)
+            egret.Tween.get(this.img_gold0, { loop: true }).to({ y: -20 }, 300).to({ y: -10 })
+        }else{
+            this.img_gold0.parent && this.img_gold0.parent.removeChild(this.img_gold0)
+        }
+
+        if(GameData.canUpSub()){
+            this.gp_b1.addChild(this.img_sub0)
+            egret.Tween.get(this.img_sub0, { loop: true }).to({ y: -20 }, 300).to({ y: -10 })
+        }else{
+            this.img_sub0.parent && this.img_sub0.parent.removeChild(this.img_sub0)
+        }
+
+
 
         this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
         this.gp_game_data.parent && this.gp_game_data.parent.removeChild(this.gp_game_data)
+
+        this.gp_root.addChild(this.gp_xingqiu)
         this.gp_root.addChild(this.gp_ui);
         this.gp_root.addChild(this.gp_b1);
         this.gp_root.addChild(this.gp_left);
@@ -466,6 +488,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onMainClick(e: egret.TouchEvent): void {
+
+
+        this.img_main0.parent && this.img_main0.parent.removeChild(this.img_main0)
+
+
         this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
 
         this.txt_up1.text = '射速';
@@ -513,6 +540,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onSubClick(e: egret.TouchEvent): void {
+        this.img_sub0.parent && this.img_sub0.parent.removeChild(this.img_sub0)
+
         if (this.weapon == null && GameData.UserInfo.SubWeapons[0].open == 0) {
             GameData.showTips('副武器将在' + GameData.UserInfo.SubWeapons[0].openlevel + '级开放')
             return;
@@ -595,6 +624,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onGoldClick(e: egret.TouchEvent): void {
+
+        this.img_gold0.parent && this.img_gold0.parent.removeChild(this.img_gold0)
+
         this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
 
         this.txt_up1.text = '金币价值';
@@ -721,8 +753,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     break;
             }
         }
-
-
     }
 
     private onLevelUp2_free(e: egret.TouchEvent): void {
@@ -746,9 +776,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.addChild(this.gp_goldtime_get);
 
         if(GameData.hasVideoAd()){
-            this.img_goldtime_get_1.texture = ResTools.createUITexture('sq_richang_1')
+            this.img_goldtime_get_3.texture = ResTools.createUITexture('sq_richang_1')
         }else{
-            this.img_goldtime_get_1.texture = ResTools.createUITexture('sq_richang_2')
+            this.img_goldtime_get_3.texture = ResTools.createUITexture('sq_richang_2')
         }
     }
 
@@ -795,12 +825,20 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private txt_game_lv3: eui.Label;
     private img_game_jindu: eui.Image;
     private img_game_jindu_bg: eui.Image;
+    private img_game_lv_cur:eui.Image;
 
     private showGameUI(): void {
         this.addChild(this.gp_game_data);
         this.txt_game_lv1.text = '' + (GameData.UserInfo.curLevel - 1);
         this.txt_game_lv2.text = '' + (GameData.UserInfo.curLevel);
         this.txt_game_lv3.text = '' + (GameData.UserInfo.curLevel + 1);
+
+        if(GameData.UserInfo.curLevel % 5 == 0){
+            this.img_game_lv_cur.texture = ResTools.createUITexture('sy_guanka_2');
+        }else{
+            this.img_game_lv_cur.texture = ResTools.createUITexture('sy_guanka_1');
+        }
+
         this.txt_game_gold.text = myMath.getString(GameData.score);
         let cur = Math.floor(100 * (1 - this.kill_blood / GameData.total_blood));
         if (cur < 0) cur = 0
@@ -903,6 +941,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_ui.addChild(this.boat);
         this.boat.play();
 
+        let xingqiu = new AnmObj('xingqiu_ui', 0, false);
+        xingqiu.x = 0;
+        xingqiu.y = 0;
+        this.gp_xingqiu.addChild(xingqiu);
+
+        egret.Tween.get(xingqiu).to({y:100}, 200).to({y:0}, 2000);
 
         this.gp_layer.push(this.gp_layer_1);
         this.gp_layer.push(this.gp_layer_2);
@@ -978,6 +1022,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
                 this.gp_b1.parent && this.gp_b1.parent.removeChild(this.gp_b1)
                 this.gp_ui.parent && this.gp_ui.parent.removeChild(this.gp_ui);
+                this.gp_xingqiu.parent && this.gp_xingqiu.parent.removeChild(this.gp_xingqiu)
                 this.gp_top.parent && this.gp_top.parent.removeChild(this.gp_top)
                 this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
                 this.gp_goldtime.parent && this.gp_goldtime.parent.removeChild(this.gp_goldtime)
@@ -2416,7 +2461,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             }
         } else if (type == 'gold3') {
             if (shareok) {
-                this.handleGold3();
+                this.handleResult(3);
             }
         } else if (type == 'goldtime3') {
             if (shareok) {
@@ -2425,15 +2470,16 @@ class StartUI extends eui.Component implements eui.UIComponent {
         } else if (type == 'failtry') {
             if (shareok) {
                 WeaponRender.try_sel && WeaponRender.try_sel.doSelect();
+                this.img_failtry.visible = false;
             }
         } else if (type == 'upfree') {
             if (shareok) {
                 if (GameData.upfree == 1) {
                     this.doUpFree(1)
                 } else if (GameData.upfree == 2) {
-                    this.doUpFree(1)
-                } else if (GameData.upfree == 3) {
                     this.doUpFree(2)
+                } else if (GameData.upfree == 3) {
+                    this.doUpFree(1)
                 } else if (GameData.upfree == 4) {
                     this.doUpFree(2)
                 }

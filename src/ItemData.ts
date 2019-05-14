@@ -30,7 +30,7 @@ class ItemData {
             'model': 'ibig',
             'icon': 'ibig_1',
             'jindu': 'daoju_jingdu_2',
-            'ratio': 2,  // 巨化比例
+            'ratio': 1.3,  // 巨化比例
             'time': 3000,
         },  // 巨化陨石
         {

@@ -3,9 +3,14 @@ class Star1 extends eui.Component implements  eui.UIComponent {
 	public TG_1:egret.tween.TweenGroup;
 	public image:eui.Image;
 
+	public static myid:number = 0;
+
+	public curid:number = 0;
 	public constructor(name:string) {
 		super();
 
+		Star1.myid++;
+		this.curid = Star1.myid;
 		if(name == 'star1') this.skinName = "resource/eui_skins/guaiwu.1.exml";
 		else if(name == 'star2') this.skinName = "resource/eui_skins/guaiwu.2.exml";
 		else if(name == 'star3') this.skinName = "resource/eui_skins/guaiwu.3.exml";
@@ -37,17 +42,19 @@ class Star1 extends eui.Component implements  eui.UIComponent {
 
 		this.anchorOffsetX = this.width/2;
 		this.anchorOffsetY = this.height/2;
-		this.TG_1.addEventListener('complete', this.onTweenGroupComplete, this);
+		//this.TG_1.addEventListener('complete', this.onTweenGroupComplete, this);
         //this.TG_1.addEventListener('itemComplete', this.onTweenItemComplete, this);
 		this.loaded = true;
         this.doplay();
+
+		//console.log('createstar.....',this.curid)
 	}
 
 	 /**
      * 动画组播放完成
      */
     private onTweenGroupComplete(): void {
-        //console.log('TweenGroup play completed.');
+       // console.log('TweenGroup play completed.', this.curid);
 		this.TG_1.play(0)
     }
     /**
@@ -55,8 +62,8 @@ class Star1 extends eui.Component implements  eui.UIComponent {
      */
     private onTweenItemComplete(event: egret.Event): void {
         const item = event.data as egret.tween.TweenItem;
-        console.log(item.target);
-        console.log('TweenItem play completed.');
+        //console.log(item.target);
+        //console.log('TweenItem play completed.',this.curid);
 		
     }
 
@@ -64,11 +71,13 @@ class Star1 extends eui.Component implements  eui.UIComponent {
 	private needplay:boolean = false;
 	private doplay():void{
 		if(this.loaded && this.needplay){
-			//this.TG_1.play(0);
+			this.TG_1.play(0);
+			//console.log('doplay ....',this.curid);
 		}
 	}
 
 	public play():void{
+		this.TG_1.addEventListener('complete', this.onTweenGroupComplete, this);
 		this.needplay = true;
 		this.doplay();
 	}
@@ -76,6 +85,8 @@ class Star1 extends eui.Component implements  eui.UIComponent {
 	public stop():void{
 		this.TG_1.removeEventListener('complete', this.onTweenGroupComplete, this);
     	this.TG_1.stop();
+
+		//console.log('star stop.....', this.curid)
 	}
 
 	public changeColor(color:string):void{

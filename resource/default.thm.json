@@ -89,7 +89,8 @@
 		"resource/eui_skins/wuqi_1.exml",
 		"resource/eui_skins/wuqi_2.exml",
 		"resource/eui_skins/wuqi_3.exml",
-		"resource/eui_skins/wuqi_4.exml"
+		"resource/eui_skins/wuqi_4.exml",
+		"resource/eui_skins/xingqiu_ui.exml"
 	],
 	"path": "resource/default.thm.json"
 }

@@ -65,7 +65,7 @@ class InvitUI extends eui.Component implements  eui.UIComponent {
 	}
 
 	private fetchData():void{
-		HttpTools.httpPost('https://www.nskqs.com/getinvitelist', {name:'flygame', openid:GameData.UserInfo.openid, page:this.curPage}).then(ret=>{
+		HttpTools.httpPost('https://www.nskqs.com/getinvitelist', {name:GameData.gameName, openid:GameData.UserInfo.openid, page:this.curPage}).then(ret=>{
 			if(ret && ret.errcode == 0 && ret.data && ret.data.errcode == 0){
 				let data = ret.data;
 				this.data = {
@@ -94,7 +94,7 @@ class InvitUI extends eui.Component implements  eui.UIComponent {
 
 		}, this);
 
-		this.img_share_x = this.img_share.x;
+		this.img_share_x = this.img_share.horizontalCenter;
 
 		// 有视频，则有此按钮，否则， 没有这个按钮
 		if(window.platform.haveVideoAd()){
@@ -127,7 +127,7 @@ class InvitUI extends eui.Component implements  eui.UIComponent {
 			}, this);
 		}else{
 			this.img_kan && this.img_kan.parent && this.img_kan.parent.removeChild(this.img_kan);
-			this.img_share.x = (750 - this.img_share.width)/2; // 居中
+			this.img_share.horizontalCenter = 0;// 居中
 		}
 
 

@@ -5,33 +5,59 @@
 			<tween:TweenItem target="{image}">
 				<tween:Set>
 					<tween:props>
-						<e:Object scaleY="{1}" scaleX="{0.95}" x="{218}" y="{280}"/>
+						<e:Object x="{218}" y="{280}" scaleX="{1}" scaleY="{0.9}"/>
 					</tween:props>
 				</tween:Set>
 				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{0.95}"/>
+						<e:Object scaleX="{0.9}" scaleY="{1}"/>
 					</tween:props>
 				</tween:To>
 				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{0.95}" scaleY="{1}"/>
+						<e:Object scaleX="{1}" scaleY="{0.9}"/>
 					</tween:props>
 				</tween:To>
 				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{0.95}"/>
+						<e:Object scaleX="{0.9}" scaleY="{1}"/>
 					</tween:props>
 				</tween:To>
 				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{0.95}" scaleY="{1}"/>
+						<e:Object scaleX="{1}" scaleY="{0.9}"/>
 					</tween:props>
 				</tween:To>
 			</tween:TweenItem>
 			<tween:TweenItem target="{image0}">
-				<tween:Set/>
-				<tween:To duration="2000">
+				<tween:Set>
+					<tween:props>
+						<e:Object scaleX="{1}" scaleY="{1}" alpha="{0.8}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="1000">
+					<tween:props>
+						<e:Object rotation="{0}" scaleX="{1}" scaleY="{1}" alpha="{0.8}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{image1}">
+				<tween:Set>
+				<tween:props>
+					<e:Object x="{218}" y="{280}" rotation="{0}"/>
+				</tween:props>
+				</tween:Set>
+				<tween:To duration="1500">
+				<tween:props>
+					<e:Object rotation="{-360}"/>
+				</tween:props>
+				</tween:To>
+				<tween:To duration="500">
 					<tween:props>
 						<e:Object rotation="{360}"/>
 					</tween:props>
@@ -40,8 +66,7 @@
 		</tween:TweenGroup>
 	</w:Declarations>
 	<w:Config id="16a34a95deb" ></w:Config>
-	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" source="flydata_json.3-1" width="220" horizontalCenter="0" verticalCenter="0" height="220"/>
-	<e:Image includeIn="guaiwu-1" width="220" height="220" source="flydata_json.3-2" horizontalCenter="0" verticalCenter="0" anchorOffsetX="110" anchorOffsetY="110"/>
-	<e:Image width="222" height="222" source="flydata_json.1-3" anchorOffsetX="111" anchorOffsetY="111" horizontalCenter="0" verticalCenter="0"/>
-	<e:Image id="image" source="flydata_json.x-5" includeIn="guaiwu-1" anchorOffsetX="150" anchorOffsetY="150" horizontalCenter="0" verticalCenter="0" width="300" height="300"/>
+	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" width="220" horizontalCenter="0" verticalCenter="0" height="220" source="flydata_json.g_2"/>
+	<e:Image id="image" source="flydata_json.x-5" includeIn="guaiwu-1" anchorOffsetX="125" anchorOffsetY="125" horizontalCenter="0" verticalCenter="0" width="250" height="250"/>
+	<e:Image id="image1" includeIn="guaiwu-1" anchorOffsetX="145" anchorOffsetY="145" horizontalCenter="0" verticalCenter="0" width="290" height="290" source="flydata_json.g_3"/>
 </e:Skin>

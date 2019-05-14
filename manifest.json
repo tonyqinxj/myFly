@@ -12,7 +12,7 @@
 	],
 	"game": [
 		"bin-debug/Weapon.js",
-		"bin-debug/myMath.js",
+		"bin-debug/myTestAnm.js",
 		"bin-debug/BodyGroup.js",
 		"bin-debug/BuyGold.js",
 		"bin-debug/EventManager.js",
@@ -31,8 +31,8 @@
 		"bin-debug/loginUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/MonsterTools.js",
+		"bin-debug/myMath.js",
 		"bin-debug/AssetAdapter.js",
-		"bin-debug/myTestAnm.js",
 		"bin-debug/OverUI.js",
 		"bin-debug/Platform.js",
 		"bin-debug/RankUI.js",
@@ -51,6 +51,7 @@
 		"bin-debug/Weapon5.js",
 		"bin-debug/WeaponRender.js",
 		"bin-debug/WingMan.js",
-		"bin-debug/wuqi_1.js"
+		"bin-debug/wuqi_1.js",
+		"bin-debug/xingqiu_ui.js"
 	]
 }

@@ -2,8 +2,10 @@
 
 class GameData {
 
-    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/myFly';
+    public static gameName = 'flygame';
+    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame';
     public static domain = '';
+    //  public static gameName = 'flygame';
     // 成长
     /**
      1. 金币价值 y=6x
@@ -42,7 +44,7 @@ class GameData {
                 // let obj = Tools.getQueryString(query)
                 // if(obj && obj.openid){
 
-                    HttpTools.httpPost("https://www.nskqs.com/inviteok", {name:'flygame', inviter:query.openid, openid:openid}).then(ret=>{
+                    HttpTools.httpPost("https://www.nskqs.com/inviteok", {name:GameData.gameName, inviter:query.openid, openid:openid}).then(ret=>{
                         if(ret && ret.errcoce == 0&& ret.data && ret.data.errcode == 0){
                             this.UserInfo.sendInvite = true;
                             this.needSaveUserInfo = true;
@@ -553,6 +555,40 @@ class GameData {
         }
     }
 
+    // 当前是否可以升级主武器
+    public static canUpMain():boolean{
+        let needGold = this.getCost('main_attack')
+        if(needGold && needGold <= this.UserInfo.totalMoney) return true;
+
+        needGold = this.getCost('main_speed')
+        if(needGold && needGold <= this.UserInfo.totalMoney) return true;
+
+        return false;
+
+    }
+
+    // 当前是否可以升级副武器
+    public static canUpSub():boolean{
+        let needGold = this.getCost('sub_attack')
+        if(needGold && needGold <= this.UserInfo.totalMoney) return true;
+
+        needGold = this.getCost('sub_attack')
+        if(needGold && needGold <= this.UserInfo.totalMoney) return true;
+
+        return false;
+    }
+
+    // 当前是否可以升级金币
+    public static canUpGold():boolean{
+        let needGold = this.getCost('gold_cost')
+        if(needGold && needGold <= this.UserInfo.totalMoney) return true;
+
+        needGold = this.getCost('gold_time')
+        if(needGold && needGold <= this.UserInfo.totalMoney) return true;
+
+        return false;
+    }
+
     public static getCost(type: string): number {
         let needGold = 0;
         switch (type) {
@@ -708,6 +744,10 @@ class GameData {
     public static  failTryState = 0; // 1: 表示需要播放视频，2：表示可以使用，0：表示不可使用
 
     public static setWin(win:boolean):void{
+
+        // 满级使用条件检测
+        if(this.UserInfo.SubWeapons[0].open == 0) return;
+
         if(win){
             if(this.UserInfo.failTry.failTimes > 0){
                 this.needSaveUserInfo = true;
@@ -716,6 +756,7 @@ class GameData {
         }else{
             this.UserInfo.failTry.failTimes++;
             this.needSaveUserInfo = true;
+
 
             if(this.UserInfo.failTry.failTimes >=3 ){
                 // 连续失败三次, 给一次满级试用资格, 每天最多2次

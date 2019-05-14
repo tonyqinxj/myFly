@@ -32,7 +32,7 @@ class loginUI extends eui.Component implements  eui.UIComponent {
 
 		if (loginInfo && loginInfo.code) {
 			// myFly flygame
-			const res = await HttpTools.httpPost("https://www.nskqs.com/getOpenId", { code: loginInfo.code, name: 'flygame', num: 333,
+			const res = await HttpTools.httpPost("https://www.nskqs.com/getOpenId", { code: loginInfo.code, name: GameData.gameName, num: 333,
 				avatarUrl:avatarUrl,
 				nickName:nickName,
 			});

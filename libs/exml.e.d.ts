@@ -80,3 +80,5 @@ declare class weaponSkin extends eui.Skin{
 }
 declare class wuqi_1Skin extends eui.Skin{
 }
+declare class xingqiu_uiSkin extends eui.Skin{
+}
