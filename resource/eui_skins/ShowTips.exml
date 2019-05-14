@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ShowTipsSkin" width="400" height="48" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16aaf0b0730" ></w:Config>
+	<e:Rect left="0" top="0" right="0" bottom="0"/>
+	<e:Label id="txt_tip" text="Label" verticalCenter="0" textAlign="center" bold="true" horizontalCenter="0"/>
+</e:Skin>

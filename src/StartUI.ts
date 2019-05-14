@@ -11,6 +11,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private star_blood = 0; // 当前波怪物的总血量
     private star_left_blood = 0; // 当前波怪物剩余的血量之和，当少于20％的时候，触发下一波怪物的产生
     private kill_blood = 0;
+    private kills = 0;
 
     private fx = []; // 特效
     private star_add_blood = []; // 给别人加血
@@ -328,6 +329,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     //
     private showResult_real(e: egret.TimerEvent): void {
+        console.log('show kills:', this.kills);
         this.showGameUI();
         if (this.state == 'result') return;
         this.state = 'result';
@@ -756,9 +758,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.cantdietime = 0;
         this.noBatch = false;
         this.wait_end = false;
-        GameData.init();
 
-        this.state = 'init';
 
         this.lastFramTime = 0;
         this.game_time = 0;
@@ -767,6 +767,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.star_blood = 0;
         this.star_left_blood = 0;
         this.kill_blood = 0;
+        this.kills = 0;
 
         // 清空子弹
         this.clearBullet();
@@ -787,6 +788,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
         // 僚机的初始化
         this.initWeapon();
 
+        GameData.init().then(ok=>{
+            if(ok)
+                this.state = 'init';
+            else
+                console.log('GameData.init failed')
+        });
     }
 
     private system: particle.GravityParticleSystem;
@@ -863,19 +870,22 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
             egret.Tween.get(this.boat).to({x: 375, y: this.gp_b1.y - this.boat.height}, 500);
         } else if (this.state == 'init') {
-            this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
-            this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
-            this.gp_b1.parent && this.gp_b1.parent.removeChild(this.gp_b1)
-            this.gp_ui.parent && this.gp_ui.parent.removeChild(this.gp_ui);
-            this.gp_top.parent && this.gp_top.parent.removeChild(this.gp_top)
-            this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
-            this.gp_goldtime.parent && this.gp_goldtime.parent.removeChild(this.gp_goldtime)
-            this.gp_ui_lv1.parent && this.gp_ui_lv1.parent.removeChild(this.gp_ui_lv1)
-            this.gp_ui_lv2.parent && this.gp_ui_lv2.parent.removeChild(this.gp_ui_lv2)
-            this.state = 'pause';
 
-            this.addMoveEvent();
-            GameData.UserInfo.tili -= 5;
+            if(GameData.UserInfo.tili >= 5){
+                this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
+                this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
+                this.gp_b1.parent && this.gp_b1.parent.removeChild(this.gp_b1)
+                this.gp_ui.parent && this.gp_ui.parent.removeChild(this.gp_ui);
+                this.gp_top.parent && this.gp_top.parent.removeChild(this.gp_top)
+                this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
+                this.gp_goldtime.parent && this.gp_goldtime.parent.removeChild(this.gp_goldtime)
+                this.gp_ui_lv1.parent && this.gp_ui_lv1.parent.removeChild(this.gp_ui_lv1)
+                this.gp_ui_lv2.parent && this.gp_ui_lv2.parent.removeChild(this.gp_ui_lv2)
+                this.state = 'pause';
+
+                this.addMoveEvent();
+                GameData.UserInfo.tili -= 5;
+            }
         }
     }
 
@@ -1409,6 +1419,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.removeStar(star);
             this.star_left_blood -= (star.totalBlood + star.subBlood);
             this.kill_blood += (star.totalBlood + star.subBlood)
+            this.kills++;
 
             //console.log('kill_blood by eat:',this.kill_blood)
             if (this.star_left_blood / this.star_blood < 0.2) {
@@ -1611,6 +1622,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
                 this.star_left_blood -= star.totalBlood;
                 this.kill_blood += star.totalBlood;
+                this.kills++;
                 //console.log('kill_blood:',this.kill_blood)
                 if (this.star_left_blood / this.star_blood < 0.2) {
                     this.enterNewBatch();
@@ -2256,7 +2268,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private showSelectWeaponTip(level: number): void {
-
+        GameData.showTips("击败第"+level+"关开启")
     }
 
     private friend:wuqi_1 = null;

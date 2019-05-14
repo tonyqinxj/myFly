@@ -6,6 +6,7 @@ class GoldFx{
     public static fxname='gold';
     public static fxtime = 500;
 
+
     public static fx_free = [];
     public static init():void{
         for(let i=0;i<24;i++){
@@ -39,6 +40,7 @@ class GoldFx{
         this.fx_free.push(fx);
     }
 
+    private static lastplaymusictime :number = 0;
     public static playFx(src:any, dest:any, p:eui.Component):void{
         let fx = this.getOne();
 
@@ -46,11 +48,15 @@ class GoldFx{
         fx.y = src.y;
         p.addChild(fx);
 
-        egret.Tween.get(fx,{loop:true}).to({scaleX:0.5},100).to({scaleX:1},100);
+        //egret.Tween.get(fx,{loop:true}).to({scaleX:0.5},100).to({scaleX:1},100);
 
         egret.Tween.get(fx).to({x:dest.x, y:dest.y}, this.fxtime).call(()=>{
             GameData.score += GameData.getGoldCost();
-            platform.playMusic('sounds/GetGold.mp3',1)
+            if(this.lastplaymusictime == 0 || egret.getTimer() - this.lastplaymusictime >= 200){
+                platform.playMusic('sounds/GetGold.mp3',1)
+                this.lastplaymusictime = egret.getTimer();
+            }
+
             p.removeChild(fx);
             this.retOne(fx);
         });
@@ -60,7 +66,7 @@ class GoldFx{
 
     private static go(fx:egret.Bitmap, dest1:any, dest2:any, p:eui.Component):void{
 
-        console.log(dest1);
+        //console.log(dest1);
         
         egret.Tween.get(fx,{loop:true}).to({scaleX:0.5},100).to({scaleX:1},100);
         let point:egret.Point = new egret.Point(dest2.x-dest1.x, dest2.y-dest1.y);

@@ -37,6 +37,7 @@
 		"bin-debug/Platform.js",
 		"bin-debug/RankUI.js",
 		"bin-debug/ResTools.js",
+		"bin-debug/ShowTips.js",
 		"bin-debug/Star1.js",
 		"bin-debug/StarData.js",
 		"bin-debug/StartUI.js",

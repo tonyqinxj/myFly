@@ -38,7 +38,8 @@
 		"loginUI": "resource/eui_skins/loginUI.exml",
 		"InvitUI": "resource/eui_skins/InvitUI.exml",
 		"InviteLq": "resource/eui_skins/InviteLq.exml",
-		"RankUI": "resource/eui_skins/RankUI.exml"
+		"RankUI": "resource/eui_skins/RankUI.exml",
+		"ShowTips": "resource/eui_skins/ShowTips.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
@@ -71,6 +72,7 @@
 		"resource/eui_skins/RadioButtonSkin.exml",
 		"resource/eui_skins/RankUI.exml",
 		"resource/eui_skins/ScrollerSkin.exml",
+		"resource/eui_skins/ShowTips.exml",
 		"resource/eui_skins/StartUI.exml",
 		"resource/eui_skins/sw_1.exml",
 		"resource/eui_skins/sw_2.exml",

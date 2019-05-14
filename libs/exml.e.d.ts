@@ -56,6 +56,8 @@ declare module skins{
 	class ScrollerSkin extends eui.Skin{
 	}
 }
+declare class ShowTipsSkin extends eui.Skin{
+}
 declare class StartUISkin extends eui.Skin{
 }
 declare module skins{

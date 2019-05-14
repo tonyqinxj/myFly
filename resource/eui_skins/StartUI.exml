@@ -8,7 +8,7 @@
 		<e:Group id="gp_layer_2" width="750" height="1624" x="0" y="0"  locked="true"/>
 		<e:Group id="gp_layer_3" width="750" height="1624" x="0" y="0"  locked="true"/>
 		<e:Group id="gp_layer_4" width="750" height="1624" x="0" y="0" locked="true"></e:Group>
-		<e:Group id="gp_ui" width="750" height="1624" x="0" y="0" scaleX="1" scaleY="1">
+		<e:Group id="gp_ui" width="750" height="1624" x="0" y="0" scaleX="1" scaleY="1" locked="true">
 			<e:Image x="89" y="242" source="UI_json.sq_logo" />
 		</e:Group>
 		<e:Group id="gp_b3" width="750" height="122" x="0" y="1158" anchorOffsetY="0" locked="true">
@@ -152,7 +152,7 @@
 			<e:Label id="txt_game_lv3" text="650" x="463.87" y="109" bold="true" textAlign="center" size="24"
 			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
 		</e:Group>
-		<e:Group id="gp_goldtime_get" width="750" height="1624" y="506" scaleX="1" scaleY="1" x="310">
+		<e:Group id="gp_goldtime_get" width="750" height="1624" y="0" scaleX="1" scaleY="1" x="0" locked="true">
 			<e:Group height="240" x="50" y="698" width="650">
 				<e:Image source="UI_json.sq_tanchuang" x="0" y="0" width="650" height="240" scaleX="1" scaleY="1" scale9Grid="31,26,58,68"/>
 				<e:Image x="163.63" y="23.61" source="UI_json.sq_jinbi_2" scaleX="1" scaleY="1"/>

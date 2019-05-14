@@ -2,8 +2,8 @@
 
 class GameData {
 
-    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/myFly';
-    public static domain = '';
+    public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/myFly';
+    //public static domain = '';
     // 成长
     /**
      1. 金币价值 y=6x
@@ -29,7 +29,7 @@ class GameData {
     public static weaponOpenLevels = [20, 60, 100];//僚机开放等级（关卡等级）
     public static weaponNames = ['fuwuqi_gbd', 'fuwuqi_pt', 'fuwuqi_cjb', 'fuwuqi_sdq'];
 
-    public static MAX_LEVEL = 40;
+    public static MAX_LEVEL = 100;
     public static setOpenid(openid:string):void{
         this.UserInfo.openid = openid;
 
@@ -59,8 +59,8 @@ class GameData {
         tili: 80,    // 体力
         totalMoney: 20000000,  // 玩家当前拥有的金币
         totalDiamond: 10,   // 钻石
-        curLevel: 1, // 当前处于关卡
-        nextLevel: 8, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        curLevel: 40, // 当前处于关卡
+        nextLevel: 50, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
@@ -132,10 +132,17 @@ class GameData {
 
     public static level_configs = [] // 当前关卡数据，由/levels/*.json提供数据
 
-    public static init(): void {
-        this.score = 0;
-        this.genBulletList();
-        this.genLevelData().catch();
+    public static init(): Promise<any> {
+
+        return new Promise((resolve, reject)=>{
+            this.score = 0;
+            this.genBulletList();
+            this.genLevelData().then(()=>{
+                resolve(true)
+            }).catch(()=>{
+                resolve(false)
+            });
+        });
     }
 
     // 美术字的初始化
@@ -277,6 +284,8 @@ class GameData {
 
     // 对一波怪物的血量进行初始化
     public static bloodGen(batchInfo: any): void {
+
+
         let starCount = batchInfo.init.length + batchInfo.add_ons.length;
         let rands = [];
         for (let i = 0; i < starCount; i++) {
@@ -288,6 +297,7 @@ class GameData {
             rand_sums += r;
         })
 
+        console.log('blood gen:', batchInfo.blood, starCount);
         let index = 0;
         batchInfo.init.forEach(star => {
             star["blood"] = Math.ceil(rands[index] / rand_sums * batchInfo.blood);
@@ -387,6 +397,8 @@ class GameData {
 
         let json = await RES.getResByUrl(GameData.domain+'/resource/levels/' + this.UserInfo.curLevel + '.json');
         this.level_configs = json;
+
+        if(json) console.log('level data count:' + json.length);
 
         this.total_blood = 0;
         json.forEach(j => {
@@ -643,6 +655,11 @@ class GameData {
             case 'sub_attack':
                 var sub = this.UserInfo.SubWeapons[this.UserInfo.curSubWeaponId - 1];
 
+                if(sub.attack >= this.UserInfo.MainWeapon.attack){
+                    this.showTips('副武器火力不能高于主武器');
+                    break;
+                }
+
                 if (sub.attack <= 220) needGold = 14 * Math.pow(sub.attack, 2.43);
                 else needGold = 30000 * sub.attack;
                 if (this.delGold(needGold)) {
@@ -732,6 +749,9 @@ class GameData {
 
 
     public static showTips(tip:string):void{
-
+        let item = new ShowTips(tip);
+        item.horizontalCenter = 0;
+        item.y = 550;
+        this.start.addChild(item);
     }
 }

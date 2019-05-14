@@ -64,7 +64,7 @@ class Star1 extends eui.Component implements  eui.UIComponent {
 	private needplay:boolean = false;
 	private doplay():void{
 		if(this.loaded && this.needplay){
-			this.TG_1.play(0);
+			//this.TG_1.play(0);
 		}
 	}
 
