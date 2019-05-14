@@ -40,7 +40,7 @@
 			         width="100" />
 			<e:Label id="txt_up2" text="火力" x="51" bold="true" textAlign="left" bottom="42" />
 			<e:Image id="img_up1" x="552.5" y="20" source="UI_json.sq_shengji_1" />
-			<e:Image id="img_up1_free" x="552.5" y="20" source="UI_json.sq_shengji_2"/>
+			<e:Image id="img_up1_free" x="552.5" y="20" source="UI_json.sq_shengji_3"/>
 			<e:Label id="txt_up2_lv" text="Lv2001" bold="true" textAlign="right" top="144" left="425" textColor="0x810048"
 			         width="120" size="24" />
 			<e:Label id="txt_up2_value" text="284" bold="true" textAlign="right" top="175" left="425" textColor="0xFFFFFF"
@@ -124,13 +124,13 @@
 		</e:Group>
 		<e:Group id="gp_relife" width="378" height="350" x="195.56" y="632" scaleX="1" scaleY="1" anchorOffsetX="7.56"
 		         anchorOffsetY="0" locked="true">
-			<e:Image id="img_relife" x="14.5" y="11.5" source="UI_json.sq_fuhuo_1" scaleX="1" scaleY="1" />
+			<e:Image id="img_relife" x="14.5" y="11.5" scaleX="1" scaleY="1"  source="UI_json.sq_fuhuo_1" locked="true"/>
 			<e:Label id="txt_relife_time" text="3" x="180" y="258" size="36" bold="true" />
 		</e:Group>
 		<e:Group id="gp_result" width="510" height="268" x="148.2" y="578" scaleX="1" scaleY="1" anchorOffsetX="10.2"
 		         anchorOffsetY="0" locked="true">
 			<e:Image id="img_re_gold" y="-2" source="UI_json.sq_lingqu" left="0" />
-			<e:Image id="img_re_gold3" y="134" left="0" source="UI_json.sq_sanbei_1" />
+			<e:Image id="img_re_gold3" y="134" left="0"  source="UI_json.sq_sanbei_2"/>
 			<e:Label id="txt_re_gold" text="258K" x="104" y="48" bold="true" size="36" />
 			<e:Label id="txt_re_gold3" text="258K" x="104" y="184" bold="true" size="36" />
 		</e:Group>
@@ -158,7 +158,7 @@
 				<e:Image x="163.63" y="23.61" source="UI_json.sq_jinbi_2" scaleX="1" scaleY="1"/>
 				<e:Label text="日常收益可领取" x="256.67" y="44.99" bold="true" scaleX="1" scaleY="1"/>
 				<e:Image id="img_goldtime_get_1" x="59.36" y="111.55" source="UI_json.sq_richang_3" scaleX="1" scaleY="1"/>
-				<e:Image id="img_goldtime_get_3" x="334.57" y="111.55" source="UI_json.sq_richang_1" scaleX="1" scaleY="1"/>
+				<e:Image id="img_goldtime_get_3" x="334.57" y="111.55" scaleX="1" scaleY="1" source="UI_json.sq_richang_1"/>
 				<e:Label id="txt_goldtime_get_1" text="258K" x="122.87" y="141.55" textAlign="center" size="36" bold="true" width="120" scaleX="1" scaleY="1"/>
 				<e:Label id="txt_goldtime_get_3" text="258K" x="424.3" y="141.55" textAlign="center" size="36" bold="true" width="120" scaleX="1" scaleY="1"/>
 			</e:Group>

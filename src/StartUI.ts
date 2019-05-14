@@ -346,6 +346,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.txt_re_gold.text = myMath.getString(GameData.score);
         this.txt_re_gold3.text = myMath.getString(GameData.score * 3);
         this.img_re_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold, this);
+
+        if(GameData.hasVideoAd()){
+            this.img_re_gold3.texture = ResTools.createUITexture('sq_sanbei_1')
+        }else{
+            this.img_re_gold3.texture = ResTools.createUITexture('sq_sanbei_2')
+        }
         this.img_re_gold3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold3, this);
     }
 
@@ -354,11 +360,17 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private handleGold3() {
-        ResTools.playAd(GameData.main, this, 'gold3').then((ret) => {
-            if (ret == 0) {
-                this.handleResult(3)
-            }
-        });
+        // 战斗结束3倍获取
+        if(GameData.hasVideoAd()){
+            ResTools.playAd(GameData.main, this, 'gold3').then((ret) => {
+                if (ret == 0) {
+                    this.handleResult(3)
+                }
+            });
+        }else{
+            ResTools.share(GameData.main, this, 'gold3');
+        }
+
     }
 
 
@@ -405,6 +417,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }, this);
         this.timer_relife_begin.start();
 
+        if(GameData.hasVideoAd()){
+            this.img_relife.texture = ResTools.createUITexture('sq_fuhuo_1');
+        }else{
+            this.img_relife.texture = ResTools.createUITexture('sq_fuhuo_2');
+        }
+
         this.img_relife.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRelif, this);
 
     }
@@ -416,15 +434,21 @@ class StartUI extends eui.Component implements eui.UIComponent {
         //this.doRelife();
         this.gp_relife.parent && this.gp_relife.parent.removeChild(this.gp_relife);
         this.img_relife.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRelif, this);
-        ResTools.playAd(GameData.main, this, 'relife').then(ret => {
-            if (ret == 0) {
-                this.doRelife();
-            } else if (ret == 3) {
-                this.showResult(false)
-            } else {
-                // share, wait
-            }
-        });
+
+        // 视频复活
+        if(GameData.hasVideoAd()) {
+            ResTools.playAd(GameData.main, this, 'relife').then(ret => {
+                if (ret == 0) {
+                    this.doRelife();
+                } else if (ret == 3) {
+                    this.showResult(false)
+                } else {
+                    // share, wait
+                }
+            });
+        }else{
+            ResTools.share(GameData.main, this, 'relife')
+        }
 
     }
 
@@ -466,12 +490,23 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         if (GameData.upfree == 1) {
             this.gp_b2.addChild(this.img_up1_free);
+            if(GameData.hasVideoAd()){
+                this.img_up1_free.texture = ResTools.createUITexture('sq_shengji_2')
+            }else{
+                this.img_up1_free.texture = ResTools.createUITexture('sq_shengji_3')
+            }
         } else {
             this.img_up1_free.parent && this.img_up1_free.parent.removeChild(this.img_up1_free)
         }
 
         if (GameData.upfree == 2) {
             this.gp_b2.addChild(this.img_up2_free);
+
+            if(GameData.hasVideoAd()){
+                this.img_up2_free.texture = ResTools.createUITexture('sq_shengji_2')
+            }else{
+                this.img_up2_free.texture = ResTools.createUITexture('sq_shengji_3')
+            }
         } else {
             this.img_up2_free.parent && this.img_up2_free.parent.removeChild(this.img_up2_free)
         }
@@ -525,12 +560,22 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         if (GameData.upfree == 5) {
             this.gp_b2.addChild(this.img_up1_free);
+            if(GameData.hasVideoAd()){
+                this.img_up1_free.texture = ResTools.createUITexture('sq_shengji_2')
+            }else{
+                this.img_up1_free.texture = ResTools.createUITexture('sq_shengji_3')
+            }
         } else {
             this.img_up1_free.parent && this.img_up1_free.parent.removeChild(this.img_up1_free)
         }
 
         if (GameData.upfree == 6) {
             this.gp_b2.addChild(this.img_up2_free);
+            if(GameData.hasVideoAd()){
+                this.img_up2_free.texture = ResTools.createUITexture('sq_shengji_2')
+            }else{
+                this.img_up2_free.texture = ResTools.createUITexture('sq_shengji_3')
+            }
         } else {
             this.img_up2_free.parent && this.img_up2_free.parent.removeChild(this.img_up2_free)
         }
@@ -628,11 +673,17 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onLevelUp1_free(e: egret.TouchEvent): void {
-        ResTools.playAd(GameData.main, GameData.start, 'upfree').then(ret => {
-            if (ret == 0) {
-                this.doUpFree(1)
-            }
-        });
+        // 免费升级
+        if(GameData.hasVideoAd()){
+            ResTools.playAd(GameData.main, GameData.start, 'upfree').then(ret => {
+                if (ret == 0) {
+                    this.doUpFree(1)
+                }
+            });
+        }else{
+            ResTools.share(GameData.main, this, 'upfree')
+        }
+
     }
 
     private doUpFree(type: number): void {
@@ -675,11 +726,17 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onLevelUp2_free(e: egret.TouchEvent): void {
-        ResTools.playAd(GameData.main, GameData.start, 'upfree').then(ret => {
-            if (ret == 0) {
-                this.doUpFree(2)
-            }
-        });
+        // 免费升级
+        if(GameData.hasVideoAd()){
+            ResTools.playAd(GameData.main, GameData.start, 'upfree').then(ret => {
+                if (ret == 0) {
+                    this.doUpFree(2)
+                }
+            });
+        }else{
+            ResTools.share(GameData.main, GameData.start, 'upfree')
+        }
+
     }
 
     private onGetGoldTimeClick(e: egret.TouchEvent): void {
@@ -687,6 +744,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.txt_goldtime_get_1.text = myMath.getString(gold);
         this.txt_goldtime_get_3.text = myMath.getString(gold * 3);
         this.addChild(this.gp_goldtime_get);
+
+        if(GameData.hasVideoAd()){
+            this.img_goldtime_get_1.texture = ResTools.createUITexture('sq_richang_1')
+        }else{
+            this.img_goldtime_get_1.texture = ResTools.createUITexture('sq_richang_2')
+        }
     }
 
     private onGetGoldTime(e: egret.TouchEvent): void {
@@ -697,11 +760,17 @@ class StartUI extends eui.Component implements eui.UIComponent {
         if (ratio == 1) {
             this.getGoldTime(1)
         } else {
-            ResTools.playAd(GameData.main, this, 'goldtime3').then(ret => {
-                if (ret == 0) {
-                    this.getGoldTime(3)
-                }
-            })
+            // 离线金币获取
+            if(GameData.hasVideoAd()){
+                ResTools.playAd(GameData.main, this, 'goldtime3').then(ret => {
+                    if (ret == 0) {
+                        this.getGoldTime(3)
+                    }
+                })
+            }else{
+                ResTools.share(GameData.main, this, 'goldtime3')
+            }
+
         }
     }
 
@@ -869,6 +938,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
 
         this.initUI();
+
+        // 装载一个ad先
+        window.platform.loadAd();
 
 
         // let anm:Star1 = new Star1('star1');

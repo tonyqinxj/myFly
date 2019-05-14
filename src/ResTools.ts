@@ -70,22 +70,22 @@ class ResTools {
 
     public static playAd(main: Main, game: StartUI, type: string): Promise<number> {
         return new Promise((resolve, reject) => {
-            ResTools.share(main, game, type);
-            resolve(11)
+            // ResTools.share(main, game, type);
+            // resolve(11)
             //
-            // window.platform.showRewardAd().then(ret => {
-            //     console.log('showRewardAd:', ret)
-            //     if (ret == 0) {
-            //         // 视频播放成功
-            //         resolve(0)
-            //     } else if (ret == 3) {
-            //         // 视频播放被取消
-            //         resolve(3)
-            //     } else {
-            //         ResTools.share(main, game, type);
-            //         resolve(11)
-            //     }
-            // });
+            window.platform.showRewardAd().then(ret => {
+                console.log('showRewardAd:', ret)
+                if (ret == 0) {
+                    // 视频播放成功
+                    resolve(0)
+                } else if (ret == 3) {
+                    // 视频播放被取消
+                    resolve(3)
+                } else {
+                    ResTools.share(main, game, type);
+                    resolve(11)
+                }
+            });
         })
     }
 

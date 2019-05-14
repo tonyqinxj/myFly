@@ -24,6 +24,8 @@ declare interface Platform {
     showBannerAd():void;
     showRewardAd():Promise<any>;
     getLaunchQuery():any;
+    loadAd():void;
+    haveVideoAd():boolean;
 }
 
 class DebugPlatform implements Platform {
@@ -83,6 +85,14 @@ class DebugPlatform implements Platform {
 
     async showRewardAd(){
         return 0;
+    }
+
+    loadAd():void{
+
+    };
+
+    haveVideoAd():boolean{
+        return false;
     }
 }
 

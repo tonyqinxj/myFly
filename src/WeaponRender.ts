@@ -41,11 +41,17 @@ class WeaponRender extends eui.ItemRenderer {
         this.gp_weapon.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
             let id = parseInt(this.id.text);
             if (GameData.failTryId && id == GameData.failTryId && GameData.failTryState == 1) {
-                ResTools.playAd(GameData.main, GameData.start, 'failtry').then(ret => {
-                    if (ret == 0) {
-                        this.doSelect();
-                    }
-                });
+                // 满级试用
+                if(GameData.hasVideoAd()){
+                    ResTools.playAd(GameData.main, GameData.start, 'failtry').then(ret => {
+                        if (ret == 0) {
+                            this.doSelect();
+                        }
+                    });
+                }else{
+                    ResTools.share(GameData.main, GameData.start, 'failtry');
+                }
+
                 return;
             }
 
@@ -119,6 +125,11 @@ class WeaponRender extends eui.ItemRenderer {
         if (GameData.failTryId && id == GameData.failTryId && GameData.failTryState == 1) {
             // 被选为试用武器
             this.gp_weapon.addChild(this.img_try);
+            if(GameData.hasVideoAd()){
+                this.img_try.texture = ResTools.createUITexture('sq_fu_5')
+            }else{
+                this.img_try.texture = ResTools.createUITexture('sq_fu_6')
+            }
         } else {
             this.img_try && this.img_try.parent && this.img_try.parent.removeChild(this.img_try);
         }

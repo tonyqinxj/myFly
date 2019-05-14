@@ -7,6 +7,7 @@ class InvitUI extends eui.Component implements  eui.UIComponent {
 	private img_left:eui.Image;
 	private img_right:eui.Image;
 	private txt_page:eui.Label;
+	
 
 	// starty:122
 	// deltay:101
@@ -17,6 +18,8 @@ class InvitUI extends eui.Component implements  eui.UIComponent {
 	private pages:number = 1;
 
 	private items = [];
+
+	private img_share_x:number = 0;
 
 	public constructor() {
 		super();
@@ -91,32 +94,43 @@ class InvitUI extends eui.Component implements  eui.UIComponent {
 
 		}, this);
 
-		this.img_kan.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
+		this.img_share_x = this.img_share.x;
 
-			if(GameData.UserInfo.d_kan.lastTime > 0){
-				let day = new Date(GameData.UserInfo.d_kan.lastTime);
-				let tnow = new Date();
-				if(day.getDate() != tnow.getDate() || day.getFullYear() != tnow.getFullYear()){
-					GameData.UserInfo.d_kan.lastTime == 0;
-					GameData.UserInfo.d_kan.times = 0;
+		// 有视频，则有此按钮，否则， 没有这个按钮
+		if(window.platform.haveVideoAd()){
+			this.img_kan.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
+
+				if(GameData.UserInfo.d_kan.lastTime > 0){
+					let day = new Date(GameData.UserInfo.d_kan.lastTime);
+					let tnow = new Date();
+					if(day.getDate() != tnow.getDate() || day.getFullYear() != tnow.getFullYear()){
+						GameData.UserInfo.d_kan.lastTime == 0;
+						GameData.UserInfo.d_kan.times = 0;
+					}
 				}
-			}
 
-			if(GameData.UserInfo.d_kan.times >=2) {
-				GameData.showTips('今日次数已用完')
-				return;
-			}
-
-
-			ResTools.playAd(GameData.main, GameData.start, 'd_kan').then(ret=>{
-				if(ret == 0){
-					GameData.addDiamond(10);
-					GameData.UserInfo.d_kan.times++;
-					GameData.UserInfo.d_kan.lastTime = new Date().getTime();
+				if(GameData.UserInfo.d_kan.times >=2) {
+					GameData.showTips('今日次数已用完')
+					return;
 				}
-			})
 
-		}, this);
+
+				// 看视频的钻石
+				ResTools.playAd(GameData.main, GameData.start, 'd_kan').then(ret=>{
+					if(ret == 0){
+						GameData.addDiamond(10);
+						GameData.UserInfo.d_kan.times++;
+						GameData.UserInfo.d_kan.lastTime = new Date().getTime();
+					}
+				})
+
+			}, this);
+		}else{
+			this.img_kan && this.img_kan.parent && this.img_kan.parent.removeChild(this.img_kan);
+			this.img_share.x = (750 - this.img_share.width)/2; // 居中
+		}
+
+
 
 		this.img_share.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
 			ResTools.share(GameData.main, GameData.start, 'd_share');

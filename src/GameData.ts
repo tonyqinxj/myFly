@@ -465,6 +465,12 @@ class GameData {
     }
 
 
+    public static hasVideoAd():boolean{
+        if(this.UserInfo.nextLevel < 20) return false;
+
+        return window.platform.haveVideoAd();
+    }
+
     public static passLevel(): void {
         this.UserInfo.curLevel++;
         if (this.UserInfo.nextLevel <= this.UserInfo.curLevel) this.UserInfo.nextLevel++;
