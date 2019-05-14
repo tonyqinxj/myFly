@@ -28,6 +28,16 @@ class WingMan {
     public static WingConfig = {
         '1': {
             'model': 'fuwuqi_1_1',
+            'getAttackCost':function(level:number){
+                if(level <= 220) return 1.8*Math.pow(level, 2.43);
+
+                return 30000*level;
+            },
+            'getStrengthCost':function(level:number){
+                if(level<=15) return 1000*Math.pow(level, 3);
+
+                return 260000*level;
+            },
             'getAttack': function (level:number) {
                 if(level <=100) return level*level;
                 return 120*Math.exp(0.054*level);
@@ -74,6 +84,16 @@ class WingMan {
         }, // 高爆弹
         '2': {
             'model': 'fuwuqi_2_1',
+            'getAttackCost':function(level:number){
+                if(level <= 220) return 1.1*1.8*Math.pow(level, 2.43);
+
+                return 1.1*30000*level;
+            },
+            'getStrengthCost':function(level:number){
+                if(level<=15) return 1.1*1000*Math.pow(level, 3);
+
+                return 1.1*260000*level;
+            },
             'getAttack': function (level:number) {
                 if(level <=100) return 2* (level+20)*(level+20);
                 return 140*Math.exp(0.054*level);
@@ -115,6 +135,16 @@ class WingMan {
         }, // 跟踪子弹
         '3':{
             'model':'fuwuqi_3_1',
+            'getAttackCost':function(level:number){
+                if(level <= 220) return 1.3*1.8*Math.pow(level, 2.43);
+
+                return 1.3*30000*level;
+            },
+            'getStrengthCost':function(level:number){
+                if(level<=15) return 1.3*1000*Math.pow(level, 3);
+
+                return 1.3*260000*level;
+            },
             'getAttack': function (level:number) {
                 if (level <= 100) return 10 * level * level + 750;
                 return 1200 * Math.exp(0.054 * level);
@@ -151,6 +181,16 @@ class WingMan {
         }, // 冲击波
         '4':{
             'model':'fuwuqi_4_1',
+            'getAttackCost':function(level:number){
+                if(level <= 220) return 1.5*1.8*Math.pow(level, 2.43);
+
+                return 1.5*30000*level;
+            },
+            'getStrengthCost':function(level:number){
+                if(level<=15) return 1.5*1000*Math.pow(level, 3);
+
+                return 1.5*260000*level;
+            },
             'getAttack': function (level:number) {
                 if(level <=100) return 40* (level + 20)*(level + 20);
                 return 600*Math.exp(0.054*level);

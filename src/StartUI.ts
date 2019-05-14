@@ -731,7 +731,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private timer_relife: egret.Timer = null;	// 死亡复活定时器
     private timer_left: number = 3;	// 复活定时器辅助变量
     private bomb = [];
-    private weapon: Weapon = null;   // 僚机
+
+    public weapon: Weapon = null;   // 僚机
 
     public constructor() {
         super();
