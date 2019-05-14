@@ -43,11 +43,11 @@ class WingMan {
                 return 120*Math.exp(0.054*level);
             },
             'getStrength':function (level:number) {
-                return Math.floor(0.03*(level+8)*(level+8) - 0.45*(level+8)+9)
+                return Math.floor(1.5*(level+8)*(level+8) - 22.5*(level+8)+450)
             },
             'weaponRatio': function (strength: number) {
                 // strength 每10s发射的次数
-                return Math.floor(5000/strength);
+                return Math.floor(500000/strength);
                 //return 500;
             },                  // 武器充能时间配置，本武器充能好之后，就发射一枚子弹，交叉左右发射
             'bulletRatio': function (strength: number) {
