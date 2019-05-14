@@ -34,16 +34,21 @@ class Weapon{
     }
 
     public getAttackCost():number{
-        let fun = this.config['getAttackCost'];
-        if(fun) return fun(GameData.getSubWeapon().attack);
+        let sub_weapon = GameData.getSubWeapon();
+        if(sub_weapon) {
+            let fun = this.config['getAttackCost'];
+            if (fun) return fun(sub_weapon.attack);
+        }
 
         return 0;
     }
 
     public getStrengthCost():number{
-        let fun = this.config['getStrengthCost'];
-        if(fun) return fun(GameData.getSubWeapon().strength);
-
+        let sub_weapon = GameData.getSubWeapon();
+        if(sub_weapon) {
+            let fun = this.config['getStrengthCost'];
+            if (fun) return fun(sub_weapon.strength);
+        }
         return 0;
     }
 

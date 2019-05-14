@@ -25,6 +25,7 @@ class GameData {
     };// 主武器子弹模型
 
     public static wxuserinfo = null;
+    public static hasneedWeapon:boolean = false;
 
     public static weaponOpenLevels = [20, 60, 100];//僚机开放等级（关卡等级）
     public static weaponNames = ['fuwuqi_gbd', 'fuwuqi_pt', 'fuwuqi_cjb', 'fuwuqi_sdq'];
@@ -59,8 +60,8 @@ class GameData {
         tili: 80,    // 体力
         totalMoney: 20000000,  // 玩家当前拥有的金币
         totalDiamond: 10,   // 钻石
-        curLevel: 40, // 当前处于关卡
-        nextLevel: 50, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        curLevel: 1, // 当前处于关卡
+        nextLevel: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
@@ -72,32 +73,32 @@ class GameData {
                 id: 1,
                 strength: 1,
                 attack: 1,
-                open: 1,
-                openlevel: 0,
-            },
-            {
-                id: 2,
-                strength: 1,
-                attack: 1,
-                open: 1,
+                open: 0,
                 openlevel: 1,
             },
             {
-                id: 3,
+                id: 2,
                 strength: 1,
                 attack: 1,
                 open: 0,
                 openlevel: 2,
             },
             {
-                id: 4,
+                id: 3,
                 strength: 1,
                 attack: 1,
                 open: 0,
                 openlevel: 3,
+            },
+            {
+                id: 4,
+                strength: 1,
+                attack: 1,
+                open: 0,
+                openlevel: 4,
             }
         ],
-        curSubWeaponId: 1,
+        curSubWeaponId: 0,
         lastGetGoldTime: 0,          //
         lastGetTiliTime: 0,     //
         failTry: {
@@ -172,6 +173,8 @@ class GameData {
     }
 
     public static getSubWeapon(): any {
+        if(this.UserInfo.curSubWeaponId <= 0) return null;
+
         if (this.failTryId && this.failTryState == 2&& this.UserInfo.curSubWeaponId == this.failTryId){
             return this.UserInfo.SubWeapons[this.failTryId - 1];
         }
@@ -180,6 +183,8 @@ class GameData {
     }
 
     public static getSubStrenth(): number {
+        if(this.UserInfo.curSubWeaponId <= 0) return 0;
+
         if (this.failTryId &&  this.failTryState == 2 && this.UserInfo.curSubWeaponId == this.failTryId ){
             return 33;
         }
@@ -188,6 +193,8 @@ class GameData {
     }
 
     public static getSubAttack(): number {
+        if(this.UserInfo.curSubWeaponId <= 0) return 0;
+        
         if (this.failTryId && this.failTryState == 2&& this.UserInfo.curSubWeaponId == this.failTryId){
             return 200;
         }
@@ -471,6 +478,8 @@ class GameData {
             if (sub.open == 0) {
                 if (this.UserInfo.nextLevel > sub.openlevel) {
                     // todo:提示新的僚机获得
+
+                    this.hasneedWeapon = true;
                     sub.open = 1;
                     this.needSaveUserInfo = true;
                 }

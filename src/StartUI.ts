@@ -273,10 +273,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
         if (GameData.upfree) {
             if (GameData.upfree == 1 || GameData.upfree == 2) {
                 this.gp_b1.addChild(this.img_main0)
-                egret.Tween.get(this.img_main0, {loop: true}).to({y: -20}, 300).to({y: -10})
+                egret.Tween.get(this.img_main0, { loop: true }).to({ y: -20 }, 300).to({ y: -10 })
             } else {
                 this.gp_b1.addChild(this.img_gold0)
-                egret.Tween.get(this.img_gold0, {loop: true}).to({y: -20}, 300).to({y: -10})
+                egret.Tween.get(this.img_gold0, { loop: true }).to({ y: -20 }, 300).to({ y: -10 })
             }
         }
 
@@ -307,7 +307,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.initMask();
 
-        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b1.y - this.boat.height}, 500);
+        egret.Tween.get(this.boat).to({ x: 375, y: this.gp_b1.y - this.boat.height }, 500);
 
         this.initUILv(1);
     }
@@ -373,7 +373,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         // 播放收集金币动画
         this.initUI();
 
-        GoldFx.playResult({x: 375, y: this.gp_result.y}, {x: this.img_gold_dest.x, y: this.img_gold_dest.y}, this);
+        GoldFx.playResult({ x: 375, y: this.gp_result.y }, { x: this.img_gold_dest.x, y: this.img_gold_dest.y }, this);
         platform.playMusic('sounds/GetGold_result.mp3', 1);
 
     }
@@ -409,7 +409,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     }
 
-    private  clickRelif(e: any): void {
+    private clickRelif(e: any): void {
         this.timer_relife_begin.stop();
         this.timer_relife_begin = null;
         // 播放视频，或者分享
@@ -437,7 +437,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private onAddGoldClick(e: egret.TouchEvent): void {
         //GameData.onBuyGoldByDiamond(1);
 
-        let ui = new BuyGold({x: this.img_gold_dest.x, y: this.img_gold_dest.y}, this);
+        let ui = new BuyGold({ x: this.img_gold_dest.x, y: this.img_gold_dest.y }, this);
         this.addChild(ui);
     }
 
@@ -462,7 +462,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.img_up_bg.texture = ResTools.createUITexture('sq_zhu')
 
-        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
+        egret.Tween.get(this.boat).to({ x: 375, y: this.gp_b3.y - this.boat.height }, 500);
 
         if (GameData.upfree == 1) {
             this.gp_b2.addChild(this.img_up1_free);
@@ -478,20 +478,43 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onSubClick(e: egret.TouchEvent): void {
+        if (this.weapon == null && GameData.UserInfo.SubWeapons[0].open == 0) {
+            GameData.showTips('副武器将在' + GameData.UserInfo.SubWeapons[0].openlevel + '级开放')
+            return;
+        }
 
         //let sub = GameData.getSubWeapon();
 
+
+
         this.txt_up1.text = '强度';
-        this.txt_up1_lv.text = 'Lv' + GameData.getSubStrenth();
+
         this.txt_up1_lv.textColor = 0XCC6FFD;
-        this.txt_up1_value.text = '' + this.weapon.getStrength();
-        this.txt_up1_cost.text = myMath.getString(GameData.getCost('sub_speed'));
+        if (this.weapon) {
+            this.txt_up1_value.text = '' + this.weapon.getStrength();
+            this.txt_up1_lv.text = 'Lv' + GameData.getSubStrenth();
+            this.txt_up1_cost.text = myMath.getString(GameData.getCost('sub_speed'));
+        } else {
+            this.txt_up1_value.text = '';
+            this.txt_up1_lv.text = "";
+            this.txt_up1_cost.text = "";
+        }
+
+
 
         this.txt_up2.text = '火力'
-        this.txt_up2_lv.text = 'Lv' + GameData.getSubAttack();
+        
         this.txt_up2_lv.textColor = 0XCC6FFD;
-        this.txt_up2_value.text = myMath.getString(this.weapon.getAttack());
-        this.txt_up2_cost.text = myMath.getString(GameData.getCost('sub_attack'));
+        if (this.weapon) {
+            this.txt_up2_lv.text = 'Lv' + GameData.getSubAttack();
+            this.txt_up2_value.text = myMath.getString(this.weapon.getAttack());
+            this.txt_up2_cost.text = myMath.getString(GameData.getCost('sub_attack'));
+        } else {
+            this.txt_up2_lv.text = '';
+            this.txt_up2_value.text = "";
+            this.txt_up2_cost.text = "";
+        }
+
 
         this.gp_root.addChild(this.gp_b2);
         this.gp_root.addChild(this.gp_b3);
@@ -512,7 +535,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.img_up2_free.parent && this.img_up2_free.parent.removeChild(this.img_up2_free)
         }
 
-        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
+        egret.Tween.get(this.boat).to({ x: 375, y: this.gp_b3.y - this.boat.height }, 500);
     }
 
 
@@ -559,7 +582,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.img_up2_free.parent && this.img_up2_free.parent.removeChild(this.img_up2_free)
         }
 
-        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
+        egret.Tween.get(this.boat).to({ x: 375, y: this.gp_b3.y - this.boat.height }, 500);
     }
 
     private onLevelUp1(e: egret.TouchEvent): void {
@@ -723,7 +746,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private boat: wuqi_1 = null;//eui.Image;
     private starCount: egret.BitmapText;
     private real_height: number = 1624;	// 屏幕使用高度
-    private last_pos: any = {x: 0, y: 0}	// 用于主机移动的辅助，记录上一次的位置，用来算每帧之间的相对位置
+    private last_pos: any = { x: 0, y: 0 }	// 用于主机移动的辅助，记录上一次的位置，用来算每帧之间的相对位置
     private send_index = 0;	// 主机火力辅助变量，控制一次发送几个子弹
     private send_timer: egret.Timer = null;	// 主机子弹发射定时器
     private bullet_fly: Array<any> = new Array<any>();	// 飞行中的有效子弹
@@ -789,12 +812,18 @@ class StartUI extends eui.Component implements eui.UIComponent {
         // 僚机的初始化
         this.initWeapon();
 
-        GameData.init().then(ok=>{
-            if(ok)
+        GameData.init().then(ok => {
+            if (ok)
                 this.state = 'init';
             else
                 console.log('GameData.init failed')
         });
+
+
+        if (GameData.hasneedWeapon) {
+            GameData.showTips('新的副武器开启');
+            GameData.hasneedWeapon = false;
+        }
     }
 
     private system: particle.GravityParticleSystem;
@@ -869,10 +898,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
             this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
 
-            egret.Tween.get(this.boat).to({x: 375, y: this.gp_b1.y - this.boat.height}, 500);
+            egret.Tween.get(this.boat).to({ x: 375, y: this.gp_b1.y - this.boat.height }, 500);
         } else if (this.state == 'init') {
 
-            if(GameData.UserInfo.tili >= 5){
+            if (GameData.UserInfo.tili >= 5) {
                 this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
                 this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
                 this.gp_b1.parent && this.gp_b1.parent.removeChild(this.gp_b1)
@@ -1107,18 +1136,18 @@ class StartUI extends eui.Component implements eui.UIComponent {
         batch_info.init.forEach(conf => {
             if (conf.time <= this.game_time && conf.time > last_game_time) {
                 let starConfig = StarData.StarConfig[conf.id];
-                let from = {x: 10, y: 0}
-                let to = {x: Tools.GetRandomNum(0, 20), y: 10}
+                let from = { x: 10, y: 0 }
+                let to = { x: Tools.GetRandomNum(0, 20), y: 10 }
                 // let to = { x: 10, y: 10 }
                 // if(starConfig.id == 101){
                 //     to.x=20;
                 // }
-                let dir = {x: to.x - from.x, y: to.y - from.y}
+                let dir = { x: to.x - from.x, y: to.y - from.y }
                 let y = 0;
                 if (conf['y']) y = conf['y'];
 
 
-                this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], {x: conf.x, y: y}, dir, {
+                this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], { x: conf.x, y: y }, dir, {
                     bossblood: conf['bossblood'] || 0,
                     bosssize: conf['bosssize'] || 0
                 })
@@ -1200,7 +1229,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 let follow = star.starConfig["follow"]
                 // 进入了区间
                 if (star["follow_speed"] == undefined) {
-                    star["follow_speed"] = {x: 0, y: 0}
+                    star["follow_speed"] = { x: 0, y: 0 }
                 }
 
                 let follow_speed = star["follow_speed"]
@@ -1320,7 +1349,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                             this.createStar(sconfig, 0, createInfo.level, 0, {
                                 x: star.model.x,
                                 y: star.model.y
-                            }, {x: 0, y: 0}, {life: createInfo.life || 0})
+                            }, { x: 0, y: 0 }, { life: createInfo.life || 0 })
 
                             star['last_create'] = egret.getTimer();
                         }
@@ -1415,7 +1444,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private doBeEat(star: any): void {
-        egret.Tween.get(star.model).to({scaleY: 0.01, scaleX: 0.01}, 300).call(() => {
+        egret.Tween.get(star.model).to({ scaleY: 0.01, scaleX: 0.01 }, 300).call(() => {
             // 黑洞吞噬怪物，直接消失，不分裂
             this.removeStar(star);
             this.star_left_blood -= (star.totalBlood + star.subBlood);
@@ -1540,7 +1569,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                         hit = true;
 
                         if (MonsterTools.getItem('gold')) {
-                            GoldFx.playFx({x: x, y: y}, {
+                            GoldFx.playFx({ x: x, y: y }, {
                                 x: this.img_game_gold_dest.x,
                                 y: this.img_game_gold_dest.y
                             }, this);
@@ -1571,7 +1600,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let x1 = x + 2 * r * Math.cos(45 * i + 45);
             let y1 = y + 2 * r * Math.sin(45 * i + 45);
 
-            GoldFx.playFx({x: x1, y: y1}, {x: this.img_game_gold_dest.x, y: this.img_game_gold_dest.y}, this);
+            GoldFx.playFx({ x: x1, y: y1 }, { x: this.img_game_gold_dest.x, y: this.img_game_gold_dest.y }, this);
         }
     }
 
@@ -1582,9 +1611,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
             if (star.life == 0 && star.blood <= 0) {
                 if (star.level > 1) {
                     // 生成2个新的star
-                    let hitpos = {x: this.boat.x, y: star.model.y + star.model.height}
-                    let pos1 = {x: star.model.x - star.model.width / 2, y: star.model.y}
-                    let pos2 = {x: star.model.x + star.model.width / 2, y: star.model.y}
+                    let hitpos = { x: this.boat.x, y: star.model.y + star.model.height }
+                    let pos1 = { x: star.model.x - star.model.width / 2, y: star.model.y }
+                    let pos2 = { x: star.model.x + star.model.width / 2, y: star.model.y }
 
                     let dir1: egret.Point = new egret.Point(pos1.x - hitpos.x, pos1.y - hitpos.y)
                     let dir2: egret.Point = new egret.Point(pos2.x - hitpos.x, pos2.y - hitpos.y)
@@ -1607,11 +1636,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     let conf = batch_info.add_ons[this.cur_add_ons]
 
                     let starConfig = StarData.StarConfig[conf.id];
-                    let from = {x: 10, y: 0}
-                    let to = {x: Tools.GetRandomNum(0, 20), y: 10}
-                    let dir = {x: to.x - from.x, y: to.y - from.y}
+                    let from = { x: 10, y: 0 }
+                    let to = { x: Tools.GetRandomNum(0, 20), y: 10 }
+                    let dir = { x: to.x - from.x, y: to.y - from.y }
 
-                    this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], {x: conf.x, y: 0}, dir, {
+                    this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir, {
                         bossblood: conf['bossblood'] || 0,
                         bosssize: conf['bosssize'] || 0
                     });
@@ -1636,7 +1665,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                         this.createStar(sconfig, 0, createInfo.level, 0, {
                             x: star.model.x,
                             y: star.model.y
-                        }, {x: 0, y: 0}, {life: createInfo.life || 0})
+                        }, { x: 0, y: 0 }, { life: createInfo.life || 0 })
                     }
                 }
                 star.tw = null;
@@ -1903,7 +1932,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 MonsterTools.popItemFromGame(item.config.id)
                 break;
             } else if (item.lifeTime - item.flyTime <= ItemData.itemFlyTipTime && item.lifeTime - item.flyTime + deltaTime > ItemData.itemFlyTipTime) {
-                egret.Tween.get(item.model, {loop: true}).to({alpha: 0.5}, 200).to({alpha: 1}, 200)
+                egret.Tween.get(item.model, { loop: true }).to({ alpha: 0.5 }, 200).to({ alpha: 1 }, 200)
             }
 
             item.model.x += item.speed.x * deltaTime;
@@ -2077,7 +2106,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         //console.log('sendBullet', count)
         for (let i = 0; i < count; i++) {
-            if(this.boat){
+            if (this.boat) {
                 let bullet = this.createBullet();
                 bullet.anchorOffsetX = bullet.width / 2;
                 bullet.anchorOffsetY = bullet.height / 2;
@@ -2085,14 +2114,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 bullet.y = this.boat.y - this.boat.height / 2; //this.boat.y - this.boat.height / 2 - bullet.height / 2;
                 this.gp_layer_4.addChild(bullet);
 
-                egret.Tween.get(bullet).to({x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2}, GameData.main_weapon.bullet_scale_time);
+                egret.Tween.get(bullet).to({ x: this.boat.x - (count - 1 - 2 * i) * bullet.width / 2 }, GameData.main_weapon.bullet_scale_time);
 
                 this.bullet_fly.push({
                     model: bullet,
                 });
             }
 
-            if(this.friend){
+            if (this.friend) {
                 let bullet = this.createBullet();
                 bullet.anchorOffsetX = bullet.width / 2;
                 bullet.anchorOffsetY = bullet.height / 2;
@@ -2100,7 +2129,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 bullet.y = this.friend.y - this.friend.height / 2; //this.boat.y - this.boat.height / 2 - bullet.height / 2;
                 this.gp_layer_4.addChild(bullet);
 
-                egret.Tween.get(bullet).to({x: this.friend.x - (count - 1 - 2 * i) * bullet.width / 2}, GameData.main_weapon.bullet_scale_time);
+                egret.Tween.get(bullet).to({ x: this.friend.x - (count - 1 - 2 * i) * bullet.width / 2 }, GameData.main_weapon.bullet_scale_time);
 
                 this.bullet_fly.push({
                     model: bullet,
@@ -2217,15 +2246,16 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.weapon.clear();
         }
         let sub_weapon = GameData.getSubWeapon();
-        this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, sub_weapon.id, sub_weapon.attack, sub_weapon.strength);
-
+        if (sub_weapon) {
+            this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, sub_weapon.id, sub_weapon.attack, sub_weapon.strength);
+        }
 
         let list = [];
         GameData.UserInfo.SubWeapons.forEach(sub => {
             list.push({
                 id: sub.id,
                 open: sub.open,
-                sel: sub_weapon.id == sub.id ? "1" : "0",
+                sel: sub_weapon && sub_weapon.id == sub.id ? "1" : "0",
                 weaponName: 'UI_json.' + GameData.weaponNames[sub.id - 1]
             })
         })
@@ -2262,39 +2292,41 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 this.weapon.clear();
             }
             let sub_weapon = GameData.getSubWeapon();
-            this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, sub_weapon.id, sub_weapon.attack, sub_weapon.strength);
+            if (sub_weapon) {
+                this.weapon = WingMan.createWeapon(this.gp_layer_4, this.boat, sub_weapon.id, sub_weapon.attack, sub_weapon.strength);
+            }
 
             this.onSubClick(null);
         }
     }
 
     private showSelectWeaponTip(level: number): void {
-        GameData.showTips("击败第"+level+"关开启")
+        GameData.showTips("击败第" + level + "关开启")
     }
 
-    private friend:wuqi_1 = null;
-    public CreateFriend():void{
+    private friend: wuqi_1 = null;
+    public CreateFriend(): void {
         this.friend = new wuqi_1();
         this.friend.x = 375;
         this.friend.y = this.real_height;
         this.gp_layer_4.addChild(this.friend);
     }
 
-    public RemoveFriend():void{
-        if(this.friend) this.friend.stop();
+    public RemoveFriend(): void {
+        if (this.friend) this.friend.stop();
         this.friend && this.friend.parent && this.friend.parent.removeChild(this.friend)
         this.friend = null;
     }
 
-    private updateFriend(deltaTime:number):void{
-        let boat_p:egret.Point = new egret.Point(this.boat.x, this.boat.y)
-        if(this.friend){
+    private updateFriend(deltaTime: number): void {
+        let boat_p: egret.Point = new egret.Point(this.boat.x, this.boat.y)
+        if (this.friend) {
             // 1s 追上，追的目标位置为boat与当前friend位置方向的100
-            let dir:egret.Point = new egret.Point(this.friend.x - this.boat.x, this.friend.y - this.boat.y)
+            let dir: egret.Point = new egret.Point(this.friend.x - this.boat.x, this.friend.y - this.boat.y)
             dir.normalize(100)
-            let dest:egret.Point = boat_p.add(dir);
-            let dis:egret.Point = new egret.Point(dest.x-this.friend.x, dest.y-this.friend.y)
-            let len = dis.length * deltaTime/500
+            let dest: egret.Point = boat_p.add(dir);
+            let dis: egret.Point = new egret.Point(dest.x - this.friend.x, dest.y - this.friend.y)
+            let len = dis.length * deltaTime / 500
             dis.normalize(len);
             this.friend.x += dis.x;
             this.friend.y += dis.y;

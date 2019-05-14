@@ -8,9 +8,12 @@ class WeaponRender extends eui.ItemRenderer {
             // this.cur_sel.data.sel = "1";
             // this.last_sel.data.sel = "0";
             this.cur_sel.sel.text = '1';
-            this.last_sel.sel.text = '0';
             this.cur_sel.doChange();
-            this.last_sel.doChange();
+            if (this.last_sel) {
+                this.last_sel.sel.text = '0';
+                this.last_sel.doChange();
+            }
+
             this.last_sel = this.cur_sel;
             this.cur_sel = null;
 
@@ -25,7 +28,7 @@ class WeaponRender extends eui.ItemRenderer {
     public gp_weapon: eui.Group;
     public img_try: eui.Image;
 
-    private last_open:string = '0';
+    private last_open: string = '0';
 
     public constructor() {
         super();
@@ -60,7 +63,7 @@ class WeaponRender extends eui.ItemRenderer {
 
         console.log('选中了：', this.id.text);
         WeaponRender.cur_sel = this;
-        EventManager.dispatchEvent('selectWeapon', {id: this.id.text})
+        EventManager.dispatchEvent('selectWeapon', { id: this.id.text })
     }
 
     protected dataChanged(): void {
@@ -88,16 +91,16 @@ class WeaponRender extends eui.ItemRenderer {
         }
 
         if (this.open.text == '1') {
-            if(this.last_open == '0'){
-                this.img_weapon.texture = ResTools.createUITexture(GameData.weaponNames[id-1])
+            if (this.last_open == '0') {
+                this.img_weapon.texture = ResTools.createUITexture(GameData.weaponNames[id - 1])
             }
             this.last_open = '1'
             // 还原
             //this.img_weapon.filters = [];
         } else {
 
-            if(this.last_open == '0'){
-                this.img_weapon.texture = ResTools.createUITexture(GameData.weaponNames[id-1]+'_1')
+            if (this.last_open == '0') {
+                this.img_weapon.texture = ResTools.createUITexture(GameData.weaponNames[id - 1] + '_1')
             }
             this.last_open = '0'
 

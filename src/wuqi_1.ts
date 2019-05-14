@@ -5,7 +5,13 @@ class wuqi_1 extends eui.Component implements eui.UIComponent {
 	public constructor() {
 		super();
 
-		this.skinName = "resource/eui_skins/wuqi_"+GameData.getSubWeapon().id+".exml";
+		let sub_weapon = GameData.getSubWeapon();
+		if(sub_weapon){
+			this.skinName = "resource/eui_skins/wuqi_"+sub_weapon.id+".exml";
+		}else{
+			this.skinName = "resource/eui_skins/wuqi_1.exml";
+		}
+
 	}
 
 	protected partAdded(partName: string, instance: any): void {
@@ -74,7 +80,8 @@ class wuqi_1 extends eui.Component implements eui.UIComponent {
 
 	public update():void{
 		// 特殊情况，炮塔锁定目标
-		if(GameData.getSubWeapon().id == 2){
+		let sub_weapon  = GameData.getSubWeapon();
+		if(sub_weapon && sub_weapon.id == 2){
 			if(this.target){
 				if(this.wuqi_2) {
 					let x = this.wuqi_2.x + this.x
