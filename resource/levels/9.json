@@ -13,9 +13,9 @@
     ],
 
     "add_ons": [
-	      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-		        { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-      { "time":300, "id":101,"level":1,"x":250 ,"y":0,"items":0}
+	  { "time":100, "id":103,"level":1,"x":721 ,"y":0,"items":0},
+	  { "time":100, "id":105,"level":1,"x":150 ,"y":0,"items":0},
+      { "time":300, "id":108,"level":1,"x":250 ,"y":0,"items":0}
     ]
    }, 
 
@@ -25,15 +25,15 @@
 
     "init": [
 
-      { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	        { "time":800, "id":101,"level":2,"x":250 ,"y":0,"items":0},
-      { "time":2300, "id":101,"level":1,"x":350 ,"y":0,"items":0}
+      { "time":300, "id":102,"level":2,"x":150 ,"y":0,"items":0},
+	        { "time":800, "id":103,"level":2,"x":250 ,"y":0,"items":0},
+      { "time":2300, "id":105,"level":1,"x":350 ,"y":0,"items":0}
     ],
 
     "add_ons": [
 
 	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":1200, "id":105,"level":1,"x":550 ,"y":0,"items":2}
+	  { "time":1200, "id":105,"level":3,"x":550 ,"y":0,"items":2}
     ]
    },
       {
@@ -41,19 +41,19 @@
     "tip": {},
 
     "init": [
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},	
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},	  
-      { "time":300, "id":101,"level":1,"x":350 ,"y":0,"items":0}
+	  { "time":350, "id":101,"level":1,"x":150 ,"y":0,"items":0},
+	  { "time":450, "id":102,"level":2,"x":150 ,"y":0,"items":0},	
+	  { "time":500, "id":103,"level":1,"x":150 ,"y":0,"items":0},
+	  { "time":600, "id":105,"level":1,"x":150 ,"y":0,"items":0},	  
+      { "time":633, "id":106,"level":1,"x":350 ,"y":0,"items":0}
     ],
 
     "add_ons": [
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":2},
-	  	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":200, "id":105,"level":1,"x":550 ,"y":0,"items":0}
+	  { "time":553, "id":106,"level":1,"x":150 ,"y":0,"items":0},
+	  { "time":665, "id":105,"level":2,"x":150 ,"y":0,"items":2},
+	  	  { "time":443, "id":103,"level":1,"x":150 ,"y":0,"items":0},
+	  { "time":322, "id":101,"level":1,"x":150 ,"y":0,"items":0},
+	  { "time":888, "id":105,"level":1,"x":550 ,"y":0,"items":0}
     ]
    },
    {
@@ -68,9 +68,9 @@
     ],
 
     "add_ons": [
-     { "time":300, "id":101,"level":2,"x":350 ,"y":0,"items":0},
-	 { "time":1300, "id":101,"level":1,"x":350 ,"y":0,"items":0},	
-      { "time":100, "id":106,"level":1,"x":150 ,"y":0,"items":0},	 
+     { "time":300, "id":108,"level":2,"x":350 ,"y":0,"items":0},
+	 { "time":1300, "id":110,"level":3,"x":350 ,"y":0,"items":0},	
+      { "time":100, "id":106,"level":1,"x":318 ,"y":0,"items":0},	 
      { "time":500, "id":101,"level":1,"x":650 ,"y":0,"items":0}
 
     ]
