@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,WeaponLevelUp_mp3,Die_mp3,WaveWarning_mp3,Weapon1_Boom_mp3,Weapon2_Shot_mp3,Weapon3_Shot_mp3,GetGold_result_mp3,sq_yaoqingwanjia_png,sq_paihangbang_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,WeaponLevelUp_mp3,Die_mp3,WaveWarning_mp3,Weapon1_Boom_mp3,Weapon2_Shot_mp3,Weapon3_Shot_mp3,GetGold_result_mp3,sq_yaoqingwanjia_png,sq_paihangbang_png,xq_1_1_png",
 			"name": "preload"
 		},
 		{
@@ -241,6 +241,11 @@
 			"url": "assets/game/sq_paihangbang.png",
 			"type": "image",
 			"name": "sq_paihangbang_png"
+		},
+		{
+			"name": "xq_1_1_png",
+			"type": "image",
+			"url": "assets/game/xq_1_1.png"
 		}
 	]
 }

@@ -9,8 +9,8 @@ class StarData {
     public static colorNames=['x-5', 'x-4', 'x-3', 'x-2', 'x-1'];
 
     public static hurtScale = {
-        scale:0.95,
-        time:60,
+        scale:0.9,
+        time:200,
     }
 
 

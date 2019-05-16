@@ -10,7 +10,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private star_blood = 0; // 当前波怪物的总血量
     private star_left_blood = 0; // 当前波怪物剩余的血量之和，当少于20％的时候，触发下一波怪物的产生
-    private kill_blood = 0;
     private kills = 0;
 
     private fx = []; // 特效
@@ -320,12 +319,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3);
         this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2);
 
-        this.gp_b1.y = this.real_height - this.gp_b1.height;
+        this.gp_b1.y = GameData.real_height - this.gp_b1.height;
         this.gp_b2.y = this.gp_b1.y - this.gp_b2.height;
         this.gp_b3.y = this.gp_b2.y - this.gp_b3.height;
 
 
-        this.txt_goldtime.text = myMath.getString(GameData.getCurGoldTime());
+        this.txt_goldtime.text = myMath.getString(GameData.curTimeGold);
 
         this.initMask();
 
@@ -349,67 +348,105 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.showResult_real(null)
     }
 
+    private rect_bg:eui.Rect = null;
+    private showRect():void{
+
+            this.rect_bg = new eui.Rect(this.width, this.height);
+            this.rect_bg.fillColor = 0x000000;
+            this.rect_bg.fillAlpha = 0.5;
+
+        
+
+        this.addChild(this.rect_bg)
+    }
+
+    private hideRect():void{
+        this.rect_bg && this.rect_bg.parent && this.rect_bg.parent.removeChild(this.rect_bg);
+    }
+
     //
+
+    private resultUI:ResultUI = null;
     private showResult_real(e: egret.TimerEvent): void {
         console.log('show kills:', this.kills);
-        this.showGameUI();
+        //this.showRect();
+        //this.showGameUI();
+
         if (this.state == 'result') return;
         this.state = 'result';
 
-        if (this.win) {
-            GameData.passLevel();
-            // + tili 6
-        }
+        // if (this.win) {
+        //     GameData.passLevel();
+        //     // + tili 6
+        // }
 
         this.sendEnd();
         this.removeMoveEvent();
 
-        this.addChild(this.gp_result);
-        this.txt_re_gold.text = myMath.getString(GameData.score);
-        this.txt_re_gold3.text = myMath.getString(GameData.score * 3);
-        this.img_re_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold, this);
+        // 隐藏gameUI
+        this.gp_game_data && this.gp_game_data.parent && this.gp_game_data.parent.removeChild(this.gp_game_data)
 
-        if(GameData.hasVideoAd()){
-            this.img_re_gold3.texture = ResTools.createUITexture('sq_sanbei_1')
-        }else{
-            this.img_re_gold3.texture = ResTools.createUITexture('sq_sanbei_2')
-        }
-        this.img_re_gold3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold3, this);
+        this.resultUI = new ResultUI(this.win);
+        this.addChild(this.resultUI);
+
+        // this.addChild(this.gp_result);
+        // this.txt_re_gold.text = myMath.getString(GameData.score);
+        // this.txt_re_gold3.text = myMath.getString(GameData.score * 3);
+        // this.img_re_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold, this);
+        //
+        // if(GameData.hasVideoAd()){
+        //     this.img_re_gold3.texture = ResTools.createUITexture('sq_sanbei_1')
+        // }else{
+        //     this.img_re_gold3.texture = ResTools.createUITexture('sq_sanbei_2')
+        // }
+        // this.img_re_gold3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold3, this);
     }
 
-    private handleGold() {
-        this.handleResult(1)
-    }
+    // private handleGold() {
+    //     this.handleResult(1)
+    // }
+    //
+    // private handleGold3() {
+    //     // 战斗结束3倍获取
+    //     if(GameData.hasVideoAd()){
+    //         ResTools.playAd(GameData.main, this, 'gold3').then((ret) => {
+    //             if (ret == 0) {
+    //                 this.handleResult(3)
+    //             }
+    //         });
+    //     }else{
+    //         ResTools.share(GameData.main, this, 'gold3');
+    //     }
+    //
+    // }
+    //
+    //
+    // private handleResult(ratio: number) {
+    //
+    //     this.hideRect();
+    //
+    //     GameData.onHandleResult(ratio);
+    //     this.img_re_gold.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold, this);
+    //     this.img_re_gold3.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold3, this);
+    //
+    //     // 删除游戏画面
+    //     this.init();
+    //
+    //     // 播放收集金币动画
+    //     this.initUI();
+    //
+    //     GoldFx.playResult({ x: 375, y: this.gp_result.y }, { x: this.img_gold_dest.x, y: this.img_gold_dest.y }, this);
+    //     platform.playMusic('sounds/GetGold_result.mp3', 1);
+    //
+    // }
 
-    private handleGold3() {
-        // 战斗结束3倍获取
-        if(GameData.hasVideoAd()){
-            ResTools.playAd(GameData.main, this, 'gold3').then((ret) => {
-                if (ret == 0) {
-                    this.handleResult(3)
-                }
-            });
-        }else{
-            ResTools.share(GameData.main, this, 'gold3');
-        }
 
-    }
-
-
-    private handleResult(ratio: number) {
-        GameData.onHandleResult(ratio);
-        this.img_re_gold.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold, this);
-        this.img_re_gold3.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold3, this);
-
+    public onResultOver():void{
         // 删除游戏画面
         this.init();
 
         // 播放收集金币动画
         this.initUI();
-
-        GoldFx.playResult({ x: 375, y: this.gp_result.y }, { x: this.img_gold_dest.x, y: this.img_gold_dest.y }, this);
-        platform.playMusic('sounds/GetGold_result.mp3', 1);
-
     }
 
     private timer_relife_begin: egret.Timer;
@@ -770,7 +807,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onGetGoldTimeClick(e: egret.TouchEvent): void {
-        let gold = GameData.getCurGoldTime()
+        let gold = GameData.curTimeGold
         this.txt_goldtime_get_1.text = myMath.getString(gold);
         this.txt_goldtime_get_3.text = myMath.getString(gold * 3);
         this.addChild(this.gp_goldtime_get);
@@ -828,7 +865,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private img_game_lv_cur:eui.Image;
 
     private showGameUI(): void {
-        this.addChild(this.gp_game_data);
+        //this.addChild(this.gp_game_data);
         this.txt_game_lv1.text = '' + (GameData.UserInfo.curLevel - 1);
         this.txt_game_lv2.text = '' + (GameData.UserInfo.curLevel);
         this.txt_game_lv3.text = '' + (GameData.UserInfo.curLevel + 1);
@@ -840,19 +877,20 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         this.txt_game_gold.text = myMath.getString(GameData.score);
-        let cur = Math.floor(100 * (1 - this.kill_blood / GameData.total_blood));
+        let cur = Math.floor(100 * (1 - GameData.kill_blood / GameData.total_blood));
         if (cur < 0) cur = 0
         if (cur > 100) cur = 100
 
+        cur = 100 - cur;
         this.txt_game_jindu.text = cur + '%';
         this.img_game_jindu.width = this.img_game_jindu_bg.width * cur / 100;
     }
 
 
     private gp_layer = [];
-    private boat: wuqi_1 = null;//eui.Image;
+    public boat: wuqi_1 = null;//eui.Image;
     private starCount: egret.BitmapText;
-    private real_height: number = 1624;	// 屏幕使用高度
+    //private real_height: number = 1624;	// 屏幕使用高度
     private last_pos: any = { x: 0, y: 0 }	// 用于主机移动的辅助，记录上一次的位置，用来算每帧之间的相对位置
     private send_index = 0;	// 主机火力辅助变量，控制一次发送几个子弹
     private send_timer: egret.Timer = null;	// 主机子弹发射定时器
@@ -897,7 +935,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.cur_add_ons = 0;
         this.star_blood = 0;
         this.star_left_blood = 0;
-        this.kill_blood = 0;
+        GameData.kill_blood = 0;
         this.kills = 0;
 
         // 清空子弹
@@ -937,6 +975,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private initBegin(): void {
 
+        // 初始化离线金币
+        GameData.curTimeGold = GameData.getCurGoldTime();
+
         this.boat = new wuqi_1();
         this.gp_ui.addChild(this.boat);
         this.boat.play();
@@ -956,7 +997,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         if (window["canvas"]) {
             let w = window["canvas"].width;
             let h = window["canvas"].height;
-            this.real_height = h / w * 750;
+            GameData.real_height = h / w * 750;
         }
         this.init();
 
@@ -1030,8 +1071,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 this.gp_ui_lv2.parent && this.gp_ui_lv2.parent.removeChild(this.gp_ui_lv2)
                 this.state = 'pause';
 
+                this.addChild(this.gp_game_data);
                 this.addMoveEvent();
                 GameData.UserInfo.tili -= 5;
+            }else{
+                GameData.showTips('体力不够， 不能进行战斗')
             }
         }
     }
@@ -1066,17 +1110,19 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private onTouchBegin(e: egret.TouchEvent): void {
         if (this.state == 'pause' || this.state == 'init') {
             this.state = 'game';
+
+            if (this.state != 'game') return;
+
+            this.last_pos = {
+                x: e.stageX,
+                y: e.$stageY,
+            }
+
+            // console.log('onTouchBegin call:', this.last_pos)
+            this.sendStart();
         }
 
-        if (this.state != 'game') return;
 
-        this.last_pos = {
-            x: e.stageX,
-            y: e.$stageY,
-        }
-
-        // console.log('onTouchBegin call:', this.last_pos)
-        this.sendStart();
 
     }
 
@@ -1097,7 +1143,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         else if (this.boat.x < 0) this.boat.x = 0;
 
         if (this.boat.y < 0) this.boat.y = 0;
-        if (this.boat.y > this.real_height) this.boat.y = this.real_height
+        if (this.boat.y > GameData.real_height) this.boat.y = GameData.real_height
 
         this.last_pos = {
             x: e.stageX,
@@ -1113,7 +1159,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.last_pos = {
             x: e.stageX,
-            y: e.$stageY,
+            y: e.stageY,
         }
 
         //console.log('onTouchEnd call:', this.last_pos)
@@ -1128,7 +1174,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         GameData.onCheckTili(this.txt_add_tili);
 
-        if (this.state == 'game' || this.state == 'pause') {
+        if (this.state == 'game' || this.state == 'pause' || this.state == 'result') {
             if (this.lastFramTime == 0) this.lastFramTime = egret.getTimer();
             let deltaTime = egret.getTimer() - this.lastFramTime;
             this.lastFramTime = egret.getTimer();
@@ -1422,7 +1468,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 star.speed.x *= -1;
                 dirchange = true;
             }
-            if (star.model.y - star.model.height / 2 * star.model.scaleY >= this.real_height) {
+            if (star.model.y - star.model.height / 2 * star.model.scaleY >= GameData.real_height) {
                 star.model.y = 0;
                 dirchange = true;
             }
@@ -1565,10 +1611,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
             // 黑洞吞噬怪物，直接消失，不分裂
             this.removeStar(star);
             this.star_left_blood -= (star.totalBlood + star.subBlood);
-            this.kill_blood += (star.totalBlood + star.subBlood)
+            GameData.kill_blood += (star.totalBlood + star.subBlood)
             this.kills++;
 
-            //console.log('kill_blood by eat:',this.kill_blood)
+            //console.log('kill_blood by eat:',GameData.kill_blood)
             if (this.star_left_blood / this.star_blood < 0.2) {
                 this.enterNewBatch();
             }
@@ -1620,7 +1666,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         let speed = GameData.main_weapon.bullet_speed;
         let dis = speed * deltaTime;
 
-        let boat_rect = new egret.Rectangle(this.boat.x - this.boat.width / 6, this.boat.y - this.boat.height / 4, this.boat.width / 3, this.boat.height / 2)
+        let boat_rect = new egret.Rectangle(this.boat.x - 27, this.boat.y - this.boat.height / 2, 56, 53)
         let game_over = false;
 
 
@@ -1768,9 +1814,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
 
                 this.star_left_blood -= star.totalBlood;
-                this.kill_blood += star.totalBlood;
+                GameData.kill_blood += star.totalBlood;
                 this.kills++;
-                //console.log('kill_blood:',this.kill_blood)
+                //console.log('kill_blood:',GameData.kill_blood)
                 if (this.star_left_blood / this.star_blood < 0.2) {
                     this.enterNewBatch();
                 }
@@ -2071,7 +2117,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 item.speed.y *= -1;
             }
 
-            if (item.model.y >= this.real_height) {
+            if (item.model.y >= GameData.real_height) {
                 item.model.y = 0;
             }
         }
@@ -2320,22 +2366,30 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private maskGold: egret.Shape = null;
 
+    private lastGoldChangeTime:number = egret.getTimer();
     private initMask(): void {
         var shape: egret.Shape = this.maskGold = new egret.Shape();
         shape.graphics.beginFill(0x00ffff, 1);
-        shape.graphics.drawCircle(this.img_jindu.x, this.img_jindu.y, this.img_jindu.height);
+        shape.graphics.drawCircle(this.img_jindu.x, this.img_jindu.y, this.img_jindu.height*2);
         shape.graphics.endFill();
-        this.addChild(shape);
+        this.gp_goldtime.addChild(shape);
         this.img_jindu.mask = shape;
 
         this.updateMask();
     }
 
     private updateMask(): void {
-        let total = GameData.getGoldTimeMax();
-        let cur = Math.floor(GameData.getCurGoldTime());
+        let total = 10000;
+        let cur = egret.getTimer() - this.lastGoldChangeTime;
 
-        this.txt_goldtime.text = myMath.getString(cur);
+        if(cur >= total){
+            // 加一次金币
+            this.lastGoldChangeTime = egret.getTimer() - (total-cur);
+            cur = 0;
+            GameData.curTimeGold += GameData.getGoldTime();
+        }
+
+        this.txt_goldtime.text = myMath.getString(GameData.curTimeGold);
         this.txt_gold.text = myMath.getString(GameData.UserInfo.totalMoney);
         this.txt_tili.text = myMath.getString(GameData.UserInfo.tili);
         this.txt_diamond.text = myMath.getString(GameData.UserInfo.totalDiamond);
@@ -2346,10 +2400,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
         shape.graphics.clear();
         shape.graphics.beginFill(0x00ffff, 1);
         shape.graphics.moveTo(this.img_jindu.x, this.img_jindu.y);
-        shape.graphics.lineTo(this.img_jindu.x, this.img_jindu.y - this.img_jindu.height);
+        shape.graphics.lineTo(this.img_jindu.x, this.img_jindu.y - this.img_jindu.height*2);
+
+        //cur = total-cur;
 
         //我们从上开始绘制，则弧度为-90 * Math.PI / 180
-        shape.graphics.drawArc(this.img_jindu.x, this.img_jindu.y, this.img_jindu.height, -90 * Math.PI / 180, (360 * cur / total - 90) * Math.PI / 180, false);
+        shape.graphics.drawArc(this.img_jindu.x, this.img_jindu.y, this.img_jindu.height*2, -90 * Math.PI / 180, (360 * cur / total - 90) * Math.PI / 180, false);
         shape.graphics.lineTo(this.img_jindu.x, this.img_jindu.y);
         shape.graphics.endFill();
     }
@@ -2425,7 +2481,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     public CreateFriend(): void {
         this.friend = new wuqi_1();
         this.friend.x = 375;
-        this.friend.y = this.real_height;
+        this.friend.y = GameData.real_height;
         this.gp_layer_4.addChild(this.friend);
     }
 
@@ -2450,6 +2506,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
+
+    private last_game_gold_fx_time:number = 0;
+    public onGoldOver():void{
+        if(this.last_add_boold_time == 0 || egret.getTimer() - this.last_add_boold_time > 200){
+            egret.Tween.get(this.img_game_gold_dest).to({scaleX:1.22, scaleY:1.22}, 100).to({scaleX:1, scaleY:1},70);
+            this.last_game_gold_fx_time = egret.getTimer();
+        }
+    }
+
     // 响应main的resume事件，目前只有复活一个环节需要
     public resume(type: string, shareok: boolean) {
         if (type == 'relife') {
@@ -2461,7 +2526,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             }
         } else if (type == 'gold3') {
             if (shareok) {
-                this.handleResult(3);
+                this.resultUI.handleResult(3);
             }
         } else if (type == 'goldtime3') {
             if (shareok) {

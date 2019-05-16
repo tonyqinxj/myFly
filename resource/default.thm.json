@@ -39,7 +39,9 @@
 		"InvitUI": "resource/eui_skins/InvitUI.exml",
 		"InviteLq": "resource/eui_skins/InviteLq.exml",
 		"RankUI": "resource/eui_skins/RankUI.exml",
-		"ShowTips": "resource/eui_skins/ShowTips.exml"
+		"ShowTips": "resource/eui_skins/ShowTips.exml",
+		"ResultUI": "resource/eui_skins/ResultUI.exml",
+		"LevelItem": "resource/eui_skins/LevelItem.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
@@ -64,6 +66,7 @@
 		"resource/eui_skins/ItemRendererSkin.exml",
 		"resource/eui_skins/jinggao_1.exml",
 		"resource/eui_skins/jinggao_2.exml",
+		"resource/eui_skins/LevelItem.exml",
 		"resource/eui_skins/loginUI.exml",
 		"resource/eui_skins/myTestAnm.exml",
 		"resource/eui_skins/OverUI.exml",
@@ -71,6 +74,7 @@
 		"resource/eui_skins/ProgressBarSkin.exml",
 		"resource/eui_skins/RadioButtonSkin.exml",
 		"resource/eui_skins/RankUI.exml",
+		"resource/eui_skins/ResultUI.exml",
 		"resource/eui_skins/ScrollerSkin.exml",
 		"resource/eui_skins/ShowTips.exml",
 		"resource/eui_skins/StartUI.exml",

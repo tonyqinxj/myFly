@@ -57,6 +57,8 @@ class GoldFx{
                 this.lastplaymusictime = egret.getTimer();
             }
 
+            GameData.start.onGoldOver();
+
             p.removeChild(fx);
             this.retOne(fx);
         });
@@ -64,37 +66,50 @@ class GoldFx{
     }
 
 
-    private static go(fx:egret.Bitmap, dest1:any, dest2:any, p:eui.Component):void{
+    private static go(fx:egret.Bitmap, dest1:any, dest2:any, p:eui.Component):Promise<any>{
 
         //console.log(dest1);
-        
-        egret.Tween.get(fx,{loop:true}).to({scaleX:0.5},100).to({scaleX:1},100);
-        let point:egret.Point = new egret.Point(dest2.x-dest1.x, dest2.y-dest1.y);
-        egret.Tween.get(fx).to(dest1, 300).to(dest2, point.length).call(()=>{
-            p.removeChild(fx);
-            this.retOne(fx);
+        return new Promise((resolve, reject)=>{
+            egret.Tween.get(fx,{loop:true}).to({scaleX:0.5},100).to({scaleX:1},100);
+            let point:egret.Point = new egret.Point(dest2.x-dest1.x, dest2.y-dest1.y);
+            egret.Tween.get(fx).to(dest1, 300).to(dest2, point.length).call(()=>{
+
+                p.removeChild(fx);
+                this.retOne(fx);
+
+                resolve(true);
+            })
         })
+
     }
-    public static playResult(src:any, dest:any, p:eui.Component):void{
-
+    public static playResult(src:any, dest:any, p:eui.Component):Promise<any>{
         console.log('playResult.................')
+        return new Promise((resolve, reject)=>{
+            let r = 150;
+            let overcount = 0;
+            let count = 24;
 
-        let r = 150;
-        for(let i=0;i<24;i++){
-            let fx = this.getOne();
-            fx.x = src.x ;
-            fx.y = src.y ;
+            for(let i=0;i<count;i++){
+                let fx = this.getOne();
+                fx.x = src.x ;
+                fx.y = src.y ;
 
-            let mydest ={
-                x:src.x + Math.cos(Math.PI/12*i)*r + Tools.GetRandomNum(10,70),
-                y:src.y + Math.sin(Math.PI/12*i)*r + Tools.GetRandomNum(10,70)
+                let mydest ={
+                    x:src.x + Math.cos(Math.PI/12*i)*r + Tools.GetRandomNum(10,70),
+                    y:src.y + Math.sin(Math.PI/12*i)*r + Tools.GetRandomNum(10,70)
+                }
+
+                p.addChild(fx);
+
+                this.go(fx, mydest, dest,p).then(ok=>{
+                    overcount++;
+                    if(overcount == count){
+                        resolve(true);
+                    }
+                });
             }
+        })
 
-            p.addChild(fx);
-
-            this.go(fx, mydest,dest,p);
-
-        }
     }
 
 }

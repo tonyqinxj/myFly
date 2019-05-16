@@ -32,6 +32,8 @@ declare module skins{
 }
 declare class jinggao_1 extends eui.Skin{
 }
+declare class LevelItemSkin extends eui.Skin{
+}
 declare class loginUISkin extends eui.Skin{
 }
 declare class myTestAnmSkin extends eui.Skin{
@@ -51,6 +53,8 @@ declare module skins{
 	}
 }
 declare class RankUISkin extends eui.Skin{
+}
+declare class ResultUISkin extends eui.Skin{
 }
 declare module skins{
 	class ScrollerSkin extends eui.Skin{

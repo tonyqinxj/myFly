@@ -21,7 +21,7 @@ class ShowTips extends eui.Component implements  eui.UIComponent {
 		console.log('showtops:', this.txt_tip.width, this.width);
 		this.width = this.txt_tip.width;
 		this.horizontalCenter = 0;
-		egret.Tween.get(this).to({alpla:0.3, y:this.y - 100}, 800).call(()=>{
+		egret.Tween.get(this).to({alpla:0.3, y:this.y - 100}, 1500).call(()=>{
 			this.parent && this.parent.removeChild(this);
 		})
 	}

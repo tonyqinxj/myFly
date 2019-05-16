@@ -60,7 +60,7 @@ class GameData {
         sendInvite:false,
         openid: '',  // 玩家的openid
         tili: 80,    // 体力
-        totalMoney: 20000000,  // 玩家当前拥有的金币
+        totalMoney: 0,  // 玩家当前拥有的金币
         totalDiamond: 10,   // 钻石
         curLevel: 1, // 当前处于关卡
         nextLevel: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
@@ -101,7 +101,7 @@ class GameData {
             }
         ],
         curSubWeaponId: 0,
-        lastGetGoldTime: 0,          //
+        lastGetGoldTime: 0,          // 上次获取金币的时间点，存盘的
         lastGetTiliTime: 0,     //
         failTry: {
             failTimes: 0,    // 连续失败次数， >=3则给一次僚机满级试用，每天最多给2次机会，关卡20级之前，用share，否则用视频
@@ -119,9 +119,11 @@ class GameData {
 
     public static needSaveUserInfo = false; //
     public static total_blood = 0; // 关卡总血量
+    public static kill_blood = 0; // 当前kill的血量
     public static colors_blood = []; // 血量颜色值
     public static main: Main = null; // main 指针
     public static start:StartUI = null;
+    public static real_height = 1624;
 
     public static score: number = 0;   // 当前分数
     public static myFont: egret.BitmapFont = null; // 美术数字
@@ -209,13 +211,17 @@ class GameData {
         return this.UserInfo.goldCostLevel * 6;
     }
 
+    // 每10s增加的金币数
     public static getGoldTime(): number {
         return this.UserInfo.goldTimeLevel * 12;
     }
 
+    // 最大金币存储量
     public static getGoldTimeMax(): number {
-        return this.getGoldTime() * 4 * 60 * 6; // 每10秒增加一次, 最多加2小时
+        return this.getGoldTime() * 4 * 60 * 6; // 每10秒增加一次, 最多加2小时, 这是4小时
     }
+
+    public static curTimeGold:number = 0;
 
     public static getCurGoldTime(): number {
         if (this.UserInfo.lastGetGoldTime == 0) {
@@ -234,9 +240,11 @@ class GameData {
     }
 
     public static onGetGoldTime(ratio:number): void {
-        this.addGold(this.getCurGoldTime()*ratio)
+        this.addGold(this.curTimeGold*ratio)
         this.UserInfo.lastGetGoldTime = new Date().getTime();
+        this.curTimeGold = 0;
         this.needSaveUserInfo = true;
+
     }
 
     // 第一次登陆的时候计算
@@ -473,9 +481,17 @@ class GameData {
         return window.platform.haveVideoAd();
     }
 
-    public static passLevel(): void {
+    public static passLevel(): boolean {
+        let ret = false;
         this.UserInfo.curLevel++;
-        if (this.UserInfo.nextLevel <= this.UserInfo.curLevel) this.UserInfo.nextLevel++;
+        if (this.UserInfo.nextLevel <= this.UserInfo.curLevel) {
+            this.UserInfo.nextLevel++;
+            // this.UserInfo.tili+=6;
+            // if(this.UserInfo.tili>80) this.UserInfo.tili = 80;
+            //this.showTips('通关新关卡+6体力')
+
+            ret = true;
+        }
 
         if (this.UserInfo.curLevel > this.MAX_LEVEL) this.UserInfo.curLevel = this.MAX_LEVEL;
         if (this.UserInfo.nextLevel > this.MAX_LEVEL) this.UserInfo.nextLevel = this.MAX_LEVEL;
@@ -503,6 +519,8 @@ class GameData {
                 score:''+this.UserInfo.nextLevel,
             });
         }
+
+        return ret;
     }
 
     public static selectWeapon(id: number): number {
