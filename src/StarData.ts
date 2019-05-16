@@ -5,12 +5,12 @@ class StarData {
     // layer:层级管理，目前有4个级别，分别为0，1，2，3， 数字大的在前面
     //public static scaleWithLevel = [1, 0.3, 0.45, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
     public static scaleWithLevel = [1, 0.6, 0.75, 0.86, 0.98, 1.1, 1.2, 1.4, 1.6, 1.8, 2.0]
-    public static colorLevels =[0.1,0.01,0.001,0.0001];
+    public static colorLevels =[0.1,0.05,0.025,0.005];
     public static colorNames=['x-5', 'x-4', 'x-3', 'x-2', 'x-1'];
 
     public static hurtScale = {
-        scale:0.95,
-        time:60,
+        scale:0.9,
+        time:120,
     }
 
 
