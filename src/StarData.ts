@@ -203,8 +203,8 @@ class StarData {
                 }
             },
             add_blood_self: {	// todo, need test, and need fx
-                times: 3,	// 加多少秒
-                speed: 0.1, // 每秒增加的比例，按照初始血量来增加
+                times: 2,	// 加多少秒，缺少CD时长---李文才
+                speed: 0.05, // 每秒增加的比例，按照初始血量来增加
             }, // 这个加血只对自己有效
         },	// 星际尘埃
         '112': {
