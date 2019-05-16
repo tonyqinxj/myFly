@@ -32,7 +32,8 @@ class StarData {
         '102': {
             name: '冲击陨石',
             id: 102,
-            model: 'star2',
+			
+            model: 'star1',
             speed: 0.25,
             attack_speed: 0.4,
 			snow_time: 100,	
@@ -138,7 +139,7 @@ class StarData {
             name: '冰块陨石',
             id: 108,
             model: 'star8',
-            speed: 0.25,
+            speed: 0.2,
             attack_speed: 0.4,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
@@ -180,7 +181,7 @@ class StarData {
         '111': {
             name: '星际尘埃',
             id: 111,
-            model: 'star1',
+            model: 'star11',
             speed: 0.2,
             attack_speed: 0.4,
 			snow_time: 200,		// 减速的持续时长
@@ -209,7 +210,7 @@ class StarData {
         '112': {
             name: '黑洞',
             id: 112,
-            model: 'star2',
+            model: 'star12',
             speed: 0.16,
             // attack_speed: 0.3,   //黑洞不被减速，by 李
             group: StarData.CAN_ATTACK,
@@ -222,7 +223,7 @@ class StarData {
         '113': {
             name: '风暴球团',
             id: 113,
-            model: 'star3',
+            model: 'star13',
             speed: 0.3,
             attack_speed: 0.7,
 			snow_time: 200,		// 减速的持续时长
@@ -238,7 +239,7 @@ class StarData {
         '114': {
             name: '爆炸卫星',
             id: 114,
-            model: 'star4',
+            model: 'star14',
             speed: 0.2,
             attack_speed: 0.4,
 			snow_time: 200,		// 减速的持续时长
@@ -258,7 +259,7 @@ class StarData {
         '115': {
             name: '卫星碎片',
             id: 107,
-            model: 'star5',
+            model: 'star15',
             speed: 0,
             attack_speed: 0,
             group: 0,
