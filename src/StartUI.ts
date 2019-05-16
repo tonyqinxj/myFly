@@ -2517,6 +2517,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     // 响应main的resume事件，目前只有复活一个环节需要
     public resume(type: string, shareok: boolean) {
+
+        GameData.curTimeGold = GameData.getCurGoldTime();
+        this.lastGoldChangeTime = egret.getTimer();
+
         if (type == 'relife') {
             if (shareok) {
                 this.doRelife();

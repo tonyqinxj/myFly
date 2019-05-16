@@ -5,86 +5,126 @@
 			<tween:TweenItem target="{image}">
 				<tween:Set>
 					<tween:props>
-						<e:Object scaleY="{1}" scaleX="{0.95}"/>
+						<e:Object scaleX="{0.9}" scaleY="{1}"/>
 					</tween:props>
 				</tween:Set>
 				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{0.95}"/>
+						<e:Object scaleX="{1}" scaleY="{0.9}"/>
 					</tween:props>
 				</tween:To>
 				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{0.95}" scaleY="{1}"/>
+						<e:Object scaleX="{0.9}" scaleY="{1}"/>
 					</tween:props>
 				</tween:To>
 				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{0.95}"/>
+						<e:Object scaleX="{1}" scaleY="{0.9}"/>
 					</tween:props>
 				</tween:To>
 				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{0.95}" scaleY="{1}"/>
-					</tween:props>
-				</tween:To>
-			</tween:TweenItem>
-			<tween:TweenItem target="{image0}">
-				<tween:Set>
-					<tween:props>
-						<e:Object rotation="{0}"/>
-					</tween:props>
-				</tween:Set>
-				<tween:To duration="1000">
-					<tween:props>
-						<e:Object rotation="{180}" scaleX="{1.1}" scaleY="{1.1}"/>
-					</tween:props>
-				</tween:To>
-				<tween:To duration="1000">
-					<tween:props>
-						<e:Object rotation="{360}"/>
+						<e:Object scaleX="{0.9}" scaleY="{1}"/>
 					</tween:props>
 				</tween:To>
 			</tween:TweenItem>
 			<tween:TweenItem target="{image1}">
 				<tween:Set>
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{1}"/>
+						<e:Object scaleX="{0.9}" scaleY="{0.9}"/>
 					</tween:props>
 				</tween:Set>
-				<tween:To duration="1000">
+				<tween:To duration="500">
 					<tween:props>
 						<e:Object scaleX="{1.2}" scaleY="{1.2}"/>
 					</tween:props>
 				</tween:To>
-				<tween:To duration="1000">
+				<tween:To duration="500">
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{1}"/>
+						<e:Object scaleX="{0.9}" scaleY="{0.9}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="500">
+					<tween:props>
+						<e:Object scaleX="{1.2}" scaleY="{1.2}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="500">
+					<tween:props>
+						<e:Object scaleX="{0.9}" scaleY="{0.9}"/>
 					</tween:props>
 				</tween:To>
 			</tween:TweenItem>
-			<tween:TweenItem target="{image2}">
+			<tween:TweenItem target="{image0}">
 				<tween:Set>
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{1}"/>
+						<e:Object scaleX="{0.5}" scaleY="{0.5}"/>
 					</tween:props>
 				</tween:Set>
-				<tween:To duration="1000">
+				<tween:To duration="450">
 					<tween:props>
-						<e:Object scaleX="{1.2}" scaleY="{1.2}"/>
+						<e:Object scaleX="{1.3}" scaleY="{1.3}"/>
 					</tween:props>
 				</tween:To>
-				<tween:To duration="1000">
+				<tween:Wait duration="50"/>
+				<tween:Set>
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{1}"/>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}" scaleX="{0.5}" scaleY="{0.5}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="400">
+					<tween:props>
+						<e:Object scaleX="{1.3}" scaleY="{1.3}"/>
+					</tween:props>
+				</tween:To>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}" scaleX="{0.5}" scaleY="{0.5}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}" scaleX="{0.5}" scaleY="{0.5}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="400">
+					<tween:props>
+						<e:Object scaleX="{1.3}" scaleY="{1.3}"/>
+					</tween:props>
+				</tween:To>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{0}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:Wait duration="50"/>
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}" scaleX="{0.5}" scaleY="{0.5}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="450">
+					<tween:props>
+						<e:Object scaleX="{1.3}" scaleY="{1.3}"/>
 					</tween:props>
 				</tween:To>
 			</tween:TweenItem>
 		</tween:TweenGroup>
 	</w:Declarations>
+
 	<w:Config id="16a34a95deb" ></w:Config>
-	<e:Image id="image1" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="200" height="200" source="flydata_json.9-2"/>
-	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="75" anchorOffsetY="75" height="150" width="150" horizontalCenter="0" verticalCenter="0" source="flydata_json.9-1"/>
-	<e:Image id="image2" source="flydata_json.1-3" includeIn="guaiwu-1" width="205" height="205" horizontalCenter="0" verticalCenter="0" anchorOffsetX="101" anchorOffsetY="101"/>
-	<e:Image id="image" source="flydata_json.x-5" includeIn="guaiwu-1" anchorOffsetX="150" anchorOffsetY="150" horizontalCenter="0" verticalCenter="0" width="300" height="300"/>
+	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="220" height="220" source="flydata_json.g_6_2"/>
+	<e:Image id="image2" includeIn="guaiwu-1" width="220" height="220" horizontalCenter="0" verticalCenter="0" anchorOffsetX="110" anchorOffsetY="110" source="flydata_json.g_d_1"/>
+	<e:Image id="image1" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="220" height="220" source="flydata_json.g_6_1"/>
+	<e:Image id="image" source="flydata_json.x-5" includeIn="guaiwu-1" anchorOffsetX="125" anchorOffsetY="125" horizontalCenter="0" verticalCenter="0" width="250" height="250"/>
 </e:Skin>

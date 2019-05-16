@@ -32,7 +32,7 @@
 			<tween:TweenItem target="{image0}">
 				<tween:Set>
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{1}" alpha="{0.8}"/>
+						<e:Object scaleX="{1}" scaleY="{1}" alpha="{1}"/>
 					</tween:props>
 				</tween:Set>
 				<tween:To duration="1000">
@@ -42,7 +42,7 @@
 				</tween:To>
 				<tween:To duration="1000">
 					<tween:props>
-						<e:Object rotation="{0}" scaleX="{1}" scaleY="{1}" alpha="{0.8}"/>
+						<e:Object rotation="{0}" scaleX="{1}" scaleY="{1}" alpha="{1}"/>
 					</tween:props>
 				</tween:To>
 			</tween:TweenItem>
@@ -52,12 +52,12 @@
 					<e:Object x="{218}" y="{280}" rotation="{0}"/>
 				</tween:props>
 				</tween:Set>
-				<tween:To duration="1500">
+				<tween:To duration="1700">
 				<tween:props>
 					<e:Object rotation="{-360}"/>
 				</tween:props>
 				</tween:To>
-				<tween:To duration="500">
+				<tween:To duration="300">
 					<tween:props>
 						<e:Object rotation="{360}"/>
 					</tween:props>
@@ -66,7 +66,7 @@
 		</tween:TweenGroup>
 	</w:Declarations>
 	<w:Config id="16a34a95deb" ></w:Config>
+	<e:Image id="image1" includeIn="guaiwu-1" anchorOffsetX="130" anchorOffsetY="130" horizontalCenter="0" verticalCenter="0" width="260" height="260" source="flydata_json.g_7_2"/>
 	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" width="220" horizontalCenter="0" verticalCenter="0" height="220" source="flydata_json.g_2"/>
 	<e:Image id="image" source="flydata_json.x-5" includeIn="guaiwu-1" anchorOffsetX="125" anchorOffsetY="125" horizontalCenter="0" verticalCenter="0" width="250" height="250"/>
-	<e:Image id="image1" includeIn="guaiwu-1" anchorOffsetX="145" anchorOffsetY="145" horizontalCenter="0" verticalCenter="0" width="290" height="290" source="flydata_json.g_3"/>
 </e:Skin>

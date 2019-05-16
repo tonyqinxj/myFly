@@ -159,7 +159,7 @@
 			"url": "assets/game/flydata.json",
 			"type": "sheet",
 			"name": "flydata_json",
-			"subkeys": ".,0,1,1-1,1-2,1-3,2,2-1,2-2,3,3-1,3-2,4,4-1,4-2,5,5-1,6,6-1,6-2,7,7-1,8,8-1,8-2,8-3,9,9-1,9-2,b1,b2,b23,b234,b24,b3,b34,b4,bomb1,bp_1_1,bp_1_2,bp_1_3,bp_1_4,bp_1_5,bp_2_1,bp_2_2,bp_2_3,bp_2_4,bp_2_5,bp_2_6,fuwuqi_1_1,fuwuqi_2_1,fuwuqi_3_1,fuwuqi_miaozhun,g_1,g_2,g_3,gold,gongji_1,hit,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,iraducess,ireduceBoat,k,m,pt_2,sd_1,sd_2,sd_3,sd_4,sd_5,sw_1_1,sw_1_2,sw_1_3,sw_1_4,sw_1_5,sw_1_6,sw_2_1,sw_2_2,sw_2_3,sw_2_4,sw_2_5,sw_2_6,sw_3_1,sw_3_2,sw_3_3,sw_3_4,sw_3_5,sw_3_6,sw_4_1,sw_4_2,sw_4_3,sw_4_4,sw_4_5,sw_4_6,weiba_1,weiba_2,wuqi_1_1,wuqi_1_2,wuqi_2_1,wuqi_2_2,wuqi_2_3,wuqi_3_1,wuqi_3_2,wuqi_4_1,wuqi_4_2,wuqi_4_3,x-1,x-2,x-3,x-4,x-5"
+			"subkeys": ".,0,1,1-1,1-2,1-3,2,2-1,2-2,3,3-1,3-2,4,4-1,4-2,5,5-1,6,6-1,6-2,7,7-1,8,8-1,8-2,8-3,9,9-1,9-2,b1,b2,b23,b234,b24,b3,b34,b4,bomb1,bp_1_1,bp_1_2,bp_1_3,bp_1_4,bp_1_5,bp_2_1,bp_2_2,bp_2_3,bp_2_4,bp_2_5,bp_2_6,fuwuqi_1_1,fuwuqi_2_1,fuwuqi_3_1,fuwuqi_miaozhun,g_1,g_1_1,g_2,g_2_1,g_2_1-2,g_3,g_3_1_,g_3_2,g_4,g_4_1,g_4_2,g_5_1,g_5_2,g_6_1,g_6_2,g_7_1,g_7_2,g_8_2,g_d_1,gold,gongji_1,hit,iaddss,iattack,iback,ibig,ifriend,igold,ihitspeed,iraducess,ireduceBoat,k,m,pt_2,sd_1,sd_2,sd_3,sd_4,sd_5,sw_1_1,sw_1_2,sw_1_3,sw_1_4,sw_1_5,sw_1_6,sw_2_1,sw_2_2,sw_2_3,sw_2_4,sw_2_5,sw_2_6,sw_3_1,sw_3_2,sw_3_3,sw_3_4,sw_3_5,sw_3_6,sw_4_1,sw_4_2,sw_4_3,sw_4_4,sw_4_5,sw_4_6,weiba_1,weiba_2,wuqi_1_1,wuqi_1_2,wuqi_2_1,wuqi_2_2,wuqi_2_3,wuqi_3_1,wuqi_3_2,wuqi_4_1,wuqi_4_2,wuqi_4_3,x-1,x-2,x-3,x-4,x-5"
 		},
 		{
 			"url": "levels/4.json",
@@ -243,9 +243,9 @@
 			"name": "sq_paihangbang_png"
 		},
 		{
-			"name": "xq_1_1_png",
+			"url": "assets/game/xq_1_1.png",
 			"type": "image",
-			"url": "assets/game/xq_1_1.png"
+			"name": "xq_1_1_png"
 		}
 	]
 }
