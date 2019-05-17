@@ -38,6 +38,11 @@ var FxMgr = (function () {
         }
         return this.loadFx(t, j);
     };
+    FxMgr.releaseFx = function (t, j, s) {
+        this.fxmap.push({
+            t: t, j: j, s: s
+        });
+    };
     FxMgr.fxmap = [];
     return FxMgr;
 }());

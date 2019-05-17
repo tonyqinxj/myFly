@@ -46,31 +46,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        // 主调度模块，主要用于切换子页面
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.game = null;
+        _this.game_set_type = '';
+        _this.game_set_time = 0;
+        return _this;
     }
-    Main.prototype.saveUserInfo = function () {
-        var key = "myUserData";
-        egret.localStorage.setItem(key, JSON.stringify({
-            openid: GameData.openid,
-            total_money: GameData.total_money,
-            cur_level: GameData.cur_level,
-        }));
-    };
-    Main.prototype.loadUserInfo = function () {
-        var key = "myUserData";
-        var userinfo = egret.localStorage.getItem(key);
-        if (userinfo) {
-            var userinfo_data = JSON.parse(userinfo);
-            GameData.openid = userinfo_data.openid;
-            GameData.cur_level = userinfo_data.cur_level;
-            GameData.total_money = userinfo_data.total_money;
-        }
-    };
     Main.prototype.createChildren = function () {
+        var _this = this;
         _super.prototype.createChildren.call(this);
         GameData.main = this;
         this.curPage = null;
-        this.loadUserInfo();
+        GameData.loadUserInfo();
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
             window.addEventListener("focus", context.resume, false);
@@ -83,6 +71,19 @@ var Main = (function (_super) {
         egret.lifecycle.onResume = function () {
             console.log('onResume');
             egret.ticker.resume();
+            // 检测分享反馈
+            if (_this.game) {
+                var shareok = false;
+                if ((egret.getTimer() - _this.game_set_time) > 6 * 1000)
+                    shareok = true;
+                if (!shareok) {
+                    ResTools.showTextTip(_this, '换个朋友试试吧');
+                }
+                _this.game.resume(_this.game_set_type, shareok);
+                _this.game = null;
+                _this.game_set_time = 0;
+                _this.game_set_type = '';
+            }
         };
         //inject the custom material parser
         //注入自定义的素材解析器
@@ -98,30 +99,25 @@ var Main = (function (_super) {
         // }, this)
         // timer.start();
     };
+    Main.prototype.setGame = function (game, type) {
+        this.game = game;
+        this.game_set_type = type;
+        this.game_set_time = egret.getTimer();
+    };
     Main.prototype.goStart = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var loginInfo, res, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.loadResource()];
+                    case 0: 
+                    // let res = await platform.createAuthButton();
+                    // console.log(res);
+                    return [4 /*yield*/, this.loadResource()];
                     case 1:
+                        // let res = await platform.createAuthButton();
+                        // console.log(res);
                         _a.sent();
-                        this.setPage("start");
-                        return [4 /*yield*/, platform.login()];
-                    case 2:
-                        loginInfo = _a.sent();
-                        console.log('loginInfo:', loginInfo);
-                        if (!(loginInfo && loginInfo.code)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, HttpTools.httpPost("https://www.nskqs.com/getOpenId", { code: loginInfo.code, name: 'myfruit', num: 333 })];
-                    case 3:
-                        res = _a.sent();
-                        console.log('res:', res);
-                        if (res.errcode == 0) {
-                            data = JSON.parse(res.data);
-                            GameData.openid = data.openid;
-                        }
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        this.setPage("logon");
+                        return [2 /*return*/];
                 }
             });
         });
@@ -133,8 +129,10 @@ var Main = (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 4, , 5]);
-                        return [4 /*yield*/, RES.loadConfig("default.res.json", "/resource")];
+                        //await RES.loadConfig("default.res.json", "/resource");
+                        return [4 /*yield*/, RES.loadConfig("default.res.json", GameData.domain + "/resource")];
                     case 1:
+                        //await RES.loadConfig("default.res.json", "/resource");
                         _a.sent();
                         return [4 /*yield*/, this.loadTheme()];
                     case 2:
@@ -171,6 +169,9 @@ var Main = (function (_super) {
     Main.prototype.setPage = function (page) {
         this.clearCurScene();
         switch (page) {
+            case 'logon':
+                this.curPage = new loginUI();
+                break;
             case "start":
                 this.curPage = new StartUI();
                 break;

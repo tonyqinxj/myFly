@@ -1,40 +1,55 @@
 {
-  "169b91ebd03": {
-    "path": "StartUI.ts",
-    "class": "StartUI",
-    "parentPath": ""
-  },
-  "169b91f0553": {
-    "path": "GameUI.ts",
-    "class": "GameUI",
-    "parentPath": ""
-  },
-  "169b91f4e10": {
-    "path": "OverUI.ts",
-    "class": "OverUI",
-    "parentPath": ""
-  },
-  "global": {
-    "globalAutoLayerMarkEnable": true
-  },
-  "16a955b0379": {
-    "path": "ItemIcon.ts",
-    "class": "ItemIcon",
-    "parentPath": ""
-  },
-  "16a95aa9139": {
-    "path": "BuyGold.ts",
-    "class": "BuyGold",
-    "parentPath": ""
-  },
-  "16a96d007f7": {
-    "path": "loginUI.ts",
-    "class": "loginUI",
-    "parentPath": ""
-  },
-  "16a9b3f1865": {
-    "path": "InvitUI.ts",
-    "class": "InvitUI",
-    "parentPath": ""
-  }
+    "169b91ebd03": {
+        "path": "StartUI.ts",
+        "class": "StartUI",
+        "parentPath": ""
+    },
+    "169b91f0553": {
+        "path": "GameUI.ts",
+        "class": "GameUI",
+        "parentPath": ""
+    },
+    "169b91f4e10": {
+        "path": "OverUI.ts",
+        "class": "OverUI",
+        "parentPath": ""
+    },
+    "global": {
+        "globalAutoLayerMarkEnable": true
+    },
+    "16a955b0379": {
+        "path": "ItemIcon.ts",
+        "class": "ItemIcon",
+        "parentPath": ""
+    },
+    "16a95aa9139": {
+        "path": "BuyGold.ts",
+        "class": "BuyGold",
+        "parentPath": ""
+    },
+    "16a96d007f7": {
+        "path": "loginUI.ts",
+        "class": "loginUI",
+        "parentPath": ""
+    },
+    "16a9b3f1865": {
+        "path": "InvitUI.ts",
+        "class": "InvitUI",
+        "parentPath": ""
+    },
+    "16aaf0b0730": {
+        "path": "ShowTips.ts",
+        "class": "ShowTips",
+        "parentPath": ""
+    },
+    "16aba4c94de": {
+        "path": "ResultUI.ts",
+        "class": "ResultUI",
+        "parentPath": ""
+    },
+    "16abaf9d8a6": {
+        "path": "LevelItem.ts",
+        "class": "LevelItem",
+        "parentPath": ""
+    }
 }

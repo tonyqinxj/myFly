@@ -39,6 +39,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var DebugPlatform = (function () {
     function DebugPlatform() {
     }
+    DebugPlatform.prototype.createAuthButton = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, null];
+            });
+        });
+    };
+    DebugPlatform.prototype.getLaunchQuery = function () {
+        return {};
+    };
     DebugPlatform.prototype.getUserInfo = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -60,7 +70,7 @@ var DebugPlatform = (function () {
             });
         });
     };
-    DebugPlatform.prototype.shareAppMessage = function (title, url) {
+    DebugPlatform.prototype.shareAppMessage = function (title, url, qurey) {
     };
     DebugPlatform.prototype.playMusic = function (name, times) {
     };
@@ -68,12 +78,33 @@ var DebugPlatform = (function () {
     };
     DebugPlatform.prototype.resumeLoopMusic = function () {
     };
+    DebugPlatform.prototype.playHit = function () {
+    };
+    DebugPlatform.prototype.stopHit = function () {
+    };
     DebugPlatform.prototype.navigateToMiniProgram = function (appid, param) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/];
             });
         });
+    };
+    DebugPlatform.prototype.showBannerAd = function () {
+    };
+    DebugPlatform.prototype.showRewardAd = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, 0];
+            });
+        });
+    };
+    DebugPlatform.prototype.loadAd = function () {
+    };
+    ;
+    DebugPlatform.prototype.haveVideoAd = function () {
+        return false;
+    };
+    DebugPlatform.prototype.doVibrate = function () {
     };
     return DebugPlatform;
 }());

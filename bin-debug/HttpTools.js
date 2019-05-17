@@ -27,9 +27,13 @@ var HttpTools = (function () {
             request.addEventListener(egret.Event.COMPLETE, function (event) {
                 var request = event.currentTarget;
                 console.log("get data : ", request.response);
+                var data = {};
+                if (typeof request.response == "string") {
+                    data = JSON.parse(request.response);
+                }
                 resolve({
                     errcode: 0,
-                    data: request.response
+                    data: data
                 });
             }, _this);
             request.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event) {

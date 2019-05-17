@@ -62,13 +62,20 @@ var Tools = (function () {
         if (r1 < r2)
             return false;
         // 把球心位置转成全局坐标
-        var obj1_global = eat.localToGlobal(0, 0);
-        var obj2_global = star.localToGlobal(0, 0);
-        var p = new egret.Point(obj1_global.x - obj2_global.x, obj1_global.y - obj2_global.y);
+        // let obj1_global = eat.localToGlobal(0, 0)
+        // let obj2_global = star.localToGlobal(0, 0)
+        var p = new egret.Point(star.x - eat.x, star.y - eat.y);
         if (r1 - r2 <= p.length) {
             return false;
         }
         return true;
+    };
+    // 爆炸范围检测,star的中心进入范围
+    Tools.bombTest = function (x, y, r, star) {
+        var p = new egret.Point(x - star.x, y - star.y);
+        if (p.length <= r)
+            return true;
+        return false;
     };
     Tools.GetRandomNum = function (min, max) {
         if (max < min)
@@ -79,6 +86,19 @@ var Tools = (function () {
     };
     Tools.angle2radian = function (angel) {
         return 0.017453293 * angel;
+    };
+    Tools.getQueryString = function (url) {
+        if (url) {
+            url = url.substr(url.indexOf("?") + 1); //字符串截取，比我之前的split()方法效率高
+        }
+        var result = {}, //创建一个对象，用于存name，和value
+        queryString = url, //location.search设置或返回从问号 (?) 开始的 URL（查询部分）。
+        re = /([^&=]+)=([^&]*)/g, //正则，具体不会用
+        m;
+        while (m = re.exec(queryString)) {
+            result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]); //使用 decodeURIComponent() 对编码后的 URI 进行解码
+        }
+        return result;
     };
     return Tools;
 }());
