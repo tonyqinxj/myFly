@@ -277,6 +277,8 @@ class Weapon2 extends Weapon {
         let bulletconfig = this.config['data']['bulletconfig'];
         let modelname = this.config['model'];
 
+        window.platform.playMusic('sounds/Weapon2_Shot.mp3', 1);
+
         // 取出本轮应该发射的位置
         bulletconfig.forEach(bconf => {
             // 发送子弹

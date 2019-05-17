@@ -1,4 +1,40 @@
 class StartUI extends eui.Component implements eui.UIComponent {
+
+    public constructor() {
+        super();
+    }
+
+    protected partAdded(partName: string, instance: any): void {
+        super.partAdded(partName, instance);
+    }
+
+    protected childrenCreated(): void {
+        super.childrenCreated();
+
+        GameData.start = this;
+        GameData.initFont();
+        MonsterTools.itemPanel = this;
+        //FxMgr.init();
+        this.initBegin();
+    }
+
+    private addAuthButton():boolean{
+        let rwidth = window["canvas"].width;
+        let rheight = window["canvas"].height;
+
+        let x = this.gp_left.x + this.img_zhuanshi.x;   // 4.7;
+        let y = this.gp_left.y + this.img_zhuanshi.y; //2.96+588;
+        let w = this.img_zhuanshi.width;//128;
+        let h = this.img_zhuanshi.height;//109;
+
+        // let rx = rwidth/this.width * x
+        // let rw = rwidth/this.width * w
+        // let ry = rheight/GameData.real_height * y
+        // let rh = rheight/GameData.real_height * h
+
+        return window.platform.createAuthButton(x/750, y/GameData.real_height, w/750, h/GameData.real_height, GameData.getUserInfoOk);
+    }
+
     // reopen 需要处理的变量
     private state: string = 'init'; // 'game'
     private lastFramTime = 0;	// 上一帧的执行时间
@@ -122,7 +158,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         EventManager.register('selectWeapon', this.selectWeapon.bind(this), this);
 
-        this.img_zhuanshi.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
+        //this.img_zhuanshi.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
         this.img_paihang.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openRank, this);
         this.rect_goldtime_get_cancel.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeCancelClick, this);
 
@@ -305,6 +341,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_root.addChild(this.gp_xingqiu)
         this.gp_root.addChild(this.gp_ui);
         this.gp_root.addChild(this.gp_b1);
+
+
+
+        //this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
         this.gp_root.addChild(this.gp_left);
         this.gp_root.addChild(this.gp_top);
         this.gp_root.addChild(this.gp_goldtime);
@@ -331,6 +371,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
         egret.Tween.get(this.boat).to({ x: 375, y: this.gp_b1.y - this.boat.height }, 500);
 
         this.initUILv(1);
+
+        // 检测是否要创建授权按钮
+        if(GameData.UserInfo.nick && GameData.UserInfo.icon){
+            this.img_zhuanshi.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
+        }else{
+            if(this.addAuthButton() == false){
+                this.img_zhuanshi.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
+            }
+        }
     }
 
     private win = false;
@@ -574,6 +623,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
         } else {
             this.img_up2_free.parent && this.img_up2_free.parent.removeChild(this.img_up2_free)
         }
+
+        window.platform.playMusic('sounds/BottomChange.mp3', 1);
     }
 
     private onSubClick(e: egret.TouchEvent): void {
@@ -647,12 +698,67 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         egret.Tween.get(this.boat).to({ x: 375, y: this.gp_b3.y - this.boat.height }, 500);
+
+        window.platform.playMusic('sounds/BottomChange.mp3', 1);
     }
 
+
+    public onGetUserInfo(info:any):void{
+        console.log('info:', info)
+        if(info && info.nickName && info.avatarUrl){
+            HttpTools.httpPost("https://www.nskqs.com/setUserInfo", { name: GameData.gameName, num: 333,
+                openid:GameData.UserInfo.openid,
+                avatarUrl:info.avatarUrl,
+                nickName:info.nickName,
+            }).then( res =>{
+                if (res.errcode == 0 && res.data && res.data.errcode == 0 ) {
+                    GameData.UserInfo.nick = info.nickName;
+                    GameData.UserInfo.icon = info.avatarUrl;
+                    GameData.needSaveUserInfo = true;
+
+                    this.img_zhuanshi.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
+                }
+            });
+        }
+
+        let invite = new InvitUI();
+        this.addChild(invite);
+    }
 
     private openInvite(e: egret.TouchEvent): void {
         let invite = new InvitUI();
         this.addChild(invite);
+
+        // if(GameData.UserInfo.nick && GameData.UserInfo.icon){
+        //     let invite = new InvitUI();
+        //     this.addChild(invite);
+        // }else{
+        //     platform.getUserInfo().then(userInfo=>{
+        //         let avatarUrl = '';
+        //         let nickName = '';
+        //         if(userInfo){
+        //             if(userInfo && userInfo.nickName) nickName = userInfo.nickName;
+        //             if(userInfo && userInfo.avatarUrl) avatarUrl = userInfo.avatarUrl;
+        //
+        //             HttpTools.httpPost("https://www.nskqs.com/setUserInfo", { name: GameData.gameName, num: 333,
+        //                 openid:GameData.UserInfo.openid,
+        //                 avatarUrl:avatarUrl,
+        //                 nickName:nickName,
+        //             }).then( res =>{
+        //                 if (res.errcode == 0 && res.data && res.data.errcode == 0 ) {
+        //                     GameData.UserInfo.nick = nickName;
+        //                     GameData.UserInfo.icon = avatarUrl;
+        //                     GameData.needSaveUserInfo = true;
+        //                 }
+        //             });
+        //         }
+        //
+        //
+        //         let invite = new InvitUI();
+        //         this.addChild(invite);
+        //     });
+        // }
+
     }
 
     private openRank(e: egret.TouchEvent): void {
@@ -697,6 +803,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         egret.Tween.get(this.boat).to({ x: 375, y: this.gp_b3.y - this.boat.height }, 500);
+
+        window.platform.playMusic('sounds/BottomChange.mp3', 1);
     }
 
     private onLevelUp1(e: egret.TouchEvent): void {
@@ -849,7 +957,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_goldtime_get && this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
         GameData.onGetGoldTime(ratio);
         this.updateMask();
-        platform.playMusic('sounds/GetGold.mp3', 1);
+        platform.playMusic('sounds/goldtime.mp3', 1);
     }
 
     // game ui
@@ -902,24 +1010,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     public weapon: Weapon = null;   // 僚机
 
-    public constructor() {
-        super();
-    }
 
-    protected partAdded(partName: string, instance: any): void {
-        super.partAdded(partName, instance);
-    }
-
-    protected childrenCreated(): void {
-        super.childrenCreated();
-
-        GameData.start = this;
-        GameData.initFont();
-        MonsterTools.itemPanel = this;
-        //FxMgr.init();
-        this.initBegin();
-
-    }
 
     private init(): void {
         this.create_nums = 0;
@@ -948,6 +1039,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.star_fly.forEach(star => {
             star.model && star.model.parent && star.model.parent.removeChild(star.model);
             star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
+            star.my_box && star.my_box.parent &&　star.my_box.parent.removeChild(star.my_box);
         })
         this.star_fly = [];
         this.star_fly_eat = [];
@@ -1121,9 +1213,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
             // console.log('onTouchBegin call:', this.last_pos)
             this.sendStart();
         }
-
-
-
     }
 
     // 在屏幕上滑动
@@ -1144,6 +1233,16 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         if (this.boat.y < 0) this.boat.y = 0;
         if (this.boat.y > GameData.real_height) this.boat.y = GameData.real_height
+
+        this.boat_rect = new egret.Rectangle(this.boat.x - 5, this.boat.y - this.boat.height/2 + 27, 10, 10);
+
+        if(GameData.showBox){
+            this.boat_box.graphics.clear();
+            this.boat_box.graphics.beginFill(0xFF0000, 1);
+            this.boat_box.graphics.drawRect(this.boat.x - 5, this.boat.y - this.boat.height/2 + 27, 10, 10);
+            this.boat_box.graphics.endFill();
+            this.addChild(this.boat_box);
+        }
 
         this.last_pos = {
             x: e.stageX,
@@ -1201,6 +1300,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             if (this.cantdietime > 0) this.cantdietime -= deltaTime_snow; // 无敌时间扣除
 
             this.updateFriend(deltaTime_snow);
+
             this.starMove(deltaTime_snow);   // 怪物移动，包括减速等逻辑
             this.checkBullet(deltaTime);    // 主武器子弹逻辑
 
@@ -1310,10 +1410,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 if (conf['y']) y = conf['y'];
 
 
-                this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], { x: conf.x, y: y }, dir, {
+                let star_new = this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], { x: conf.x, y: y }, dir, {
                     bossblood: conf['bossblood'] || 0,
                     bosssize: conf['bosssize'] || 0
                 })
+
+                if(conf['items'] && conf['itemscope']){
+                    star_new['itemscope'] = conf['itemscope'];
+                }
+
                 this.create_nums++;
 
             }
@@ -1661,22 +1766,38 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     // 子弹移动，并进行攻击检测
+
+    private boat_box:egret.Shape = new egret.Shape();
+    private boat_rect:egret.Rectangle = null;
+
     private checkBullet(deltaTime): void {
         // 子弹飞，并检测是否打到boat
         let speed = GameData.main_weapon.bullet_speed;
         let dis = speed * deltaTime;
 
-        let boat_rect = new egret.Rectangle(this.boat.x - 27, this.boat.y - this.boat.height / 2, 56, 53)
+        //let boat_rect = new egret.Rectangle(this.boat.x - 5, this.boat.y - this.boat.height/2 + 27, 10, 10)
         let game_over = false;
 
 
         // 先计算star的碰撞盒子
         for (let i = 0; i < this.star_fly.length; i++) {
+            let star = this.star_fly[i]
             let model = this.star_fly[i].model;
             let rect = new egret.Rectangle(model.x - model.width / 2 * model.scaleX, model.y - model.height / 2 * model.scaleY, model.width * model.scaleX, model.height * model.scaleY);
             this.star_fly[i].my_rect = rect;
+            if(!star.my_box && GameData.showBox) {
+                star.my_box = new egret.Shape();
+            }
 
-            if (this.cantdietime <= 0 && boat_rect.intersects(rect)) {
+            if(star.my_box){
+                star.my_box.graphics.clear();
+                star.my_box.graphics.beginFill(0xFFFF00, 0.2);
+                star.my_box.graphics.drawRect(model.x - model.width / 2 * model.scaleX, model.y - model.height / 2 * model.scaleY, model.width * model.scaleX, model.height * model.scaleY);
+                star.my_box.graphics.endFill();
+                this.addChild(star.my_box);
+            }
+
+            if (this.boat_rect && this.cantdietime <= 0 && this.boat_rect.intersects(rect)) {
                 game_over = true;
             }
         }
@@ -1772,6 +1893,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         for (let i = 0; i < this.star_fly.length;) {
             let star = this.star_fly[i];
             if (star.life == 0 && star.blood <= 0) {
+                star.my_box && star.my_box.parent && star.my_box.parent.removeChild(star.my_box)
                 if (star.level > 1) {
                     // 生成2个新的star
                     let hitpos = { x: this.boat.x, y: star.model.y + star.model.height }
@@ -1803,10 +1925,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     let to = { x: Tools.GetRandomNum(0, 20), y: 10 }
                     let dir = { x: to.x - from.x, y: to.y - from.y }
 
-                    this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir, {
+                    let star_new = this.createStar(starConfig, conf['items'] || 0, conf.level, conf["blood"], { x: conf.x, y: 0 }, dir, {
                         bossblood: conf['bossblood'] || 0,
                         bosssize: conf['bosssize'] || 0
                     });
+
+                    if(conf['items'] && conf['itemscope']){
+                        star_new['itemscope'] = conf['itemscope'];
+                    }
+
 
                     this.cur_add_ons++;
                     this.create_nums++;
@@ -1836,13 +1963,18 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
                 // 全局道具产生
                 if (star.items > 0) {
-                    this.createItems(star.model.x, star.model.y, star.items);
+                    this.createItems(star.model.x, star.model.y, star.items, star.itemscope);
                 }
 
 
                 this.star_fly.splice(i, 1);
                 this.starBeKill(star);
                 this.checkGameOver();
+
+
+                let die = Tools.GetRandomNum(1,5);
+                window.platform.playMusic('sounds/sdie'+ die +'.mp3', 1);
+                window.platform.doVibrate();
 
             } else {
                 i++;
@@ -1941,7 +2073,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     // 创建一只怪
     // info{life, bossblood, bosssize}
-    private createStar(starConfig: any, items: number, level: number, blood: number, pos: any, dir: any, info?: any): void {
+    private createStar(starConfig: any, items: number, level: number, blood: number, pos: any, dir: any, info?: any): any {
 
         //console.log("createStar:", starConfig.id, blood)
         let model = this.getStarByName(starConfig.model)// new Star1(); // ResTools.createBitmapByName(starConfig.model);
@@ -2029,6 +2161,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         MonsterTools.doScale(star, 0);
+
+        return star;
     }
 
     private changeStarColor(star: any): void {
@@ -2039,12 +2173,19 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private items = [];// 全局道具
     // 创建全局道具
-    private createItems(x: number, y: number, nums: number): void {
-        for (let i = 0; i < nums; i++) {
+    private createItems(x: number, y: number, nums: number, scope:any): void {
 
+        for (let i = 0; i < nums; i++) {
             let itemConfig = MonsterTools.testRandItem();
             if (itemConfig == null) {
-                let rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
+                let rand  = 0;
+                if(scope && scope.length){
+                    rand = Tools.GetRandomNum(1, scope.length);
+                    rand = scope[rand-1]
+                }else{
+                    rand = Tools.GetRandomNum(1, ItemData.itemConfig.length);
+                }
+
                 //rand = 9;
                 itemConfig = ItemData.itemConfig[rand - 1];
             }

@@ -110,10 +110,14 @@ class ResultUI extends eui.Component implements  eui.UIComponent {
 			if(!this.win){
 				this.gp_root.addChild(this.gp_complete);
 				this.gp_root.addChild(this.gp_result);
+
+				window.platform.playMusic('sounds/Die.mp3', 1);
 			}else{
 				egret.Tween.get(GameData.start.boat).to({y:-150}, 500).call(()=>{
 
 				});
+
+				window.platform.playMusic('sounds/win.mp3', 1);
 			}
 		})
 

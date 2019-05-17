@@ -27,8 +27,15 @@ class loginUI extends eui.Component implements  eui.UIComponent {
 		const loginInfo = await platform.login();
 		console.log('loginInfo:', loginInfo);
 
-		let avatarUrl = userInfo.avatarUrl||'';
-		let nickName = userInfo.nickName ||'';
+		// let avatarUrl = userInfo.avatarUrl||'';
+		// let nickName = userInfo.nickName ||'';
+
+		let avatarUrl = '';
+		let nickName = '';
+
+		if(userInfo && userInfo.avatarUrl) avatarUrl = userInfo.avatarUrl
+		if(userInfo && userInfo.nickName) nickName = userInfo.nickName
+
 
 		if (loginInfo && loginInfo.code) {
 			// myFly flygame

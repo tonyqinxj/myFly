@@ -51,6 +51,6 @@
 	<w:Config id="16a34a95deb" ></w:Config>
 	<e:Image includeIn="guaiwu-1" anchorOffsetX="100" anchorOffsetY="100" width="200" height="200" horizontalCenter="0" verticalCenter="0" source="flydata_json.g_d_1"/>
 	<e:Image includeIn="guaiwu-1" anchorOffsetX="100" anchorOffsetY="100" width="200" height="200" horizontalCenter="0" verticalCenter="0" source="flydata_json.g_7_1"/>
-	<e:Image id="image" source="flydata_json.x-5" includeIn="guaiwu-1" anchorOffsetX="125" anchorOffsetY="125" horizontalCenter="0" verticalCenter="0" width="250" height="250"/>
-	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="150" anchorOffsetY="150" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.g_2_1"/>
+	<e:Image id="image" source="flydata_json.x-5" includeIn="guaiwu-1" anchorOffsetX="150" anchorOffsetY="150" horizontalCenter="0" verticalCenter="0" width="300" height="300"/>
+	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="160" anchorOffsetY="160" horizontalCenter="0" verticalCenter="0" width="320" height="320" source="flydata_json.g_2_1"/>
 </e:Skin>

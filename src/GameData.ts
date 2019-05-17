@@ -2,8 +2,14 @@
 
 class GameData {
 
+    public static getUserInfoOk(info):void{
+        console.log('info:', info)
+        GameData.start.onGetUserInfo(info);
+
+    }
+
     public static gameName = 'flygame';
-    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame';
+    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame16';
     public static domain = '';
     //  public static gameName = 'flygame';
     // 成长
@@ -59,6 +65,8 @@ class GameData {
     public static UserInfo = {
         sendInvite:false,
         openid: '',  // 玩家的openid
+        nick:'',
+        icon:'',
         tili: 80,    // 体力
         totalMoney: 0,  // 玩家当前拥有的金币
         totalDiamond: 10,   // 钻石
@@ -117,6 +125,7 @@ class GameData {
     }
 
 
+    public static showBox = false; // 是否显示碰撞盒子
     public static needSaveUserInfo = false; //
     public static total_blood = 0; // 关卡总血量
     public static kill_blood = 0; // 当前kill的血量

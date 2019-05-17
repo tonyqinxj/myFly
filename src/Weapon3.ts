@@ -251,7 +251,7 @@ class Weapon3 extends Weapon {
 
         egret.Tween.get(model).to({scaleX: scale, scaleY:1}, this.scaleTime);
 
-        platform.playMusic('sounds/Weapon2_Shot.mp3',1);
+        platform.playMusic('sounds/Weapon3_Shot.mp3',1);
 
     }
 }

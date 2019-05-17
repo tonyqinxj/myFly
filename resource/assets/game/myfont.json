@@ -1,15 +1,15 @@
 {"file":"flydata.png","frames":{
-  "0":{"x":1290,"y":676,"w":60,"h":71,"offX":0,"offY":0,"sourceW":60,"sourceH":71},
+  "0":{"x":761,"y":847,"w":60,"h":71,"offX":0,"offY":0,"sourceW":60,"sourceH":71},
   "1":{"x":418,"y":565,"w":46,"h":71,"offX":0,"offY":0,"sourceW":46,"sourceH":71},
-  "2":{"x":761,"y":847,"w":57,"h":71,"offX":0,"offY":0,"sourceW":57,"sourceH":71},
-  "3":{"x":1864,"y":1400,"w":55,"h":71,"offX":0,"offY":0,"sourceW":55,"sourceH":71},
-  "4":{"x":1290,"y":603,"w":60,"h":71,"offX":0,"offY":0,"sourceW":60,"sourceH":71},
-  "5":{"x":1978,"y":1400,"w":55,"h":70,"offX":0,"offY":0,"sourceW":55,"sourceH":70},
-  "6":{"x":794,"y":1400,"w":56,"h":70,"offX":0,"offY":0,"sourceW":56,"sourceH":70},
-  "7":{"x":1921,"y":1400,"w":55,"h":70,"offX":0,"offY":0,"sourceW":55,"sourceH":70},
-  "8":{"x":237,"y":1281,"w":57,"h":71,"offX":0,"offY":0,"sourceW":57,"sourceH":71},
-  "9":{"x":1476,"y":1397,"w":56,"h":71,"offX":0,"offY":0,"sourceW":56,"sourceH":71},
+  "2":{"x":996,"y":1282,"w":57,"h":71,"offX":0,"offY":0,"sourceW":57,"sourceH":71},
+  "3":{"x":1991,"y":1401,"w":55,"h":71,"offX":0,"offY":0,"sourceW":55,"sourceH":71},
+  "4":{"x":1290,"y":638,"w":60,"h":71,"offX":0,"offY":0,"sourceW":60,"sourceH":71},
+  "5":{"x":1991,"y":1474,"w":55,"h":70,"offX":0,"offY":0,"sourceW":55,"sourceH":70},
+  "6":{"x":1103,"y":1357,"w":56,"h":70,"offX":0,"offY":0,"sourceW":56,"sourceH":70},
+  "7":{"x":1014,"y":1464,"w":55,"h":70,"offX":0,"offY":0,"sourceW":55,"sourceH":70},
+  "8":{"x":229,"y":1285,"w":57,"h":71,"offX":0,"offY":0,"sourceW":57,"sourceH":71},
+  "9":{"x":1809,"y":1285,"w":56,"h":71,"offX":0,"offY":0,"sourceW":56,"sourceH":71},
   "m":{"x":1756,"y":289,"w":91,"h":75,"offX":0,"offY":0,"sourceW":91,"sourceH":75},
   "k":{"x":1927,"y":289,"w":72,"h":75,"offX":0,"offY":0,"sourceW":72,"sourceH":75},
-  ".":{"x":1481,"y":928,"w":32,"h":30,"offX":0,"offY":0,"sourceW":32,"sourceH":30}
+  ".":{"x":1329,"y":603,"w":32,"h":30,"offX":0,"offY":0,"sourceW":32,"sourceH":30}
   }}

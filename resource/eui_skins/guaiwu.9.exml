@@ -29,29 +29,39 @@
 					</tween:props>
 				</tween:To>
 			</tween:TweenItem>
-			<tween:TweenItem target="{image0}">
+			<tween:TweenItem target="{image2}">
 				<tween:Set>
 					<tween:props>
-						<e:Object scaleX="{1}" scaleY="{1}"/>
+						<e:Object rotation="{360}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="2000">
+					<tween:props>
+						<e:Object rotation="{-360}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{image1}">
+				<tween:Set>
+					<tween:props>
+						<e:Object rotation="{0}" scaleX="{1}" scaleY="{1}" alpha="{1}"/>
 					</tween:props>
 				</tween:Set>
 				<tween:To duration="1000">
 					<tween:props>
-						<e:Object rotation="{180}" scaleX="{1.2}" scaleY="{1.2}"/>
+						<e:Object scaleX="{1}" scaleY="{1}" alpha="{0.8}" rotation="{-30}"/>
 					</tween:props>
 				</tween:To>
 				<tween:To duration="1000">
 					<tween:props>
-						<e:Object rotation="{360}" scaleX="{1}" scaleY="{1}"/>
+						<e:Object rotation="{0}" scaleX="{1}" scaleY="{1}" alpha="{1}"/>
 					</tween:props>
 				</tween:To>
 			</tween:TweenItem>
 		</tween:TweenGroup>
 	</w:Declarations>
 	<w:Config id="16a34a95deb" ></w:Config>
-	<e:Group width="300" height="300" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0">
-		<e:Image id="image1" includeIn="guaiwu-1" width="200" height="200" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="0" source="flydata_json.g_d_1"/>
-		<e:Image id="image0" includeIn="guaiwu-1" width="200" height="200" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="0" source="flydata_json.g_1_1"/>
-		<e:Image id="image" source="flydata_json.x-5" includeIn="guaiwu-1" anchorOffsetX="150" anchorOffsetY="150" scaleX="1" scaleY="1" width="300" height="300" x="149" y="150"/>
-	</e:Group>
+	<e:Image id="image2" includeIn="guaiwu-1" anchorOffsetX="185" anchorOffsetY="185" horizontalCenter="0" verticalCenter="0" width="370" height="370" source="flydata_json.g_10_2"/>
+	<e:Image id="image1" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="220" height="220" source="flydata_json.g_10_1"/>
+	<e:Image id="image" includeIn="guaiwu-1" anchorOffsetX="150" anchorOffsetY="150" horizontalCenter="0" verticalCenter="0" source="flydata_json.x-5" width="300" height="300"/>
 </e:Skin>

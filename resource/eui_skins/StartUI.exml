@@ -72,7 +72,7 @@
 			<e:Label id="txt_add_tili" text="5:23+1" x="299" y="144" size="24"/>
 		</e:Group>
 		<e:Group id="gp_left" width="125.76" height="282.3" x="0" y="588" scaleX="1" scaleY="1" anchorOffsetY="0"
-		         anchorOffsetX="0" locked="true">
+		         anchorOffsetX="0">
 			<e:Image id="img_zhuanshi" x="4.7" y="2.96" source="UI_json.sq_zhuanshi" scaleX="1" scaleY="1" />
 			<e:Image id="img_paihang" x="4.7" y="142.52" source="UI_json.sq_paihang" scaleX="1" scaleY="1" />
 		</e:Group>
