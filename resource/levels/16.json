@@ -1,6 +1,6 @@
 [
   {
-    "blood": 700,
+    "blood": 4920,
     "tip": {},
 
     "init": [
@@ -18,7 +18,7 @@
    }, 
 
    {
-    "blood": 700,
+    "blood": 13530,
     "tip": {},
 
     "init": [
@@ -33,30 +33,14 @@
 	  { "time":1200, "id":105,"level":1,"x":550 ,"y":0,"items":2}
     ]
    },
-      {
-    "blood": 10,
-    "tip": {},
-
-    "init": [
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},	  
-      { "time":300, "id":101,"level":1,"x":350 ,"y":0,"items":0}
-    ],
-
-    "add_ons": [
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":2},
-	  { "time":200, "id":105,"level":1,"x":550 ,"y":0,"items":0}
-    ]
-   },
+     
    {
-    "blood": 2900,
+    "blood": 22550,
     "tip": {},
 
     "init": [
-
       { "time":100, "id":106,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":100, "id":102,"level":1,"x":150 ,"y":0,"items":0,"bossblood":2800,"bosssize":5},
+      { "time":100, "id":106,"level":1,"x":150 ,"y":0,"items":0},
       { "time":2500, "id":101,"level":3,"x":650 ,"y":0,"items":0}
 
     ],

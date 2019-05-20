@@ -202,7 +202,7 @@ class WingMan {
                 return 5000; // 武器充能时间配置，本武器充能好之后，就发射一波子弹
             },
             'bulletScale': function (strength:number) {
-                return (19+strength)*10;   // 体积成长
+                return (19+strength)*20;   // 体积成长
             },
             'bombScope': function (strength: number) {
                 return (19+strength)*25;
@@ -215,7 +215,7 @@ class WingMan {
                     'time':3300,
                 }, // 每ms飞行的距离, 一个减速的过程
                 'scale':{
-                    'start':0.2,    // 其实大小，相对于原始图
+                    'start':0.5,    // 其实大小，相对于原始图
                     'time':1000,     // 300ms之内从0.5放到到目标尺寸 （bulletScale）
                 },
                 'fx':'fuwuqi_4_2',        // 爆炸特效

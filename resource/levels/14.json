@@ -1,6 +1,6 @@
 [
   {
-    "blood": 700,
+    "blood": 10341,
     "tip": {},
 
     "init": [
@@ -18,7 +18,7 @@
    }, 
 
    {
-    "blood": 700,
+    "blood": 9958,
     "tip": {},
 
     "init": [
@@ -34,10 +34,12 @@
     ]
    },
       {
-    "blood": 10,
-    "tip": {},
+    "blood": 100,
+    "tip": {"fx":"jinggao_2","music":"WaveWarning"},
 
     "init": [
+	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
+	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
 	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},
 	  { "time":300, "id":101,"level":1,"x":150 ,"y":0,"items":0},	  
       { "time":300, "id":101,"level":1,"x":350 ,"y":0,"items":0}
@@ -50,7 +52,7 @@
     ]
    },
    {
-    "blood": 2900,
+    "blood": 18001,
     "tip": {},
 
     "init": [
