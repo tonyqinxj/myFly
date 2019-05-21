@@ -54,7 +54,7 @@
    },
    {
     "blood": 7200,
-    "tip": {"fx":"jinggao_1","music":"WaveWarning"},
+    "tip": {"fx":"jinggao_1","music":"BossWarning"},
 
     "init": [
 

@@ -186,6 +186,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.img_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGoldClick, this);
         this.img_up1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1, this);
         this.img_up2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2, this);
+        this.txt_up1_cost.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1, this);
+        this.txt_up2_cost.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2, this);
         this.img_up1_free.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1_free, this);
         this.img_up2_free.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2_free, this);
 
@@ -424,6 +426,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private resultUI: ResultUI = null;
     private showResult_real(e: egret.TimerEvent): void {
+
+        window.platform.pauseLoopMusic();
         console.log('show kills:', this.kills);
         //this.showRect();
         //this.showGameUI();
@@ -595,6 +599,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
 
+        this.txt_up1_lv.x = this.txt_up1.x+15+this.txt_up1.width
+        this.txt_up2_lv.x = this.txt_up2.x+15+this.txt_up2.width
+
         this.txt_up1.text = '射速';
         this.txt_up1_lv.text = 'Lv' + (GameData.UserInfo.MainWeapon.speed + 1);
         this.txt_up1_lv.textColor = 0xFF87CE;
@@ -666,6 +673,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.txt_up1_cost.text = "";
         }
 
+        this.txt_up1_lv.x = this.txt_up1.x+15+this.txt_up1.width
+        this.txt_up2_lv.x = this.txt_up2.x+15+this.txt_up2.width
 
 
         this.txt_up2.text = '火力'
@@ -788,12 +797,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
 
         this.txt_up1.text = '金币价值';
+        this.txt_up1_lv.x = this.txt_up1.x+15+this.txt_up1.width
         this.txt_up1_lv.text = 'Lv' + GameData.UserInfo.goldCostLevel;
         this.txt_up1_lv.textColor = 0xCC6FFD;
         this.txt_up1_value.text = myMath.getString(GameData.getGoldCost());
         this.txt_up1_cost.text = myMath.getString(GameData.getCost('gold_cost'));
 
         this.txt_up2.text = '日常收益'
+        this.txt_up2_lv.x = this.txt_up2.x+15+this.txt_up2.width
         this.txt_up2_lv.text = 'Lv' + GameData.UserInfo.goldTimeLevel;
         this.txt_up2_lv.textColor = 0xCC6FFD;
         this.txt_up2_value.text = myMath.getString(GameData.getGoldTime());
@@ -1055,6 +1066,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
 
     private init(): void {
+
+        this.gp_ui.addChild(this.boat);
+
         this.create_nums = 0;
         this.canReLife = true;
         this.cantdietime = 0;
@@ -1205,6 +1219,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 this.addChild(this.gp_game_data);
                 this.addMoveEvent();
                 GameData.UserInfo.tili -= 5;
+
+                window.platform.pauseLoopMusic();
+                window.platform.playMusic('sounds/bgm_1.mp3', 0);
             } else {
                 GameData.showTips('体力不够， 不能进行战斗')
                 this.onAddTiliClick(null);
@@ -1818,6 +1835,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         //let boat_rect = new egret.Rectangle(this.boat.x - 5, this.boat.y - this.boat.height/2 + 27, 10, 10)
         let game_over = false;
 
+        let r1 = 5;
 
         // 先计算star的碰撞盒子
         for (let i = 0; i < this.star_fly.length; i++) {
@@ -1825,6 +1843,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let model = this.star_fly[i].model;
             let rect = new egret.Rectangle(model.x - model.width / 2 * model.scaleX, model.y - model.height / 2 * model.scaleY, model.width * model.scaleX, model.height * model.scaleY);
             this.star_fly[i].my_rect = rect;
+
+            let r2 = Math.min(model.width/2*model.scaleX, model.height/2*model.scaleY);
+
+            let p:egret.Point = new egret.Point(model.x - (this.boat_rect.x+5), model.y - (this.boat_rect.y+5));
+
             if (!star.my_box && GameData.showBox) {
                 star.my_box = new egret.Shape();
             }
@@ -1837,7 +1860,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 this.addChild(star.my_box);
             }
 
-            if (this.boat_rect && this.cantdietime <= 0 && this.boat_rect.intersects(rect)) {
+            // if (this.boat_rect && this.cantdietime <= 0 && this.boat_rect.intersects(rect)) {
+            //     game_over = true;
+            // }
+
+            if (this.boat_rect && this.cantdietime <= 0 && p.length < r1+r2) {
                 game_over = true;
             }
         }

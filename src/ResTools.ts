@@ -140,19 +140,19 @@ let  share_data = [
         url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_3.png'
     }, {
         title: '如果世界末日，你最想做的一件事是什么？看完这个回答我哭了',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_4.jpg'
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_4.png'
     }, {
         title: '@我，千万不要点！不然你会停不下来...',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_5.jpg'
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_5.png'
     }, {
         title: '@我 超刺激的游戏你不玩一下？',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_6.jpg'
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_6.png'
     }, {
         title: '朋友圈都玩疯了，你敢接受挑战吗？',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_7.jpg'
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_7.png'
     }, {
         title: '太难了，谁能帮我答一下',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_8.jpg'
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_8.png'
     }
     ]
 

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,WeaponLevelUp_mp3,Die_mp3,WaveWarning_mp3,Weapon1_Boom_mp3,Weapon2_Shot_mp3,Weapon3_Shot_mp3,GetGold_result_mp3,sq_yaoqingwanjia_png,sq_paihangbang_png,xq_1_1_png,BossWarning_mp3,BottomChange_mp3,sdie5_mp3,sdie1_mp3,sdie2_mp3,sdie3_mp3,sdie4_mp3,goldtime_mp3,win_mp3,tili_mp3,button_mp3,zuanshi_png,sq_jiazai_1_png,sq_jiazaibeijing_png,sq_jindutiao_png,sq_jindutiao_2_png,sq_logo_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,description_json,WeaponLevelUp_mp3,Die_mp3,WaveWarning_mp3,Weapon1_Boom_mp3,Weapon2_Shot_mp3,Weapon3_Shot_mp3,GetGold_result_mp3,sq_yaoqingwanjia_png,sq_paihangbang_png,xq_1_1_png,BossWarning_mp3,BottomChange_mp3,sdie5_mp3,sdie1_mp3,sdie2_mp3,sdie3_mp3,sdie4_mp3,goldtime_mp3,win_mp3,tili_mp3,button_mp3,zuanshi_png,sq_jiazai_1_png,sq_jiazaibeijing_png,sq_jindutiao_png,sq_jindutiao_2_png,sq_logo_png,bgm_1_mp3,bgm_6_mp3",
 			"name": "preload"
 		},
 		{
@@ -335,6 +335,16 @@
 			"url": "assets/game/sq_logo.png",
 			"type": "image",
 			"name": "sq_logo_png"
+		},
+		{
+			"name": "bgm_1_mp3",
+			"type": "sound",
+			"url": "sounds/bgm_1.mp3"
+		},
+		{
+			"name": "bgm_6_mp3",
+			"type": "sound",
+			"url": "sounds/bgm_6.mp3"
 		}
 	]
 }

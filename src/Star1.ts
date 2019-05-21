@@ -12,20 +12,20 @@ class Star1 extends eui.Component implements  eui.UIComponent {
 		Star1.myid++;
 		this.curid = Star1.myid;
 		if(name == 'star1') this.skinName = "resource/eui_skins/guaiwu.1.exml";
-		else if(name == 'star2') this.skinName = "resource/eui_skins/guaiwu.2.exml";
-		else if(name == 'star3') this.skinName = "resource/eui_skins/guaiwu.exml";
+		else if(name == 'star2') this.skinName = "resource/eui_skins/guaiwu.exml";
+		else if(name == 'star3') this.skinName = "resource/eui_skins/guaiwu.2.exml";
 		else if(name == 'star4') this.skinName = "resource/eui_skins/guaiwu.1.exml";
 		else if(name == 'star5') this.skinName = "resource/eui_skins/guaiwu.5.exml";
-		else if(name == 'star6') this.skinName = "resource/eui_skins/guaiwu.1.exml";
+		else if(name == 'star6') this.skinName = "resource/eui_skins/guaiwu.10.exml";
 		else if(name == 'star7') this.skinName = "resource/eui_skins/guaiwu.1.exml";
-		else if(name == 'star8') this.skinName = "resource/eui_skins/guaiwu.1.exml";
+		else if(name == 'star8') this.skinName = "resource/eui_skins/guaiwu.3.exml";
 		else if(name == 'star9') this.skinName = "resource/eui_skins/guaiwu.1.exml";
-		else if(name == 'star10') this.skinName = "resource/eui_skins/guaiwu.4.exml";
+		else if(name == 'star10') this.skinName = "resource/eui_skins/guaiwu.9.exml";
 		else if(name == 'star11') this.skinName = "resource/eui_skins/guaiwu.8.exml";
 		else if(name == 'star12') this.skinName = "resource/eui_skins/guaiwu.7.exml";
-		else if(name == 'star13') this.skinName = "resource/eui_skins/guaiwu.3.exml";
+		else if(name == 'star13') this.skinName = "resource/eui_skins/guaiwu.4.exml";
 		else if(name == 'star14') this.skinName = "resource/eui_skins/guaiwu.6.exml";
-		else if(name == 'star15') this.skinName = "resource/eui_skins/guaiwu.1.exml";
+		else if(name == 'star15') this.skinName = "resource/eui_skins/guaiwu.11.exml";
 		else this.skinName = "resource/eui_skins/guaiwu.1.exml";
 
 	}
