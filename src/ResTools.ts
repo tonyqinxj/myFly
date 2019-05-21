@@ -130,16 +130,16 @@ class ResTools {
 
 let  share_data = [
     {
-        title: '一客机失踪35年后重现，机上人员安全无恙，至今无法解释...',
+        title: '客机失踪35年后返航，机上人员却安全无恙...',
         url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_1.png'
     }, {
-        title: '火星上到底能不能让人类生存，美国科学家有答案了，结果是...',
+        title: '火星上到底能不能生存，终于有答案了...',
         url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_2.png'
     }, {
         title: '流浪地球未删减版，看完令人震惊！',
         url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_3.png'
     }, {
-        title: '如果世界末日，你最想做的一件事是什么？看完这个回答我哭了',
+        title: '如果世界末日，你想做什么？网友回答亮了！',
         url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_4.png'
     }, {
         title: '@我，千万不要点！不然你会停不下来...',
@@ -151,7 +151,7 @@ let  share_data = [
         title: '朋友圈都玩疯了，你敢接受挑战吗？',
         url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_7.png'
     }, {
-        title: '太难了，谁能帮我答一下',
+        title: '太难了，谁能帮我回答一下？',
         url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_8.png'
     }
     ]

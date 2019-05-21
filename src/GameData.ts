@@ -9,8 +9,8 @@ class GameData {
     }
 
     public static gameName = 'flygame';
-    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame20';
-    public static domain = '';
+    public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame20';
+    //public static domain = '';
     //  public static gameName = 'flygame';
     // 成长
     /**
@@ -70,8 +70,8 @@ class GameData {
         tili: 80,    // 体力
         totalMoney: 0,  // 玩家当前拥有的金币
         totalDiamond: 10,   // 钻石
-        curLevel: 10, // 当前处于关卡
-        nextLevel: 10, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        curLevel: 1, // 当前处于关卡
+        nextLevel: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
@@ -84,28 +84,28 @@ class GameData {
                 strength: 1,
                 attack: 1,
                 open: 0,
-                openlevel: 1,
+                openlevel: 5,
             },
             {
                 id: 2,
                 strength: 1,
                 attack: 1,
                 open: 0,
-                openlevel: 2,
+                openlevel: 20,
             },
             {
                 id: 3,
                 strength: 1,
                 attack: 1,
                 open: 0,
-                openlevel: 3,
+                openlevel: 80,
             },
             {
                 id: 4,
                 strength: 1,
                 attack: 1,
                 open: 0,
-                openlevel: 4,
+                openlevel: 120,
             }
         ],
         curSubWeaponId: 0,
