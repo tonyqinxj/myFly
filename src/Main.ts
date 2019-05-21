@@ -48,6 +48,11 @@ class Main extends eui.UILayer {
         egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
         egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
 
+        if (window["canvas"]) {
+            let w = window["canvas"].width;
+            let h = window["canvas"].height;
+            GameData.real_height = h / w * 750;
+        }
 
         this.goStart().catch(e => {
             console.log(e);

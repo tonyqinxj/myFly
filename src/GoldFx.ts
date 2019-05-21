@@ -52,9 +52,9 @@ class GoldFx{
 
         egret.Tween.get(fx).to({x:dest.x, y:dest.y}, this.fxtime).call(()=>{
             GameData.score += GameData.getGoldCost();
-            if(this.lastplaymusictime == 0 || egret.getTimer() - this.lastplaymusictime >= 200){
+            if(this.lastplaymusictime == 0 || new Date().getTime() - this.lastplaymusictime >= 200){
                 platform.playMusic('sounds/GetGold.mp3',1)
-                this.lastplaymusictime = egret.getTimer();
+                this.lastplaymusictime = new Date().getTime();
             }
 
             GameData.start.onGoldOver();
@@ -74,6 +74,11 @@ class GoldFx{
             let point:egret.Point = new egret.Point(dest2.x-dest1.x, dest2.y-dest1.y);
             egret.Tween.get(fx).to(dest1, 300).to(dest2, point.length).call(()=>{
 
+                if(this.lastplaymusictime == 0 || new Date().getTime() - this.lastplaymusictime >= 100){
+                    platform.playMusic('sounds/GetGold.mp3',1)
+                    this.lastplaymusictime = new Date().getTime();
+                }
+
                 p.removeChild(fx);
                 this.retOne(fx);
 
@@ -83,12 +88,12 @@ class GoldFx{
 
     }
     public static playResult(src:any, dest:any, p:eui.Component):Promise<any>{
-        console.log('playResult.................')
+        console.log('playResult.................', src, dest)
         return new Promise((resolve, reject)=>{
-            let r = 150;
+            let r = 250;
             let overcount = 0;
             let count = 24;
-
+            this.lastplaymusictime == 0
             for(let i=0;i<count;i++){
                 let fx = this.getOne();
                 fx.x = src.x ;

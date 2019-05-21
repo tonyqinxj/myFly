@@ -1,6 +1,6 @@
 [
   {
-    "blood": 30,
+    "blood": 300,
     "tip": {},
     "init": [
       { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},

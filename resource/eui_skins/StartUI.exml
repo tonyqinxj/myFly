@@ -28,25 +28,23 @@
 				</e:viewport>
 			</e:Scroller>
 		</e:Group>
-		<e:Group id="gp_b2" width="750" x="0" y="1281.93" height="230" locked="true">
+		<e:Group id="gp_b2" width="750" x="0" y="1281.93" height="230">
 			<e:Image id="img_up_bg" y="0" horizontalCenter="0" source="UI_json.sq_jin" />
 			<e:Label id="txt_up1" text="射速" x="51" bold="true" textAlign="left" top="42" />
 			<e:Label id="txt_up1_lv" text="Lv2001" bold="true" textAlign="right" top="30" left="427" textColor="0x810048"
 			         width="120" size="24" />
 			<e:Label id="txt_up1_value" text="284" bold="true" textAlign="right" top="61" left="427" textColor="0xffffff"
 			         width="120" />
-			<e:Label id="txt_up1_cost" text="28.4k" bold="true" textAlign="left" top="41" left="615" textColor="0xFFFFFF"
-			         width="100" />
-			<e:Label id="txt_up2_cost" text="28.4k" bold="true" textAlign="left" top="155" left="615" textColor="0xFFFFFF"
-			         width="100" />
 			<e:Label id="txt_up2" text="火力" x="51" bold="true" textAlign="left" bottom="42" />
 			<e:Image id="img_up1" x="552.5" y="20" source="UI_json.sq_shengji_1" />
-			<e:Image id="img_up1_free" x="552.5" y="20" source="UI_json.sq_shengji_3"/>
 			<e:Label id="txt_up2_lv" text="Lv2001" bold="true" textAlign="right" top="144" left="425" textColor="0x810048"
 			         width="120" size="24" />
 			<e:Label id="txt_up2_value" text="284" bold="true" textAlign="right" top="175" left="425" textColor="0xFFFFFF"
 			         width="120" />
 			<e:Image id="img_up2" x="550.5" y="134" source="UI_json.sq_shengji_1" />
+			<e:Label id="txt_up1_cost" text="28.4k" bold="true" textAlign="left" top="41" left="615" textColor="0xFFFFFF" width="100"/>
+			<e:Label id="txt_up2_cost" text="28.4k" bold="true" textAlign="left" top="155" left="615" textColor="0xFFFFFF" width="100"/>
+			<e:Image id="img_up1_free" x="552.5" y="20" source="UI_json.sq_shengji_3"/>
 			<e:Image id="img_up2_free" x="550.5" y="134" source="UI_json.sq_shengji_2"/>
 		</e:Group>
 		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93">
@@ -59,20 +57,20 @@
 			<e:Image id="img_gold0" source="UI_json.sq_tishi" x="706" y="-11"/>
 		</e:Group>
 		<e:Group id="gp_top" width="750" height="200" x="0" y="0" scaleX="1" scaleY="1">
-			<e:Image id="img_gold_dest" x="49" y="113" source="UI_json.sq_jinbi_2" width="48" height="48" scaleX="1" scaleY="1"
-			         anchorOffsetX="24" anchorOffsetY="24" />
-			<e:Image id="img_add_gold" x="176" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
-			<e:Image id="img_add_tili" x="353.72" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
-			<e:Image x="264" y="88" source="UI_json.sq_shandian" scaleX="1" scaleY="1" />
-			<e:Image x="407" y="97" source="UI_json.sq_zuanshi_1" scaleX="1" scaleY="1" />
-			<e:Image id="img_add_diamond" x="540" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
-			<e:Label id="txt_gold" text="650K" x="92" y="104" bold="true" scaleX="1" scaleY="1" />
-			<e:Label id="txt_tili" text="80" x="304" y="104" bold="true" scaleX="1" scaleY="1" />
-			<e:Label id="txt_diamond" text="100" x="476" y="104" bold="true" scaleX="1" scaleY="1" />
-			<e:Label id="txt_add_tili" text="5:23+1" x="299" y="144" size="24"/>
+			<e:Image id="img_gold_dest" x="41" y="118" source="UI_json.sq_jinbi_2" width="42" height="42" scaleX="1" scaleY="1"
+			         anchorOffsetX="21" anchorOffsetY="21" />
+			<e:Image id="img_add_gold" x="168" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
+			<e:Image id="img_add_tili" x="309.72" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
+			<e:Image x="211" y="88" source="UI_json.sq_shandian" scaleX="1" scaleY="1" />
+			<e:Image x="358" y="97" source="UI_json.sq_zuanshi_1" scaleX="1" scaleY="1" />
+			<e:Image id="img_add_diamond" x="470" y="102" source="UI_json.sq_jia" scaleX="1" scaleY="1" />
+			<e:Label id="txt_gold" text="650K" x="79" y="104" bold="true" scaleX="1" scaleY="1" />
+			<e:Label id="txt_tili" text="80" x="265" y="104" bold="true" scaleX="1" scaleY="1" />
+			<e:Label id="txt_diamond" text="100" x="416" y="104" bold="true" scaleX="1" scaleY="1" />
+			<e:Label id="txt_add_tili" text="5:23+1" x="244" y="144" size="24"/>
 		</e:Group>
 		<e:Group id="gp_left" width="125.76" height="282.3" x="0" y="588" scaleX="1" scaleY="1" anchorOffsetY="0"
-		         anchorOffsetX="0">
+		         anchorOffsetX="0" locked="true">
 			<e:Image id="img_zhuanshi" x="4.7" y="2.96" source="UI_json.sq_zhuanshi" scaleX="1" scaleY="1" />
 			<e:Image id="img_paihang" x="4.7" y="142.52" source="UI_json.sq_paihang" scaleX="1" scaleY="1" />
 		</e:Group>
@@ -129,13 +127,13 @@
 			<e:Label id="txt_relife_time" text="3" x="180" y="258" size="36" bold="true" />
 		</e:Group>
 		<e:Group id="gp_result" width="510" height="268" y="578" scaleX="1" scaleY="1" anchorOffsetX="10.2"
-		         anchorOffsetY="0" horizontalCenter="0" visible="false">
+		         anchorOffsetY="0" horizontalCenter="0" visible="false" locked="true">
 			<e:Image id="img_re_gold" y="-2" source="UI_json.sq_lingqu" left="0" />
 			<e:Image id="img_re_gold3" y="134" left="0"  source="UI_json.sq_sanbei_2"/>
 			<e:Label id="txt_re_gold" text="258K" x="104" y="48" bold="true" size="36" />
 			<e:Label id="txt_re_gold3" text="258K" x="104" y="184" bold="true" size="36" />
 		</e:Group>
-		<e:Group id="gp_game_data" width="524" height="144" x="40" y="78" anchorOffsetX="0" anchorOffsetY="0">
+		<e:Group id="gp_game_data" width="524" height="144" x="40" y="78" anchorOffsetX="0" anchorOffsetY="0" locked="true">
 			<e:Image id="img_game_gold_dest" x="27" y="35" source="UI_json.sq_jinbi_1" anchorOffsetX="24" anchorOffsetY="24" />
 			<e:Image x="183" y="7" width="90" height="55" source="UI_json.sy_guanka_1" />
 			<e:Image id="img_game_lv_cur" x="295" y="5" width="100" height="60" source="UI_json.sy_guanka_2" />

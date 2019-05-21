@@ -9,7 +9,7 @@ class GameData {
     }
 
     public static gameName = 'flygame';
-    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame16';
+    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame20';
     public static domain = '';
     //  public static gameName = 'flygame';
     // 成长
@@ -70,8 +70,8 @@ class GameData {
         tili: 80,    // 体力
         totalMoney: 0,  // 玩家当前拥有的金币
         totalDiamond: 10,   // 钻石
-        curLevel: 1, // 当前处于关卡
-        nextLevel: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        curLevel: 10, // 当前处于关卡
+        nextLevel: 10, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
@@ -296,7 +296,16 @@ class GameData {
 
         this.addGold(this.getGoldCost() * 500*diamond);
 
-        this.UserInfo.lastGetTiliTime = new Date().getTime();
+        this.needSaveUserInfo = true;
+    }
+
+    public static onBuyTiliByDiamond(diamond:number):void{
+        if(diamond > this.UserInfo.totalDiamond) return;
+
+        this.UserInfo.totalDiamond -= diamond;
+
+        this.addDiamond(5*diamond);
+
         this.needSaveUserInfo = true;
     }
 
@@ -761,6 +770,10 @@ class GameData {
 
         if(this.needSaveUserInfo){
             platform.playMusic('sounds/WeaponLevelUp.mp3',1);
+            return true;
+        }else{
+            // gold 不够
+
         }
 
 

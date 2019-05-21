@@ -5,6 +5,7 @@ class BuyGold extends eui.Component implements  eui.UIComponent {
 	private img_buy:eui.Image;
 	private img_jian:eui.Image;
 	private img_jia:eui.Image;
+	private img_dest:eui.Image;
 
 	private txt_zs:eui.Label;
 	private txt_jinbi:eui.Label;
@@ -16,11 +17,14 @@ class BuyGold extends eui.Component implements  eui.UIComponent {
 
 	private p:eui.Component;
 
-	public constructor(pos:any, p:eui.Component) {
+	private type:string;
+
+	public constructor(pos:any, p:eui.Component, type:string) {
 		super();
 		this.destPos.x = pos.x;
 		this.destPos.y = pos.y;
 		this.p = p;
+		this.type = type;
 	}
 
 	protected partAdded(partName:string,instance:any):void
@@ -37,10 +41,17 @@ class BuyGold extends eui.Component implements  eui.UIComponent {
 		this.img_buy.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
 			console.log('buy click')
 			if( this.diamond <=0 ) return;
-			GameData.onBuyGoldByDiamond(this.diamond);
 
-			GoldFx.playResult({x: this.img_buy.x+this.gp_buy.x, y: this.img_buy.y+this.gp_buy.y}, {x: this.destPos.x, y: this.destPos.y}, this.p);
-			platform.playMusic('sounds/GetGold_result.mp3', 1);
+			if(this.type == 'gold'){
+				GameData.onBuyGoldByDiamond(this.diamond);
+
+				GoldFx.playResult({x: this.img_buy.x+this.gp_buy.x, y: this.img_buy.y+this.gp_buy.y}, {x: this.destPos.x, y: this.destPos.y}, this.p);
+				platform.playMusic('sounds/GetGold_result.mp3', 1);
+			}else{
+				GameData.onBuyTiliByDiamond(this.diamond);
+				platform.playMusic('sounds/button.mp3', 1);
+			}
+
 			this.parent && this.parent.removeChild(this);
 
 		}, this)
@@ -68,7 +79,15 @@ class BuyGold extends eui.Component implements  eui.UIComponent {
 
 	private updateTxt():void{
 		this.txt_zs.text = ''+this.diamond;
-		this.txt_jinbi.text = myMath.getString(this.diamond*GameData.getGoldCost()* 500)
+
+		if(this.type == "gold"){
+			this.img_dest.texture = ResTools.createUITexture("sq_jinbi_2")
+			this.txt_jinbi.text = myMath.getString(this.diamond*GameData.getGoldCost()* 500)
+		}else{
+			this.img_dest.texture = ResTools.createUITexture("sq_shandian")
+			this.txt_jinbi.text = myMath.getString(this.diamond*5)
+		}
+
 	}
 	
 }

@@ -1,8 +1,13 @@
 // TypeScript file
 class ResTools {
-    /**
-     * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-     */
+
+    public static createBitmap(name: string): egret.Bitmap {
+        var result: egret.Bitmap = new egret.Bitmap();
+        var texture: egret.Texture = RES.getRes(name);
+        result.texture = texture;
+        return result;
+    }
+
     public static createBitmapByName(name: string): egret.Bitmap {
         var result: egret.Bitmap = new egret.Bitmap();
         var texture: egret.Texture = RES.getRes('flydata_json.' + name);
@@ -123,18 +128,31 @@ class ResTools {
 
 }
 
-let
-    share_data = [{
-        title: '俄罗斯方块还能这样玩？99%的人都不知道',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/share_1.png'
+let  share_data = [
+    {
+        title: '一客机失踪35年后重现，机上人员安全无恙，至今无法解释...',
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_1.png'
     }, {
-        title: '@我，来跟我挑战一下，我不信你能赢！',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/share_2.png'
+        title: '火星上到底能不能让人类生存，美国科学家有答案了，结果是...',
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_2.png'
     }, {
-        title: '据说玩这个游戏的人性格都会...',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/share_3.png'
+        title: '流浪地球未删减版，看完令人震惊！',
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_3.png'
     }, {
-        title: '智商160的人才能看懂这张图！',
-        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/share_4.jpg'
-    }]
+        title: '如果世界末日，你最想做的一件事是什么？看完这个回答我哭了',
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_4.jpg'
+    }, {
+        title: '@我，千万不要点！不然你会停不下来...',
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_5.jpg'
+    }, {
+        title: '@我 超刺激的游戏你不玩一下？',
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_6.jpg'
+    }, {
+        title: '朋友圈都玩疯了，你敢接受挑战吗？',
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_7.jpg'
+    }, {
+        title: '太难了，谁能帮我答一下',
+        url: 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/share/fly_8.jpg'
+    }
+    ]
 

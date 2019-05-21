@@ -1,4 +1,6 @@
 class loginUI extends eui.Component implements  eui.UIComponent {
+
+	private  img_bottom:eui.Image;
 	public constructor() {
 		super();
 	}
@@ -12,6 +14,10 @@ class loginUI extends eui.Component implements  eui.UIComponent {
 	protected childrenCreated():void
 	{
 		super.childrenCreated();
+
+		this.img_bottom.y = GameData.real_height - 333;
+
+		console.log('GameData.real_height:', GameData.real_height)
 
 		this.goStart().catch(e => {
 			console.log(e);
@@ -50,7 +56,27 @@ class loginUI extends eui.Component implements  eui.UIComponent {
 			}
 		}
 
-		GameData.main.setPage("start");
+
+
+		//GameData.main.setPage("start");
+
+		this.loadResource().catch(e => {
+			console.log(e);
+		})
+	}
+
+	private async loadResource() {
+		try {
+			const loadingView = new LoadingUI();
+			this.addChild(loadingView);
+			await RES.loadGroup("game", 0, loadingView);
+			this.removeChild(loadingView);
+
+			GameData.main.setPage("start");
+		}
+		catch (e) {
+			console.error(e);
+		}
 	}
 	
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="loginUISkin" width="750" height="1624" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<w:Config id="16a96d007f7" ></w:Config>
-	<e:Image width="750" height="1624" x="0" y="0" source="sq_beijing_png" locked="true"/>
-	<e:Image x="96.98" y="360" source="UI_json.sq_logo" locked="true"/>
+	<e:Image width="750" height="1624" x="0" y="0" source="sq_jiazaibeijing_png"/>
+	<e:Image y="250" source="sq_logo_png" horizontalCenter="0"/>
+	<e:Image id="img_bottom" x="0.5" source="sq_jiazai_1_png" y="1291"/>
 </e:Skin>

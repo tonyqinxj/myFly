@@ -201,7 +201,7 @@ class MonsterTools {
     }
 
     public static itemPanel: eui.Component = null;
-    public static itemYs = [50, 200, 350, 500, 650]; // 位置, 5个, 关于道具随机，一旦同时爆出了5个不同类型的道具，以后都在这个范围内爆
+    public static itemYs = [150, 300, 450, 600, 750]; // 位置, 5个, 关于道具随机，一旦同时爆出了5个不同类型的道具，以后都在这个范围内爆
     public static items = []; // 全局道具icon
     public static itemMap = {}; // key :y, value:item
 

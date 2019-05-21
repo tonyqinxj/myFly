@@ -6,14 +6,15 @@
  */
 declare interface Platform {
     createAuthButton(x:number, y:number, w:number, h:number, fun:any):boolean;
+
     getUserInfo(): Promise<any>;
 
     login(): Promise<any>;
 
-    setDefaultShare():Promise<any>; 
+    setDefaultShare():Promise<any>;
 
-    
 
+    removeAuthButton():void;
     pauseLoopMusic():void;
     resumeLoopMusic():void;
     playHit():void;
@@ -47,6 +48,10 @@ class DebugPlatform implements Platform {
     }
 
     async setDefaultShare() {
+
+    }
+
+    removeAuthButton(){
 
     }
 
