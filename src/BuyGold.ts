@@ -37,10 +37,18 @@ class BuyGold extends eui.Component implements  eui.UIComponent {
 	{
 		super.childrenCreated();
 
+		if(GameData.UserInfo.totalDiamond == 0){
+			this.diamond = 0;
+		}
+
 		this.updateTxt();
 		this.img_buy.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{
 			console.log('buy click')
-			if( this.diamond <=0 ) return;
+			if( this.diamond <=0 ) {
+				GameData.showTips('钻石不足，邀请朋友可以获得钻石')
+				GameData.start.openInvite(null);
+				return;
+			}
 
 			if(this.type == 'gold'){
 				GameData.onBuyGoldByDiamond(this.diamond);

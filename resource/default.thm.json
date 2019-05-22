@@ -67,6 +67,7 @@
 		"resource/eui_skins/InvitUI.exml",
 		"resource/eui_skins/ItemIcon.exml",
 		"resource/eui_skins/ItemRendererSkin.exml",
+		"resource/eui_skins/jiaxue.exml",
 		"resource/eui_skins/jinggao_1.exml",
 		"resource/eui_skins/jinggao_2.exml",
 		"resource/eui_skins/LevelItem.exml",
@@ -99,6 +100,9 @@
 		"resource/eui_skins/wuqi_4.exml",
 		"resource/eui_skins/wuqi_5.exml",
 		"resource/eui_skins/wuqi_6.exml",
+		"resource/eui_skins/wuqi_7.exml",
+		"resource/eui_skins/wuqi_8.exml",
+		"resource/eui_skins/wuqi_9.exml",
 		"resource/eui_skins/xingqiu_ui.exml"
 	],
 	"path": "resource/default.thm.json"

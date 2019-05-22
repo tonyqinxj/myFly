@@ -121,7 +121,9 @@ class GameData {
         d_kan:{ // 看视频的钻石
             times:0,
             lastTime:0,
-        }
+        },
+        guide:0, // 当前新手引导种类, 0: none, 1：主武器升级射速, 2：金币价值升级, 3：副武器安装和副武器升级火力
+
     }
 
 
@@ -304,7 +306,7 @@ class GameData {
 
         this.UserInfo.totalDiamond -= diamond;
 
-        this.addDiamond(5*diamond);
+        this.addTili(5*diamond);
 
         this.needSaveUserInfo = true;
     }
@@ -321,27 +323,58 @@ class GameData {
     public static bloodGen(batchInfo: any): void {
 
 
-        let starCount = batchInfo.init.length + batchInfo.add_ons.length;
+        let starCount = 0; //batchInfo.init.length + batchInfo.add_ons.length;
+
+        batchInfo.init.forEach(star=>{
+            if(star['bossblood']){
+
+            }else{
+                starCount++;
+            }
+
+        });
+
+        batchInfo.add_ons.forEach(star=>{
+            if(star['bossblood']){
+
+            }else{
+                starCount++;
+            }
+
+        });
+
         let rands = [];
+        let rand_sums = 0;
         for (let i = 0; i < starCount; i++) {
-            rands.push(Tools.GetRandomNum(1, 100));
+            let r = Tools.GetRandomNum(40, 100);
+            rands.push(r);
+            rand_sums += r;
         }
 
-        let rand_sums = 0;
-        rands.forEach(r => {
-            rand_sums += r;
-        })
+        // let rand_sums = 0;
+        // rands.forEach(r => {
+        //     rand_sums += r;
+        // })
 
         console.log('blood gen:', batchInfo.blood, starCount);
         let index = 0;
         batchInfo.init.forEach(star => {
-            star["blood"] = Math.ceil(rands[index] / rand_sums * batchInfo.blood);
-            index++;
+            if(star['bossblood']){
+                star["blood"] = 0;
+            }else{
+                star["blood"] = Math.ceil(rands[index] / rand_sums * batchInfo.blood);
+                index++;
+            }
+
         })
 
         batchInfo.add_ons.forEach(star => {
-            star["blood"] = Math.ceil(rands[index] / rand_sums * batchInfo.blood);
-            index++;
+            if(star['bossblood']){
+                star["blood"] = 0;
+            }else{
+                star["blood"] = Math.ceil(rands[index] / rand_sums * batchInfo.blood);
+                index++;
+            }
         })
     }
 
@@ -480,6 +513,11 @@ class GameData {
         return true;
     }
 
+    public static addTili(tili:number):boolean{
+        this.UserInfo.tili += tili;
+        this.needSaveUserInfo = true;
+        return true;
+    }
 
 
     public static delGold(gold: number): boolean {
@@ -504,6 +542,11 @@ class GameData {
         this.UserInfo.curLevel++;
         if (this.UserInfo.nextLevel <= this.UserInfo.curLevel) {
             this.UserInfo.nextLevel++;
+
+            if(this.UserInfo.nextLevel == 2) this.UserInfo.guide = 1; // 引导主武器升级
+            if(this.UserInfo.nextLevel == 3) this.UserInfo.guide = 2; // 引导金币升级
+            if(this.UserInfo.nextLevel == 6) this.UserInfo.guide = 3; // 引导副武器
+
             // this.UserInfo.tili+=6;
             // if(this.UserInfo.tili>80) this.UserInfo.tili = 80;
             //this.showTips('通关新关卡+6体力')

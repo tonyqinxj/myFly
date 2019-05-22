@@ -75,10 +75,8 @@
 		</tween:TweenGroup>
 	</w:Declarations>
 	<w:Config id="16a34a95deb" ></w:Config>
-	<e:Image id="sw1_1" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_3_1"/>
+	<e:Image id="sw1_1" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="-10" verticalCenter="-5" width="300" height="300" source="flydata_json.sw_3_1"/>
 	<e:Image id="sw1_2" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_3_2"/>
 	<e:Image id="sw1_3" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_3_3"/>
-	<e:Image id="sw1_4" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_3_4" visible="false"/>
 	<e:Image id="sw1_5" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_3_5"/>
-	<e:Image id="sw1_6" includeIn="guaiwu-1" anchorOffsetX="110" anchorOffsetY="110" horizontalCenter="0" verticalCenter="0" width="300" height="300" source="flydata_json.sw_3_6" visible="false"/>
 </e:Skin>

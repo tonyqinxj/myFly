@@ -216,6 +216,8 @@ class StarData {
             group: StarData.CAN_ATTACK,
             layer: 0,
             eat: {
+                scale_init:0.3, // 初始状态多大，针对原始尺寸
+                maxEat:10, // 最多吞噬个数
                 blood: 1,	// 增加当前血量的比例
                 scale: 0.15, // 增加体型的比例, 针对原始尺寸
             }, 	// 是否具有吞噬属性

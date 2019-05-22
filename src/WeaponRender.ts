@@ -70,6 +70,11 @@ class WeaponRender extends eui.ItemRenderer {
         console.log('选中了：', this.id.text);
         WeaponRender.cur_sel = this;
         EventManager.dispatchEvent('selectWeapon', { id: this.id.text })
+
+        if(GameData.UserInfo.guide == 3 && GameData.start.guide_index == 1){
+            GameData.start.guide_index = 2;
+            GameData.start.updateGuide();
+        }
     }
 
     protected dataChanged(): void {

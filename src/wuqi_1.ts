@@ -8,14 +8,13 @@ class wuqi_1 extends eui.Component implements eui.UIComponent {
 		super();
 
 		this.type = type;
-
-		if(type == "friend"){
-			this.skinName = "resource/eui_skins/wuqi_6.exml";
-			return;
-		}
-
 		let sub_weapon = GameData.getSubWeapon();
 		if(sub_weapon){
+			if(type == "friend"){
+				this.skinName = "resource/eui_skins/wuqi_"+(sub_weapon.id+5)+".exml";
+				return;
+			}
+
 			this.skinName = "resource/eui_skins/wuqi_"+sub_weapon.id+".exml";
 		}else{
 			this.skinName = "resource/eui_skins/wuqi_6.exml";

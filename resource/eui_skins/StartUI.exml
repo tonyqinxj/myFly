@@ -2,7 +2,7 @@
 <e:Skin class="StartUISkin" width="750" height="1624" xmlns:e="http://ns.egret.com/eui"
         xmlns:w="http://ns.egret.com/wing">
 	<w:Config id="169b91ebd03"></w:Config>
-	<e:Group id="gp_root" width="750" height="1624" x="0" y="0" locked="true">
+	<e:Group id="gp_root" width="750" height="1624" x="0" y="0">
 		<e:Image id="img_bg" width="750" height="1624" x="0" y="0" source="sq_beijing_png"  locked="true"/>
 		<e:Group id="gp_xingqiu" width="200" height="200" x="0" y="0" locked="true"/>
 		<e:Group id="gp_layer_1" width="750" height="1624" x="0" y="0"  locked="true"/>
@@ -12,7 +12,7 @@
 		<e:Group id="gp_ui" width="750" height="1624" x="0" y="0" scaleX="1" scaleY="1" locked="true">
 			<e:Image x="89" y="242" source="UI_json.sq_logo" />
 		</e:Group>
-		<e:Group id="gp_b3" width="750" height="122" x="0" y="1158" anchorOffsetY="0" locked="true">
+		<e:Group id="gp_b3" width="750" height="122" x="0" y="1158" anchorOffsetY="0">
 			<e:Scroller width="750" height="120" x="0" y="0">
 				<e:viewport>
 					<e:List id="listWeaponUI" itemRendererSkinName="weaponSkin">
@@ -28,7 +28,7 @@
 				</e:viewport>
 			</e:Scroller>
 		</e:Group>
-		<e:Group id="gp_b2" width="750" x="0" y="1281.93" height="230" locked="true">
+		<e:Group id="gp_b2" width="750" x="0" y="1281.93" height="230">
 			<e:Image id="img_up_bg" y="0" horizontalCenter="0" source="UI_json.sq_jin" />
 			<e:Label id="txt_up1" text="射速" x="51" bold="true" textAlign="left"  size="36" y="41"/>
 			<e:Label id="txt_up1_lv" text="Lv2001" bold="true" textAlign="left"
@@ -47,7 +47,7 @@
 			<e:Image id="img_up1_free" x="552.5" y="20" source="UI_json.sq_shengji_3"/>
 			<e:Image id="img_up2_free" x="550.5" y="126" source="UI_json.sq_shengji_2"/>
 		</e:Group>
-		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93" locked="true">
+		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93">
 			<e:Image id="img_failtry" x="262.5" y="-70" source="UI_json.sq_manji"/>
 			<e:Image id="img_main" source="UI_json.sq_zhuwuqi" left="14" bottom="3" />
 			<e:Image id="img_main0" source="UI_json.sq_tishi" x="206" y="-11"/>
