@@ -52,6 +52,7 @@ class loginUI extends eui.Component implements  eui.UIComponent {
 			console.log('res:', res);
 			if (res.errcode == 0 && res.data && res.data.errcode == 0 ) {
 				GameData.setOpenid(res.data.openid);
+				if( res.data &&  res.data.canShare) GameData.canShare = true;
 				//GameData.UserInfo.openid = data.openid;
 			}
 		}

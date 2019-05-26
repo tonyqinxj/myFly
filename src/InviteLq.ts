@@ -35,13 +35,16 @@ class InviteLq extends eui.Component implements  eui.UIComponent {
 				this.img_head.texture = texture;
 			}, this);
 			imageLoader.load(this.data.icon);
+		}else{
+			this.img_head.texture = ResTools.createUITexture('sq_yonghu')
 		}
 
 		// lq状态
 		if(this.data.up_get == 1){
 			this.txt_lq.visible = true;
 			this.img_lq.visible = false;
-		}else{
+			this.txt_lq.text = '已领取'
+		}else if(this.data.up_get == 0){
 			this.txt_lq.visible = false;
 			this.img_lq.visible = true;
 
@@ -56,6 +59,10 @@ class InviteLq extends eui.Component implements  eui.UIComponent {
 					}
 				})
 			},this);
+		}else if(this.data.up_get == 2){
+			this.txt_lq.visible = true;
+			this.img_lq.visible = false;
+			this.txt_lq.text = '未邀请'
 		}
 
 

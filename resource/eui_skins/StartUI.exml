@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="StartUISkin" width="750" height="1624" xmlns:e="http://ns.egret.com/eui"
-        xmlns:w="http://ns.egret.com/wing">
+        xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
 	<w:Config id="169b91ebd03"></w:Config>
 	<e:Group id="gp_root" width="750" height="1624" x="0" y="0">
 		<e:Image id="img_bg" width="750" height="1624" x="0" y="0" source="sq_beijing_png"  locked="true"/>
@@ -11,8 +11,9 @@
 		<e:Group id="gp_layer_4" width="750" height="1624" x="0" y="0" locked="true"></e:Group>
 		<e:Group id="gp_ui" width="750" height="1624" x="0" y="0" scaleX="1" scaleY="1" locked="true">
 			<e:Image x="89" y="242" source="UI_json.sq_logo" />
+			<e:Label id="txt_begin_tip" text="滑动开始游戏" y="1220" horizontalCenter="0" bold="true" size="48"/>
 		</e:Group>
-		<e:Group id="gp_b3" width="750" height="122" x="0" y="1158" anchorOffsetY="0">
+		<e:Group id="gp_b3" width="750" height="122" x="0" y="1158" anchorOffsetY="0" locked="true">
 			<e:Scroller width="750" height="120" x="0" y="0">
 				<e:viewport>
 					<e:List id="listWeaponUI" itemRendererSkinName="weaponSkin">
@@ -28,7 +29,7 @@
 				</e:viewport>
 			</e:Scroller>
 		</e:Group>
-		<e:Group id="gp_b2" width="750" x="0" y="1281.93" height="230">
+		<e:Group id="gp_b2" width="750" x="0" y="1281.93" height="230" locked="true">
 			<e:Image id="img_up_bg" y="0" horizontalCenter="0" source="UI_json.sq_jin" />
 			<e:Label id="txt_up1" text="射速" x="51" bold="true" textAlign="left"  size="36" y="41"/>
 			<e:Label id="txt_up1_lv" text="Lv2001" bold="true" textAlign="left"
@@ -44,10 +45,10 @@
 			<e:Image id="img_up2" x="550.5" y="124" source="UI_json.sq_shengji_1" />
 			<e:Label id="txt_up1_cost" text="28.4k" bold="true" textAlign="left" top="41" left="615" textColor="0xFFFFFF" width="100"/>
 			<e:Label id="txt_up2_cost" text="28.4k" bold="true" textAlign="left" top="145" left="615" textColor="0xFFFFFF" width="100"/>
-			<e:Image id="img_up1_free" x="552.5" y="20" source="UI_json.sq_shengji_3"/>
-			<e:Image id="img_up2_free" x="550.5" y="126" source="UI_json.sq_shengji_2"/>
+			<e:Image id="img_up1_free" x="552.5" y="20" source="UI_json.sq_shengji_3" visible="false"/>
+			<e:Image id="img_up2_free" x="550.5" y="126" source="UI_json.sq_shengji_2" visible="false"/>
 		</e:Group>
-		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93">
+		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93" locked="true">
 			<e:Image id="img_failtry" x="262.5" y="-70" source="UI_json.sq_manji"/>
 			<e:Image id="img_main" source="UI_json.sq_zhuwuqi" left="14" bottom="3" />
 			<e:Image id="img_main0" source="UI_json.sq_tishi" x="206" y="-11"/>
@@ -85,71 +86,19 @@
 			         bold="true" scaleX="1" scaleY="1"  horizontalCenter="0"/>
 			<e:Label text="点击领取" y="138" size="24" bold="true" scaleX="1" scaleY="1"  horizontalCenter="0"/>
 		</e:Group>
-		<e:Group id="gp_ui_lv1" width="459.09" height="83.76" x="142" y="447" anchorOffsetX="0" anchorOffsetY="0" locked="true">
-			<e:Image x="0.86" y="7" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image id="img_lv_cur" x="159.1" y="0" width="139" height="84"  source="UI_json.sy_guanka_2"/>
-			<e:Image x="331.96" y="7" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image x="134.98" y="26" source="UI_json.sq_jiantou" />
-			<e:Image x="304.6" y="26" source="UI_json.sq_jiantou" />
-			<e:Label id="txt_ui_lv1_1" text="650" x="36.51" y="26" bold="true" textAlign="center" size="33" textColor="0x57C1FE"
-			         width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_ui_lv1_2" text="650" x="196.29" y="26" bold="true" textAlign="center" size="33" textColor="0x57C1FE"
-			         width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_ui_lv1_3" text="650" x="366.93" y="26" bold="true" textAlign="center" size="33" textColor="0x57C1FE"
-			         width="60" height="24" verticalAlign="justify" />
-		</e:Group>
-		<e:Group id="gp_ui_lv2" width="624.25" height="185.28" x="63.2" y="380.33" anchorOffsetX="0" anchorOffsetY="0" locked="true">
-			<e:Image id="img_ui_lv2_1" x="0.86" y="54" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image id="img_ui_lv2_2" x="125" y="96" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image id="img_ui_lv2_3" x="125" y="6" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image id="img_ui_lv2_4" x="245.7" y="54" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image id="img_ui_lv2_5" x="373" y="96" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image id="img_ui_lv2_6" x="373" y="6" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Image id="img_ui_lv2_7" x="494.08" y="54" width="125" height="77" source="UI_json.sy_guanka_1" />
-			<e:Label id="txt_ui_lv2_1" text="650" x="36.51" y="77.54" bold="true" textAlign="center" size="33"
-			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_ui_lv2_2" text="650" x="160.15" y="119.6" bold="true" textAlign="center" size="33"
-			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_ui_lv2_3" text="650" x="160.15" y="29.96" bold="true" textAlign="center" size="33"
-			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_ui_lv2_4" text="650" x="281.35" y="73.86" bold="true" textAlign="center" size="33"
-			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_ui_lv2_5" text="650" x="413.45" y="116.34" bold="true" textAlign="center" size="33"
-			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_ui_lv2_6" text="650" x="408.63" y="25.41" bold="true" textAlign="center" size="33"
-			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_ui_lv2_7" text="650" x="529.05" y="71.46" bold="true" textAlign="center" size="33"
-			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
-		</e:Group>
 		<e:Group id="gp_relife" width="378" height="350" x="195.56" y="632" scaleX="1" scaleY="1" anchorOffsetX="7.56"
 		         anchorOffsetY="0" locked="true">
 			<e:Image id="img_relife" x="14.5" y="11.5" scaleX="1" scaleY="1"  source="UI_json.sq_fuhuo_1" locked="true"/>
 			<e:Label id="txt_relife_time" text="3" x="180" y="258" size="36" bold="true" />
 		</e:Group>
-		<e:Group id="gp_result" width="510" height="268" y="578" scaleX="1" scaleY="1" anchorOffsetX="10.2"
-		         anchorOffsetY="0" horizontalCenter="0" visible="false" locked="true">
-			<e:Image id="img_re_gold" y="-2" source="UI_json.sq_lingqu" left="0" />
-			<e:Image id="img_re_gold3" y="134" left="0"  source="UI_json.sq_sanbei_2"/>
-			<e:Label id="txt_re_gold" text="258K" x="104" y="48" bold="true" size="36" />
-			<e:Label id="txt_re_gold3" text="258K" x="104" y="184" bold="true" size="36" />
-		</e:Group>
-		<e:Group id="gp_game_data" width="524" height="144" x="40" y="78" anchorOffsetX="0" anchorOffsetY="0" locked="true">
+		<e:Group id="gp_game_data" width="524" height="144" x="40" y="78" anchorOffsetX="0" anchorOffsetY="0">
 			<e:Image id="img_game_gold_dest" x="27" y="35" source="UI_json.sq_jinbi_1" anchorOffsetX="24" anchorOffsetY="24" />
-			<e:Image x="183" y="7" width="90" height="55" source="UI_json.sy_guanka_1" />
-			<e:Image id="img_game_lv_cur" x="295" y="5" width="100" height="60" source="UI_json.sy_guanka_2" />
-			<e:Image x="417" y="7" width="90" height="55" source="UI_json.sy_guanka_1" />
-			<e:Image x="274.67" y="24.01" source="UI_json.sq_jiantou" />
+			<e:Image x="274.67" source="UI_json.sq_jiantou"  y="24"/>
 			<e:Image x="397.33" y="22.02" source="UI_json.sq_jiantou" />
 			<e:Image id="img_game_jindu_bg" width="360" height="6" x="165" y="90" source="UI_json.sq_jindutiao_2" />
 			<e:Image id="img_game_jindu" width="360" height="6" x="165" y="90" source="UI_json.sq_jindutiao_1" />
 			<e:Label id="txt_game_gold" text="650k" x="76" y="20" bold="true" textAlign="left" />
 			<e:Label id="txt_game_jindu" text="50%" y="117" bold="true" textAlign="center" size="24"  x="315"/>
-			<e:Label id="txt_game_lv1" text="650" x="195.85" y="23" bold="true" textAlign="center" size="24"
-			         textColor="0x57c1fe" width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_game_lv2" text="650" x="307.2" y="23" bold="true" textAlign="center" size="24" textColor="0x57C1FE"
-			         width="60" height="24" verticalAlign="justify" />
-			<e:Label id="txt_game_lv3" text="650" x="433.87" y="23" bold="true" textAlign="center" size="24"
-			         textColor="0x57C1FE" width="60" height="24" verticalAlign="justify" />
 		</e:Group>
 		<e:Group id="gp_goldtime_get" width="750" height="1624" y="0" scaleX="1" scaleY="1" x="0" locked="true">
 			<e:Rect id="rect_goldtime_get_cancel" fillAlpha="0.5" top="0" left="0" right="0" bottom="0"/>

@@ -39,7 +39,7 @@ class WingMan {
                 return 260000*level;
             },
             'getAttack': function (level:number) {
-                if(level <=67) return level*level;
+                if(level <=67) return (level+2)*(level+3)+100;
                 return 120*Math.exp(0.054*level);
             },
             'getStrength':function (level:number) {
@@ -54,7 +54,7 @@ class WingMan {
                 return 500;
             },  // 每发子弹发送间隔，本武器此属性无用
             'bombScope': function (strength: number) {
-                return 300;
+                return 400;
             },  // 子弹碰到人之后的爆炸范围
             'bulletScale': function (strength:number) {
                 return 1;   // 体积成长
@@ -64,12 +64,12 @@ class WingMan {
                     {
                         startx: 50,  // 子弹开始位置，相对于主机中心
                         starty: 40,  // 子弹开始位置，相对于主机中心
-                        angle: 80,   // 子弹偏离方向，相对于x正方向
+                        angle: 88,   // 子弹偏离方向，相对于x正方向
                     },
                     {
                         startx: -50,  // 子弹开始位置，相对于主机中心
                         starty: 40,  // 子弹开始位置，相对于主机中心
-                        angle: 100,  // 子弹偏离方向，相对于x正方向
+                        angle: 92,  // 子弹偏离方向，相对于x正方向
                     }
                 ],
                 'flySpeed': 1,       // 每ms飞行的距离
@@ -95,8 +95,8 @@ class WingMan {
                 return 1.1*260000*level;
             },
             'getAttack': function (level:number) {
-                if(level <=109) return 2* (level+20)*(level+20);
-                return 140*Math.exp(0.051*level);
+                if(level <=109) return 0.5* (level+20)*(level+20);
+                return 35*Math.exp(0.051*level);   //该武器1级800伤害，太猛了，调整为1/4，李
             },
             'getStrength':function (level:number) {
                 return (level+19)*100;

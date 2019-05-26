@@ -13,7 +13,7 @@ class ItemData {
             'icon': 'ihitspeed_1',
             'jindu': 'daoju_jingdu_1',
             'ratio': 200, // todo: 怎么提升
-            'time': 3000,
+            'time': 4000,
         },  // 强化射速	 
         {
             'id': 'addHitAttack',
@@ -21,7 +21,7 @@ class ItemData {
             'model': 'iattack',
             'icon': 'iattack_1',
             'jindu': 'daoju_jingdu_1',
-            'ratio': 200, // todo: 怎么提升
+            'ratio': 100, // todo: 怎么提升
             'time': 3000,
         },  // 强化火力
         {
@@ -40,8 +40,8 @@ class ItemData {
             'icon': 'iback_1',
             'jindu': 'daoju_jingdu_1',
             'ratio': 2,
-            'time': 3000,
-            'up': 2,
+            'time': 4000,
+            'up': 5,
         },  // 击退子弹	
         {
             'id': 'gold',

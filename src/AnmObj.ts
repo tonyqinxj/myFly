@@ -54,8 +54,7 @@ class AnmObj extends eui.Component implements  eui.UIComponent {
                 // 特殊处理，boss出现结束，之后切换音乐
                 if( this.type == 'jinggao_1'){
 
-                    window.platform.pauseLoopMusic();
-                    window.platform.playMusic('sounds/bgm_6.mp3', 0);
+                    GameData.playBgMusic('sounds/bgm_6.mp3');
                 }
             }
         }

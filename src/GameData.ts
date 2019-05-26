@@ -8,8 +8,9 @@ class GameData {
 
     }
 
+    public static canShare = false;
     public static gameName = 'flygame';
-    public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame20';
+    public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame24';
     //public static domain = '';
     //  public static gameName = 'flygame';
     // 成长
@@ -38,7 +39,7 @@ class GameData {
     public static weaponOpenLevels = [20, 60, 100];//僚机开放等级（关卡等级）
     public static weaponNames = ['fuwuqi_gbd', 'fuwuqi_pt', 'fuwuqi_cjb', 'fuwuqi_sdq'];
 
-    public static MAX_LEVEL = 100;
+    public static MAX_LEVEL = 200;
     public static setOpenid(openid:string):void{
         this.UserInfo.openid = openid;
 
@@ -70,34 +71,34 @@ class GameData {
         tili: 80,    // 体力
         totalMoney: 0,  // 玩家当前拥有的金币
         totalDiamond: 10,   // 钻石
-        curLevel: 1, // 当前处于关卡
-        nextLevel: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        curLevel: 89, // 当前处于关卡
+        nextLevel: 89, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
-            attack: 1,
-            speed: 1,
+            attack: 60,
+            speed: 110,
         },
         SubWeapons: [
             {
                 id: 1,
                 strength: 1,
                 attack: 1,
-                open: 0,
+                open: 1,
                 openlevel: 5,
             },
             {
                 id: 2,
                 strength: 1,
                 attack: 1,
-                open: 0,
+                open: 1,
                 openlevel: 20,
             },
             {
                 id: 3,
                 strength: 1,
                 attack: 1,
-                open: 0,
+                open: 1,
                 openlevel: 80,
             },
             {
@@ -109,7 +110,7 @@ class GameData {
             }
         ],
         curSubWeaponId: 0,
-        lastGetGoldTime: 0,          // 上次获取金币的时间点，存盘的
+        lastGetGoldTime: new Date().getTime(),          // 上次获取金币的时间点，存盘的
         lastGetTiliTime: 0,     //
         failTry: {
             failTimes: 0,    // 连续失败次数， >=3则给一次僚机满级试用，每天最多给2次机会，关卡20级之前，用share，否则用视频
@@ -614,20 +615,21 @@ class GameData {
         if (userinfo) {
             let userinfo_data: any = JSON.parse(userinfo);
             if (userinfo_data) {
-                // if (userinfo_data.totalMoney) GameData.UserInfo.totalMoney = userinfo_data.totalMoney
-                // if (userinfo_data.totalDiamond) GameData.UserInfo.totalDiamond = userinfo_data.totalDiamond
-                // if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
-                // if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
-                // if (userinfo_data.goldCostLevel) GameData.UserInfo.goldCostLevel = userinfo_data.goldCostLevel
-                // if (userinfo_data.goldTimeLevel) GameData.UserInfo.goldTimeLevel = userinfo_data.goldTimeLevel
-                // if (userinfo_data.MainWeapon) GameData.UserInfo.MainWeapon = userinfo_data.MainWeapon
-                // if (userinfo_data.SubWeapons) GameData.UserInfo.SubWeapons = userinfo_data.SubWeapons
-                // if (userinfo_data.curSubWeaponId) GameData.UserInfo.curSubWeaponId = userinfo_data.curSubWeaponId
-                // if (userinfo_data.tili) GameData.UserInfo.tili = userinfo_data.tili
-                // if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
-                // if (userinfo_data.lastGetTiliTime) GameData.UserInfo.lastGetTiliTime = userinfo_data.lastGetTiliTime
-                // if (userinfo_data.failTry) GameData.UserInfo.failTry = userinfo_data.failTry
-                // if (userinfo_data.d_kan) GameData.UserInfo.d_kan = userinfo_data.d_kan
+                if (userinfo_data.totalMoney) GameData.UserInfo.totalMoney = userinfo_data.totalMoney
+                if (userinfo_data.totalDiamond) GameData.UserInfo.totalDiamond = userinfo_data.totalDiamond
+                if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
+                if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
+                if (userinfo_data.goldCostLevel) GameData.UserInfo.goldCostLevel = userinfo_data.goldCostLevel
+                if (userinfo_data.goldTimeLevel) GameData.UserInfo.goldTimeLevel = userinfo_data.goldTimeLevel
+                if (userinfo_data.MainWeapon) GameData.UserInfo.MainWeapon = userinfo_data.MainWeapon
+                if (userinfo_data.SubWeapons) GameData.UserInfo.SubWeapons = userinfo_data.SubWeapons
+                if (userinfo_data.curSubWeaponId) GameData.UserInfo.curSubWeaponId = userinfo_data.curSubWeaponId
+                if (userinfo_data.tili) GameData.UserInfo.tili = userinfo_data.tili
+                if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
+                if (userinfo_data.lastGetTiliTime) GameData.UserInfo.lastGetTiliTime = userinfo_data.lastGetTiliTime
+                if (userinfo_data.failTry) GameData.UserInfo.failTry = userinfo_data.failTry
+                if (userinfo_data.d_kan) GameData.UserInfo.d_kan = userinfo_data.d_kan
+                if (userinfo_data.guide) GameData.UserInfo.guide = userinfo_data.guide
 
 
             }
@@ -787,6 +789,8 @@ class GameData {
 
                 if(sub.attack >= this.UserInfo.MainWeapon.attack){
                     this.showTips('副武器火力不能高于主武器');
+
+                    this.needSaveUserInfo = true;
                     break;
                 }
 
@@ -892,5 +896,22 @@ class GameData {
         item.horizontalCenter = 0;
         item.y = 550;
         this.start.addChild(item);
+    }
+
+    public static bgMusicName:string = null;
+    public static playBgMusic(name:string):void{
+        this.bgMusicName = name;
+        window.platform.pauseLoopMusic();
+
+        if(name){
+            window.platform.playMusic(name, 0);
+        }
+    }
+
+    public static resumePlayBgMusic():void{
+        if(this.bgMusicName){
+            window.platform.pauseLoopMusic();
+            window.platform.playMusic(this.bgMusicName, 0);
+        }
     }
 }

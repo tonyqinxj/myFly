@@ -4,13 +4,13 @@ class StarData {
 
     // layer:层级管理，目前有4个级别，分别为0，1，2，3， 数字大的在前面
     //public static scaleWithLevel = [1, 0.3, 0.45, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
-    public static scaleWithLevel = [1, 0.6, 0.75, 0.86, 0.98, 1.1, 1.2, 1.4, 1.6, 1.8, 2.0]
+    public static scaleWithLevel = [1, 0.48, 0.66, 0.80, 0.98, 1.33, 1.44, 1.55, 1.66, 1.88, 2.0]
     public static colorLevels =[0.1,0.05,0.025,0.005];
     public static colorNames=['x-5', 'x-4', 'x-3', 'x-2', 'x-1'];
 
     public static hurtScale = {
         scale:0.9,
-        time:120,
+        time:80,
     }
 
 
@@ -23,7 +23,7 @@ class StarData {
             id: 101,
             model: 'star1',		// 模型名称
             speed: 0.2,			// 移动速度
-            attack_speed: 0.4,	// 收到攻击之后的移动速度， 那减速的时间段呢（减速多久）
+            attack_speed: 0.2,	// 收到攻击之后的移动速度， 那减速的时间段呢（减速多久）
             snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
@@ -33,9 +33,9 @@ class StarData {
             name: '冲击陨石',
             id: 102,
 			
-            model: 'star1',
+            model: 'star2',
             speed: 0.25,
-            attack_speed: 0.4,
+            attack_speed: 0.2,
 			snow_time: 100,	
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
@@ -45,7 +45,7 @@ class StarData {
             id: 103,
             model: 'star3',
             speed: 0.22,
-            attack_speed: 0.4,
+            attack_speed: 0.2,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
@@ -88,7 +88,7 @@ class StarData {
             id: 105,
             model: 'star5',
             speed: 0.2,
-            attack_speed: 0.4,
+            attack_speed: 0.2,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
@@ -102,7 +102,7 @@ class StarData {
             id: 106,
             model: 'star6',
             speed: 0.15,
-            attack_speed: 0.4,
+            attack_speed: 0.2,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             //group:0,
@@ -140,20 +140,19 @@ class StarData {
             id: 108,
             model: 'star8',
             speed: 0.2,
-            attack_speed: 0.4,
+            attack_speed: 0.2,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
-            create_new_star: { // 生成新的怪
+     /*        create_new_star: { // 生成新的怪
                 time: 0, // 每移动time的时间，就产生一个新的怪物, 0表示死亡产生
                 id: '109',	// 怪物id
                 level: 1,	// 怪物等级
                 life: 5000,	// 怪物的生存时间，ms
-
                 scaleX: 0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
                 scaleY: 0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
                 scale: {time: 1000, scaleX: 1.4, scaleY: 1}	// 怪物随时间的缩放，相对于原始尺寸
-            }
+            } */
         },//冰块陨石
         '109': {
             name: '碎冰',
@@ -169,8 +168,8 @@ class StarData {
             name: '金刚陨石',
             id: 110,
             model: 'star10',
-            speed: 0.2,
-            attack_speed: 0.4,
+            speed: 0.3,
+            attack_speed: 0.2,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
@@ -183,7 +182,7 @@ class StarData {
             id: 111,
             model: 'star11',
             speed: 0.2,
-            attack_speed: 0.4,
+            attack_speed: 0.2,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
@@ -211,14 +210,14 @@ class StarData {
             name: '黑洞',
             id: 112,
             model: 'star12',
-            speed: 0.16,
-            // attack_speed: 0.3,   //黑洞不被减速，by 李
+            speed: 0.08,
+            // attack_speed: 0.2,   //黑洞不被减速，by 李
             group: StarData.CAN_ATTACK,
             layer: 0,
             eat: {
-                scale_init:0.3, // 初始状态多大，针对原始尺寸
-                maxEat:10, // 最多吞噬个数
-                blood: 1,	// 增加当前血量的比例
+                scale_init:0.7, // 初始状态多大，针对原始尺寸
+                maxEat:5, // 最多吞噬个数
+                blood: 0.3,	// 增加当前血量的比例
                 scale: 0.15, // 增加体型的比例, 针对原始尺寸
             }, 	// 是否具有吞噬属性
         }, // 微型黑洞, 黑洞的等级永远为0， 体型为美术给的原始体型
@@ -226,15 +225,15 @@ class StarData {
             name: '风暴球团',
             id: 113,
             model: 'star13',
-            speed: 0.3,
-            attack_speed: 0.7,
+            speed: 0.2,
+            attack_speed: 0.2,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
             add_speed: [
-                {time: 2000, wait: false, add: 0.0001}, // 每ms增加的速度
-                {time: 1000, wait: false, add: -0.0002},
-                {time: 2000, wait: true, add: 0}		// wait为true表示等待
+                {time: 3000, wait: false, add: 0.0001}, // 每ms增加的速度
+                {time: 2000, wait: false, add: -0.00015},
+                {time: 1000, wait: true, add: 0}		// wait为true表示等待
             ], // 加速度配置
         }, // 风暴球团
 
@@ -243,11 +242,11 @@ class StarData {
             id: 114,
             model: 'star14',
             speed: 0.2,
-            attack_speed: 0.4,
+            attack_speed: 0.2,
 			snow_time: 200,		// 减速的持续时长
             group: StarData.CAN_ATTACK | StarData.CAN_CO,
             layer: 1,
-            create_new_star: { // 生成新的怪，移动一定时间产生
+           /*  create_new_star: { // 生成新的怪，移动一定时间产生
                 time: 0, // 每移动time的时间，就产生一个新的怪物 , 如果配置为0， 表示死亡才生存新怪
                 id: '115',	// 怪物id
                 level: 1,	// 怪物等级
@@ -256,7 +255,7 @@ class StarData {
                 scaleX: 0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
                 scaleY: 0.5,	// 怪物初始体型缩放，相对于id的原始尺寸
                 scale: {time: 1000, scaleX: 1.4, scaleY: 1}	// 怪物随时间的缩放，相对于原始尺寸
-            }
+            } */
         }, // 爆炸卫星
         '115': {
             name: '卫星碎片',

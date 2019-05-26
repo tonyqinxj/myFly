@@ -1,128 +1,98 @@
-[
-  {
-    "blood": 700,
-    "tip": {},
-
-    "init": [
-
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-	  { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
-
-    ],
-
-    "add_ons": [
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-	  { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
-    ]
-   }, 
-
-   {
-    "blood": 700,
-    "tip": {},
-
-    "init": [
-
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-	  { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
-    ],
-
-    "add_ons": [
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-	  { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
-    ]
-   },
-      {
-    "blood": 10,
-    "tip": {},
-
-    "init": [
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-	  { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
-    ],
-
-    "add_ons": [
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-	  { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
-    ]
-   },
-   {
-    "blood": 2900,
-    "tip": {},
-
-    "init": [
-	  { "time":100, "id":102,"level":1,"x":150 ,"y":0,"items":0,"bossblood":2800,"bosssize":5},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-	  { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
-
-    ],
-
-    "add_ons": [
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-	  { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
-    ]
-   }
-]
+[												
+  {												
+    "blood": 	223027	,										
+    "tip": {},												
+												
+    "init": [												
+												
+      { "time":	1316	, "id":	112	,"level":	2	,"x":	227	 ,"y":0,"items":	1	},		
+      { "time":	740	, "id":	103	,"level":	1	,"x":	612	 ,"y":0,"items":	0	},		
+      { "time":	966	, "id":	111	,"level":	2	,"x":	48	 ,"y":0,"items":	1	},		
+      { "time":	2536	, "id":	102	,"level":2	,"x":	230	 ,"y":0,"items":	0	},		
+      { "time":	2609	, "id":	114	,"level":	2	,"x":	91	 ,"y":0,"items":	0	},		
+      { "time":	479	, "id":	108	,"level":2	,"x":	153	 ,"y":0,"items":	0	},		
+      { "time":	2932	, "id":	101	,"level":	1	,"x":	241	 ,"y":0,"items":	1	},		
+      { "time":	2253	, "id":	102	,"level":2	,"x":	653	 ,"y":0,"items":	1	},		
+      { "time":	2983	, "id":	111	,"level":2	,"x":	601	 ,"y":0,"items":	1	},		
+      { "time":	1316	, "id":	108	,"level":	1	,"x":	653	 ,"y":0,"items":	1	}		
+												
+    ],												
+												
+    "add_ons": [												
+      { "time":	783	, "id":	110	,"level":2	,"x":	573	 ,"y":0,"items":	0	},		
+      { "time":	2456	, "id":	101	,"level":	1	,"x":	479	 ,"y":0,"items":	0	},		
+      { "time":	1567	, "id":	108	,"level":2	,"x":	319	 ,"y":0,"items":	1	},		
+      { "time":	2704	, "id":	102	,"level":	1	,"x":	25	 ,"y":0,"items":	1	},		
+      { "time":	61	, "id":	101	,"level":	1	,"x":	455	 ,"y":0,"items":	1	},		
+      { "time":	1724	, "id":	106	,"level":2	,"x":	793	 ,"y":0,"items":	0	},		
+      { "time":	783	, "id":	111	,"level":	1	,"x":	253	 ,"y":0,"items":	1	},		
+      { "time":	2399	, "id":	102	,"level":	2	,"x":	608	 ,"y":0,"items":	0	},		
+      { "time":	141	, "id":	112	,"level":	1	,"x":	128	 ,"y":0,"items":	0	},		
+      { "time":	2494	, "id":	108	,"level":	1	,"x":	208	 ,"y":0,"items":	0	}		
+    ]												
+   }, 												
+												
+   {												
+    "blood": 	272588	,										
+    "tip": {},												
+												
+    "init": [												
+												
+      { "time":	857	, "id":	105	,"level":	1	,"x":	897	 ,"y":0,"items":	1	},		
+      { "time":	2679	, "id":	108	,"level":	1	,"x":	991	 ,"y":0,"items":	1	},		
+      { "time":	704	, "id":	106	,"level":	2	,"x":	751	 ,"y":0,"items":	1	},		
+      { "time":	1917	, "id":	111	,"level":2	,"x":	52	 ,"y":0,"items":	1	},		
+      { "time":	2501	, "id":	108	,"level":2	,"x":	490	 ,"y":0,"items":	0	},		
+      { "time":	2525	, "id":	112	,"level":	2	,"x":	697	 ,"y":0,"items":	1	},		
+      { "time":	2718	, "id":	110	,"level":	1	,"x":	638	 ,"y":0,"items":	1	},		
+      { "time":	2899	, "id":	113	,"level":	2	,"x":	142	 ,"y":0,"items":	0	},		
+      { "time":	269	, "id":	110	,"level":	2	,"x":	869	 ,"y":0,"items":	1	},		
+      { "time":	751	, "id":	101	,"level":2	,"x":	465	 ,"y":0,"items":	0	}		
+    ],												
+												
+    "add_ons": [												
+      { "time":	2205	, "id":	103	,"level":2	,"x":	186	 ,"y":0,"items":	1	},		
+      { "time":	2770	, "id":	102	,"level":2	,"x":	43	 ,"y":0,"items":	1	},		
+      { "time":	2638	, "id":	108	,"level":2	,"x":	729	 ,"y":0,"items":	0	},		
+      { "time":	2250	, "id":	105	,"level":2	,"x":	699	 ,"y":0,"items":	1	},		
+      { "time":	1173	, "id":	114	,"level":2	,"x":	320	 ,"y":0,"items":	0	},		
+      { "time":	1255	, "id":	112	,"level":	2	,"x":	648	 ,"y":0,"items":	0	},		
+      { "time":	1719	, "id":	103	,"level":2	,"x":	369	 ,"y":0,"items":	0	},		
+      { "time":	2409	, "id":	111	,"level":	1	,"x":	907	 ,"y":0,"items":	0	},		
+      { "time":	2699	, "id":	113	,"level":	2	,"x":	789	 ,"y":0,"items":	1	},		
+      { "time":	1785	, "id":	113	,"level":	2	,"x":	33	 ,"y":0,"items":	1	}		
+    ]												
+   },												
+   												
+   {												
+    "blood": 	743424	,										
+    "tip": {},												
+												
+    "init": [												
+      { "time":	1674	, "id":	108	,"level":2	,"x":	625	 ,"y":0,"items":	0	},		
+      { "time":	2867	, "id":	112	,"level":	2	,"x":	852	 ,"y":0,"items":	1	},		
+      { "time":	1844	, "id":	110	,"level":	1	,"x":	685	 ,"y":0,"items":	1	},		
+      { "time":	2252	, "id":	103	,"level":	1	,"x":	940	 ,"y":0,"items":	0	},		
+      { "time":	112	, "id":	113	,"level":	1	,"x":	121	 ,"y":0,"items":	0	},		
+      { "time":	2747	, "id":	112	,"level":2	,"x":	220	 ,"y":0,"items":	1	},		
+      { "time":	1028	, "id":	103	,"level":	1	,"x":	612	 ,"y":0,"items":	1	},		
+      { "time":	1928	, "id":	105	,"level":	1	,"x":	891	 ,"y":0,"items":	1	},		
+      { "time":	1846	, "id":	108	,"level":2	,"x":	616	 ,"y":0,"items":	0	},		
+      { "time":	1075	, "id":	101	,"level":2	,"x":	580	 ,"y":0,"items":	1	}		
+												
+    ],												
+												
+    "add_ons": [												
+      { "time":	1682	, "id":	106	,"level":2	,"x":	386	 ,"y":0,"items":	0	},		
+      { "time":	1731	, "id":	111	,"level":2	,"x":	764	 ,"y":0,"items":	0	},		
+      { "time":	663	, "id":	113	,"level":2	,"x":	404	 ,"y":0,"items":	0	},		
+      { "time":	39	, "id":	105	,"level":2	,"x":	145	 ,"y":0,"items":	0	},		
+      { "time":	465	, "id":	106	,"level":	2	,"x":	32	 ,"y":0,"items":	0	},		
+      { "time":	2600	, "id":	108	,"level":2	,"x":	944	 ,"y":0,"items":	0	},		
+      { "time":	1778	, "id":	101	,"level":2	,"x":	136	 ,"y":0,"items":	1	},		
+      { "time":	869	, "id":	103	,"level":2	,"x":	997	 ,"y":0,"items":	0	},		
+      { "time":	2812	, "id":	106	,"level":	2	,"x":	780	 ,"y":0,"items":	0	},		
+      { "time":	339	, "id":	110	,"level":2	,"x":	361	 ,"y":0,"items":	0	}		
+    ]												
+   }												
+]												

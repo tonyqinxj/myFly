@@ -45,6 +45,19 @@ class InvitUI extends eui.Component implements  eui.UIComponent {
 			let list = this.data.list;
 			this.pages = Math.ceil(count/5) || 1;
 			this.txt_page.text = this.curPage + '/' + this.pages;
+			let lastId = 1;
+			for(let i=0;i<list.length;i++) {
+				let itemdata = list[i]
+				lastId = itemdata.id;
+			}
+
+
+			while(list.length < 5){
+				list.push({
+					id:lastId++,
+					up_get:2,
+				})
+			}
 
 			if(list.length){
 				let y = 122;
@@ -73,8 +86,17 @@ class InvitUI extends eui.Component implements  eui.UIComponent {
 					list:data.list
 				}
 
-				this.updateData();
+				
+			}else{
+				if(!this.data){
+					this.data = {
+						count:0,
+						list:[]
+					}
+				}
 			}
+
+			this.updateData();
 		})
 	}
 

@@ -39,6 +39,9 @@ class BuyGold extends eui.Component implements  eui.UIComponent {
 
 		if(GameData.UserInfo.totalDiamond == 0){
 			this.diamond = 0;
+			this.img_buy.texture = ResTools.createUITexture('sq_duihuan_2');
+		}else{
+			this.img_buy.texture = ResTools.createUITexture('sq_duihuan');
 		}
 
 		this.updateTxt();

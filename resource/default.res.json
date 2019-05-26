@@ -9,7 +9,7 @@
 			"name": "start"
 		},
 		{
-			"keys": "sq_beijing_png,myfont_json,sq_paihangbang_png,sq_yaoqingwanjia_png,xq_1_1_png,UI_json,sq_dianji_png,sq_beijingkuang_png,flydata_json",
+			"keys": "sq_beijing_png,myfont_json,sq_paihangbang_png,sq_yaoqingwanjia_png,xq_1_1_png,sq_dianji_png,sq_beijingkuang_png,flydata_json,UI_json",
 			"name": "game"
 		}
 	],
@@ -174,7 +174,7 @@
 			"url": "assets/game/UI.json",
 			"type": "sheet",
 			"name": "UI_json",
-			"subkeys": "daoju_jingdu_1,daoju_jingdu_2,fuwuqi_cjb,fuwuqi_cjb_1,fuwuqi_gbd,fuwuqi_gbd_1,fuwuqi_pt,fuwuqi_pt_1,fuwuqi_sdq,fuwuqi_sdq_1,iaddss_1,iattack_1,iback_1,ibig_1,ifriend_1,igold_1,ihitspeed_1,iraducess_1,ireduceBoat_1,share_retry_tip,sq_duihuan,sq_duihuan_2,sq_fu,sq_fu_2,sq_fu_3,sq_fu_5,sq_fu_6,sq_fuhuo_1,sq_fuhuo_2,sq_fuwuqi,sq_guanbi,sq_guanqia_1,sq_guanqia_2,sq_haoyou,sq_huode,sq_jia,sq_jia_1,sq_jian_1,sq_jiantou,sq_jiantou_2,sq_jiesuowuqi,sq_jin,sq_jinbi_1,sq_jinbi_2,sq_jinbi_3,sq_jindutiao_1,sq_jindutiao_2,sq_jinggao_1,sq_jinggao_2,sq_lingqu,sq_lingqu_1,sq_lingqujindu_3,sq_lingqujingdu,sq_lingqujingdu_2,sq_logo,sq_luntan,sq_manji,sq_mingci_1,sq_mingci_2,sq_mingci_3,sq_paihang,sq_paihbang_2,sq_richang_1,sq_richang_2,sq_richang_3,sq_sanbei_1,sq_sanbei_2,sq_shandian,sq_shengji_1,sq_shengji_2,sq_shengji_3,sq_shengji_4,sq_shengji_5,sq_tanchuang,sq_tishi,sq_tishi_3,sq_tishiwenzi,sq_wenzi,sq_xiaohao,sq_yaoqing_1,sq_yaoqingwanjia_3,sq_yaoqingwenjia_2,sq_zhu,sq_zhuanshi,sq_zhuwuqi,sq_zuanshi_1,sy_guanka_1,sy_guanka_2,sy_guanka_3,sy_guanka_biaoji,xq_1,xq_2,xq_3,xq_4,xq_5"
+			"subkeys": "daoju_jingdu_1,daoju_jingdu_2,fuwuqi_cjb,fuwuqi_cjb_1,fuwuqi_gbd,fuwuqi_gbd_1,fuwuqi_pt,fuwuqi_pt_1,fuwuqi_sdq,fuwuqi_sdq_1,iaddss_1,iattack_1,iback_1,ibig_1,ifriend_1,igold_1,ihitspeed_1,iraducess_1,ireduceBoat_1,share_retry_tip,sq_duihuan,sq_duihuan_2,sq_fu,sq_fu_2,sq_fu_3,sq_fu_5,sq_fu_6,sq_fuhuo_1,sq_fuhuo_2,sq_fuwuqi,sq_guanbi,sq_guanqia_1,sq_guanqia_2,sq_haoyou,sq_huode,sq_jia,sq_jia_1,sq_jian_1,sq_jiantou,sq_jiantou_2,sq_jiesuowuqi,sq_jin,sq_jinbi_1,sq_jinbi_2,sq_jinbi_3,sq_jindutiao_1,sq_jindutiao_2,sq_jinggao_1,sq_jinggao_2,sq_lingqu,sq_lingqu_1,sq_lingqujindu_3,sq_lingqujingdu,sq_lingqujingdu_2,sq_logo,sq_luntan,sq_manji,sq_mingci_1,sq_mingci_2,sq_mingci_3,sq_paihang,sq_paihbang_2,sq_richang_1,sq_richang_2,sq_richang_3,sq_sanbei_1,sq_sanbei_2,sq_shandian,sq_shengji_1,sq_shengji_2,sq_shengji_3,sq_shengji_4,sq_shengji_5,sq_tanchuang,sq_tishi,sq_tishi_3,sq_tishiwenzi,sq_wenzi,sq_xiaohao,sq_yaoqing_1,sq_yaoqingwanjia_3,sq_yaoqingwenjia_2,sq_yonghu,sq_zhu,sq_zhuanshi,sq_zhuwuqi,sq_zuanshi_1,sy_guanka_1,sy_guanka_2,sy_guanka_3,sy_guanka_biaoji,xq_1,xq_2,xq_3,xq_4,xq_5"
 		},
 		{
 			"url": "assets/game/sq_beijing.png",

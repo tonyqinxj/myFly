@@ -41,7 +41,8 @@
 		"RankUI": "resource/eui_skins/RankUI.exml",
 		"ShowTips": "resource/eui_skins/ShowTips.exml",
 		"ResultUI": "resource/eui_skins/ResultUI.exml",
-		"LevelItem": "resource/eui_skins/LevelItem.exml"
+		"LevelItem": "resource/eui_skins/LevelItem.exml",
+		"ShowHoll": "resource/eui_skins/ShowHoll.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
@@ -103,7 +104,8 @@
 		"resource/eui_skins/wuqi_7.exml",
 		"resource/eui_skins/wuqi_8.exml",
 		"resource/eui_skins/wuqi_9.exml",
-		"resource/eui_skins/xingqiu_ui.exml"
+		"resource/eui_skins/xingqiu_ui.exml",
+		"resource/eui_skins/yindaotishi.exml"
 	],
 	"path": "resource/default.thm.json"
 }

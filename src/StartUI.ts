@@ -15,7 +15,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
         GameData.start = this;
         GameData.initFont();
         MonsterTools.itemPanel = this;
-        //FxMgr.init();
         this.initBegin();
     }
 
@@ -30,11 +29,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
             let y = this.gp_left.y + this.img_zhuanshi.y; //2.96+588;
             let w = this.img_zhuanshi.width;//128;
             let h = this.img_zhuanshi.height;//109;
-
-            // let rx = rwidth/this.width * x
-            // let rw = rwidth/this.width * w
-            // let ry = rheight/GameData.real_height * y
-            // let rh = rheight/GameData.real_height * h
 
             return window.platform.createAuthButton(x / 750, y / GameData.real_height, w / 750, h / GameData.real_height, GameData.getUserInfoOk);
         } else {
@@ -115,34 +109,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private img_relife: eui.Image;
     private txt_relife_time: eui.Label;
 
-    private gp_result: eui.Group;
     private img_re_gold: eui.Image;
     private txt_re_gold: eui.Label;
     private img_re_gold3: eui.Image;
     private txt_re_gold3: eui.Label;
 
     private img_gold_dest: eui.Image;
-
-    private img_lv_cur: eui.Image;
-    private gp_ui_lv1: eui.Group;
-    private txt_ui_lv1_1: eui.Label;
-    private txt_ui_lv1_2: eui.Label;
-    private txt_ui_lv1_3: eui.Label;
-    private gp_ui_lv2: eui.Group;
-    private txt_ui_lv2_1: eui.Label;
-    private txt_ui_lv2_2: eui.Label;
-    private txt_ui_lv2_3: eui.Label;
-    private txt_ui_lv2_4: eui.Label;
-    private txt_ui_lv2_5: eui.Label;
-    private txt_ui_lv2_6: eui.Label;
-    private txt_ui_lv2_7: eui.Label;
-    private img_ui_lv2_1: eui.Image;
-    private img_ui_lv2_2: eui.Image;
-    private img_ui_lv2_3: eui.Image;
-    private img_ui_lv2_4: eui.Image;
-    private img_ui_lv2_5: eui.Image;
-    private img_ui_lv2_6: eui.Image;
-    private img_ui_lv2_7: eui.Image;
 
     private select_lv: number = 0;
 
@@ -194,115 +166,15 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_goldtime.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeClick, this);
 
 
-        this.txt_ui_lv2_1.name = '1'
-        this.txt_ui_lv2_2.name = '2'
-        this.txt_ui_lv2_3.name = '3'
-        this.txt_ui_lv2_4.name = '4'
-        this.txt_ui_lv2_5.name = '5'
-        this.txt_ui_lv2_6.name = '6'
-        this.txt_ui_lv2_7.name = '7'
-
-
-        this.img_ui_lv2_1.name = '1'
-        this.img_ui_lv2_2.name = '2'
-        this.img_ui_lv2_3.name = '3'
-        this.img_ui_lv2_4.name = '4'
-        this.img_ui_lv2_5.name = '5'
-        this.img_ui_lv2_6.name = '6'
-        this.img_ui_lv2_7.name = '7'
-
-        this.txt_ui_lv2_1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.txt_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.txt_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.txt_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.txt_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.txt_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.txt_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-
-        this.img_ui_lv2_1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.img_ui_lv2_2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.img_ui_lv2_3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.img_ui_lv2_4.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.img_ui_lv2_5.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.img_ui_lv2_6.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-        this.img_ui_lv2_7.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectSub, this);
-
-        this.gp_ui_lv1.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-            if (GameData.UserInfo.nextLevel >= 7) {
-                this.initUILv(2);
-            }
-        }, this);
     }
 
-    private selectSub(e: egret.TouchEvent): void {
-        console.log(e.target.text)
-        let index = parseInt(e.target.name);
-        GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel - 7 + index;
-        this.initUILv(1);
-    }
 
     private initUILv(type: number): void {
 
-        function transTexture(img: eui.Image, sel: boolean): void {
-            let name = ''
-            if (sel) {
-                name = 'sy_guanka_3'
-            } else {
-                name = 'sy_guanka_1'
-            }
-
-            img.texture = ResTools.createUITexture(name);
-        }
-
-        function checkchange(): void {
-            let select_list: Array<eui.Image> = [];
-            select_list.push(this.img_ui_lv2_1)
-            select_list.push(this.img_ui_lv2_2)
-            select_list.push(this.img_ui_lv2_3)
-            select_list.push(this.img_ui_lv2_4)
-            select_list.push(this.img_ui_lv2_5)
-            select_list.push(this.img_ui_lv2_6)
-            select_list.push(this.img_ui_lv2_7)
-
-            if (this.select_lv >= 1 && this.select_lv <= select_list.length) {
-                transTexture(select_list[this.select_lv - 1], false);
-            }
-
-            for (let i = 0; i < select_list.length; i++) {
-                let mylv = GameData.UserInfo.nextLevel - 6 + i
-                if (mylv == GameData.UserInfo.curLevel) {
-                    this.select_lv = i + 1;
-                    transTexture(select_list[i], true);
-                    break;
-                }
-            }
-
-        }
-
         if (type == 1) {
-            this.gp_ui_lv2.parent && this.gp_ui_lv2.parent.removeChild(this.gp_ui_lv2)
-            this.gp_root.addChild(this.gp_ui_lv1);
-            this.txt_ui_lv1_1.text = '' + (GameData.UserInfo.curLevel - 1);
-            this.txt_ui_lv1_2.text = '' + (GameData.UserInfo.curLevel);
-            this.txt_ui_lv1_3.text = '' + (GameData.UserInfo.curLevel + 1);
-
-            if (GameData.UserInfo.curLevel % 5 == 0) {
-                this.img_lv_cur.texture = ResTools.createUITexture("sy_guanka_2");
-            } else {
-                this.img_lv_cur.texture = ResTools.createUITexture("sy_guanka_1");
-            }
-
+            this.levelUi.showCurItem();
         } else {
-            this.gp_ui_lv1.parent && this.gp_ui_lv1.parent.removeChild(this.gp_ui_lv1)
-            this.gp_root.addChild(this.gp_ui_lv2);
-            this.txt_ui_lv2_1.text = '' + (GameData.UserInfo.nextLevel - 6);
-            this.txt_ui_lv2_2.text = '' + (GameData.UserInfo.nextLevel - 5);
-            this.txt_ui_lv2_3.text = '' + (GameData.UserInfo.nextLevel - 4);
-            this.txt_ui_lv2_4.text = '' + (GameData.UserInfo.nextLevel - 3);
-            this.txt_ui_lv2_5.text = '' + (GameData.UserInfo.nextLevel - 2);
-            this.txt_ui_lv2_6.text = '' + (GameData.UserInfo.nextLevel - 1);
-            this.txt_ui_lv2_7.text = '' + (GameData.UserInfo.nextLevel);
-            checkchange.call(this);
+            this.levelUi.hideCurItem();
         }
 
     }
@@ -337,6 +209,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     }
 
+    private txt_begin_tip: eui.Label;
+
     private initUI(): void {
 
         if (GameData.failTryId && GameData.failTryState == 1) {
@@ -349,9 +223,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.initLevelUpTip();
 
         this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
-        this.gp_game_data.parent && this.gp_game_data.parent.removeChild(this.gp_game_data)
+        this.hideGameUI();
 
-        this.gp_root.addChild(this.gp_xingqiu)
+
+        this.addXingqiuObj();
         this.gp_root.addChild(this.gp_ui);
         this.gp_root.addChild(this.gp_b1);
 
@@ -362,7 +237,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_root.addChild(this.gp_goldtime);
 
         this.gp_relife.parent && this.gp_relife.parent.removeChild(this.gp_relife);
-        this.gp_result.parent && this.gp_result.parent.removeChild(this.gp_result);
 
         this.txt_gold.text = myMath.getString(GameData.UserInfo.totalMoney);
         this.txt_tili.text = myMath.getString(GameData.UserInfo.tili);
@@ -380,7 +254,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.initMask();
 
-        egret.Tween.get(this.boat).to({x: 375, y: this.gp_b1.y - this.boat.height}, 500);
+        this.txt_begin_tip.y = GameData.real_height - this.txt_begin_tip.height - 262;
+        this.txt_begin_tip.visible = false;
+        egret.Tween.get(this.boat).to({x: 375, y: GameData.real_height - this.boat.height - 320}, 500).call(() => {
+            this.txt_begin_tip.visible = true;
+        });
+
 
         this.initUILv(1);
 
@@ -401,10 +280,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.win = win;
         GameData.clearWin(win);
         GameData.setWin(win);
-
-        // let timer_show: egret.Timer = new egret.Timer(1000, 1);
-        // timer_show.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.showResult_real, this)
-        // timer_show.start();
 
         this.showResult_real(null)
     }
@@ -431,78 +306,24 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private showResult_real(e: egret.TimerEvent): void {
 
-        window.platform.pauseLoopMusic();
-        console.log('show kills:', this.kills);
-        //this.showRect();
-        //this.showGameUI();
+        GameData.playBgMusic(null);
 
         if (this.state == 'result') return;
         this.state = 'result';
 
-        // if (this.win) {
-        //     GameData.passLevel();
-        //     // + tili 6
-        // }
 
         this.sendEnd();
         this.removeMoveEvent();
 
         // 隐藏gameUI
-        this.gp_game_data && this.gp_game_data.parent && this.gp_game_data.parent.removeChild(this.gp_game_data)
 
+
+        this.hideGameUI();
         this.resultUI = new ResultUI(this.win);
         this.addChild(this.resultUI);
 
-        // this.addChild(this.gp_result);
-        // this.txt_re_gold.text = myMath.getString(GameData.score);
-        // this.txt_re_gold3.text = myMath.getString(GameData.score * 3);
-        // this.img_re_gold.addEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold, this);
-        //
-        // if(GameData.hasVideoAd()){
-        //     this.img_re_gold3.texture = ResTools.createUITexture('sq_sanbei_1')
-        // }else{
-        //     this.img_re_gold3.texture = ResTools.createUITexture('sq_sanbei_2')
-        // }
-        // this.img_re_gold3.addEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold3, this);
-    }
 
-    // private handleGold() {
-    //     this.handleResult(1)
-    // }
-    //
-    // private handleGold3() {
-    //     // 战斗结束3倍获取
-    //     if(GameData.hasVideoAd()){
-    //         ResTools.playAd(GameData.main, this, 'gold3').then((ret) => {
-    //             if (ret == 0) {
-    //                 this.handleResult(3)
-    //             }
-    //         });
-    //     }else{
-    //         ResTools.share(GameData.main, this, 'gold3');
-    //     }
-    //
-    // }
-    //
-    //
-    // private handleResult(ratio: number) {
-    //
-    //     this.hideRect();
-    //
-    //     GameData.onHandleResult(ratio);
-    //     this.img_re_gold.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold, this);
-    //     this.img_re_gold3.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold3, this);
-    //
-    //     // 删除游戏画面
-    //     this.init();
-    //
-    //     // 播放收集金币动画
-    //     this.initUI();
-    //
-    //     GoldFx.playResult({ x: 375, y: this.gp_result.y }, { x: this.img_gold_dest.x, y: this.img_gold_dest.y }, this);
-    //     platform.playMusic('sounds/GetGold_result.mp3', 1);
-    //
-    // }
+    }
 
 
     public guide_index: number = 0;
@@ -512,14 +333,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
             if (this.guide_index == 0) {
                 this.holl_rect = new egret.Rectangle(this.img_main.x, this.img_main.y + this.gp_b1.y, this.img_main.width, this.img_main.height)
                 this.addHoll();
-                this.addClickTip();
             } else if (this.guide_index == 1) {
                 this.holl_rect = new egret.Rectangle(this.img_up2.x, this.img_up2.y + this.gp_b2.y, this.img_up2.width, this.img_up2.height)
                 this.addHoll();
-                this.addClickTip();
             } else if (this.guide_index == 2) {
                 this.delHoll();
-                this.delClickTip();
                 this.guide_index = 0;
                 GameData.UserInfo.guide = 0;
                 GameData.needSaveUserInfo = true;
@@ -530,14 +348,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
             if (this.guide_index == 0) {
                 this.holl_rect = new egret.Rectangle(this.img_gold.x, this.img_gold.y + this.gp_b1.y, this.img_gold.width, this.img_gold.height)
                 this.addHoll();
-                this.addClickTip();
             } else if (this.guide_index == 1) {
                 this.holl_rect = new egret.Rectangle(this.img_up1.x, this.img_up1.y + this.gp_b2.y, this.img_up1.width, this.img_up1.height)
                 this.addHoll();
-                this.addClickTip();
             } else if (this.guide_index == 2) {
                 this.delHoll();
-                this.delClickTip();
                 this.guide_index = 0;
                 GameData.UserInfo.guide = 0;
                 GameData.needSaveUserInfo = true;
@@ -549,18 +364,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
             if (this.guide_index == 0) {
                 this.holl_rect = new egret.Rectangle(this.img_sub.x, this.img_sub.y + this.gp_b1.y, this.img_sub.width, this.img_sub.height)
                 this.addHoll();
-                this.addClickTip();
             } else if (this.guide_index == 1) {
                 this.holl_rect = new egret.Rectangle(this.gp_b3.x, this.gp_b3.y, this.gp_b3.height, this.gp_b3.height)
                 this.addHoll();
-                this.addClickTip();
             } else if (this.guide_index == 2) {
                 this.holl_rect = new egret.Rectangle(this.img_up2.x, this.img_up2.y + this.gp_b2.y, this.img_up2.width, this.img_up2.height)
                 this.addHoll();
-                this.addClickTip();
             } else if (this.guide_index == 3) {
                 this.delHoll();
-                this.delClickTip();
                 this.guide_index = 0;
                 GameData.UserInfo.guide = 0;
                 GameData.needSaveUserInfo = true;
@@ -583,7 +394,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private timer_relife_begin: egret.Timer;
 
     private showRelife(): void {
-        this.showGameUI();
+        this.updateGameUI();
         this.state = 'relife'
         this.canReLife = false;
         this.sendEnd();
@@ -624,6 +435,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
         //this.doRelife();
         this.gp_relife.parent && this.gp_relife.parent.removeChild(this.gp_relife);
         this.img_relife.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRelif, this);
+
+        if(!GameData.canShare){
+            this.doRelife();
+            return;
+        }
 
         // 视频复活
         if (GameData.hasVideoAd()) {
@@ -679,11 +495,23 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.txt_up1_value.text = myMath.getString(GameData.getMainSpeed());
         this.txt_up1_cost.text = myMath.getString(GameData.getCost('main_speed'));
 
+        if (GameData.getCost('main_speed') > GameData.UserInfo.totalMoney) {
+            this.txt_up1_cost.textColor = 0x808080
+        } else {
+            this.txt_up1_cost.textColor = 0xFFFFFF
+        }
+
         this.txt_up2.text = '火力'
         this.txt_up2_lv.text = 'Lv' + (GameData.UserInfo.MainWeapon.attack + 1);
         this.txt_up2_lv.textColor = 0xFF87CE;
         this.txt_up2_value.text = myMath.getString(GameData.getMainAttack());
         this.txt_up2_cost.text = myMath.getString(GameData.getCost('main_attack'));
+
+        if (GameData.getCost('main_attack') > GameData.UserInfo.totalMoney) {
+            this.txt_up2_cost.textColor = 0x808080
+        } else {
+            this.txt_up2_cost.textColor = 0xFFFFFF
+        }
 
         this.gp_root.addChild(this.gp_b2);
         this.gp_root.addChild(this.gp_b1);
@@ -692,6 +520,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.img_up_bg.texture = ResTools.createUITexture('sq_zhu')
 
         egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
+        this.txt_begin_tip.visible = false;
 
         if (GameData.upfree == 1) {
             this.gp_b2.addChild(this.img_up1_free);
@@ -748,6 +577,12 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.txt_up1_cost.text = "";
         }
 
+        if (GameData.getCost('sub_speed') > GameData.UserInfo.totalMoney) {
+            this.txt_up1_cost.textColor = 0x808080
+        } else {
+            this.txt_up1_cost.textColor = 0xFFFFFF
+        }
+
         this.txt_up1_lv.x = this.txt_up1.x + 15 + this.txt_up1.width
         this.txt_up2_lv.x = this.txt_up2.x + 15 + this.txt_up2.width
 
@@ -765,6 +600,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.txt_up2_cost.text = "";
         }
 
+        if (GameData.getCost('sub_attack') > GameData.UserInfo.totalMoney) {
+            this.txt_up2_cost.textColor = 0x808080
+        } else {
+            this.txt_up2_cost.textColor = 0xFFFFFF
+        }
 
         this.gp_root.addChild(this.gp_b2);
         this.gp_root.addChild(this.gp_b3);
@@ -796,6 +636,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
+        this.txt_begin_tip.visible = false;
 
         window.platform.playMusic('sounds/BottomChange.mp3', 1);
 
@@ -883,12 +724,25 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.txt_up1_value.text = myMath.getString(GameData.getGoldCost());
         this.txt_up1_cost.text = myMath.getString(GameData.getCost('gold_cost'));
 
+        if (GameData.getCost('gold_cost') > GameData.UserInfo.totalMoney) {
+            this.txt_up1_cost.textColor = 0x808080
+        } else {
+            this.txt_up1_cost.textColor = 0xFFFFFF
+        }
+
+
         this.txt_up2.text = '日常收益'
         this.txt_up2_lv.x = this.txt_up2.x + 15 + this.txt_up2.width
         this.txt_up2_lv.text = 'Lv' + GameData.UserInfo.goldTimeLevel;
         this.txt_up2_lv.textColor = 0xCC6FFD;
         this.txt_up2_value.text = myMath.getString(GameData.getGoldTime());
         this.txt_up2_cost.text = myMath.getString(GameData.getCost('gold_time'));
+
+        if (GameData.getCost('gold_time') > GameData.UserInfo.totalMoney) {
+            this.txt_up2_cost.textColor = 0x808080
+        } else {
+            this.txt_up2_cost.textColor = 0xFFFFFF
+        }
 
         this.gp_root.addChild(this.gp_b2);
         this.gp_root.addChild(this.gp_b1);
@@ -909,6 +763,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         egret.Tween.get(this.boat).to({x: 375, y: this.gp_b3.y - this.boat.height}, 500);
+        this.txt_begin_tip.visible = false;
 
         window.platform.playMusic('sounds/BottomChange.mp3', 1);
 
@@ -1005,6 +860,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onLevelUp1_free(e: egret.TouchEvent): void {
+        if(!GameData.canShare){
+            this.doUpFree(1);
+            return;
+        }
+
         // 免费升级
         if (GameData.hasVideoAd()) {
             ResTools.playAd(GameData.main, GameData.start, 'upfree').then(ret => {
@@ -1056,6 +916,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onLevelUp2_free(e: egret.TouchEvent): void {
+        if(!GameData.canShare){
+            this.doUpFree(2);
+            return;
+        }
+
         // 免费升级
         if (GameData.hasVideoAd()) {
             ResTools.playAd(GameData.main, GameData.start, 'upfree').then(ret => {
@@ -1090,6 +955,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
         if (ratio == 1) {
             this.getGoldTime(1)
         } else {
+            if(!GameData.canShare){
+                this.getGoldTime(3);
+                return;
+            }
+
             // 离线金币获取
             if (GameData.hasVideoAd()) {
                 ResTools.playAd(GameData.main, this, 'goldtime3').then(ret => {
@@ -1126,6 +996,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private img_game_gold_dest: eui.Image;
     private txt_game_gold: eui.Label;
     private txt_game_jindu: eui.Label;
+    private gameLevels: Array<LevelItem> = [];
     private txt_game_lv1: eui.Label;
     private txt_game_lv2: eui.Label;
     private txt_game_lv3: eui.Label;
@@ -1134,16 +1005,63 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private img_game_lv_cur: eui.Image;
 
     private showGameUI(): void {
-        //this.addChild(this.gp_game_data);
-        this.txt_game_lv1.text = '' + (GameData.UserInfo.curLevel - 1);
-        this.txt_game_lv2.text = '' + (GameData.UserInfo.curLevel);
-        this.txt_game_lv3.text = '' + (GameData.UserInfo.curLevel + 1);
+        if (this.gameLevels.length == 0) {
+            let item1 = new LevelItem(GameData.UserInfo.curLevel - 1)
+            item1.x = 183
+            item1.verticalCenter = -38
+            item1.scaleX = 0.5
+            item1.scaleY = 0.5
 
-        if (GameData.UserInfo.curLevel % 5 == 0) {
-            this.img_game_lv_cur.texture = ResTools.createUITexture('sy_guanka_2');
-        } else {
-            this.img_game_lv_cur.texture = ResTools.createUITexture('sy_guanka_1');
+
+            this.gp_game_data.addChild(item1);
+            this.gameLevels.push(item1);
+
+            let item2 = new LevelItem(GameData.UserInfo.curLevel)
+            item2.x = 292
+            item2.verticalCenter = -38
+            item2.scaleX = 0.7
+            item2.scaleY = 0.7
+
+            this.gp_game_data.addChild(item2);
+            this.gameLevels.push(item2);
+
+            let item3 = new LevelItem(GameData.UserInfo.curLevel + 1)
+            item3.x = 417
+            item3.verticalCenter = -38
+            item3.scaleX = 0.5
+            item3.scaleY = 0.5
+
+
+            this.gp_game_data.addChild(item3);
+            this.gameLevels.push(item3);
+
         }
+
+        this.addChild(this.gp_game_data);
+    }
+
+    private hideGameUI(): void {
+        this.gp_game_data && this.gp_game_data.parent && this.gp_game_data.parent.removeChild(this.gp_game_data)
+    }
+
+    private updateGameUI(): void {
+        //this.addChild(this.gp_game_data);
+        // this.txt_game_lv1.text = '' + (GameData.UserInfo.curLevel - 1);
+        // if(GameData.UserInfo.curLevel == 1) this.txt_game_lv1.text = 'Go'
+        // this.txt_game_lv2.text = '' + (GameData.UserInfo.curLevel);
+        // this.txt_game_lv3.text = '' + (GameData.UserInfo.curLevel + 1);
+        //
+        // if (GameData.UserInfo.curLevel % 5 == 0) {
+        //     this.img_game_lv_cur.texture = ResTools.createUITexture('sy_guanka_2');
+        // } else {
+        //     this.img_game_lv_cur.texture = ResTools.createUITexture('sy_guanka_1');
+        // }
+        if (this.gameLevels.length) {
+            this.gameLevels[0].setLevel(GameData.UserInfo.curLevel - 1)
+            this.gameLevels[1].setLevel(GameData.UserInfo.curLevel)
+            this.gameLevels[2].setLevel(GameData.UserInfo.curLevel + 1)
+        }
+
 
         this.txt_game_gold.text = myMath.getString(GameData.score);
         let cur = Math.floor(100 * (1 - GameData.kill_blood / GameData.total_blood));
@@ -1228,6 +1146,22 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private system: particle.GravityParticleSystem;
 
+    private xingqiu_obj: AnmObj = null;
+
+    private addXingqiuObj(): void {
+        if (!this.xingqiu_obj) {
+            this.xingqiu_obj = new AnmObj('xingqiu_ui', 0, false);
+        }
+
+        this.gp_xingqiu.addChild(this.xingqiu_obj);
+    }
+
+    private removeXingqiuObj(): void {
+        this.xingqiu_obj && this.xingqiu_obj.parent && this.xingqiu_obj.parent.removeChild(this.xingqiu_obj)
+    }
+
+    private levelUi: LevelUI = null;
+
     private initBegin(): void {
 
         // 初始化离线金币
@@ -1237,18 +1171,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.gp_ui.addChild(this.boat);
         this.boat.play();
 
-        let xingqiu = new AnmObj('xingqiu_ui', 0, false);
-        xingqiu.x = 0;
-        xingqiu.y = 0;
-        this.gp_xingqiu.addChild(xingqiu);
+        this.addXingqiuObj();
 
-        egret.Tween.get(xingqiu).to({y: 100}, 200).to({y: 0}, 2000);
+        this.levelUi = new LevelUI(this);
 
         this.gp_layer.push(this.gp_layer_1);
         this.gp_layer.push(this.gp_layer_2);
         this.gp_layer.push(this.gp_layer_3);
         this.gp_layer.push(this.gp_layer_4);
-        //console.log('initBegin call',)
 
         this.init();
 
@@ -1306,7 +1236,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
             this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
 
-            egret.Tween.get(this.boat).to({x: 375, y: this.gp_b1.y - this.boat.height}, 500);
+            egret.Tween.get(this.boat).to({x: 375, y: GameData.real_height - this.boat.height - 320}, 500).call(() => {
+                this.txt_begin_tip.visible = true;
+            });
+
         } else if (this.state == 'init') {
 
             if (GameData.UserInfo.tili >= 5) {
@@ -1315,20 +1248,21 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
                 this.gp_b1.parent && this.gp_b1.parent.removeChild(this.gp_b1)
                 this.gp_ui.parent && this.gp_ui.parent.removeChild(this.gp_ui);
-                this.gp_xingqiu.parent && this.gp_xingqiu.parent.removeChild(this.gp_xingqiu)
+
+                this.removeXingqiuObj();
                 this.gp_top.parent && this.gp_top.parent.removeChild(this.gp_top)
                 this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
                 this.gp_goldtime.parent && this.gp_goldtime.parent.removeChild(this.gp_goldtime)
-                this.gp_ui_lv1.parent && this.gp_ui_lv1.parent.removeChild(this.gp_ui_lv1)
-                this.gp_ui_lv2.parent && this.gp_ui_lv2.parent.removeChild(this.gp_ui_lv2)
+
+                this.levelUi.hideCurItem();
                 this.state = 'pause';
 
-                this.addChild(this.gp_game_data);
+
+                this.showGameUI();
                 this.addMoveEvent();
                 GameData.UserInfo.tili -= 5;
 
-                window.platform.pauseLoopMusic();
-                window.platform.playMusic('sounds/bgm_1.mp3', 0);
+                GameData.playBgMusic('sounds/bgm_1.mp3');
             } else {
                 GameData.showTips('体力不够， 不能进行战斗')
                 this.onAddTiliClick(null);
@@ -1490,7 +1424,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             // this.starCount.x = this.boat.x;
             // this.starCount.y = this.boat.y;
             //this.checkGameOver();
-            this.showGameUI();
+            this.updateGameUI();
             this.boat.update();
         }
 
@@ -1775,8 +1709,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     star.blood += addBlood.speed * deltaTime * star["totalBlood"]
                     // todo, 播放加血特效
                     let abfx = new AnmObj('jiaxue', 1);
-                    abfx.anchorOffsetX = abfx.width/2;
-                    abfx.anchorOffsetY = abfx.height/2;
+                    abfx.anchorOffsetX = abfx.width / 2;
+                    abfx.anchorOffsetY = abfx.height / 2;
                     abfx.x = star.model.x;
                     abfx.y = star.model.y;
                     this.gp_layer_4.addChild(abfx);
@@ -1890,7 +1824,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
 
     private doEat(star: any, scale: number): void {
-        let scale_init = star.startConfig['eat']['scale_init']
+        let scale_init = star.starConfig['eat']['scale_init']
         egret.Tween.get(star.model).wait(300).to({
             scaleX: scale_init + scale,
             scaleY: scale_init + scale
@@ -2739,7 +2673,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
 
         var shape: egret.Shape = this.maskGold;
-
         shape.graphics.clear();
         shape.graphics.beginFill(0x00ffff, 1);
         shape.graphics.moveTo(this.img_jindu.x, this.img_jindu.y);
@@ -2791,7 +2724,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
             this.showSelectWeaponTip(ret);
         } else {
 
-            if(GameData.UserInfo.guide == 3 && GameData.start.guide_index == 1){
+            if (GameData.UserInfo.guide == 3 && GameData.start.guide_index == 1) {
                 GameData.start.guide_index = 2;
                 GameData.start.updateGuide();
             }
@@ -2868,78 +2801,20 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
-
-    // 挖洞
-    private holl_bitmap: egret.Bitmap = null;
-    private click_bitmap: egret.Bitmap = null;
     private holl_rect: egret.Rectangle = null;
-    private holl_gp: eui.Group = null;
-    private holl_button: eui.Group = null;
+    private holl: Holl = null;
 
     private addHoll() {
         if (this.holl_rect == null) return;
-
-        this.delHoll();
-
-        // 挖洞
-
-        this.holl_gp = new eui.Group();
-        this.holl_gp.x = 0;
-        this.holl_gp.y = 0;
-        this.holl_gp.width = this.width;
-        this.holl_gp.height = GameData.real_height;
-        this.addChild(this.holl_gp);
-
-        let container: egret.DisplayObjectContainer = new egret.DisplayObjectContainer();
-
-        //创建一个背景
-        let bg: egret.Sprite = new egret.Sprite();
-        bg.graphics.beginFill(0x000000, 1);
-        bg.graphics.drawRect(0, 0, this.width, GameData.real_height);
-        bg.graphics.endFill();
-        bg.alpha = 0.5;
-
-
-        //洞的大小图片
-        let holl: egret.Sprite = new egret.Sprite();
-        holl.graphics.beginFill(0x000000, 1);
-        holl.graphics.drawRect(this.holl_rect.x, this.holl_rect.y, this.holl_rect.width, this.holl_rect.height);
-        holl.graphics.endFill();
-        holl.blendMode = egret.BlendMode.ERASE;
-
-        this.holl_button = new eui.Group();
-        this.holl_button.x = this.holl_rect.x;
-        this.holl_button.y = this.holl_rect.y;
-        this.holl_button.width = this.holl_rect.width;
-        this.holl_button.height = this.holl_rect.height;
-        this.addChild(this.holl_button);
-
-        this.holl_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onHollClick, this);
-
-
-        container.addChild(bg);
-        container.addChild(holl);
-
-
-        let renderTexture: egret.RenderTexture = new egret.RenderTexture();
-        renderTexture.drawToTexture(container);
-
-        let bitmap: egret.Bitmap = new egret.Bitmap(renderTexture);
-        this.addChild(bitmap);
-        this.holl_bitmap = bitmap;
-
-
+        if (!this.holl) this.holl = new Holl(this);
+        this.holl.addHoll(this.holl_rect);
     }
 
     private delHoll() {
-        this.holl_bitmap && this.holl_bitmap.parent && this.holl_bitmap.parent.removeChild(this.holl_bitmap);
-        this.holl_gp && this.holl_gp.parent && this.holl_gp.parent.removeChild(this.holl_gp);
-        this.holl_button && this.holl_button.parent && this.holl_button.parent.removeChild(this.holl_button);
-        // 停止手势动画
-
+        if (this.holl) this.holl.delHoll();
     }
 
-    private onHollClick(e: any): void {
+    public onHollClick(e: any): void {
         console.log('onHollClick')
         switch (GameData.UserInfo.guide) {
             case 1:
@@ -2971,7 +2846,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                         this.onSubClick(e);
                         break;
                     case 1:
-                        EventManager.dispatchEvent('selectWeapon', { id: '1' })
+                        EventManager.dispatchEvent('selectWeapon', {id: '1'})
                         break;
                     case 2:
                         this.onLevelUp2(e)
@@ -2979,30 +2854,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 }
                 break;
         }
-    }
-
-    private addClickTip() {
-        if (!this.holl_rect) return;
-
-        this.delClickTip();
-
-        this.click_bitmap = ResTools.createBitmap('sq_dianji_png');
-        this.click_bitmap.x = this.holl_rect.x + this.holl_rect.width / 2;
-        this.click_bitmap.y = this.holl_rect.y + this.holl_rect.height / 2;
-        this.click_bitmap.anchorOffsetX = this.click_bitmap.width / 2;
-        this.click_bitmap.anchorOffsetY = this.click_bitmap.height / 2;
-
-        this.addChild(this.click_bitmap);
-
-        egret.Tween.get(this.click_bitmap, {loop: true})
-            .to({scaleX: 1.2, scaleY: 1.2}, 1000)
-            .to({scaleX: 1, scaleY: 1}, 500);
-    }
-
-    private
-    delClickTip() {
-        this.click_bitmap && this.click_bitmap.parent && this.click_bitmap.parent.removeChild(this.click_bitmap);
-        this.click_bitmap = null;
     }
 
 

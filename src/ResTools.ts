@@ -77,7 +77,7 @@ class ResTools {
         return new Promise((resolve, reject) => {
             // ResTools.share(main, game, type);
             // resolve(11)
-            //
+
             window.platform.showRewardAd().then(ret => {
                 console.log('showRewardAd:', ret)
                 if (ret == 0) {

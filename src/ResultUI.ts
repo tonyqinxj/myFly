@@ -30,6 +30,11 @@ class ResultUI extends eui.Component implements  eui.UIComponent {
 	private passlevel:boolean = false;
 	private handled:boolean = false;
 
+	// private item1:LevelItem = null;
+	// private item2:LevelItem = null;
+	// private item3:LevelItem = null;
+	// private item4:LevelItem = null;
+
 	public constructor(win:boolean) {
 		super();
 		this.win = win;
@@ -51,6 +56,8 @@ class ResultUI extends eui.Component implements  eui.UIComponent {
 		let item2:LevelItem = new LevelItem(GameData.UserInfo.curLevel)
 		let item3:LevelItem = new LevelItem(GameData.UserInfo.curLevel + 1)
 		let item4:LevelItem = new LevelItem(GameData.UserInfo.curLevel + 2)
+
+
 
 		item1.anchorOffsetX = 77;
 		item2.anchorOffsetX = 77;
@@ -83,16 +90,6 @@ class ResultUI extends eui.Component implements  eui.UIComponent {
 		item4.alpha = 0;
 		item4.scaleX = 0.6;
 		item4.scaleY = 0.6;
-
-		// this.txt_ui_lv1_0.text = '' + (GameData.UserInfo.curLevel - 1);
-		// this.txt_ui_lv1_1.text = '' + (GameData.UserInfo.curLevel);
-		// this.txt_ui_lv1_2.text = '' + (GameData.UserInfo.curLevel + 1);
-
-		// if(GameData.UserInfo.curLevel % 5 == 0){
-		// 	this.img_game_lv_cur.texture = ResTools.createUITexture('sy_guanka_2');
-		// }else{
-		// 	this.img_game_lv_cur.texture = ResTools.createUITexture('sy_guanka_1');
-		// }
 
 		this.txt_total_gold.text = myMath.getString(GameData.UserInfo.totalMoney);
 		this.txt_total_tili.text = ''+GameData.UserInfo.tili;
@@ -147,7 +144,13 @@ class ResultUI extends eui.Component implements  eui.UIComponent {
 			egret.Tween.get(item1).wait(1000).to({x:100, scaleX:0.6, scaleY:0.6, alpha:0}, 500)
 			egret.Tween.get(item2).wait(1000).to({x:175, scaleX:1, scaleY:1}, 500)
 			egret.Tween.get(item3).wait(1000).to({x:375, scaleX:1.2, scaleY:1.2}, 500)
-			egret.Tween.get(item4).wait(1000).to({x:575, scaleX:1, scaleY:1, alpha:1}, 500)
+			egret.Tween.get(item4).wait(1000).to({x:575, scaleX:1, scaleY:1, alpha:1}, 500).call(()=>{
+
+				item1.updateData();
+				item2.updateData();
+				item3.updateData();
+				item4.updateData();
+			})
 
 			egret.Tween.get(this.gp_tili).wait(2500).call(()=>{
 				this.gp_root.addChild(this.gp_result);
@@ -183,6 +186,11 @@ class ResultUI extends eui.Component implements  eui.UIComponent {
 	}
 
 	private handleGold3() {
+		if(!GameData.canShare){
+			this.handleResult(3)
+			return;
+		}
+
 		// 战斗结束3倍获取
 		if(GameData.hasVideoAd()){
 			ResTools.playAd(GameData.main, GameData.start, 'gold3').then((ret) => {

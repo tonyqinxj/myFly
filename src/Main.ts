@@ -24,6 +24,7 @@ class Main extends eui.UILayer {
         egret.lifecycle.onResume = () => { 
             console.log('onResume');
             egret.ticker.resume();
+            GameData.resumePlayBgMusic();
 
 
             // 检测分享反馈

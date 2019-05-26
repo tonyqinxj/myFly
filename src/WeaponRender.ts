@@ -41,6 +41,12 @@ class WeaponRender extends eui.ItemRenderer {
         this.gp_weapon.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
             let id = parseInt(this.id.text);
             if (GameData.failTryId && id == GameData.failTryId && GameData.failTryState == 1) {
+
+                if(!GameData.canShare){
+                    this.doSelect();
+                    return;
+                }
+
                 // 满级试用
                 if(GameData.hasVideoAd()){
                     ResTools.playAd(GameData.main, GameData.start, 'failtry').then(ret => {

@@ -37,13 +37,13 @@
     "init": [
 
       { "time":100, "id":106,"level":1,"x":150 ,"y":0,"items":0},
-      { "time":2500, "id":101,"level":3,"x":650 ,"y":0,"items":2, "itemscope":[3,4]}
+      { "time":2500, "id":101,"level":2,"x":650 ,"y":0,"items":2, "itemscope":[3,4]}
 
     ],
 
     "add_ons": [
      { "time":300, "id":101,"level":2,"x":281 ,"y":0,"items":0},
-	 { "time":1300, "id":106,"level":3,"x":321 ,"y":0,"items":0},
+	 { "time":1300, "id":106,"level":2,"x":321 ,"y":0,"items":0},
 	 { "time":1300, "id":103,"level":1,"x":444 ,"y":0,"items":0},				
      { "time":500, "id":101,"level":1,"x":650 ,"y":0,"items":0}
 

@@ -8,13 +8,13 @@
 
 
 	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":1, "itemscope":[9]},
-      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":0}
+      { "time":1500, "id":102,"level":1,"x":350 ,"y":0,"items":2}
 
     ],
 
     "add_ons": [
-	  { "time":100, "id":103,"level":1,"x":721 ,"y":0,"items":0},
-	  { "time":100, "id":105,"level":1,"x":150 ,"y":0,"items":0},
+	  { "time":100, "id":103,"level":2,"x":721 ,"y":0,"items":0},
+	  { "time":100, "id":105,"level":2,"x":150 ,"y":0,"items":0},
       { "time":300, "id":108,"level":1,"x":250 ,"y":0,"items":0}
     ]
    }, 
@@ -33,19 +33,20 @@
     "add_ons": [
 
 	  { "time":300, "id":101,"level":2,"x":150 ,"y":0,"items":0},
-	  { "time":1200, "id":105,"level":3,"x":550 ,"y":0,"items":2, "itemscope":[1,2,3,4,5,6]}
+	  { "time":1200, "id":105,"level":2,"x":550 ,"y":0,"items":2, "itemscope":[1,2,3,4,5,6]}
     ]
    },
       {
-    "blood": 30,
+    "blood": 130,
     "tip": {"fx":"jinggao_2","music":"WaveWarning"},
 
     "init": [
 	  { "time":350, "id":101,"level":1,"x":150 ,"y":0,"items":0},
 	  { "time":450, "id":102,"level":2,"x":150 ,"y":0,"items":0},	
 	  { "time":500, "id":103,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":600, "id":105,"level":1,"x":150 ,"y":0,"items":0},	  
-      { "time":633, "id":106,"level":1,"x":350 ,"y":0,"items":0}
+	  	  { "time":100, "id":113,"level":2,"x":622 ,"y":0,"items":0,"bossblood":300},
+	  { "time":600, "id":105,"level":1,"x":150 ,"y":0,"items":1, "itemscope":[1,2]},	  
+      { "time":3633, "id":106,"level":1,"x":350 ,"y":0,"items":0}
     ],
 
     "add_ons": [
@@ -53,7 +54,7 @@
 	  { "time":665, "id":105,"level":2,"x":150 ,"y":0,"items":2, "itemscope":[1,3,4,6,7,8]},
 	  	  { "time":443, "id":103,"level":1,"x":150 ,"y":0,"items":0},
 	  { "time":322, "id":101,"level":1,"x":150 ,"y":0,"items":0},
-	  { "time":888, "id":105,"level":1,"x":550 ,"y":0,"items":0}
+	  { "time":888, "id":105,"level":1,"x":550 ,"y":0,"items":1, "itemscope":[1,2]}
     ]
    },
    {
@@ -63,13 +64,13 @@
     "init": [
 
       { "time":100, "id":106,"level":1,"x":150 ,"y":0,"items":0},
-      { "time":2500, "id":102,"level":3,"x":650 ,"y":0,"items":0}
+      { "time":2500, "id":102,"level":2,"x":650 ,"y":0,"items":0}
 
     ],
 
     "add_ons": [
      { "time":300, "id":108,"level":2,"x":350 ,"y":0,"items":0},
-	 { "time":1300, "id":110,"level":3,"x":350 ,"y":0,"items":0},	
+	 { "time":1300, "id":110,"level":2,"x":350 ,"y":0,"items":0},	
       { "time":100, "id":106,"level":1,"x":318 ,"y":0,"items":0},	 
      { "time":500, "id":101,"level":1,"x":650 ,"y":0,"items":0}
 

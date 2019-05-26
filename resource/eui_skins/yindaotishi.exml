@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="wuqi_1Skin" width="50" height="50" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" >
+	<w:Declarations>
+		<tween:TweenGroup id="sddh">
+			<tween:TweenItem target="{paota_2}">
+				<tween:Set/>
+				<tween:To duration="300">
+					<tween:props>
+						<e:Object scaleX="{2}" scaleY="{2}" alpha="{0.6}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+			<tween:TweenItem target="{paota_0}">
+				<tween:Set>
+					<tween:props>
+						<e:Object scaleX="{0.2}" scaleY="{0.2}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="300">
+				<tween:props>
+					<e:Object scaleX="{2.3}" scaleY="{2.3}" alpha="{0.6}"/>
+				</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<w:Config id="16a4e15c4e2" ></w:Config>
+	<e:Image id="paota_2" width="10" height="10" anchorOffsetX="5" anchorOffsetY="5" horizontalCenter="0" verticalCenter="0" source="flydata_json.pt_2"/>
+	<e:Image id="paota_0" width="20" height="20" anchorOffsetX="10" anchorOffsetY="10" horizontalCenter="0" verticalCenter="0" source="flydata_json.pt_2"/>
+</e:Skin>
