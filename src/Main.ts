@@ -55,8 +55,14 @@ class Main extends eui.UILayer {
             GameData.real_height = h / w * 750;
         }
 
+
+
         this.goStart().catch(e => {
             console.log(e);
+
+            // this.checkJson().catch(e=>{
+            //     console.log(e);
+            // });
         })
 
         // let timer:egret.Timer = new egret.Timer(100, 0);
@@ -81,6 +87,24 @@ class Main extends eui.UILayer {
         await this.loadResource()
         this.setPage("logon");
 
+
+    }
+
+    private async checkMe(i:number){
+        try{
+            RES.getResByUrl(GameData.domain+'/resource/levels/' + i + '.json').then((json)=>{
+
+            });
+        }catch(e){
+            console.log('check error:'+i, e);
+        }
+
+    }
+
+    private async checkJson(){
+        for(let i=1;i<=200;i++){
+            this.checkMe(i);
+        }
 
     }
 

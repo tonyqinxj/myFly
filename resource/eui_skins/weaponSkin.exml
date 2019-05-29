@@ -9,5 +9,6 @@
 		<e:Image id="img_weapon" width="120" height="120" x="0" y="0" source="{data.weaponName}" visible="true" scaleX="1" scaleY="1"/>
 		<e:Image id="img_select" width="120" height="120" x="0" y="0" source="UI_json.sq_fu_3" scaleX="1" scaleY="1"/>
 		<e:Image id="img_try" x="0" y="0" scaleX="1" scaleY="1" source="UI_json.sq_fu_5"/>
+		<e:Image id="img_new" x="0" y="0" scaleX="1" scaleY="1" source="UI_json.sq_new" visible="false"/>
 	</e:Group>
 </e:Skin>

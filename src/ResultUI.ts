@@ -209,7 +209,7 @@ class ResultUI extends eui.Component implements  eui.UIComponent {
 		this.img_re_gold3.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.handleGold3, this);
 		platform.playMusic('sounds/GetGold_result.mp3', 1);
 		GoldFx.playResult({ x: 375, y: this.gp_result.y }, { x: this.img_gold_dest.x, y: this.img_gold_dest.y }, this).then(ok=>{
-
+			console.log('handleResult:'+this.handled)
 			if(this.handled) return;
 
 			this.handled = true;

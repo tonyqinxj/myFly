@@ -35,13 +35,10 @@ class AnmObj extends eui.Component implements  eui.UIComponent {
         }
 
         this.sddh.addEventListener('complete', this.onTweenGroupComplete, this);
-        //this.sddh.addEventListener('itemComplete', this.onTweenItemComplete, this);
         this.sddh.play(0)
     }
 
     private onTweenGroupComplete(): void {
-        //console.log('TweenGroup play completed.');
-
         if(this.maxTimes == 0){
             this.sddh.play(0)
         }else{
@@ -49,15 +46,32 @@ class AnmObj extends eui.Component implements  eui.UIComponent {
             if(this.times < this.maxTimes){
                 this.sddh.play(0)
             }else{
+                this.stop();
                 this.parent && this.parent.removeChild(this);
 
                 // 特殊处理，boss出现结束，之后切换音乐
                 if( this.type == 'jinggao_1'){
-
                     GameData.playBgMusic('sounds/bgm_6.mp3');
                 }
             }
         }
 
+    }
+
+    private isStop:boolean = false;
+    public stop():void{
+        if(!this.isStop){
+            this.isStop = true;
+            this.sddh.removeEventListener('complete', this.onTweenGroupComplete, this);
+            this.sddh.stop();
+        }
+    }
+
+    public play():void{
+        if(this.isStop){
+            this.sddh.addEventListener('complete', this.onTweenGroupComplete, this);
+        }
+
+        this.sddh.play(0)
     }
 }

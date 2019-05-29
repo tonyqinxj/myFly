@@ -22,5 +22,9 @@ class EventManager extends egret.EventDispatcher{
     public static register(type:string,callback:Function,thisObject:any):void{
         EventManager.getInstance().addEventListener(type,callback,thisObject);
     }
+
+    public static unregistr(type:string, callback:Function, thisObject:any):void{
+        EventManager.getInstance().removeEventListener(type, callback, thisObject);
+    }
  
 }

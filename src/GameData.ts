@@ -1,5 +1,6 @@
 // TypeScript file
 
+import is = egret.is;
 class GameData {
 
     public static getUserInfoOk(info):void{
@@ -10,8 +11,8 @@ class GameData {
 
     public static canShare = false;
     public static gameName = 'flygame';
-    public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame24';
-    //public static domain = '';
+    //public static domain = 'https://nskqs.oss-cn-hangzhou.aliyuncs.com/flygame24';
+    public static domain = '';
     //  public static gameName = 'flygame';
     // 成长
     /**
@@ -35,6 +36,7 @@ class GameData {
 
     public static wxuserinfo = null;
     public static hasneedWeapon:boolean = false;
+    public static openedNewWID:number = 0;
 
     public static weaponOpenLevels = [20, 60, 100];//僚机开放等级（关卡等级）
     public static weaponNames = ['fuwuqi_gbd', 'fuwuqi_pt', 'fuwuqi_cjb', 'fuwuqi_sdq'];
@@ -71,34 +73,34 @@ class GameData {
         tili: 80,    // 体力
         totalMoney: 0,  // 玩家当前拥有的金币
         totalDiamond: 10,   // 钻石
-        curLevel: 89, // 当前处于关卡
-        nextLevel: 89, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
+        curLevel: 1, // 当前处于关卡
+        nextLevel: 1, // 下一个需要通过的关卡，通常和cur_level一样，但可以选咋cur_level为已经通过的关卡，此时就不一样了
         goldCostLevel: 1,    // 金币价值等级
         goldTimeLevel: 1,    // 挂机收益等级
         MainWeapon: {
-            attack: 60,
-            speed: 110,
+            attack: 1,
+            speed: 1,
         },
         SubWeapons: [
             {
                 id: 1,
                 strength: 1,
                 attack: 1,
-                open: 1,
+                open: 0,
                 openlevel: 5,
             },
             {
                 id: 2,
                 strength: 1,
                 attack: 1,
-                open: 1,
+                open: 0,
                 openlevel: 20,
             },
             {
                 id: 3,
                 strength: 1,
                 attack: 1,
-                open: 1,
+                open: 0,
                 openlevel: 80,
             },
             {
@@ -154,8 +156,8 @@ class GameData {
         return new Promise((resolve, reject)=>{
             this.score = 0;
             this.genBulletList();
-            this.genLevelData().then(()=>{
-                resolve(true)
+            this.genLevelData().then((ok)=>{
+                resolve(ok)
             }).catch(()=>{
                 resolve(false)
             });
@@ -462,33 +464,48 @@ class GameData {
     }
 
     // 装载关卡数据
-    public static async genLevelData() {
+    public static genLevelData():Promise<any> {
+        return new Promise((resolve, reject)=>{
+                RES.getResByUrl(GameData.domain+'/resource/levels/' + this.UserInfo.curLevel + '.json').then((json)=>{
+                    if(json && json.length) {
+                        this.level_configs = json;
+                        console.log('level data count:' + json.length);
 
-        let json = await RES.getResByUrl(GameData.domain+'/resource/levels/' + this.UserInfo.curLevel + '.json');
-        this.level_configs = json;
+                        this.total_blood = 0;
+                        json.forEach(j => {
+                            this.total_blood += j['blood'] || 0;
+                            j.init.forEach(s => {
+                                if (s['bossblood']) {
+                                    this.total_blood += s['bossblood'] // boss 额外加血
+                                }
+                            })
 
-        if(json) console.log('level data count:' + json.length);
+                            j.add_ons.forEach(s => {
+                                if (s['bossblood']) {
+                                    this.total_blood += s['bossblood']
+                                }
+                            })
+                        })
 
-        this.total_blood = 0;
-        json.forEach(j => {
-            this.total_blood += j['blood'] || 0;
-            j.init.forEach(s => {
-                if (s['bossblood']) {
-                    this.total_blood += s['bossblood'] // boss 额外加血
-                }
-            })
+                        this.colors_blood = [];
+                        StarData.colorLevels.forEach(r => {
+                            this.colors_blood.push(this.total_blood * r)
+                        })
 
-            j.add_ons.forEach(s => {
-                if (s['bossblood']) {
-                    this.total_blood += s['bossblood']
-                }
-            })
+                        resolve(true);
+
+                    }else{
+                        resolve(false)
+                    }
+                }).catch(e=>{
+                    resolve(false);
+                });
+
+
         })
 
-        this.colors_blood = [];
-        StarData.colorLevels.forEach(r => {
-            this.colors_blood.push(this.total_blood * r)
-        })
+
+
 
 
     }
@@ -566,6 +583,7 @@ class GameData {
                     // todo:提示新的僚机获得
 
                     this.hasneedWeapon = true;
+                    this.openedNewWID = sub.id;
                     sub.open = 1;
                     this.needSaveUserInfo = true;
                 }
@@ -615,21 +633,21 @@ class GameData {
         if (userinfo) {
             let userinfo_data: any = JSON.parse(userinfo);
             if (userinfo_data) {
-                if (userinfo_data.totalMoney) GameData.UserInfo.totalMoney = userinfo_data.totalMoney
-                if (userinfo_data.totalDiamond) GameData.UserInfo.totalDiamond = userinfo_data.totalDiamond
-                if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
-                if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
-                if (userinfo_data.goldCostLevel) GameData.UserInfo.goldCostLevel = userinfo_data.goldCostLevel
-                if (userinfo_data.goldTimeLevel) GameData.UserInfo.goldTimeLevel = userinfo_data.goldTimeLevel
-                if (userinfo_data.MainWeapon) GameData.UserInfo.MainWeapon = userinfo_data.MainWeapon
-                if (userinfo_data.SubWeapons) GameData.UserInfo.SubWeapons = userinfo_data.SubWeapons
-                if (userinfo_data.curSubWeaponId) GameData.UserInfo.curSubWeaponId = userinfo_data.curSubWeaponId
-                if (userinfo_data.tili) GameData.UserInfo.tili = userinfo_data.tili
-                if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
-                if (userinfo_data.lastGetTiliTime) GameData.UserInfo.lastGetTiliTime = userinfo_data.lastGetTiliTime
-                if (userinfo_data.failTry) GameData.UserInfo.failTry = userinfo_data.failTry
-                if (userinfo_data.d_kan) GameData.UserInfo.d_kan = userinfo_data.d_kan
-                if (userinfo_data.guide) GameData.UserInfo.guide = userinfo_data.guide
+                // if (userinfo_data.totalMoney) GameData.UserInfo.totalMoney = userinfo_data.totalMoney
+                // if (userinfo_data.totalDiamond) GameData.UserInfo.totalDiamond = userinfo_data.totalDiamond
+                // if (userinfo_data.curLevel) GameData.UserInfo.curLevel = userinfo_data.curLevel
+                // if (userinfo_data.nextLevel) GameData.UserInfo.nextLevel = userinfo_data.nextLevel
+                // if (userinfo_data.goldCostLevel) GameData.UserInfo.goldCostLevel = userinfo_data.goldCostLevel
+                // if (userinfo_data.goldTimeLevel) GameData.UserInfo.goldTimeLevel = userinfo_data.goldTimeLevel
+                // if (userinfo_data.MainWeapon) GameData.UserInfo.MainWeapon = userinfo_data.MainWeapon
+                // if (userinfo_data.SubWeapons) GameData.UserInfo.SubWeapons = userinfo_data.SubWeapons
+                // if (userinfo_data.curSubWeaponId) GameData.UserInfo.curSubWeaponId = userinfo_data.curSubWeaponId
+                // if (userinfo_data.tili) GameData.UserInfo.tili = userinfo_data.tili
+                // if (userinfo_data.lastGetGoldTime) GameData.UserInfo.lastGetGoldTime = userinfo_data.lastGetGoldTime
+                // if (userinfo_data.lastGetTiliTime) GameData.UserInfo.lastGetTiliTime = userinfo_data.lastGetTiliTime
+                // if (userinfo_data.failTry) GameData.UserInfo.failTry = userinfo_data.failTry
+                // if (userinfo_data.d_kan) GameData.UserInfo.d_kan = userinfo_data.d_kan
+                // if (userinfo_data.guide) GameData.UserInfo.guide = userinfo_data.guide
 
 
             }

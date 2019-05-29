@@ -29,5 +29,5 @@
 	<e:Image id="wuqi_1" width="115" height="110" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="0" horizontalCenter="0" source="flydata_json.wuqi_8_1"/>
 	<e:Image id="image" width="30" height="40" anchorOffsetX="15" anchorOffsetY="20" verticalCenter="75" horizontalCenter="0" source="flydata_json.weiba_1"/>
 	<e:Image id="paota_1" width="56" height="53" anchorOffsetX="30" anchorOffsetY="30" verticalCenter="-81.5" horizontalCenter="0" source="flydata_json.gongji_1"/>
-	<e:Image id="paota_2" width="10" height="10" anchorOffsetX="30" anchorOffsetY="30" verticalCenter="-79" source="fuwuqi_json.pt_2" horizontalCenter="0"/>
+	<e:Image id="paota_2" width="10" height="10" anchorOffsetX="30" anchorOffsetY="30" verticalCenter="-79" source="flydata_json.pt_2" horizontalCenter="0"/>
 </e:Skin>

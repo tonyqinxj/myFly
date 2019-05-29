@@ -3,7 +3,7 @@
     "blood": 30,
     "tip": {},
     "init": [
-      { "time":100, "id":101,"level":1,"x":150 ,"y":0,"items":0},
+      { "time":100, "id":116,"level":1,"x":150 ,"y":0,"items":0, "bossblood":1000},
       { "time":1500, "id":101,"level":1,"x":350 ,"y":0,"items":0}
     ],
 

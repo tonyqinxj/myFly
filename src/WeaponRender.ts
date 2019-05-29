@@ -27,6 +27,7 @@ class WeaponRender extends eui.ItemRenderer {
     public img_select: eui.Image;
     public gp_weapon: eui.Group;
     public img_try: eui.Image;
+    private img_new: eui.Image;
 
     private last_open: string = '0';
 
@@ -80,6 +81,10 @@ class WeaponRender extends eui.ItemRenderer {
         if(GameData.UserInfo.guide == 3 && GameData.start.guide_index == 1){
             GameData.start.guide_index = 2;
             GameData.start.updateGuide();
+        }
+
+        if(id == GameData.openedNewWID){
+            GameData.openedNewWID = 0; // 点击之后就去掉新的武器的提示，下次上线也不提示了，这是个内存中存在的临时变量
         }
     }
 
@@ -143,6 +148,12 @@ class WeaponRender extends eui.ItemRenderer {
             }
         } else {
             this.img_try && this.img_try.parent && this.img_try.parent.removeChild(this.img_try);
+        }
+
+        if(id == GameData.openedNewWID){
+            this.img_new.visible = true;
+        }else{
+            this.img_new.visible = false;
         }
     }
 

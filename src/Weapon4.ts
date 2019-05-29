@@ -34,7 +34,9 @@ class Weapon4 extends Weapon {
     // 子弹创建
     private createBullet() {
         if (this.bullets_free.length) {
-            return this.bullets_free.shift();
+            let obj = this.bullets_free.shift();
+            obj.play();
+            return obj;
         }
 
         return new AnmObj('w4_bullet', 0);
@@ -91,7 +93,10 @@ class Weapon4 extends Weapon {
         for (let i = 0; i < 4; i++) {
             b.push(this.createBullet());
         }
-        b.forEach(bb => this.bullets_free.push(bb));
+        b.forEach(bb => {
+            bb.stop();
+            this.bullets_free.push(bb)
+        });
 
         this.fx.push(this.createFx());
 
@@ -111,6 +116,7 @@ class Weapon4 extends Weapon {
         for (let i = 0; i < this.bullets.length; i++) {
             let data = this.bullets[i];
             data.model.parent && data.model.parent.removeChild(data.model)
+            data.model && data.model.stop();
             this.bullets_free.push(data.model);
         }
 
@@ -178,6 +184,7 @@ class Weapon4 extends Weapon {
             let data = this.bullets[i];
             if (data.model.x < 0 || data.model.x > 750 || data.model.y < -1 * data.model.height / 2) {
                 // 飞出屏幕，结束
+                data.model && data.model.stop();
                 data.model.parent && data.model.parent.removeChild(data.model)
                 this.bullets_free.push(data.model);
                 this.bullets.splice(i, 1)

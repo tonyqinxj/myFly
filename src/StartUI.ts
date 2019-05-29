@@ -1,4 +1,3 @@
-import numberToBlendMode = egret.sys.numberToBlendMode;
 class StartUI extends eui.Component implements eui.UIComponent {
 
     public constructor() {
@@ -37,6 +36,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     // reopen 需要处理的变量
+    private dataOK:boolean = false;
     private state: string = 'init'; // 'game'
     private lastFramTime = 0;	// 上一帧的执行时间
     private game_time: number = 0;	// 游戏时间，每一波怪开始的时候刷新为0，主要用来生成怪物
@@ -164,22 +164,37 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.img_up2_free.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2_free, this);
 
         this.gp_goldtime.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeClick, this);
+    }
 
+    private unregisterCallback(): void{
+        EventManager.unregistr('selectWeapon', this.selectWeapon.bind(this), this);
 
+        this.img_paihang.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.openRank, this);
+        this.rect_goldtime_get_cancel.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeCancelClick, this);
+        this.img_goldtime_get_1.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
+        this.img_goldtime_get_3.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
+        this.txt_goldtime_get_1.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
+        this.txt_goldtime_get_3.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTime, this);
+        this.img_add_gold.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onAddGoldClick, this);
+        this.img_add_tili.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onAddTiliClick, this);
+        this.img_add_diamond.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.openInvite, this);
+
+        this.img_main.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onMainClick, this);
+        this.img_sub.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onSubClick, this);
+        this.img_gold.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGoldClick, this);
+        this.img_up1.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1, this);
+        this.img_up2.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2, this);
+        this.txt_up1_cost.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1, this);
+        this.txt_up2_cost.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2, this);
+        this.img_up1_free.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp1_free, this);
+        this.img_up2_free.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onLevelUp2_free, this);
+        this.gp_goldtime.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onGetGoldTimeClick, this);
     }
 
 
-    private initUILv(type: number): void {
-
-        if (type == 1) {
-            this.levelUi.showCurItem();
-        } else {
-            this.levelUi.hideCurItem();
-        }
-
-    }
 
     private img_failtry: eui.Image;
+    private img_new_weapon:eui.Image;
     private img_main0: eui.Image;
     private img_sub0: eui.Image;
     private img_gold0: eui.Image;
@@ -211,56 +226,129 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
     private txt_begin_tip: eui.Label;
 
-    private initUI(): void {
+    // 游戏数据初始化
+    private init(): void {
+        // 先清除掉所有的动画
+        egret.Tween.removeAllTweens();
 
+        this.boat.play();
+
+        this.create_nums = 0;
+        this.canReLife = true;
+        this.cantdietime = 0;
+        this.noBatch = false;
+        this.wait_end = false;
+
+
+        this.lastFramTime = 0;
+        this.game_time = 0;
+        this.cur_level_batch = -1;
+        this.cur_add_ons = 0;
+        this.star_blood = 0;
+        this.star_left_blood = 0;
+        GameData.kill_blood = 0;
+        this.kills = 0;
+
+        // 清空子弹
+        this.clearBullet();
+
+        // 清空全局道具
+        this.clearItems();
+
+        // 清空怪物
+        this.star_fly.forEach(star => {
+            star.model && star.model.parent && star.model.parent.removeChild(star.model);
+            star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
+            star.my_box && star.my_box.parent && star.my_box.parent.removeChild(star.my_box);
+        })
+        this.star_fly = [];
+        this.star_fly_eat = [];
+        this.star_add_blood = [];
+        this.bomb = [];
+
+        // 僚机的初始化
+        this.initWeapon();
+
+        this.state = 'init';
+        this.dataOK = false;
+        GameData.init().then(ok=>{
+           this.dataOK = ok;
+        });
+        // 游戏数据初始化
+        // GameData.init().then(ok => {
+        //
+        //     // if (ok)
+        //     //     this.state = 'init';
+        //     // else
+        //     //     console.log('GameData.init failed')
+        // });
+    }
+
+    private initUI(): void {
+        this.registerCallback();
+
+        // 隐藏游戏ui
+        this.hideGameUI();
+        // 隐藏金币获取ui
+        this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
+        // 隐藏复活ui
+        this.gp_relife.parent && this.gp_relife.parent.removeChild(this.gp_relife);
+        // 升级UI先隐藏
+        this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3);
+        this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2);
+
+
+        // 依次加载大厅UI
+
+        // 满级试用展示
         if (GameData.failTryId && GameData.failTryState == 1) {
             this.img_failtry.visible = true;
         } else {
             this.img_failtry.visible = false;
         }
+        // 开启了新的副武器，给提示
+        if (GameData.hasneedWeapon) {
+            GameData.showTips('新的副武器开启');
 
-
+            GameData.hasneedWeapon = false;
+            this.img_new_weapon.visible = true;
+        }else{
+            this.img_new_weapon.visible = false;
+        }
+        // 是否可以升级，如果有，给提示
         this.initLevelUpTip();
 
-        this.gp_goldtime_get.parent && this.gp_goldtime_get.parent.removeChild(this.gp_goldtime_get)
-        this.hideGameUI();
-
-
+        // 加载被背景
         this.addXingqiuObj();
         this.gp_root.addChild(this.gp_ui);
         this.gp_root.addChild(this.gp_b1);
-
-
-        //this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
         this.gp_root.addChild(this.gp_left);
         this.gp_root.addChild(this.gp_top);
         this.gp_root.addChild(this.gp_goldtime);
+        this.gp_ui.addChild(this.boat);
 
-        this.gp_relife.parent && this.gp_relife.parent.removeChild(this.gp_relife);
-
+        // 货币填充
         this.txt_gold.text = myMath.getString(GameData.UserInfo.totalMoney);
         this.txt_tili.text = myMath.getString(GameData.UserInfo.tili);
         this.txt_diamond.text = myMath.getString(GameData.UserInfo.totalDiamond);
 
-        this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3);
-        this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2);
-
+        // 初始化下面升级面板的位置，确保贴到下缘
         this.gp_b1.y = GameData.real_height - this.gp_b1.height;
         this.gp_b2.y = this.gp_b1.y - this.gp_b2.height;
         this.gp_b3.y = this.gp_b2.y - this.gp_b3.height;
 
-
+        // 日常金币计算
         this.txt_goldtime.text = myMath.getString(GameData.curTimeGold);
-
         this.initMask();
 
+        // 滑动开始游戏的提示
         this.txt_begin_tip.y = GameData.real_height - this.txt_begin_tip.height - 262;
         this.txt_begin_tip.visible = false;
         egret.Tween.get(this.boat).to({x: 375, y: GameData.real_height - this.boat.height - 320}, 500).call(() => {
             this.txt_begin_tip.visible = true;
         });
 
-
+        // 初始化中部的关卡数据
         this.initUILv(1);
 
         // 检测是否要创建授权按钮
@@ -273,8 +361,18 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
     }
 
-    private win = false;
+    // 大厅关卡数据显示处理
+    private initUILv(type: number): void {
 
+        if (type == 1) {
+            this.levelUi.showCurItem();
+        } else {
+            this.levelUi.hideCurItem();
+        }
+
+    }
+
+    private win = false;
     private showResult(win: boolean): void {
 
         this.win = win;
@@ -305,6 +403,8 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private resultUI: ResultUI = null;
 
     private showResult_real(e: egret.TimerEvent): void {
+
+        console.log('showResult_real:'+this.state)
 
         GameData.playBgMusic(null);
 
@@ -380,13 +480,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     public onResultOver(): void {
+        console.log('onResultOver')
         // 删除游戏画面
         this.init();
 
         // 播放收集金币动画
         this.initUI();
 
-
+        // 新手引导相关
         this.updateGuide();
 
     }
@@ -490,7 +591,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.txt_up2_lv.x = this.txt_up2.x + 15 + this.txt_up2.width
 
         this.txt_up1.text = '射速';
-        this.txt_up1_lv.text = 'Lv' + (GameData.UserInfo.MainWeapon.speed + 1);
+        this.txt_up1_lv.text = 'Lv' + (GameData.UserInfo.MainWeapon.speed);
         this.txt_up1_lv.textColor = 0xFF87CE;
         this.txt_up1_value.text = myMath.getString(GameData.getMainSpeed());
         this.txt_up1_cost.text = myMath.getString(GameData.getCost('main_speed'));
@@ -502,7 +603,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         this.txt_up2.text = '火力'
-        this.txt_up2_lv.text = 'Lv' + (GameData.UserInfo.MainWeapon.attack + 1);
+        this.txt_up2_lv.text = 'Lv' + (GameData.UserInfo.MainWeapon.attack);
         this.txt_up2_lv.textColor = 0xFF87CE;
         this.txt_up2_value.text = myMath.getString(GameData.getMainAttack());
         this.txt_up2_cost.text = myMath.getString(GameData.getCost('main_attack'));
@@ -554,8 +655,11 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     private onSubClick(e: egret.TouchEvent): void {
-        this.img_sub0.parent && this.img_sub0.parent.removeChild(this.img_sub0)
+        // 点了之后，就把解锁提示和满级提示给隐藏起来, 实际上，这2个提示不会同时出现
+        this.img_failtry.visible = false;
+        this.img_new_weapon.visible = false;
 
+        this.img_sub0.parent && this.img_sub0.parent.removeChild(this.img_sub0)
         if (this.weapon == null && GameData.UserInfo.SubWeapons[0].open == 0) {
             GameData.showTips('副武器将在' + GameData.UserInfo.SubWeapons[0].openlevel + '级开放')
             return;
@@ -670,7 +774,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.addChild(invite);
     }
 
-    openInvite(e: egret.TouchEvent): void {
+    public openInvite(e: egret.TouchEvent): void {
         let invite = new InvitUI();
         this.addChild(invite);
 
@@ -1090,59 +1194,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     public weapon: Weapon = null;   // 僚机
 
 
-    private init(): void {
 
-        this.gp_ui.addChild(this.boat);
-
-        this.create_nums = 0;
-        this.canReLife = true;
-        this.cantdietime = 0;
-        this.noBatch = false;
-        this.wait_end = false;
-
-
-        this.lastFramTime = 0;
-        this.game_time = 0;
-        this.cur_level_batch = -1;
-        this.cur_add_ons = 0;
-        this.star_blood = 0;
-        this.star_left_blood = 0;
-        GameData.kill_blood = 0;
-        this.kills = 0;
-
-        // 清空子弹
-        this.clearBullet();
-
-        // 清空全局道具
-        this.clearItems();
-
-        // 清空怪物
-        this.star_fly.forEach(star => {
-            star.model && star.model.parent && star.model.parent.removeChild(star.model);
-            star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
-            star.my_box && star.my_box.parent && star.my_box.parent.removeChild(star.my_box);
-        })
-        this.star_fly = [];
-        this.star_fly_eat = [];
-        this.star_add_blood = [];
-        this.bomb = [];
-
-        // 僚机的初始化
-        this.initWeapon();
-
-        GameData.init().then(ok => {
-            if (ok)
-                this.state = 'init';
-            else
-                console.log('GameData.init failed')
-        });
-
-
-        if (GameData.hasneedWeapon) {
-            GameData.showTips('新的副武器开启');
-            GameData.hasneedWeapon = false;
-        }
-    }
 
     private system: particle.GravityParticleSystem;
 
@@ -1154,10 +1206,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
         }
 
         this.gp_xingqiu.addChild(this.xingqiu_obj);
+        this.xingqiu_obj.play();
     }
 
     private removeXingqiuObj(): void {
-        this.xingqiu_obj && this.xingqiu_obj.parent && this.xingqiu_obj.parent.removeChild(this.xingqiu_obj)
+        if(this.xingqiu_obj) {
+            this.xingqiu_obj.stop();
+            this.xingqiu_obj.parent && this.xingqiu_obj.parent.removeChild(this.xingqiu_obj)
+        }
     }
 
     private levelUi: LevelUI = null;
@@ -1169,9 +1225,9 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         this.boat = new wuqi_1('main');
         this.gp_ui.addChild(this.boat);
-        this.boat.play();
 
-        this.addXingqiuObj();
+
+        // this.addXingqiuObj();
 
         this.levelUi = new LevelUI(this);
 
@@ -1187,50 +1243,49 @@ class StartUI extends eui.Component implements eui.UIComponent {
         this.boat.x += this.boat.width / 2;
         this.boat.y += this.boat.height / 2;
 
-        // this.starCount = new egret.BitmapText();
-        // this.starCount.font = GameData.myFont;
-        // this.starCount.text = '';
-        // this.addChild(this.starCount);
-
-        //
-        // this.gp_layer_4.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTap, this);
-        // this.gp_layer_4.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
-        // this.gp_layer_4.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouchMove, this);
-        // this.gp_layer_4.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouchEnd, this);
-
         this.gp_ui.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBeginUI, this);
-        this.registerCallback();
 
-        this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
+
+        //this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
+
+        let timer_main = new egret.Timer(20, 0);
+        timer_main.addEventListener(egret.TimerEvent.TIMER, this.onEnterFrame, this);
+        timer_main.start();
 
         this.initUI();
 
         // 装载一个ad先
         window.platform.loadAd();
+    }
+
+    private doBegin():void{
+        this.unregisterCallback();
+
+        window.platform.removeAuthButton();
+        this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
+        this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
+        this.gp_b1.parent && this.gp_b1.parent.removeChild(this.gp_b1)
+        this.gp_ui.parent && this.gp_ui.parent.removeChild(this.gp_ui);
+
+        this.removeXingqiuObj();
+        this.gp_top.parent && this.gp_top.parent.removeChild(this.gp_top)
+        this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
+        this.gp_goldtime.parent && this.gp_goldtime.parent.removeChild(this.gp_goldtime)
+
+        this.levelUi.hideCurItem();
+        this.state = 'pause';
 
 
-        // let anm:Star1 = new Star1('star1');
-        // anm.anchorOffsetX = anm.width/2;
-        // anm.anchorOffsetY = anm.height/2;
+        this.showGameUI();
+        this.addMoveEvent();
+        GameData.UserInfo.tili -= 5;
 
-        // anm.x = 0;
-        // anm.y = 0;
-
-
-        // this.addChild(anm);
-        // anm.play();
-
-
-        // let kkk = ResTools.createBitmapByName('gold')
-        // kkk.x = 350;
-        // kkk.y = 300;
-
-        // this.addChild(kkk);
+        GameData.playBgMusic('sounds/bgm_1.mp3');
     }
 
     private onTouchBeginUI(e: egret.TouchEvent): void {
 
-        console.log('onTouchBeginUI call:', this.last_pos)
+        console.log('onTouchBeginUI call:'+this.state)
         if (this.state == 'ui') {
             this.state = 'init';
             this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
@@ -1239,35 +1294,31 @@ class StartUI extends eui.Component implements eui.UIComponent {
             egret.Tween.get(this.boat).to({x: 375, y: GameData.real_height - this.boat.height - 320}, 500).call(() => {
                 this.txt_begin_tip.visible = true;
             });
-
         } else if (this.state == 'init') {
-
             if (GameData.UserInfo.tili >= 5) {
-                window.platform.removeAuthButton();
-                this.gp_b3.parent && this.gp_b3.parent.removeChild(this.gp_b3)
-                this.gp_b2.parent && this.gp_b2.parent.removeChild(this.gp_b2)
-                this.gp_b1.parent && this.gp_b1.parent.removeChild(this.gp_b1)
-                this.gp_ui.parent && this.gp_ui.parent.removeChild(this.gp_ui);
-
-                this.removeXingqiuObj();
-                this.gp_top.parent && this.gp_top.parent.removeChild(this.gp_top)
-                this.gp_left.parent && this.gp_left.parent.removeChild(this.gp_left)
-                this.gp_goldtime.parent && this.gp_goldtime.parent.removeChild(this.gp_goldtime)
-
-                this.levelUi.hideCurItem();
-                this.state = 'pause';
-
-
-                this.showGameUI();
-                this.addMoveEvent();
-                GameData.UserInfo.tili -= 5;
-
-                GameData.playBgMusic('sounds/bgm_1.mp3');
+                if(this.dataOK){
+                    this.doBegin();
+                }else{
+                    GameData.init().then(ok=>{
+                        if(ok){
+                            this.doBegin();
+                        }else{
+                            GameData.showTips("获取关卡数据错误，请确保网络顺畅")
+                        }
+                    })
+                }
             } else {
                 GameData.showTips('体力不够， 不能进行战斗')
                 this.onAddTiliClick(null);
             }
         }
+    }
+
+    public selectLevel():void{
+        this.dataOK = false;
+        // GameData.init().then(ok=>{
+        //    this.dataOK = true;
+        // });
     }
 
     private addMoveEvent(): void {
@@ -1369,15 +1420,42 @@ class StartUI extends eui.Component implements eui.UIComponent {
     }
 
     // 帧时间，逻辑循环从这里开始
+    private f_count = 0;
+    private f_last = 0;
     private onEnterFrame(e: egret.Event): void {
+        let tnow = new Date().getTime();
+        // if(this.f_last == 0) this.f_last = tnow;
+        // this.f_count++;
+        // if(tnow - this.f_last > 1000){
+        //     this.f_last = tnow;
+        //     console.log('f_count:'+this.f_count);
+        //     this.f_count = 0;
+        // }
 
         GameData.onCheckTili(this.txt_add_tili);
 
         if (this.state == 'game' || this.state == 'pause' || this.state == 'result') {
-            if (this.lastFramTime == 0) this.lastFramTime = egret.getTimer();
-            let deltaTime = egret.getTimer() - this.lastFramTime;
-            this.lastFramTime = egret.getTimer();
-            if (deltaTime < 10 || deltaTime > 500) return;
+            if (this.lastFramTime == 0) this.lastFramTime = tnow;
+            let deltaTime = tnow - this.lastFramTime;
+
+            // 跳过太大的时间间隔
+            // if(deltaTime > 500){
+            //     console.log('outtime:'+deltaTime)
+            //     this.lastFramTime = tnow;
+            //     return;
+            // }
+            //
+            // // 时间间隔太小，忽略
+            // if(deltaTime < 10){
+            //     return;
+            // }
+            //
+            // if (deltaTime < 10 || deltaTime > 500) {
+            //     console.log('outtime:'+deltaTime)
+            //     return;
+            // }
+
+            this.lastFramTime = tnow;
 
             let deltaTime_snow = deltaTime;
 
@@ -1737,9 +1815,50 @@ class StartUI extends eui.Component implements eui.UIComponent {
                 }
             }
 
+            // 怪物分裂
+            if (star.starConfig["send_star"] && star.level > 0){
+                this.checkSendStar(star);
+            }
+
             i++;
         }
 
+    }
+
+    // 怪物分裂
+    private checkSendStar(star:any):void{
+        let config = star.starConfig;
+        let info = config['send_star']
+        let moveTime = info.moveTime;
+        if(star['last_send_star_time'] == undefined) star['last_send_star_time'] = egret.getTimer();
+        if(egret.getTimer() - star['last_send_star_time'] > moveTime &&  !star['sending']){
+            star['last_send_star_time'] = egret.getTimer();
+            star['sending'] = true;
+
+            // 开始发射
+            let nums = Tools.GetRandomNum(info.sendMin, info.sendMax);
+
+            MonsterTools.pushSnow(star, 'sending', 0, nums*info.sendInterval);
+
+            let tr = new egret.Timer(info.sendInterval, nums);
+            tr.addEventListener(egret.TimerEvent.TIMER, ()=>{this.sendOneStar(star)}, this);
+            tr.addEventListener(egret.TimerEvent.TIMER_COMPLETE, ()=>{ star['last_send_star_time'] = egret.getTimer(); star['sending'] = false;}, this);
+            tr.start();
+        }
+    }
+
+    private sendOneStar(star:any):void{
+        let config = star.starConfig;
+        let info = config['send_star']
+
+        let blood = Tools.GetRandomNum(1, 2*GameData.getMainAttack())
+        let angle = Tools.GetRandomNum(0, info.angle*2) - info.angle;
+        let dx = Math.sin(angle/180*Math.PI);
+        let dy = Math.cos(angle/180*Math.PI)*(Tools.GetRandomNum(0,1)*2-1);
+        let pos = {x:star.model.x, y:star.model.y}
+        let dir = {x:dx, y:dy}
+
+        let myStar = this.createStar(config, 0, 0, blood, pos, dir, {size:info.scale})
     }
 
     // 击退逻辑，在所有移动和攻击之后调用
@@ -1752,6 +1871,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
     private removeStar(star: any): void {
         star && star.fx_data && star.fx_data.parent && star.fx_data.parent.removeChild(star.fx_data);
         this.clear_star_fly_ex(star);
+        star && star.model && egret.Tween.removeTweens(star.model);
         star && star.model && star.model.parent && star.model.parent.removeChild(star.model);
         star && star.label_blood && star.label_blood.parent && star.label_blood.parent.removeChild(star.label_blood);
         star && star.label_name && star.label_name.parent && star.label_name.parent.removeChild(star.label_name);
@@ -2040,7 +2160,7 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     if (blood2 <= 0) blood2 = 1;
                     this.createStar(star.starConfig, 0, star.level - 1, blood1, pos1, dir1)
                     this.createStar(star.starConfig, 0, star.level - 1, blood2, pos2, dir2)
-                } else {
+                } else if(star.level == 1) {
                     // 产生金币
                     this.createGold(star.model.x, star.model.y);
                 }
@@ -2074,13 +2194,14 @@ class StartUI extends eui.Component implements eui.UIComponent {
                     this.create_nums++;
                 }
 
-
-                this.star_left_blood -= star.totalBlood;
-                GameData.kill_blood += star.totalBlood;
-                this.kills++;
-                //console.log('kill_blood:',GameData.kill_blood)
-                if (this.star_left_blood / this.star_blood < 0.2) {
-                    this.enterNewBatch();
+                if(star.level > 0){
+                    this.star_left_blood -= star.totalBlood;
+                    GameData.kill_blood += star.totalBlood;
+                    this.kills++;
+                    //console.log('kill_blood:',GameData.kill_blood)
+                    if (this.star_left_blood / this.star_blood < 0.01) {
+                        this.enterNewBatch();
+                    }
                 }
 
                 if (star.starConfig["create_new_star"]) {
@@ -2253,6 +2374,10 @@ class StartUI extends eui.Component implements eui.UIComponent {
 
         if (info && info.bosssize) {
             star['bosssize'] = info.bosssize
+        }
+
+        if(info && info.size){
+            star['size'] = info.size;
         }
 
         if (color != StarData.colorNames[0]) {
@@ -2619,14 +2744,6 @@ class StartUI extends eui.Component implements eui.UIComponent {
         })
     }
 
-    // 游戏结束检测
-    private gameOver(success: boolean): void {
-        this.state = 'pause';
-        GameData.UserInfo.curLevel++;
-        GameData.saveUserInfo();
-
-        this.init();
-    }
 
     // 复活
     private doRelife(): void {

@@ -7,7 +7,7 @@
 												
       { "time":	1501	, "id":	112	,"level":2	,"x":	268	 ,"y":0,"items":	0	},		
       { "time":	2580	, "id":	101	,"level":2	,"x":	268	 ,"y":0,"items":	0	},		
-      { "time":	906	, "id":	102	,"level":2	,"x":	23	 ,"y":0,"items":	"items":	0	},		
+      { "time":	906	, "id":	102	,"level":2	,"x":	23	 ,"y":0,"items":		0	},
       { "time":	1800	, "id":	101	,"level":2	,"x":	833	 ,"y":0,"items":	1	},				
       { "time":	1194	, "id":	110	,"level":	2	,"x":	725	 ,"y":0,"items":	0	}		
 												

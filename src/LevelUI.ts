@@ -68,13 +68,14 @@ class LevelUI{
         this.curItems.push(item3);
     }
 
-    private createSelectItem(level:number):void{
+    private createSelectItem(index:number):void{
+        let level = GameData.UserInfo.nextLevel - index;
         let item:LevelItem = new LevelItem(level)
         item.scaleX = 0.8;
         item.scaleY = 0.8;
         this.selectItems.push(item);
         this.selectUI.addChild(item);
-        item.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{this.selectLevel(level)}, this);
+        item.addEventListener(egret.TouchEvent.TOUCH_TAP, ()=>{this.selectLevel(index)}, this);
     }
 
     private createSelectUI():void{
@@ -85,7 +86,7 @@ class LevelUI{
         this.selectUI.height = 185;
 
         for(let i=0;i<7;i++){
-           this.createSelectItem(GameData.UserInfo.nextLevel-i);
+           this.createSelectItem(i);
         }
 
         this.selectItems[0].right = 0;
@@ -112,7 +113,6 @@ class LevelUI{
     }
 
     public showCurItem():void{
-
         this.p.addChild(this.curUI)
         this.curItems[0].setLevel(GameData.UserInfo.curLevel-1)
         this.curItems[1].setLevel(GameData.UserInfo.curLevel)
@@ -147,8 +147,9 @@ class LevelUI{
     }
 
 
-    private selectLevel(level:number):void{
-        GameData.UserInfo.curLevel = level;
+    private selectLevel(index:number):void{
+        GameData.UserInfo.curLevel = GameData.UserInfo.nextLevel - index;
+        GameData.start.selectLevel();
         this.showCurItem();
         this.hideSelectItem();
     }

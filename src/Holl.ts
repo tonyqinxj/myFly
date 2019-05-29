@@ -28,8 +28,6 @@ class Holl{
         this.delHoll();
 
         // 挖洞
-
-
         let container: egret.DisplayObjectContainer = new egret.DisplayObjectContainer();
 
         //创建一个背景
@@ -157,13 +155,12 @@ class Holl{
         holl_txt.width = 600
         holl_txt.height = tmp_h1
         this.holl_txt_bg.addChild(holl_txt);
-
-
-
-
     }
 
     public delHoll() {
+
+        this.holl_button && this.holl_button.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onHollClick, this);
+
         this.holl_bitmap && this.holl_bitmap.parent && this.holl_bitmap.parent.removeChild(this.holl_bitmap);
         this.holl_gp && this.holl_gp.parent && this.holl_gp.parent.removeChild(this.holl_gp);
         this.holl_button && this.holl_button.parent && this.holl_button.parent.removeChild(this.holl_button);
@@ -191,23 +188,12 @@ class Holl{
         this.click_anm.y = this.holl_rect.y + this.holl_rect.height / 2;
         this.p.addChild(this.click_anm);
 
-        //
-        // this.click_bitmap = ResTools.createBitmap('sq_dianji_png');
-        // this.click_bitmap.x = this.holl_rect.x + this.holl_rect.width / 2;
-        // this.click_bitmap.y = this.holl_rect.y + this.holl_rect.height / 2;
-        // this.click_bitmap.anchorOffsetX = this.click_bitmap.width / 2;
-        // this.click_bitmap.anchorOffsetY = this.click_bitmap.height / 2;
-        //
-        // this.p.addChild(this.click_bitmap);
-        //
-        // egret.Tween.get(this.click_bitmap, {loop: true})
-        //     .to({scaleX: 1.2, scaleY: 1.2}, 1000)
-        //     .to({scaleX: 1, scaleY: 1}, 500);
     }
 
     private delClickTip() {
-        this.click_anm && this.click_anm.parent && this.click_anm.parent.removeChild(this.click_anm);
-        // this.click_bitmap && this.click_bitmap.parent && this.click_bitmap.parent.removeChild(this.click_bitmap);
-        // this.click_bitmap = null;
+        if(this.click_anm){
+            this.click_anm.stop();
+            this.click_anm.parent && this.click_anm.parent.removeChild(this.click_anm);
+        }
     }
 }

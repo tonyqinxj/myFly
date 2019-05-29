@@ -50,6 +50,7 @@
 		</e:Group>
 		<e:Group id="gp_b1" width="750" height="110" x="0" y="1511.93" locked="true">
 			<e:Image id="img_failtry" x="262.5" y="-70" source="UI_json.sq_manji"/>
+			<e:Image id="img_new_weapon" x="262.5" y="-70" source="UI_json.sq_jiesuowuqi"/>
 			<e:Image id="img_main" source="UI_json.sq_zhuwuqi" left="14" bottom="3" />
 			<e:Image id="img_main0" source="UI_json.sq_tishi" x="206" y="-11"/>
 			<e:Image id="img_sub" bottom="3" source="UI_json.sq_fuwuqi" horizontalCenter="0.5" />

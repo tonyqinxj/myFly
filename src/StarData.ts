@@ -259,7 +259,7 @@ class StarData {
         }, // 爆炸卫星
         '115': {
             name: '卫星碎片',
-            id: 107,
+            id: 115,
             model: 'star15',
             speed: 0,
             attack_speed: 0,
@@ -270,5 +270,24 @@ class StarData {
                 type: 1, // 1 表示摧毁所有物体
             }
         }, // 卫星碎片 // todo; 需要资源
+        '116': {
+            name: '小陨石',
+            id: 116,
+            model: 'star1',		// 模型名称
+            speed: 0.2,			// 移动速度
+            attack_speed: 0.2,	// 收到攻击之后的移动速度， 那减速的时间段呢（减速多久）
+            snow_time: 200,		// 减速的持续时长
+            group: StarData.CAN_ATTACK | StarData.CAN_CO,
+            layer: 1,
+            send_star:{
+                moveTime:2000,// 每移动moveTime之后发射怪物
+                sendInterval:200, // 发射期间，每隔sendInterval时间发射一个怪物
+                sendMin:2, // 最少发射个数
+                sendMax:5, // 最大发射个数
+                angle:30, // 表示偏离Y轴的角度范围，随机上下
+                scale:0.3, // 发射的怪物尺寸，相当于原始尺寸
+                blood:2, // 发射怪物的血量，当前子弹攻击的2倍以内
+            }
+        }
     }
 }

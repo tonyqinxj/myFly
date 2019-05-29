@@ -90,29 +90,35 @@ class GoldFx{
     public static playResult(src:any, dest:any, p:eui.Component):Promise<any>{
         console.log('playResult.................', src, dest)
         return new Promise((resolve, reject)=>{
-            let r = 250;
-            let overcount = 0;
-            let count = 24;
-            this.lastplaymusictime == 0
-            for(let i=0;i<count;i++){
-                let fx = this.getOne();
-                fx.x = src.x ;
-                fx.y = src.y ;
+            // 延迟播放，否则，在分享等UI之后，该动画不会表现出来，具体原因不清楚，估计是egret的时间控制原因
+            let tr = new egret.Timer(100, 1);
+            tr.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
+                let r = 250;
+                let overcount = 0;
+                let count = 24;
+                this.lastplaymusictime == 0
+                for (let i = 0; i < count; i++) {
+                    let fx = this.getOne();
+                    fx.x = src.x;
+                    fx.y = src.y;
 
-                let mydest ={
-                    x:src.x + Math.cos(Math.PI/12*i)*r + Tools.GetRandomNum(10,70),
-                    y:src.y + Math.sin(Math.PI/12*i)*r + Tools.GetRandomNum(10,70)
-                }
-
-                p.addChild(fx);
-
-                this.go(fx, mydest, dest,p).then(ok=>{
-                    overcount++;
-                    if(overcount == count){
-                        resolve(true);
+                    let mydest = {
+                        x: src.x + Math.cos(Math.PI / 12 * i) * r + Tools.GetRandomNum(10, 70),
+                        y: src.y + Math.sin(Math.PI / 12 * i) * r + Tools.GetRandomNum(10, 70)
                     }
-                });
-            }
+
+                    p.addChild(fx);
+
+                    this.go(fx, mydest, dest, p).then(ok => {
+                        overcount++;
+                        if (overcount == count) {
+                            resolve(true);
+                        }
+                    });
+                }
+            }, this);
+
+            tr.start();
         })
 
     }
