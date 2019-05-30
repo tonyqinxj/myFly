@@ -204,6 +204,9 @@ class Weapon4 extends Weapon {
 
             for (let j = 0; j < star_flys.length; j++) {
                 let star = star_flys[j];
+
+                if(star['unmatched']) continue;
+
                 let r = star.model.width / 2 * star.model.scaleX + this.bombScope / 2;
                 if (Tools.bombTest(p.x, p.y, r, star.model)) {
 

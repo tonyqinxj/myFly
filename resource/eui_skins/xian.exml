@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="guaiwuSkin" width="37" height="266" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*"   states="guaiwu-1" >
+	<w:Declarations>
+		<tween:TweenGroup id="xian_1">
+			<tween:TweenItem target="{image1}">
+				<tween:Set>
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:Set>
+				<tween:To duration="500">
+					<tween:props>
+						<e:Object alpha="{0.5}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="500">
+					<tween:props>
+						<e:Object alpha="{1}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="500">
+					<tween:props>
+						<e:Object alpha="{0.5}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="500">
+					<tween:props>
+						<e:Object alpha="{1}" height="{291}" y="{216.12}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<w:Config id="16a34a95deb" ></w:Config>
+	<e:Image id="image0" includeIn="guaiwu-1" anchorOffsetX="18" anchorOffsetY="237.74" horizontalCenter="0.5" verticalCenter="-2" width="36" height="260" source="flydata_json.sq_xian_1"/>
+	<e:Image id="image1" includeIn="guaiwu-1" anchorOffsetX="23.47" anchorOffsetY="263.74" verticalCenter="4.5" width="42" height="271" source="flydata_json.sq_xian_2" horizontalCenter="2.5"/>
+</e:Skin>

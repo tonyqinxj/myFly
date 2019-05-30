@@ -1,11 +1,15 @@
 class Star1 extends eui.Component implements  eui.UIComponent {
 
 	public TG_1:egret.tween.TweenGroup;
+	public TG_un:egret.tween.TweenGroup;
+
 	public image:eui.Image;
 
 	public static myid:number = 0;
 
 	public curid:number = 0;
+	public un:boolean = false;
+
 	public constructor(name:string) {
 		super();
 
@@ -55,7 +59,12 @@ class Star1 extends eui.Component implements  eui.UIComponent {
      */
     private onTweenGroupComplete(): void {
        // console.log('TweenGroup play completed.', this.curid);
-		this.TG_1.play(0)
+		 if(this.un){
+		 	this.TG_un && this.TG_un.play(0)
+		 }else{
+			 this.TG_1.play(0)
+		 }
+
     }
     /**
      * 动画组中的一项播放完成
@@ -87,6 +96,22 @@ class Star1 extends eui.Component implements  eui.UIComponent {
     	this.TG_1.stop();
 
 		//console.log('star stop.....', this.curid)
+	}
+
+
+	public playUn(un:boolean):void{
+		this.un = un;
+		if(un){
+			this.TG_1.removeEventListener('complete', this.onTweenGroupComplete, this);
+			this.TG_1.stop();
+			this.TG_un.addEventListener('complete', this.onTweenGroupComplete, this);
+			this.TG_un.play(0);
+		}else{
+			this.TG_un.removeEventListener('complete', this.onTweenGroupComplete, this);
+			this.TG_un.stop();
+			this.TG_1.addEventListener('complete', this.onTweenGroupComplete, this);
+			this.TG_1.play(0);
+		}
 	}
 
 	public changeColor(color:string):void{

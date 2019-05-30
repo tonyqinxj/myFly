@@ -271,7 +271,7 @@ class StarData {
             }
         }, // 卫星碎片 // todo; 需要资源
         '116': {
-            name: '小陨石',
+            name: '分裂',
             id: 116,
             model: 'star1',		// 模型名称
             speed: 0.2,			// 移动速度
@@ -287,6 +287,35 @@ class StarData {
                 angle:30, // 表示偏离Y轴的角度范围，随机上下
                 scale:0.3, // 发射的怪物尺寸，相当于原始尺寸
                 blood:2, // 发射怪物的血量，当前子弹攻击的2倍以内
+            }
+        },
+        '117': {
+            name: '减速飞机',
+            id: 117,
+            model: 'star1',		// 模型名称
+            speed: 0.2,			// 移动速度
+            attack_speed: 0.2,	// 收到攻击之后的移动速度， 那减速的时间段呢（减速多久）
+            snow_time: 200,		// 减速的持续时长
+            group: StarData.CAN_ATTACK | StarData.CAN_CO,
+            layer: 1,
+            snow_boat:{
+                distance:400,   // 影响半径
+                snowRatio:0.2, // 每个减速， 倍率乘以这个
+                line:'sq_xian_1', // 线的资源名
+            }
+        },
+        '118': {
+            name: '无敌',
+            id: 118,
+            model: 'star1',		// 模型名称
+            speed: 0.2,			// 移动速度
+            attack_speed: 0.2,	// 收到攻击之后的移动速度， 那减速的时间段呢（减速多久）
+            snow_time: 200,		// 减速的持续时长
+            group: StarData.CAN_ATTACK | StarData.CAN_CO,
+            layer: 1,
+            unmatched:{
+                moveTime:4000,   // 正常状态持续时长
+                unmatchedTime:2000, // 无敌时长
             }
         }
     }

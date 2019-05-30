@@ -34,13 +34,13 @@ class HitTest {
     /** 获取碰撞相交矩形区域（可调节精度） */
     public static
 
-        complexIntersectionRectangle(target1: egret.DisplayObject, target2: egret.DisplayObject, accuracy: number = 1): egret.Rectangle {
+    complexIntersectionRectangle(target1: egret.DisplayObject, target2: egret.DisplayObject, accuracy: number = 1): egret.Rectangle {
         //不允许设置accuracy小于0，会抛出错误
         if (accuracy <= 0) return new egret.Rectangle();
 
         //如果两对象hitTestObject的结果为false，则代表两对象没有发生碰撞
-        let intersection:egret.Rectangle = Tools.intersectionRectangle(target1, target2);
-        if(intersection.width == 0) return intersection;
+        let intersection: egret.Rectangle = Tools.intersectionRectangle(target1, target2);
+        if (intersection.width == 0) return intersection;
 
         // 判断重叠区域的长宽任一是否超过碰撞临界值，没超过则视为两对象没有发生碰撞。临界值默认为1，可根据accuracy调节精度
         if (intersection.width * accuracy < 1 || intersection.height * accuracy < 1) return new egret.Rectangle();
@@ -85,7 +85,7 @@ class HitTest {
     protected static
     getDrawMatrix(target: egret.DisplayObject, hitRectangle: egret.Rectangle, accurracy: number): egret.Matrix {
         // var localToGlobal: egret.Point;
-         var matrix: egret.Matrix;
+        var matrix: egret.Matrix;
         //
         // var rootConcatenatedMatrix: egret.Matrix = target.root.transform.concatenatedMatrix;
         //
